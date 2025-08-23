@@ -237,13 +237,20 @@ function App() {
         h("div",{class:"small",style:"margin-top:8px"},"Place JSON files under /data/... — this card updates on refresh."),
           h("div",{class:"small",style:"margin-top:8px"},
             details.map((d)=> {
-              const url = `${location.origin}${location.pathname.replace(/index\.html$/,'')}data/${d.label.replace('.json','')}.json`;
+              // Decide folder based on filename
+              let sub = "data/";
+              if (d.label.includes("relationships")) sub += "relationships/";
+              else if (d.label.includes("demo_module")) sub += "demo/";
+              else if (d.label.includes("traits_moods")) sub += "traits_moods/";
+              else sub += "characters/";
+
+              const url = `${location.origin}${location.pathname.replace(/index\.html$/,'')}${sub}${d.label}`;
               return h("div",{class:"kv"}, [
                 h(Dot,{ok:d.status==="ok"}),
                 h("a",{href:url,target:"_blank",style:"margin-left:4px"}, d.label)
               ]);
-             })
-            ),
+            })
+          ),
       ]),
       h("div",{class:"card"},[
         h("h3",null,"Saves"),
