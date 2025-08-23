@@ -81,3 +81,39 @@ function diffDaysUTC(a, b){ // a - b in days, UTC
 }
 function addDaysUTC(d, days){ return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + days)); }
 function mod1(n, m){ const r = ((n % m) + m) % m; return r === 0 ? m : r; }
+
+// ---- Runtime overrides (saved to localStorage) ----
+const OV_KEY = "sim_fertility_overrides_v1";
+
+export function loadOverrides() {
+  try { return JSON.parse(localStorage.getItem(OV_KEY) || "{}"); }
+  catch { return {}; }
+}
+export function saveOverrides(map) {
+  localStorage.setItem(OV_KEY, JSON.stringify(map || {}));
+}
+
+// Merge base profile (from JSON) with any override
+export function mergedProfile(baseProfiles, overrides, id) {
+  return { ...(baseProfiles?.[id] || null), ...(overrides?.[id] || null) };
+}
+
+// Convenience mutators you can call from game logic
+export function setPregnant(id, conceptionISO = new Date().toISOString().slice(0,10)) {
+  const ov = loadOverrides();
+  ov[id] = { ...(ov[id] || {}), mode: "pregnant", conceptionISO, visible: true };
+  saveOverrides(ov);
+  return ov[id];
+}
+export function setDelivered(id, deliveryISO = new Date().toISOString().slice(0,10)) {
+  const ov = loadOverrides();
+  ov[id] = { ...(ov[id] || {}), mode: "postpartum", deliveryISO, visible: true };
+  saveOverrides(ov);
+  return ov[id];
+}
+export function resetToCycle(id, startISO = new Date().toISOString().slice(0,10)) {
+  const ov = loadOverrides();
+  ov[id] = { ...(ov[id] || {}), mode: "cycle", startISO, visible: true };
+  saveOverrides(ov);
+  return ov[id];
+}
