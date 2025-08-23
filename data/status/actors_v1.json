@@ -1,0 +1,10 @@
+{
+  "version": "actors_v1",
+  "status": {
+    "cloud":  { "role": "Striker", "level": 12, "exp": { "current": 1800, "next": 2400 }, "limit": 35, "mood": "Calm",     "effects": ["Braced"] },
+    "tifa":   { "role": "Striker", "level": 11, "exp": { "current": 1600, "next": 2200 }, "limit": 50, "mood": "Focused",  "effects": ["Accuracy ↑"] },
+    "aerith": { "role": "Mystic",  "level": 11, "exp": { "current": 1700, "next": 2200 }, "limit": 20, "mood": "Gentle",   "effects": ["Regen"] },
+    "yuffie": { "role": "Rogue",   "level": 10, "exp": { "current": 1200, "next": 1800 }, "limit": 65, "mood": "Playful",  "effects": ["Haste"] },
+    "nanaki": { "role": "Guardian","level": 12, "exp": { "current": 2000, "next": 2600 }, "limit": 40, "mood": "Stoic",    "effects": [] }
+  }
+}
