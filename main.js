@@ -220,7 +220,7 @@ function App() {
   ]);
 
   return h("div",{class:"app"},
-    view==="status" ? h(StatusView, { chars, statusMap, playerFemale, Nav })
+    view==="status" ? h(StatusView, { chars, statusMap, playerFemale, fertilityMap, Nav })
     : view==="relationships" ? h(RelationshipsView, { chars, edges, selected: selected || null, setSelected: setSelectedId, selectedAffinity, traitMap, sensCatalog, sensMap, sensRules, Nav })
     : h(Home)
   );
