@@ -180,3 +180,7 @@ a:hover{text-decoration:underline}
   margin-bottom: 8px;
 }
 
+/* Bars for EXP / Limit */
+.barwrap { position: relative; height: 12px; background: rgba(255,255,255,.06); border-radius: 999px; overflow: hidden; }
+.bar { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, #7aa2ff, #9eeefc); }
+.bartext { position: absolute; width: 100%; text-align: center; font-size: 12px; top: -18px; color: var(--muted); }
