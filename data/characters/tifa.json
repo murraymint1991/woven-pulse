@@ -1,0 +1,11 @@
+{
+  "version": "char_bundle_v2_stub",
+  "character": {
+    "id": "tifa",
+    "displayName": "Tifa Lockhart",
+    "type": "Humanoid",
+    "portrait": "art/portraits/tifa.png",
+    "baseStats": { "hp": 140, "mp": 45, "strength": 11, "magic": 6, "defense": 7, "speed": 12, "luck": 6 },
+    "levelCurve": { "archetype": "Striker", "rate": "fast" }
+  }
+}
