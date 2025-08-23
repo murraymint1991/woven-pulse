@@ -5,6 +5,7 @@ import { sleep, nowStamp, fetchJson, countScenesAnywhere } from "./js/utils.js";
 import { Button, Badge, Dot } from "./js/ui.js";
 import RelationshipsView from "./js/views/relationships.js";
 import StatusView from "./js/views/status.js";
+import { loadFertility } from "./js/systems/status.js";   // ← add this
 import { loadAssignments as loadTraitAssignments } from "./js/systems/traits.js";
 import {
   loadCatalog as loadSensCatalog,
@@ -39,6 +40,8 @@ const DATA = {
   // NEW: status pillar
   statusActors: "data/status/actors_v1.json",
   statusPlayerFemale: "data/status/player_female_v1.json"
+  statusFertility: "data/status/fertility_v1.json"      // ← add this
+
 };
 
 const LS_KEYS = { AUTOSAVE: "sim_autosave_v1", SLOT: (n) => `sim_slot_${n}_v1` };
@@ -62,6 +65,7 @@ function App() {
   // NEW: status pillar
   const [statusMap, setStatusMap] = useState({});     // { id -> { role, level, exp, limit, mood, effects[] } }
   const [playerFemale, setPlayerFemale] = useState(null);
+  const [fertilityMap, setFertilityMap] = useState({});   // ← add this
 
   // Saves + selection
   const [relationship, setRelationship] = useState(Number(localStorage.getItem("sim_rel_value")) || 0);
