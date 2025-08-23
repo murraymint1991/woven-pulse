@@ -1,0 +1,18 @@
+{
+  "version": "assignments_v1",
+  "characters": {
+    "tifa":   { "traits": ["brave", "kind"],        "sens": ["likes_honesty", "hates_bullying"] },
+    "yuffie": { "traits": ["witty", "impulsive"],   "sens": ["loves_treasure", "hates_boredom"] },
+    "renna":  { "traits": ["empathetic", "calm"],   "sens": ["likes_stargazing", "hates_cruelty"] },
+    "aerith": { "traits": ["gentle", "mystic"],     "sens": ["likes_flowers", "hates_despair"] },
+    "nanaki": { "traits": ["wise", "loyal"],        "sens": ["likes_moonlight", "hates_disrespect"] },
+    "kaien":  { "traits": ["stoic", "protective"],  "sens": ["likes_order", "hates_dishonor"] },
+    "barret": { "traits": ["fierce", "steadfast"],  "sens": ["likes_justice", "hates_exploitation"] },
+    "cloud":  { "traits": ["reserved", "capable"],  "sens": ["likes_quiet", "hates_manipulation"] },
+    "marek_voss": { "traits": ["calculating"],      "sens": ["likes_control"] },
+    "the_fractured": { "traits": ["eldritch"],      "sens": ["hates_light"] },
+    "don_corneo": { "traits": ["self_indulgent"],   "sens": ["likes_luxury"] },
+    "beggar":  { "traits": ["weary"],               "sens": ["likes_kindness"] },
+    "vagrant": { "traits": ["restless"],            "sens": ["likes_freedom"] }
+  }
+}
