@@ -1,0 +1,11 @@
+{
+  "version": "char_bundle_v2_stub",
+  "character": {
+    "id": "don_corneo",
+    "displayName": "Don Corneo",
+    "type": "Humanoid",
+    "portrait": "art/portraits/don_corneo.png",
+    "baseStats": { "hp": 135, "mp": 30, "strength": 8, "magic": 5, "defense": 7, "speed": 7, "luck": 9 },
+    "levelCurve": { "archetype": "Support", "rate": "slow" }
+  }
+}
