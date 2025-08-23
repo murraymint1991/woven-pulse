@@ -1,0 +1,11 @@
+{
+  "version": "char_bundle_v2_stub",
+  "character": {
+    "id": "cloud",
+    "displayName": "Cloud Strife",
+    "type": "Humanoid",
+    "portrait": "art/portraits/cloud.png",
+    "baseStats": { "hp": 150, "mp": 55, "strength": 11, "magic": 9, "defense": 8, "speed": 10, "luck": 6 },
+    "levelCurve": { "archetype": "Striker", "rate": "medium" }
+  }
+}
