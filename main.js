@@ -37,11 +37,22 @@ const DATA = {
   sensCatalog: "data/sensitivities/catalog_v1.json",
   sensAssignments: "data/sensitivities/assignments_v1.json",
   sensEvolution: "data/sensitivities/evolution_v1.json",
-  // NEW: status pillar
-  statusActors: "data/status/actors_v1.json",
-  statusPlayerFemale: "data/status/player_female_v1.json"
-  statusFertility: "data/status/fertility_v1.json"      // ← add this
+// NEW: status pillar
+const st = await fetchJson(DATA.statusActors);
+setStatusMap(st.ok ? (st.data?.status || {}) : {});
+d.push({ label: "status/actors_v1.json", status: st.ok ? "ok" : "err" });
 
+const pf = await fetchJson(DATA.statusPlayerFemale);
+setPlayerFemale(pf.ok ? pf.data : null);
+d.push({ label: "status/player_female_v1.json", status: pf.ok ? "ok" : "err" });
+
+// Fertility opt-ins (per character)
+const fert = await loadFertility(DATA.statusFertility);
+setFertilityMap(fert);
+d.push({
+  label: "status/fertility_v1.json",
+  status: Object.keys(fert).length ? "ok" : "err"
+});
 };
 
 const LS_KEYS = { AUTOSAVE: "sim_autosave_v1", SLOT: (n) => `sim_slot_${n}_v1` };
