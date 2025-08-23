@@ -5,7 +5,11 @@ import { sleep, nowStamp, fetchJson, countScenesAnywhere } from "./js/utils.js";
 import { Button, Badge, Dot } from "./js/ui.js";
 import RelationshipsView from "./js/views/relationships.js";
 import { loadAssignments as loadTraitAssignments } from "./js/systems/traits.js";
-import { loadCatalog as loadSensCatalog, loadAssignments as loadSensAssignments, loadEvolution as loadSensEvolution } from "./js/systems/sensitivities.js";
+import {
+  loadCatalog as loadSensCatalog,
+  loadAssignments as loadSensAssignments,
+  loadEvolution as loadSensEvolution
+} from "./js/systems/sensitivities.js";
 
 /* ---------- Config (DATA) ---------- */
 const DATA = {
@@ -29,7 +33,7 @@ const DATA = {
   relationships: "data/relationships/relationships_v1.json",
   traitAssignments: "data/traits/assignments_v1.json",
 
-  // NEW: sensitivities pillar
+  // Sensitivities pillar
   sensCatalog: "data/sensitivities/catalog_v1.json",
   sensAssignments: "data/sensitivities/assignments_v1.json",
   sensEvolution: "data/sensitivities/evolution_v1.json"
@@ -47,14 +51,14 @@ function App() {
   const [traitsFound, setTraitsFound] = useState(false);
   const [chars, setChars] = useState([]);         // [{id, displayName, type, baseStats, portrait}]
   const [scenesCount, setScenesCount] = useState(0);
-  const [details, setDetails] = useState([]);
+  const [details, setDetails] = useState([]);     // [{label:"folder/file.json", status:"ok|err"}]
   const [edgesRaw, setEdgesRaw] = useState([]);   // [{from,to,type,strength}]
   const [traitMap, setTraitMap] = useState({});   // { id -> { traits:[], sens:[] } }
 
-  // NEW: sensitivities data
-  const [sensCatalog, setSensCatalog] = useState({});   // { stim -> entry }
-  const [sensMap, setSensMap] = useState({});           // { id -> { weights, caps? } }
-  const [sensRules, setSensRules] = useState([]);       // evolution rules (unused yet)
+  // Sensitivities pillar
+  const [sensCatalog, setSensCatalog] = useState({});
+  const [sensMap, setSensMap] = useState({});
+  const [sensRules, setSensRules] = useState([]);
 
   // Saves + selection
   const [relationship, setRelationship] = useState(Number(localStorage.getItem("sim_rel_value")) || 0);
@@ -90,8 +94,10 @@ function App() {
 
       // Traits/Moods
       const tm = await fetchJson(DATA.traitsMoods);
-      if (tm.ok) { setTraitsFound(Boolean(tm.data?.traits && Object.keys(tm.data.traits).length)); d.push({ label: "traits/traits_moods_v1.json", status: "ok" }); }
-      else       { d.push({ label: "traits/traits_moods_v1.json", status: "err" }); }
+      if (tm.ok) {
+        setTraitsFound(Boolean(tm.data?.traits && Object.keys(tm.data.traits).length));
+        d.push({ label: "traits_moods/traits_moods_v1.json", status: "ok" }); // ← correct folder name
+      } else d.push({ label: "traits_moods/traits_moods_v1.json", status: "err" });
 
       // Characters
       const loaded = [];
@@ -122,12 +128,12 @@ function App() {
       if (rel.ok) { setEdgesRaw(Array.isArray(rel.data?.edges) ? rel.data.edges : []); d.push({ label: "relationships/relationships_v1.json", status: "ok" }); }
       else        { setEdgesRaw([]); d.push({ label: "relationships/relationships_v1.json", status: "err" }); }
 
-      // Trait assignments (per-character)
+      // Trait assignments (per-character traits)
       const ta = await loadTraitAssignments(DATA.traitAssignments);
       if (ta.ok) { setTraitMap(ta.map); d.push({ label: "traits/assignments_v1.json", status: "ok" }); }
       else       { setTraitMap({});     d.push({ label: "traits/assignments_v1.json", status: "err" }); }
 
-      // Sensitivities pillar (NEW)
+      // Sensitivities pillar
       const sc = await loadSensCatalog(DATA.sensCatalog);
       setSensCatalog(sc);
       d.push({ label: "sensitivities/catalog_v1.json", status: Object.keys(sc).length ? "ok" : "err" });
@@ -201,7 +207,7 @@ function App() {
     h(Button, { onClick: ()=>{ location.hash="#relationships"; setView("relationships"); }, ghost: view!=="relationships" }, "Relationships")
   ]);
 
-  // Home view (with clickable links)
+  // Home view (clickable list shows full folder/file now)
   const Home = () => h("div", null, [
     h("div", { class:"hero" }, h("div",{class:"hero-inner"},[
       h("div",{class:"stage-title"},"SIM Prototype — Start"),
@@ -217,20 +223,10 @@ function App() {
         h("div",{class:"small",style:"margin-top:8px"},"Files under /data/... — tap any to open raw JSON."),
         h("div",{class:"small",style:"margin-top:8px"},
           details.map((d)=> {
-            // If label already includes a subfolder (e.g. "sensitivities/assignments_v1.json"), use it directly.
-            let subPath = d.label.includes("/") ? d.label : null;
-            if (!subPath) {
-              if (d.label.includes("relationships")) subPath = "relationships/" + d.label;
-              else if (d.label.includes("demo_module")) subPath = "demo/" + d.label;
-              else if (d.label.includes("traits_moods")) subPath = "traits/" + d.label;
-              else if (d.label.includes("assignments")) subPath = "traits/" + d.label;
-              else subPath = "characters/" + d.label;
-            }
-            const url = `${location.origin}${location.pathname.replace(/index\.html$/,'')}data/${subPath}`;
-            const display = subPath.split("/").pop();
+            const url = `${location.origin}${location.pathname.replace(/index\.html$/,'')}data/${d.label}`;
             return h("div",{class:"kv"}, [
               h(Dot,{ok:d.status==="ok"}),
-              h("a",{href:url,target:"_blank",style:"margin-left:4px"}, display)
+              h("a",{href:url,target:"_blank",style:"margin-left:4px"}, d.label) // show folder/file to avoid duplicates
             ]);
           })
         ),
@@ -286,10 +282,10 @@ function App() {
           selected: selected || null,
           setSelected: setSelectedId,
           selectedAffinity,
-          traitMap,          // traits from data/traits/assignments_v1.json
-          sensCatalog,       // NEW
-          sensMap,           // NEW
-          sensRules,         // NEW (unused for now)
+          traitMap,
+          sensCatalog,
+          sensMap,
+          sensRules,
           Nav
         })
       : h(Home)
