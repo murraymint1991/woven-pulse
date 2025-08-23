@@ -1,0 +1,13 @@
+{
+  "version": "traits_moods_v1",
+  "traits": {
+    "brave": { "desc": "Faces danger head-on" },
+    "witty": { "desc": "Quick with words and ideas" }
+  },
+  "moods": {
+    "calm": { "baseline": true },
+    "angry": { "baseline": false }
+  },
+  "transitions": [],
+  "synergy": []
+}
