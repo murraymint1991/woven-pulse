@@ -1,0 +1,11 @@
+{
+  "version": "char_bundle_v2_stub",
+  "character": {
+    "id": "the_fractured",
+    "displayName": "The Fractured",
+    "type": "Entity",
+    "portrait": "art/portraits/the_fractured.png",
+    "baseStats": { "hp": 220, "mp": 120, "strength": 13, "magic": 14, "defense": 12, "speed": 9, "luck": 4 },
+    "levelCurve": { "archetype": "Boss", "rate": "slow" }
+  }
+}
