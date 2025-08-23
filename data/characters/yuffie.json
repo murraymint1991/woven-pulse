@@ -1,0 +1,11 @@
+{
+  "version": "char_bundle_v2_stub",
+  "character": {
+    "id": "yuffie",
+    "displayName": "Yuffie Kisaragi",
+    "type": "Humanoid",
+    "portrait": "art/portraits/yuffie.png",
+    "baseStats": { "hp": 120, "mp": 50, "strength": 9, "magic": 8, "defense": 6, "speed": 12, "luck": 7 },
+    "levelCurve": { "archetype": "Striker", "rate": "fast" }
+  }
+}
