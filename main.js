@@ -1,8 +1,9 @@
 import { h, render } from "https://esm.sh/preact@10.22.0";
 import { useEffect, useMemo, useState } from "https://esm.sh/preact@10.22.0/hooks";
 
-import { sleep, nowStamp, fetchJson, countScenesAnywhere, nameOf } from "./js/utils.js";
+import { sleep, nowStamp, fetchJson, countScenesAnywhere } from "./js/utils.js";
 import { Button, Badge, Dot } from "./js/ui.js";
+import RelationshipsView from "./js/views/relationships.js";
 
 /* ---------- Config ---------- */
 const DATA = {
@@ -37,7 +38,7 @@ function App() {
   const [toast, setToast] = useState("");
   const [view, setView] = useState(() => location.hash === "#relationships" ? "relationships" : "home");
 
-  // Data
+  // Data state
   const [traitsFound, setTraitsFound] = useState(false);
   const [chars, setChars] = useState([]);         // [{id, displayName, type, baseStats}]
   const [scenesCount, setScenesCount] = useState(0);
@@ -52,7 +53,7 @@ function App() {
   // Selection for detail sheet
   const [selectedId, setSelectedId] = useState(null);
 
-  // Hash routing
+  // Routing
   useEffect(() => {
     const onHash = () => setView(location.hash === "#relationships" ? "relationships" : "home");
     window.addEventListener("hashchange", onHash);
@@ -71,51 +72,44 @@ function App() {
     setSlots(next);
   }, []);
 
-  // Persist example stat
   useEffect(() => localStorage.setItem("sim_rel_value", String(relationship)), [relationship]);
 
-  // Load data files
+  // Load data
   useEffect(() => {
     (async () => {
       const d = [];
 
-      // Traits/Moods
       const tm = await fetchJson(DATA.traitsMoods);
       if (tm.ok) {
         const obj = tm.data || {};
-        const found = Boolean(obj.traits && Object.keys(obj.traits).length);
-        setTraitsFound(found);
+        setTraitsFound(Boolean(obj.traits && Object.keys(obj.traits).length));
         d.push({ label: "traits_moods_v1.json", status: "ok" });
       } else d.push({ label: "traits_moods_v1.json", status: "err" });
 
-      // Characters
       const loaded = [];
       for (const path of DATA.characters) {
         const r = await fetchJson(path);
+        const file = path.split("/").pop();
         if (r.ok) {
           const c = r.data.character || {};
           loaded.push({
-            id: c.id || path.split("/").pop().replace(".json",""),
+            id: c.id || file.replace(".json",""),
             displayName: c.displayName || c.id || "Unknown",
             type: c.type || "Humanoid",
             portrait: c.portrait || "",
             baseStats: c.baseStats || {}
           });
-          d.push({ label: path.split("/").pop(), status: "ok" });
-        } else {
-          d.push({ label: path.split("/").pop(), status: "err" });
-        }
+          d.push({ label: file, status: "ok" });
+        } else d.push({ label: file, status: "err" });
       }
       setChars(loaded);
 
-      // Demo module (scenes)
       const dm = await fetchJson(DATA.demoModule);
       if (dm.ok) {
         setScenesCount(countScenesAnywhere(dm.data));
         d.push({ label: "demo_module_v0_5.json", status: "ok" });
       } else d.push({ label: "demo_module_v0_5.json", status: "err" });
 
-      // Relationships (edges)
       const rel = await fetchJson(DATA.relationships);
       if (rel.ok) {
         setEdgesRaw(Array.isArray(rel.data.edges) ? rel.data.edges : []);
@@ -166,13 +160,12 @@ function App() {
     return `${chars.length} char · ${scenesCount} scenes · traits: ${t}`;
   }, [chars.length, scenesCount, traitsFound]);
 
-  // Filter edges to only include ones whose ids exist in current roster
   const edges = useMemo(() => {
     const idset = new Set(chars.map(c=>c.id));
     return edgesRaw.filter(e => idset.has(e.from) && idset.has(e.to));
   }, [edgesRaw, chars]);
 
-  const selected = useMemo(() => chars.find(c=>c.id===selectedId) || null, [selectedId, chars]);
+  const selected  = useMemo(() => chars.find(c=>c.id===selectedId) || null, [selectedId, chars]);
   const selectedAffinity = useMemo(() => {
     if (!selectedId) return 0;
     const rels = edges.filter(e => e.from === selectedId || e.to === selectedId);
@@ -181,12 +174,13 @@ function App() {
     return Math.round(avg);
   }, [edges, selectedId]);
 
-  /* -------------------- Views -------------------- */
+  // Small shared nav
   const Nav = () => h("div", { class: "menu", style:"margin-bottom:8px" }, [
     h(Button, { onClick: ()=>{ location.hash=""; setView("home"); }, ghost: view!=="home" }, "Home"),
     h(Button, { onClick: ()=>{ location.hash="#relationships"; setView("relationships"); }, ghost: view!=="relationships" }, "Relationships")
   ]);
 
+  /* ----- Home view (unchanged) ----- */
   const Home = () => h("div", null, [
     h("div", { class:"hero" }, h("div",{class:"hero-inner"},[
       h("div",{class:"stage-title"},"SIM Prototype — Start"),
@@ -200,10 +194,8 @@ function App() {
         loading ? h("div",{class:"kv"},"Loading data…")
         : h("div",{class:"kv"}, h(Badge,null, [h(Dot,{ok:chars.length>0}), " ", summaryText])),
         h("div",{class:"small",style:"margin-top:8px"},"Place JSON files under /data/... — this card updates on refresh."),
-        // clickable links per file
         h("div",{class:"small",style:"margin-top:8px"},
           details.map((d)=> {
-            // map filename -> correct subfolder
             let sub = "data/";
             if (d.label.includes("relationships")) sub += "relationships/";
             else if (d.label.includes("demo_module")) sub += "demo/";
@@ -211,7 +203,8 @@ function App() {
             else sub += "characters/";
             const url = `${location.origin}${location.pathname.replace(/index\.html$/,'')}${sub}${d.label}`;
             return h("div",{class:"kv"}, [
-              h(Dot,{ok:d.status==="ok"}), h("a",{href:url,target:"_blank",style:"margin-left:4px"}, d.label)
+              h(Dot,{ok:d.status==="ok"}),
+              h("a",{href:url,target:"_blank",style:"margin-left:4px"}, d.label)
             ]);
           })
         ),
@@ -232,8 +225,8 @@ function App() {
         h("h3",null,"Choice (example)"),
         h("div",{class:"kv"},`Relationship: ${relationship}`),
         h("div",{class:"kv"},[
-          h(Button,{onClick:()=>{ setRelationship(v=>v+1); flash("+1 (kind)"); }},"Be Kind (+1)"),
-          h(Button,{ghost:true,onClick:()=>{ setRelationship(v=>v-1); flash("-1 (tease)"); }},"Tease (-1)"),
+          h(Button,{onClick:()=>{ setRelationship(v=>v+1); setToast("+1 (kind)"); setTimeout(()=>setToast(""), 1200); }},"Be Kind (+1)"),
+          h(Button,{ghost:true,onClick:()=>{ setRelationship(v=>v-1); setToast("-1 (tease)"); setTimeout(()=>setToast(""), 1200); }},"Tease (-1)")
         ]),
         h("div",{class:"small"},"This is just a mock stat; autosave/slots capture its value.")
       ])
@@ -243,7 +236,7 @@ function App() {
       h("h3",null,"Manual Slots (20)"),
       h("div",{class:"grid"},
         slots.map((s,i)=>
-          h("div",{class:"slot",onClick:()=>flash(`Load Slot ${i+1} (stub)`)},[
+          h("div",{class:"slot",onClick:()=>setToast(`Load Slot ${i+1} (stub)`)},[
             h("div",null,`Slot ${i+1}`),
             h("div",{class:"meta"}, s ? `${s.note} · ${s.at}` : "empty")
           ])
@@ -259,64 +252,18 @@ function App() {
     ])
   ]);
 
-  const Relationships = () => h("div", null, [
-    h("div", { class:"hero" }, h("div",{class:"hero-inner"},[
-      h("div",{class:"stage-title"},"Relationships"),
-      h("div",{class:"subtitle"},"Roster, quick links, and a starter web (data-driven)."),
-      h(Nav, null)
-    ])),
-
-    // Roster (clickable)
-    h("div",{class:"card"},[
-      h("h3",null,`Roster (${chars.length})`),
-      h("div",{class:"grid"},
-        chars.map(c =>
-          h("div",{class:"slot", onClick:()=>setSelectedId(c.id)},[
-            h("div",null,c.displayName),
-            h("div",{class:"meta"}, c.type)
-          ])
-        )
-      )
-    ]),
-
-    // Web edges (from JSON)
-    h("div",{class:"card",style:"margin-top:12px"},[
-      h("h3",null,`Relationship Web (${edges.length})`),
-      edges.length
-        ? edges.map((e) => h("div",{class:"kv"},[
-            h(Badge,null,e.type),
-            h("b",null," "),
-            h("span",null,`${nameOf(e.from,chars)} ↔ ${nameOf(e.to,chars)} (${e.strength})`)
-          ]))
-        : h("div",{class:"kv small"},"No edges yet.")
-    ]),
-
-    // Detail sheet (overlay)
-    selected && h("div",{class:"overlay", onClick:()=>setSelectedId(null)},
-      h("div",{class:"sheet", onClick:(e)=>e.stopPropagation()},[
-        h("h3",null,selected.displayName),
-        h("div",{class:"kv small"},`ID: ${selected.id} · Type: ${selected.type}`),
-        h("div",{class:"kvgrid", style:"margin-top:8px"},[
-          h("div",{class:"label"},"HP"),    h("div",{class:"value"}, selected.baseStats?.hp ?? "—"),
-          h("div",{class:"label"},"MP"),    h("div",{class:"value"}, selected.baseStats?.mp ?? "—"),
-          h("div",{class:"label"},"STR"),   h("div",{class:"value"}, selected.baseStats?.strength ?? "—"),
-          h("div",{class:"label"},"MAG"),   h("div",{class:"value"}, selected.baseStats?.magic ?? "—"),
-          h("div",{class:"label"},"DEF"),   h("div",{class:"value"}, selected.baseStats?.defense ?? "—"),
-          h("div",{class:"label"},"SPD"),   h("div",{class:"value"}, selected.baseStats?.speed ?? "—"),
-          h("div",{class:"label"},"LCK"),   h("div",{class:"value"}, selected.baseStats?.luck ?? "—")
-        ]),
-        h("div",{class:"kv",style:"margin-top:8px"},[
-          h(Badge,null,`Affinity snapshot: ${selectedAffinity}`)
-        ]),
-        h("div",{class:"sheet-actions"},[
-          h(Button,{onClick:()=>setSelectedId(null)},"Close"),
-          h(Button,{ghost:true,onClick:()=>alert('Open profile screen (todo)')},"Open Profile")
-        ])
-      ])
-    )
-  ]);
-
-  return h("div",{class:"app"}, view==="relationships" ? h(Relationships) : h(Home));
+  return h("div",{class:"app"},
+    view==="relationships"
+      ? h(RelationshipsView, {
+          chars,
+          edges,
+          selected,
+          setSelected: setSelectedId,
+          selectedAffinity,
+          Nav
+        })
+      : h(Home)
+  );
 }
 
 /* ---------- Mount ---------- */
