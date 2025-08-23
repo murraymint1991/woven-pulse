@@ -4,12 +4,21 @@ import { useEffect, useMemo, useState } from "https://esm.sh/preact@10.22.0/hook
 /* ---------- Config ---------- */
 const DATA = {
   traitsMoods: "data/traits_moods/traits_moods_v1.json",
-  characters: [
-    "data/characters/yuffie.json",
-    "data/characters/nanaki.json",
-    "data/characters/aerith.json",
-    "data/characters/tifa.json",
-  ],
+characters: [
+  "data/characters/tifa.json",
+  "data/characters/yuffie.json",
+  "data/characters/renna.json",
+  "data/characters/aerith.json",
+  "data/characters/nanaki.json",
+  "data/characters/kaien.json",
+  "data/characters/barret.json",
+  "data/characters/cloud.json",
+  "data/characters/marek_voss.json",
+  "data/characters/the_fractured.json",
+  "data/characters/don_corneo.json",
+  "data/characters/beggar.json",
+  "data/characters/vagrant.json"
+],
   demoModule: "data/demo/demo_module_v0_5.json",
 };
 
