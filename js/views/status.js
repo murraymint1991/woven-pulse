@@ -2,7 +2,7 @@
 import { h } from "https://esm.sh/preact@10.22.0";
 import { useMemo, useState } from "https://esm.sh/preact@10.22.0/hooks";
 import { Button, Badge } from "../ui.js";
-import { computeFertility } from "../systems/status.js";
+import { computeReproState } from "../systems/status.js";
 
 function Bar({ label, value, max=100 }) {
   const pct = Math.max(0, Math.min(100, Math.round((value / max) * 100)));
@@ -32,16 +32,14 @@ export default function StatusView({ chars, statusMap, playerFemale, fertilityMa
   const mood = s.mood || "Neutral";
   const effects = Array.isArray(s.effects) ? s.effects : [];
 
-  // Fertility block (opt-in by id in fertilityMap + needs playerFemale cycle config)
-  const fertProfile = fertilityMap?.[selId] && fertilityMap[selId].visible !== false ? fertilityMap[selId] : null;
-  const fertInfo = (playerFemale && fertProfile?.startISO)
-    ? computeFertility(playerFemale.cycle, fertProfile.startISO)
-    : null;
+  // Repro state if configured for this character
+  const reproProfile = fertilityMap?.[selId] && fertilityMap[selId].visible !== false ? fertilityMap[selId] : null;
+  const repro = (playerFemale && reproProfile) ? computeReproState(playerFemale.cycle, reproProfile) : null;
 
   return h("div", null, [
     h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
       h("div", { class: "stage-title" }, "Status & State"),
-      h("div", { class: "subtitle" }, "Overview: level, HP/MP, limit, mood, effects — and fertility for eligible characters."),
+      h("div", { class: "subtitle" }, "Overview: level, HP/MP, limit, mood, effects — plus fertility/pregnancy when enabled."),
       h(Nav, null)
     ])),
 
@@ -80,15 +78,32 @@ export default function StatusView({ chars, statusMap, playerFemale, fertilityMa
           effects.length ? effects.map(e => h(Badge, null, e)) : h("span", { class: "small" }, "—")
         ]),
 
-        // ——— Fertility (only if enabled for this character)
-        fertInfo && h("div", { class: "kv", style: "margin-top:10px" }, [
+        // ——— Cycle / Pregnancy / Postpartum block
+        repro && repro.kind === "cycle" && h("div", { class: "kv", style: "margin-top:10px" }, [
           h("div", { class: "label" }, "Fertility"),
           h("div", null, [
-            h(Badge, null, `${fertInfo.phase}`),
-            h("span", { class: "small", style: "margin-left:8px" }, `Day ${fertInfo.dayInCycle}/${fertInfo.length}`)
+            h(Badge, null, repro.phase),
+            h("span", { class: "small", style: "margin-left:8px" }, `Day ${repro.dayInCycle}/${repro.length}`)
           ])
         ]),
-        fertInfo && h(Bar, { label: "Cycle Progress", value: fertInfo.percent, max: 100 }),
+        repro && repro.kind === "cycle" && h(Bar, { label: "Cycle Progress", value: repro.percent, max: 100 }),
+
+        repro && repro.kind === "pregnant" && h("div", { class: "kv", style: "margin-top:10px" }, [
+          h("div", { class: "label" }, "Pregnancy"),
+          h("div", null, [
+            h(Badge, null, `Trimester ${repro.trimester}`),
+            h("span", { class: "small", style: "margin-left:8px" }, `Week ${repro.weeks} · ETA ${repro.etaDays}d`)
+          ])
+        ]),
+        repro && repro.kind === "pregnant" && h(Bar, { label: "Pregnancy Progress", value: repro.percent, max: 100 }),
+
+        repro && repro.kind === "postpartum" && h("div", { class: "kv", style: "margin-top:10px" }, [
+          h("div", { class: "label" }, "Postpartum"),
+          h("div", null, [
+            h(Badge, null, `Week ${repro.weeksSince}`)
+          ])
+        ]),
+        repro && repro.kind === "postpartum" && h(Bar, { label: "Recovery", value: repro.percent, max: 100 }),
 
         h("div", { class: "sheet-actions" }, [
           h(Button, { ghost: true, onClick: () => alert("Open Equipment (WIP)") }, "Equipment"),
@@ -98,7 +113,7 @@ export default function StatusView({ chars, statusMap, playerFemale, fertilityMa
 
       h("div", { class: "card" }, [
         h("h3", null, "Notes"),
-        h("div", { class: "small" }, "Use the left panel to inspect levels, gauges, mood and effects. Fertility appears for opt‑in characters."),
+        h("div", { class: "small" }, "Fertility/pregnancy visibility is controlled by data under /data/status/fertility_v1.json."),
         playerFemale ? h("div", { class: "small", style: "margin-top:6px" }, "Global female cycle config loaded.") : null
       ])
     ])
