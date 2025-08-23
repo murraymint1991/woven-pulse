@@ -1,0 +1,21 @@
+{
+  "version": "assignments_v1",
+  "characters": {
+    "yuffie": {
+      "weights": { "fun": 4, "treasure": 5, "rugged": -1 },
+      "caps":    { "fun": [0, 7], "rugged": [-3, 6] }
+    },
+    "tifa":   { "weights": { "honesty": 4, "gentle": 2, "bullying": -5 } },
+    "renna":  { "weights": { "gentle": 4, "fun": 2 } },
+    "aerith": { "weights": { "gentle": 4, "honesty": 2 } },
+    "nanaki": { "weights": { "honesty": 3, "gentle": 3 } },
+    "kaien":  { "weights": { "rugged": 3, "honesty": 2 } },
+    "barret": { "weights": { "rugged": 3, "bullying": -4 } },
+    "cloud":  { "weights": { "gentle": 1, "honesty": 2 } },
+    "marek_voss":   { "weights": { "rugged": 1 } },
+    "the_fractured":{ "weights": { } },
+    "don_corneo":   { "weights": { "treasure": 2, "gentle": -1 } },
+    "beggar":       { "weights": { "honesty": 2 } },
+    "vagrant":      { "weights": { "fun": 1, "freedom": 3 } }
+  }
+}
