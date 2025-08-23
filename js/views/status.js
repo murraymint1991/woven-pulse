@@ -2,6 +2,7 @@
 import { h } from "https://esm.sh/preact@10.22.0";
 import { useMemo, useState } from "https://esm.sh/preact@10.22.0/hooks";
 import { Button, Badge } from "../ui.js";
+import { computeFertility } from "../systems/status.js";
 
 function Bar({ label, value, max=100 }) {
   const pct = Math.max(0, Math.min(100, Math.round((value / max) * 100)));
@@ -14,7 +15,7 @@ function Bar({ label, value, max=100 }) {
   ]);
 }
 
-export default function StatusView({ chars, statusMap, playerFemale, Nav }) {
+export default function StatusView({ chars, statusMap, playerFemale, fertilityMap, Nav }) {
   const options = chars.map(c => ({ id: c.id, name: c.displayName }));
   const [selId, setSelId] = useState(() => options.find(o => o.id === "cloud")?.id || options[0]?.id);
 
@@ -31,10 +32,16 @@ export default function StatusView({ chars, statusMap, playerFemale, Nav }) {
   const mood = s.mood || "Neutral";
   const effects = Array.isArray(s.effects) ? s.effects : [];
 
+  // Fertility block (opt-in by id in fertilityMap + needs playerFemale cycle config)
+  const fertProfile = fertilityMap?.[selId] && fertilityMap[selId].visible !== false ? fertilityMap[selId] : null;
+  const fertInfo = (playerFemale && fertProfile?.startISO)
+    ? computeFertility(playerFemale.cycle, fertProfile.startISO)
+    : null;
+
   return h("div", null, [
     h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
       h("div", { class: "stage-title" }, "Status & State"),
-      h("div", { class: "subtitle" }, "Overview: level, HP/MP, limit, mood, and effects."),
+      h("div", { class: "subtitle" }, "Overview: level, HP/MP, limit, mood, effects — and fertility for eligible characters."),
       h(Nav, null)
     ])),
 
@@ -51,46 +58,48 @@ export default function StatusView({ chars, statusMap, playerFemale, Nav }) {
 
     selChar && h("div", { class: "grid", style: "margin-top:12px" }, [
       h("div", { class: "card" }, [
-        // Portrait
         selChar.portrait ? h("img", { class: "portrait", src: selChar.portrait, alt: selChar.displayName }) : null,
 
         h("h3", null, selChar.displayName),
         h("div", { class: "kv small" }, `Role: ${role} · Level ${level}`),
 
-        // EXP bar
         h(Bar, { label: "EXP", value: expNow, max: expNext }),
-        // HP/MP (from base stats)
         h("div", { class: "kvgrid", style: "margin-top:8px" }, [
           h("div", { class: "label" }, "HP"), h("div", { class: "value" }, hp),
           h("div", { class: "label" }, "MP"), h("div", { class: "value" }, mp)
         ]),
-        // Limit gauge
         h(Bar, { label: "Limit", value: limit, max: 100 }),
 
-        // Mood
         h("div", { class: "kv", style: "margin-top:8px" }, [
           h("div", { class: "label" }, "Mood"),
           h(Badge, null, mood)
         ]),
 
-        // Active effects
         h("div", { class: "kv", style: "margin-top:8px" }, [
           h("div", { class: "label" }, "Status Effects"),
           effects.length ? effects.map(e => h(Badge, null, e)) : h("span", { class: "small" }, "—")
         ]),
 
-        // Placeholder buttons (future)
+        // ——— Fertility (only if enabled for this character)
+        fertInfo && h("div", { class: "kv", style: "margin-top:10px" }, [
+          h("div", { class: "label" }, "Fertility"),
+          h("div", null, [
+            h(Badge, null, `${fertInfo.phase}`),
+            h("span", { class: "small", style: "margin-left:8px" }, `Day ${fertInfo.dayInCycle}/${fertInfo.length}`)
+          ])
+        ]),
+        fertInfo && h(Bar, { label: "Cycle Progress", value: fertInfo.percent, max: 100 }),
+
         h("div", { class: "sheet-actions" }, [
           h(Button, { ghost: true, onClick: () => alert("Open Equipment (WIP)") }, "Equipment"),
           h(Button, { ghost: true, onClick: () => alert("Open Traits (WIP)") }, "Traits")
         ])
       ]),
 
-      // Reserved: later add a right column card for Materia grid or quick stats
       h("div", { class: "card" }, [
         h("h3", null, "Notes"),
-        h("div", { class: "small" }, "This area can hold Materia slots, quick gear summary, or recent interactions."),
-        playerFemale ? h("div", { class: "small", style: "margin-top:6px" }, "Player (Female) cycle data loaded.") : null
+        h("div", { class: "small" }, "Use the left panel to inspect levels, gauges, mood and effects. Fertility appears for opt‑in characters."),
+        playerFemale ? h("div", { class: "small", style: "margin-top:6px" }, "Global female cycle config loaded.") : null
       ])
     ])
   ]);
