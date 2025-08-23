@@ -59,6 +59,7 @@ function countScenesAnywhere(obj) {
   walk(obj);
   return count;
 }
+function nameOf(id, arr){ return (arr.find(c=>c.id===id)?.displayName) || id }
 
 /* ---------- Tiny UI helpers ---------- */
 function Button(props){ return h("button",{class:"btn "+(props.ghost?"ghost":""),...props}) }
@@ -73,7 +74,7 @@ function App() {
 
   // Data
   const [traitsFound, setTraitsFound] = useState(false);
-  const [chars, setChars] = useState([]);         // [{id, displayName, type}]
+  const [chars, setChars] = useState([]);         // [{id, displayName, type, baseStats}]
   const [scenesCount, setScenesCount] = useState(0);
   const [details, setDetails] = useState([]);
   const [edgesRaw, setEdgesRaw] = useState([]);   // [{from,to,type,strength}]
@@ -82,6 +83,9 @@ function App() {
   const [relationship, setRelationship] = useState(Number(localStorage.getItem("sim_rel_value")) || 0);
   const [slots, setSlots] = useState(Array.from({ length: 20 }, () => null));
   const [autosaveMeta, setAutosaveMeta] = useState(null);
+
+  // Selection for detail sheet
+  const [selectedId, setSelectedId] = useState(null);
 
   // Hash routing
   useEffect(() => {
@@ -129,7 +133,8 @@ function App() {
             id: c.id || path.split("/").pop().replace(".json",""),
             displayName: c.displayName || c.id || "Unknown",
             type: c.type || "Humanoid",
-            portrait: c.portrait || ""
+            portrait: c.portrait || "",
+            baseStats: c.baseStats || {}
           });
           d.push({ label: path.split("/").pop(), status: "ok" });
         } else {
@@ -202,6 +207,15 @@ function App() {
     return edgesRaw.filter(e => idset.has(e.from) && idset.has(e.to));
   }, [edgesRaw, chars]);
 
+  const selected = useMemo(() => chars.find(c=>c.id===selectedId) || null, [selectedId, chars]);
+  const selectedAffinity = useMemo(() => {
+    if (!selectedId) return 0;
+    const rels = edges.filter(e => e.from === selectedId || e.to === selectedId);
+    if (!rels.length) return 0;
+    const avg = rels.reduce((s,e)=>s+(Number(e.strength)||0),0)/rels.length;
+    return Math.round(avg);
+  }, [edges, selectedId]);
+
   /* -------------------- Views -------------------- */
   const Nav = () => h("div", { class: "menu", style:"margin-bottom:8px" }, [
     h(Button, { onClick: ()=>{ location.hash=""; setView("home"); }, ghost: view!=="home" }, "Home"),
@@ -221,14 +235,8 @@ function App() {
         loading ? h("div",{class:"kv"},"Loading data…")
         : h("div",{class:"kv"}, h(Badge,null, [h(Dot,{ok:chars.length>0}), " ", summaryText])),
         h("div",{class:"small",style:"margin-top:8px"},"Place JSON files under /data/... — this card updates on refresh."),
-          h("div",{class:"small",style:"margin-top:8px"},
-            details.map((d)=> {
-              const url = `${location.origin}${location.pathname.replace(/index\.html$/,'')}data/${d.label.replace('.json','')}.json`;
-              return h("div",{class:"kv"}, [
-                h(Dot,{ok:d.status==="ok"}),
-                h("a",{href:url,target:"_blank",style:"margin-left:4px"}, d.label)
-            ]);
-          })
+        h("div",{class:"small",style:"margin-top:8px"},
+          details.map((d)=>h("div",{class:"kv"}, h(Dot,{ok:d.status==="ok"}), h("span",null,d.label)))
         ),
       ]),
       h("div",{class:"card"},[
@@ -281,12 +289,12 @@ function App() {
       h(Nav, null)
     ])),
 
-    // Roster grid
+    // Roster grid (clickable)
     h("div",{class:"card"},[
       h("h3",null,`Roster (${chars.length})`),
       h("div",{class:"grid"},
         chars.map(c =>
-          h("div",{class:"slot"},[
+          h("div",{class:"slot", onClick:()=>setSelectedId(c.id)},[
             h("div",null,c.displayName),
             h("div",{class:"meta"}, c.type)
           ])
@@ -304,10 +312,32 @@ function App() {
             h("span",null,`${nameOf(e.from,chars)} ↔ ${nameOf(e.to,chars)} (${e.strength})`)
           ]))
         : h("div",{class:"kv small"},"No edges yet.")
-    ])
-  ]);
+    ]),
 
-  function nameOf(id, arr){ return (arr.find(c=>c.id===id)?.displayName) || id }
+    // Detail sheet (overlay)
+    selected && h("div",{class:"overlay", onClick:()=>setSelectedId(null)},
+      h("div",{class:"sheet", onClick:(e)=>e.stopPropagation()},[
+        h("h3",null,selected.displayName),
+        h("div",{class:"kv small"},`ID: ${selected.id} · Type: ${selected.type}`),
+        h("div",{class:"kvgrid", style:"margin-top:8px"},[
+          h("div",{class:"label"},"HP"),    h("div",{class:"value"}, selected.baseStats?.hp ?? "—"),
+          h("div",{class:"label"},"MP"),    h("div",{class:"value"}, selected.baseStats?.mp ?? "—"),
+          h("div",{class:"label"},"STR"),   h("div",{class:"value"}, selected.baseStats?.strength ?? "—"),
+          h("div",{class:"label"},"MAG"),   h("div",{class:"value"}, selected.baseStats?.magic ?? "—"),
+          h("div",{class:"label"},"DEF"),   h("div",{class:"value"}, selected.baseStats?.defense ?? "—"),
+          h("div",{class:"label"},"SPD"),   h("div",{class:"value"}, selected.baseStats?.speed ?? "—"),
+          h("div",{class:"label"},"LCK"),   h("div",{class:"value"}, selected.baseStats?.luck ?? "—")
+        ]),
+        h("div",{class:"kv",style:"margin-top:8px"},[
+          h(Badge,null,`Affinity snapshot: ${selectedAffinity}`)
+        ]),
+        h("div",{class:"sheet-actions"},[
+          h(Button,{onClick:()=>setSelectedId(null)},"Close"),
+          h(Button,{ghost:true,onClick:()=>alert('Open profile screen (todo)')},"Open Profile")
+        ])
+      ])
+    )
+  ]);
 
   return h("div",{class:"app"}, view==="relationships" ? h(Relationships) : h(Home));
 }
