@@ -1,0 +1,11 @@
+{
+  "version": "char_bundle_v2_stub",
+  "character": {
+    "id": "beggar",
+    "displayName": "Beggar",
+    "type": "Humanoid",
+    "portrait": "art/portraits/beggar.png",
+    "baseStats": { "hp": 80, "mp": 10, "strength": 4, "magic": 3, "defense": 3, "speed": 6, "luck": 5 },
+    "levelCurve": { "archetype": "NPC", "rate": "slow" }
+  }
+}
