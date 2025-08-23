@@ -1,0 +1,11 @@
+{
+  "version": "catalog_v1",
+  "stimuli": {
+    "fun":       { "kind": "trait", "tags": ["energetic","playful"], "base": { "min": 1, "max": 5 } },
+    "rugged":    { "kind": "vibe",  "tags": ["brash","tough"],       "base": { "min": -2, "max": 4 } },
+    "gentle":    { "kind": "vibe",  "tags": ["soft","calming"],      "base": { "min": 0, "max": 5 } },
+    "treasure":  { "kind": "topic", "tags": ["loot","adventure"],    "base": { "min": 0, "max": 5 } },
+    "honesty":   { "kind": "value", "tags": ["moral"],               "base": { "min": -1, "max": 5 } },
+    "bullying":  { "kind": "value", "tags": ["cruel"],               "base": { "min": -5, "max": -1 } }
+  }
+}
