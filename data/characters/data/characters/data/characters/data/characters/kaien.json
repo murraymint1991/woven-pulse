@@ -1,0 +1,11 @@
+{
+  "version": "char_bundle_v2_stub",
+  "character": {
+    "id": "kaien",
+    "displayName": "Kaien",
+    "type": "Humanoid",
+    "portrait": "art/portraits/kaien.png",
+    "baseStats": { "hp": 160, "mp": 35, "strength": 12, "magic": 5, "defense": 10, "speed": 9, "luck": 5 },
+    "levelCurve": { "archetype": "Tank", "rate": "medium" }
+  }
+}
