@@ -170,3 +170,13 @@ a:hover{text-decoration:underline}
 .kvgrid .label { color: var(--muted); font-size: 12px }
 .kvgrid .value { font-weight: 600 }
 .sheet-actions { display:flex; gap:8px; margin-top:10px }
+
+/* --- Portrait in detail sheet --- */
+.sheet .portrait {
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
