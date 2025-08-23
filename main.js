@@ -221,8 +221,14 @@ function App() {
         loading ? h("div",{class:"kv"},"Loading data…")
         : h("div",{class:"kv"}, h(Badge,null, [h(Dot,{ok:chars.length>0}), " ", summaryText])),
         h("div",{class:"small",style:"margin-top:8px"},"Place JSON files under /data/... — this card updates on refresh."),
-        h("div",{class:"small",style:"margin-top:8px"},
-          details.map((d)=>h("div",{class:"kv"}, h(Dot,{ok:d.status==="ok"}), h("span",null,d.label)))
+          h("div",{class:"small",style:"margin-top:8px"},
+            details.map((d)=> {
+              const url = `${location.origin}${location.pathname.replace(/index\.html$/,'')}data/${d.label.replace('.json','')}.json`;
+              return h("div",{class:"kv"}, [
+                h(Dot,{ok:d.status==="ok"}),
+                h("a",{href:url,target:"_blank",style:"margin-left:4px"}, d.label)
+            ]);
+          })
         ),
       ]),
       h("div",{class:"card"},[
