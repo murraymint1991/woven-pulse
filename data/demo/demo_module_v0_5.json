@@ -1,0 +1,69 @@
+{
+  "version": "demo_module_v0_5",
+  "title": "Woven Pulse — Demo Pack",
+  "scenes": [
+    {
+      "id": "arrival_tutorial",
+      "name": "Arrival — Dockside",
+      "type": "story",
+      "script": [
+        { "who": "narrator", "say": "You arrive as the tide hums beneath the pier." },
+        { "who": "renna", "say": "You're late. But not too late." }
+      ]
+    },
+    {
+      "id": "market_banter",
+      "name": "Marketplace Banter",
+      "type": "story",
+      "script": [
+        { "who": "tifa", "say": "Prices went up again? Figures." },
+        { "who": "yuffie", "say": "Haggle time!" }
+      ]
+    },
+    {
+      "id": "beach_walk",
+      "name": "Moonlit Beach Walk",
+      "type": "story",
+      "script": [
+        { "who": "kaien", "say": "Footprints tell stories the waves forget." },
+        { "who": "renna", "say": "Then let's write a new one." }
+      ]
+    },
+    {
+      "id": "ruins_preboss",
+      "name": "Ruins — Pre‑Boss",
+      "type": "encounter",
+      "enemies": ["shore_wisp", "salt_gull", "rime_eel"]
+    },
+    {
+      "id": "post_fight_wrap",
+      "name": "After the Clash",
+      "type": "story",
+      "script": [
+        { "who": "cloud", "say": "We keep moving." },
+        { "who": "nanaki", "say": "The trail still burns warm." }
+      ]
+    }
+  ],
+  "enemies": {
+    "shore_wisp": { "level": 2, "tags": ["spirit"], "resist": ["ice"], "weak": ["wind"] },
+    "salt_gull": { "level": 1, "tags": ["beast"], "resist": [], "weak": ["lightning"] },
+    "rime_eel": { "level": 3, "tags": ["beast"], "resist": ["water"], "weak": ["fire"] },
+    "mini_boss": { "level": 6, "tags": ["fiend"], "resist": ["fire","ice"], "weak": ["wind","lightning"] }
+  },
+  "items": {
+    "potions": [
+      { "id": "potion", "name": "Potion", "heal": 50 },
+      { "id": "ether", "name": "Ether", "mp": 20 }
+    ],
+    "keys": [
+      { "id": "ruin_sigil", "name": "Ruin Sigil", "use": "Unlocks the Sealed Arch" }
+    ]
+  },
+  "duoTech": {
+    "yuffie_nanaki": {
+      "name": "Fang Cyclone",
+      "unlockBanner": "Duo Tech Unlocked: Fang Cyclone!"
+    }
+  }
+}
