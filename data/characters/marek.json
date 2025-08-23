@@ -1,0 +1,11 @@
+{
+  "version": "char_bundle_v2_stub",
+  "character": {
+    "id": "marek_voss",
+    "displayName": "Marek Voss",
+    "type": "Humanoid",
+    "portrait": "art/portraits/marek_voss.png",
+    "baseStats": { "hp": 155, "mp": 70, "strength": 9, "magic": 11, "defense": 8, "speed": 10, "luck": 6 },
+    "levelCurve": { "archetype": "Support", "rate": "medium" }
+  }
+}
