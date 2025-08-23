@@ -1,12 +1,12 @@
 {
   "version": "player_female_v1",
-  "cycle": { "lengthDays": 28, "ovulationDay": 14, "luteal": 14 },
-  "modifiers": {
-    "fertilityHighDays": [13, 14, 15],
-    "moodBias": { "pms": { "startDay": 24, "endDay": 28, "mood": "Tense", "delta": -1 } }
+  "cycle": {
+    "lengthDays": 28,
+    "ovulationDay": 14,
+    "luteal": 14,
+    "gestationWeeks": 40,    // default full term used for progress/ETA
+    "postpartumWeeks": 6     // default recovery window for the UI bar
   },
-  "body": {
-    "fatigue": { "min": 0, "max": 100, "recoverPerSleep": 20 },
-    "hydration": { "min": 0, "max": 100 }
-  }
+  "modifiers": { /* ... */ },
+  "body": { /* ... */ }
 }
