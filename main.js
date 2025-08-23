@@ -1,6 +1,9 @@
 import { h, render } from "https://esm.sh/preact@10.22.0";
 import { useEffect, useMemo, useState } from "https://esm.sh/preact@10.22.0/hooks";
 
+import { sleep, nowStamp, fetchJson, countScenesAnywhere, nameOf } from "./js/utils.js";
+import { Button, Badge, Dot } from "./js/ui.js";
+
 /* ---------- Config ---------- */
 const DATA = {
   traitsMoods: "data/traits_moods/traits_moods_v1.json",
@@ -27,44 +30,6 @@ const LS_KEYS = {
   AUTOSAVE: "sim_autosave_v1",
   SLOT: (n) => `sim_slot_${n}_v1`,
 };
-
-/* ---------- Helpers ---------- */
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-const pad2 = (n) => String(n).padStart(2, "0");
-function nowStamp() {
-  const d = new Date();
-  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())} ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
-}
-async function fetchJson(url) {
-  try {
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-    return { ok: true, data: await res.json() };
-  } catch (err) {
-    return { ok: false, error: String(err) };
-  }
-}
-function countScenesAnywhere(obj) {
-  let count = 0;
-  const seen = new Set();
-  function walk(node) {
-    if (!node || typeof node !== "object" || seen.has(node)) return;
-    seen.add(node);
-    if (Array.isArray(node)) { node.forEach(walk); return; }
-    for (const [k, v] of Object.entries(node)) {
-      if (Array.isArray(v) && k.toLowerCase().includes("scene")) count += v.length;
-      walk(v);
-    }
-  }
-  walk(obj);
-  return count;
-}
-function nameOf(id, arr){ return (arr.find(c=>c.id===id)?.displayName) || id }
-
-/* ---------- Tiny UI helpers ---------- */
-function Button(props){ return h("button",{class:"btn "+(props.ghost?"ghost":""),...props}) }
-function Badge(props){ return h("span",{class:"badge",...props},props.children) }
-function Dot({ok}){ return h("span",{class:"data-dot "+(ok===true?"ok":ok===false?"err":"")}) }
 
 /* ---------- App ---------- */
 function App() {
@@ -235,22 +200,21 @@ function App() {
         loading ? h("div",{class:"kv"},"Loading data…")
         : h("div",{class:"kv"}, h(Badge,null, [h(Dot,{ok:chars.length>0}), " ", summaryText])),
         h("div",{class:"small",style:"margin-top:8px"},"Place JSON files under /data/... — this card updates on refresh."),
-          h("div",{class:"small",style:"margin-top:8px"},
-            details.map((d)=> {
-              // Decide folder based on filename
-              let sub = "data/";
-              if (d.label.includes("relationships")) sub += "relationships/";
-              else if (d.label.includes("demo_module")) sub += "demo/";
-              else if (d.label.includes("traits_moods")) sub += "traits_moods/";
-              else sub += "characters/";
-
-              const url = `${location.origin}${location.pathname.replace(/index\.html$/,'')}${sub}${d.label}`;
-              return h("div",{class:"kv"}, [
-                h(Dot,{ok:d.status==="ok"}),
-                h("a",{href:url,target:"_blank",style:"margin-left:4px"}, d.label)
-              ]);
-            })
-          ),
+        // clickable links per file
+        h("div",{class:"small",style:"margin-top:8px"},
+          details.map((d)=> {
+            // map filename -> correct subfolder
+            let sub = "data/";
+            if (d.label.includes("relationships")) sub += "relationships/";
+            else if (d.label.includes("demo_module")) sub += "demo/";
+            else if (d.label.includes("traits_moods")) sub += "traits_moods/";
+            else sub += "characters/";
+            const url = `${location.origin}${location.pathname.replace(/index\.html$/,'')}${sub}${d.label}`;
+            return h("div",{class:"kv"}, [
+              h(Dot,{ok:d.status==="ok"}), h("a",{href:url,target:"_blank",style:"margin-left:4px"}, d.label)
+            ]);
+          })
+        ),
       ]),
       h("div",{class:"card"},[
         h("h3",null,"Saves"),
@@ -302,7 +266,7 @@ function App() {
       h(Nav, null)
     ])),
 
-    // Roster grid (clickable)
+    // Roster (clickable)
     h("div",{class:"card"},[
       h("h3",null,`Roster (${chars.length})`),
       h("div",{class:"grid"},
