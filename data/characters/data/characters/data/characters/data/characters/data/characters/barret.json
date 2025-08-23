@@ -1,0 +1,11 @@
+{
+  "version": "char_bundle_v2_stub",
+  "character": {
+    "id": "barret",
+    "displayName": "Barret Wallace",
+    "type": "Humanoid",
+    "portrait": "art/portraits/barret.png",
+    "baseStats": { "hp": 170, "mp": 35, "strength": 12, "magic": 6, "defense": 11, "speed": 8, "luck": 5 },
+    "levelCurve": { "archetype": "Tank", "rate": "slow" }
+  }
+}
