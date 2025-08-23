@@ -10,21 +10,21 @@ import { nameOf } from "../utils.js";
  * - selected: the selected character object or null
  * - setSelected: fn(id|null)
  * - selectedAffinity: number (0-100)
- * - traitMap: { id -> { traits:[], sens:[] } }    // NEW
- * - Nav: small nav component (Home/Relationships)
+ * - traitMap: { id -> { traits:[], sens:[] } }
+ * - sensCatalog: { stim -> { kind, tags[], base? } }
+ * - sensMap: { id -> { weights: {stim:number}, caps? } }
+ * - sensRules: [ ... ]  (unused in UI for now)
+ * - Nav: small nav component
  */
 export default function RelationshipsView({
-  chars,
-  edges,
-  selected,
-  setSelected,
-  selectedAffinity,
-  traitMap,
-  Nav
+  chars, edges, selected, setSelected, selectedAffinity,
+  traitMap, sensCatalog, sensMap, sensRules, Nav
 }) {
-  // Precompute sheet trait/sensitivity arrays
+  // Precompute traits/sensitivities for the sheet
   const traits = selected ? (traitMap[selected.id]?.traits || []) : [];
-  const sens   = selected ? (traitMap[selected.id]?.sens   || []) : [];
+  const weights = selected ? (sensMap[selected.id]?.weights || {}) : {};
+  const likes   = Object.entries(weights).filter(([_,w]) => w > 0).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const hates   = Object.entries(weights).filter(([_,w]) => w < 0).sort((a,b)=>a[1]-b[1]).slice(0,6);
 
   return h("div", null, [
     h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
@@ -63,8 +63,13 @@ export default function RelationshipsView({
     // Detail sheet (overlay)
     selected && h("div", { class: "overlay", onClick: () => setSelected(null) },
       h("div", { class: "sheet", onClick: (e) => e.stopPropagation() }, [
+        // Portrait (if provided in character JSON)
+        selected.portrait ? h("img", { class: "portrait", src: selected.portrait, alt: selected.displayName }) : null,
+
         h("h3", null, selected.displayName),
         h("div", { class: "kv small" }, `ID: ${selected.id} · Type: ${selected.type}`),
+
+        // Base stats
         h("div", { class: "kvgrid", style: "margin-top:8px" }, [
           h("div", { class: "label" }, "HP"),  h("div", { class: "value" }, selected.baseStats?.hp ?? "—"),
           h("div", { class: "label" }, "MP"),  h("div", { class: "value" }, selected.baseStats?.mp ?? "—"),
@@ -75,19 +80,26 @@ export default function RelationshipsView({
           h("div", { class: "label" }, "LCK"), h("div", { class: "value" }, selected.baseStats?.luck ?? "—")
         ]),
 
-        // NEW: traits & sensitivities
+        // Traits
         h("div", { class: "kv", style: "margin-top:10px" }, [
           h("div", { class: "label" }, "Traits"),
           h("div", null, traits.length ? traits.map(x => h(Badge, null, x)) : h("span", { class:"small" }, "—"))
         ]),
+        // Likes / Dislikes from sensitivities
+        h("div", { class: "kv", style: "margin-top:10px" }, [
+          h("div", { class: "label" }, "Likes"),
+          h("div", null, likes.length ? likes.map(([k,w]) => h(Badge, null, `${k} (+${w})`)) : h("span", { class:"small" }, "—"))
+        ]),
         h("div", { class: "kv", style: "margin-top:6px" }, [
-          h("div", { class: "label" }, "Sensitivities"),
-          h("div", null, sens.length ? sens.map(x => h(Badge, null, x)) : h("span", { class:"small" }, "—"))
+          h("div", { class: "label" }, "Dislikes"),
+          h("div", null, hates.length ? hates.map(([k,w]) => h(Badge, null, `${k} (${w})`)) : h("span", { class:"small" }, "—"))
         ]),
 
+        // Affinity snapshot
         h("div", { class: "kv", style: "margin-top:8px" }, [
           h(Badge, null, `Affinity snapshot: ${selectedAffinity}`)
         ]),
+
         h("div", { class: "sheet-actions" }, [
           h(Button, { onClick: () => setSelected(null) }, "Close"),
           h(Button, { ghost: true, onClick: () => alert('Open profile screen (todo)') }, "Open Profile")
