@@ -1,0 +1,11 @@
+{
+  "version": "char_bundle_v2_stub",
+  "character": {
+    "id": "renna",
+    "displayName": "Renna",
+    "type": "Humanoid",
+    "portrait": "art/portraits/renna.png",
+    "baseStats": { "hp": 125, "mp": 60, "strength": 8, "magic": 10, "defense": 6, "speed": 11, "luck": 7 },
+    "levelCurve": { "archetype": "Support", "rate": "medium" }
+  }
+}
