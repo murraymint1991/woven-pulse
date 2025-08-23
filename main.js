@@ -4,8 +4,9 @@ import { useEffect, useMemo, useState } from "https://esm.sh/preact@10.22.0/hook
 import { sleep, nowStamp, fetchJson, countScenesAnywhere } from "./js/utils.js";
 import { Button, Badge, Dot } from "./js/ui.js";
 import RelationshipsView from "./js/views/relationships.js";
+import { loadAssignments } from "./js/systems/traits.js";
 
-/* ---------- Config ---------- */
+/* ---------- Config (DATA) ---------- */
 const DATA = {
   traitsMoods: "data/traits_moods/traits_moods_v1.json",
   characters: [
@@ -24,7 +25,8 @@ const DATA = {
     "data/characters/vagrant.json"
   ],
   demoModule: "data/demo/demo_module_v0_5.json",
-  relationships: "data/relationships/relationships_v1.json"
+  relationships: "data/relationships/relationships_v1.json",
+  traitAssignments: "data/traits/assignments_v1.json"   // ← NEW
 };
 
 const LS_KEYS = {
@@ -44,6 +46,7 @@ function App() {
   const [scenesCount, setScenesCount] = useState(0);
   const [details, setDetails] = useState([]);
   const [edgesRaw, setEdgesRaw] = useState([]);   // [{from,to,type,strength}]
+  const [traitMap, setTraitMap] = useState({});   // { id -> { traits:[], sens:[] } }  ← NEW
 
   // Example stat + saves
   const [relationship, setRelationship] = useState(Number(localStorage.getItem("sim_rel_value")) || 0);
@@ -79,6 +82,7 @@ function App() {
     (async () => {
       const d = [];
 
+      // Traits/Moods
       const tm = await fetchJson(DATA.traitsMoods);
       if (tm.ok) {
         const obj = tm.data || {};
@@ -86,6 +90,7 @@ function App() {
         d.push({ label: "traits_moods_v1.json", status: "ok" });
       } else d.push({ label: "traits_moods_v1.json", status: "err" });
 
+      // Characters
       const loaded = [];
       for (const path of DATA.characters) {
         const r = await fetchJson(path);
@@ -104,12 +109,14 @@ function App() {
       }
       setChars(loaded);
 
+      // Demo module (scenes)
       const dm = await fetchJson(DATA.demoModule);
       if (dm.ok) {
         setScenesCount(countScenesAnywhere(dm.data));
         d.push({ label: "demo_module_v0_5.json", status: "ok" });
       } else d.push({ label: "demo_module_v0_5.json", status: "err" });
 
+      // Relationships (edges)
       const rel = await fetchJson(DATA.relationships);
       if (rel.ok) {
         setEdgesRaw(Array.isArray(rel.data.edges) ? rel.data.edges : []);
@@ -117,6 +124,16 @@ function App() {
       } else {
         setEdgesRaw([]);
         d.push({ label: "relationships_v1.json", status: "err" });
+      }
+
+      // Trait assignments  ← NEW
+      const ta = await loadAssignments(DATA.traitAssignments);
+      if (ta.ok) {
+        setTraitMap(ta.map);
+        d.push({ label: "assignments_v1.json", status: "ok" });
+      } else {
+        setTraitMap({});
+        d.push({ label: "assignments_v1.json", status: "err" });
       }
 
       setDetails(d);
@@ -180,7 +197,7 @@ function App() {
     h(Button, { onClick: ()=>{ location.hash="#relationships"; setView("relationships"); }, ghost: view!=="relationships" }, "Relationships")
   ]);
 
-  /* ----- Home view (unchanged) ----- */
+  /* ----- Home view ----- */
   const Home = () => h("div", null, [
     h("div", { class:"hero" }, h("div",{class:"hero-inner"},[
       h("div",{class:"stage-title"},"SIM Prototype — Start"),
@@ -200,6 +217,7 @@ function App() {
             if (d.label.includes("relationships")) sub += "relationships/";
             else if (d.label.includes("demo_module")) sub += "demo/";
             else if (d.label.includes("traits_moods")) sub += "traits_moods/";
+            else if (d.label.includes("assignments")) sub += "traits/"; // ← NEW
             else sub += "characters/";
             const url = `${location.origin}${location.pathname.replace(/index\.html$/,'')}${sub}${d.label}`;
             return h("div",{class:"kv"}, [
@@ -260,6 +278,7 @@ function App() {
           selected,
           setSelected: setSelectedId,
           selectedAffinity,
+          traitMap,               // ← pass to view
           Nav
         })
       : h(Home)
