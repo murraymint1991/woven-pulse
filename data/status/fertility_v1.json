@@ -1,9 +1,25 @@
 {
-  "version": "fertility_v1",
+  "version": "fertility_v2",
   "profiles": {
-    "tifa":   { "startISO": "2025-08-01", "visible": true },
-    "aerith": { "startISO": "2025-08-03", "visible": true },
-    "yuffie": { "startISO": "2025-08-05", "visible": true },
-    "renna":  { "startISO": "2025-08-02", "visible": true }
+    "tifa": {
+      "mode": "cycle",                 // "cycle" | "pregnant" | "postpartum"
+      "startISO": "2025-08-01",        // day 1 of current cycle
+      "visible": true
+    },
+    "aerith": {
+      "mode": "pregnant",
+      "conceptionISO": "2025-08-10",   // approximate conception date
+      "visible": true
+    },
+    "yuffie": {
+      "mode": "cycle",
+      "startISO": "2025-08-05",
+      "visible": true
+    },
+    "renna": {
+      "mode": "postpartum",
+      "deliveryISO": "2025-07-20",     // recent delivery date
+      "visible": true
+    }
   }
 }
