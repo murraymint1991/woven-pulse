@@ -7,7 +7,7 @@
       "visible": true
     },
     "aerith": {
-      "mode": "pregnant",
+      "mode": "cycle",
       "conceptionISO": "2025-08-10",   // approximate conception date
       "visible": true
     },
@@ -17,7 +17,7 @@
       "visible": true
     },
     "renna": {
-      "mode": "postpartum",
+      "mode": "cycle",
       "deliveryISO": "2025-07-20",     // recent delivery date
       "visible": true
     }
