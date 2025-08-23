@@ -1,0 +1,9 @@
+{
+  "version": "fertility_v1",
+  "profiles": {
+    "tifa":   { "startISO": "2025-08-01", "visible": true },
+    "aerith": { "startISO": "2025-08-03", "visible": true },
+    "yuffie": { "startISO": "2025-08-05", "visible": true },
+    "renna":  { "startISO": "2025-08-02", "visible": true }
+  }
+}
