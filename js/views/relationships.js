@@ -10,7 +10,8 @@ import { nameOf } from "../utils.js";
  * - selected: the selected character object or null
  * - setSelected: fn(id|null)
  * - selectedAffinity: number (0-100)
- * - Nav: a small nav component from main (Home/Relationships)
+ * - traitMap: { id -> { traits:[], sens:[] } }    // NEW
+ * - Nav: small nav component (Home/Relationships)
  */
 export default function RelationshipsView({
   chars,
@@ -18,8 +19,13 @@ export default function RelationshipsView({
   selected,
   setSelected,
   selectedAffinity,
+  traitMap,
   Nav
 }) {
+  // Precompute sheet trait/sensitivity arrays
+  const traits = selected ? (traitMap[selected.id]?.traits || []) : [];
+  const sens   = selected ? (traitMap[selected.id]?.sens   || []) : [];
+
   return h("div", null, [
     h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
       h("div", { class: "stage-title" }, "Relationships"),
@@ -68,6 +74,17 @@ export default function RelationshipsView({
           h("div", { class: "label" }, "SPD"), h("div", { class: "value" }, selected.baseStats?.speed ?? "—"),
           h("div", { class: "label" }, "LCK"), h("div", { class: "value" }, selected.baseStats?.luck ?? "—")
         ]),
+
+        // NEW: traits & sensitivities
+        h("div", { class: "kv", style: "margin-top:10px" }, [
+          h("div", { class: "label" }, "Traits"),
+          h("div", null, traits.length ? traits.map(x => h(Badge, null, x)) : h("span", { class:"small" }, "—"))
+        ]),
+        h("div", { class: "kv", style: "margin-top:6px" }, [
+          h("div", { class: "label" }, "Sensitivities"),
+          h("div", null, sens.length ? sens.map(x => h(Badge, null, x)) : h("span", { class:"small" }, "—"))
+        ]),
+
         h("div", { class: "kv", style: "margin-top:8px" }, [
           h(Badge, null, `Affinity snapshot: ${selectedAffinity}`)
         ]),
