@@ -1,0 +1,13 @@
+{
+  "version": "evolution_v1",
+  "rules": [
+    {
+      "when":   { "stimulus": "rugged", "interactionCount": 3 },
+      "effect": { "target": "rugged", "delta": 1, "cooldownScenes": 2 }
+    },
+    {
+      "when":   { "stimulus": "fun", "negativeOutcome": true },
+      "effect": { "target": "fun", "delta": -1 }
+    }
+  ]
+}
