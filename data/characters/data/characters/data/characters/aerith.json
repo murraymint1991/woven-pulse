@@ -1,0 +1,11 @@
+{
+  "version": "char_bundle_v2_stub",
+  "character": {
+    "id": "aerith",
+    "displayName": "Aerith Gainsborough",
+    "type": "Humanoid",
+    "portrait": "art/portraits/aerith.png",
+    "baseStats": { "hp": 115, "mp": 80, "strength": 6, "magic": 12, "defense": 5, "speed": 10, "luck": 8 },
+    "levelCurve": { "archetype": "Support", "rate": "medium" }
+  }
+}
