@@ -1,0 +1,11 @@
+{
+  "version": "char_bundle_v2_stub",
+  "character": {
+    "id": "nanaki",
+    "displayName": "Nanaki",
+    "type": "Beast",
+    "portrait": "art/portraits/nanaki.png",
+    "baseStats": { "hp": 150, "mp": 40, "strength": 10, "magic": 6, "defense": 9, "speed": 11, "luck": 5 },
+    "levelCurve": { "archetype": "Tank", "rate": "medium" }
+  }
+}
