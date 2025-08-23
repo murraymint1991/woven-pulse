@@ -5,7 +5,6 @@ import { useEffect, useMemo, useState } from "https://esm.sh/preact@10.22.0/hook
 const DATA = {
   traitsMoods: "data/traits_moods/traits_moods_v1.json",
   characters: [
-    // Keep this list in sync with your repo
     "data/characters/tifa.json",
     "data/characters/yuffie.json",
     "data/characters/renna.json",
@@ -21,6 +20,7 @@ const DATA = {
     "data/characters/vagrant.json"
   ],
   demoModule: "data/demo/demo_module_v0_5.json",
+  relationships: "data/relationships/relationships_v1.json"
 };
 
 const LS_KEYS = {
@@ -60,7 +60,7 @@ function countScenesAnywhere(obj) {
   return count;
 }
 
-/* ---------- Small components ---------- */
+/* ---------- Tiny UI helpers ---------- */
 function Button(props){ return h("button",{class:"btn "+(props.ghost?"ghost":""),...props}) }
 function Badge(props){ return h("span",{class:"badge",...props},props.children) }
 function Dot({ok}){ return h("span",{class:"data-dot "+(ok===true?"ok":ok===false?"err":"")}) }
@@ -71,11 +71,12 @@ function App() {
   const [toast, setToast] = useState("");
   const [view, setView] = useState(() => location.hash === "#relationships" ? "relationships" : "home");
 
-  // Data state
+  // Data
   const [traitsFound, setTraitsFound] = useState(false);
-  const [chars, setChars] = useState([]); // [{id, displayName, type, portrait}]
+  const [chars, setChars] = useState([]);         // [{id, displayName, type}]
   const [scenesCount, setScenesCount] = useState(0);
   const [details, setDetails] = useState([]);
+  const [edgesRaw, setEdgesRaw] = useState([]);   // [{from,to,type,strength}]
 
   // Example stat + saves
   const [relationship, setRelationship] = useState(Number(localStorage.getItem("sim_rel_value")) || 0);
@@ -128,7 +129,7 @@ function App() {
             id: c.id || path.split("/").pop().replace(".json",""),
             displayName: c.displayName || c.id || "Unknown",
             type: c.type || "Humanoid",
-            portrait: c.portrait || "",
+            portrait: c.portrait || ""
           });
           d.push({ label: path.split("/").pop(), status: "ok" });
         } else {
@@ -143,6 +144,16 @@ function App() {
         setScenesCount(countScenesAnywhere(dm.data));
         d.push({ label: "demo_module_v0_5.json", status: "ok" });
       } else d.push({ label: "demo_module_v0_5.json", status: "err" });
+
+      // Relationships (edges)
+      const rel = await fetchJson(DATA.relationships);
+      if (rel.ok) {
+        setEdgesRaw(Array.isArray(rel.data.edges) ? rel.data.edges : []);
+        d.push({ label: "relationships_v1.json", status: "ok" });
+      } else {
+        setEdgesRaw([]);
+        d.push({ label: "relationships_v1.json", status: "err" });
+      }
 
       setDetails(d);
       await sleep(120);
@@ -165,7 +176,7 @@ function App() {
   }
   function doManualSave(){
     const payload = { at: nowStamp(), rel: relationship, note: "Manual" };
-    const idx = (slots.findIndex(s=>s===null) + 20) % 20; // first empty or 0
+    const idx = (slots.findIndex(s=>s===null) + 20) % 20;
     const next = slots.slice(); next[idx] = payload;
     localStorage.setItem(LS_KEYS.SLOT(idx+1), JSON.stringify(payload));
     setSlots(next);
@@ -185,23 +196,11 @@ function App() {
     return `${chars.length} char · ${scenesCount} scenes · traits: ${t}`;
   }, [chars.length, scenesCount, traitsFound]);
 
-  /* ------- Relationship data (starter edges; replace with JSON later) ------- */
+  // Filter edges to only include ones whose ids exist in current roster
   const edges = useMemo(() => {
-    // Define key-to-key pairs and a label (affinity)
-    const raw = [
-      ["cloud","tifa","bond"],
-      ["renna","kaien","bond"],
-      ["yuffie","aerith","ally"],
-      ["barret","cloud","ally"],
-      ["nanaki","cloud","ally"],
-      ["marek_voss","the_fractured","serves"],
-      ["don_corneo","tifa","antagonist"],
-      ["beggar","vagrant","acquaintance"]
-    ];
-    // Keep pairs only if both characters exist
     const idset = new Set(chars.map(c=>c.id));
-    return raw.filter(([a,b]) => idset.has(a) && idset.has(b));
-  }, [chars]);
+    return edgesRaw.filter(e => idset.has(e.from) && idset.has(e.to));
+  }, [edgesRaw, chars]);
 
   /* -------------------- Views -------------------- */
   const Nav = () => h("div", { class: "menu", style:"margin-bottom:8px" }, [
@@ -216,7 +215,6 @@ function App() {
       h(Nav, null)
     ])),
 
-    // Data / Saves / Mock Choice
     h("div",{class:"grid"},[
       h("div",{class:"card"},[
         h("h3",null,"Data Import"),
@@ -273,7 +271,7 @@ function App() {
   const Relationships = () => h("div", null, [
     h("div", { class:"hero" }, h("div",{class:"hero-inner"},[
       h("div",{class:"stage-title"},"Relationships"),
-      h("div",{class:"subtitle"},"Roster, quick links, and a starter web (placeholder)."),
+      h("div",{class:"subtitle"},"Roster, quick links, and a starter web (data-driven)."),
       h(Nav, null)
     ])),
 
@@ -290,14 +288,14 @@ function App() {
       )
     ]),
 
-    // Web edges (simple list for now)
+    // Web edges (from JSON)
     h("div",{class:"card",style:"margin-top:12px"},[
       h("h3",null,`Relationship Web (${edges.length})`),
       edges.length
-        ? edges.map(([a,b,label]) => h("div",{class:"kv"},[
-            h(Badge,null,label),
+        ? edges.map((e) => h("div",{class:"kv"},[
+            h(Badge,null,e.type),
             h("b",null," "),
-            h("span",null,`${nameOf(a,chars)} ↔ ${nameOf(b,chars)}`)
+            h("span",null,`${nameOf(e.from,chars)} ↔ ${nameOf(e.to,chars)} (${e.strength})`)
           ]))
         : h("div",{class:"kv small"},"No edges yet.")
     ])
