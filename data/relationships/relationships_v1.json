@@ -1,0 +1,20 @@
+{
+  "version": "relationships_v1",
+  "edges": [
+    { "from": "cloud",      "to": "tifa",         "type": "bond",        "strength": 70 },
+    { "from": "renna",      "to": "kaien",        "type": "bond",        "strength": 80 },
+    { "from": "yuffie",     "to": "aerith",       "type": "ally",        "strength": 60 },
+    { "from": "barret",     "to": "cloud",        "type": "ally",        "strength": 65 },
+    { "from": "nanaki",     "to": "cloud",        "type": "ally",        "strength": 55 },
+    { "from": "marek_voss", "to": "the_fractured","type": "serves",      "strength": 90 },
+    { "from": "don_corneo", "to": "tifa",         "type": "antagonist",  "strength": 85 },
+    { "from": "beggar",     "to": "vagrant",      "type": "acquaintance","strength": 30 }
+  ],
+  "types": {
+    "bond":        { "color": "teal" },
+    "ally":        { "color": "blue" },
+    "serves":      { "color": "purple" },
+    "antagonist":  { "color": "red" },
+    "acquaintance":{ "color": "gray" }
+  }
+}
