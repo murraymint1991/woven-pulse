@@ -8,7 +8,9 @@ import {
   mergedProfile,
   setPregnant,
   setDelivered,
-  resetToCycle
+  resetToCycle,
+  getClock,
+  advanceDays
 } from "../systems/status.js";
 
 function Bar({ label, value, max=100 }) {
@@ -24,11 +26,16 @@ function Bar({ label, value, max=100 }) {
 
 export default function StatusView({ chars, statusMap, playerFemale, fertilityMap, Nav }) {
   const options = chars.map(c => ({ id: c.id, name: c.displayName }));
-  const [selId, setSelId] = useState(() => options.find(o => o.id === "cloud")?.id || options[0]?.id);
-  const [rev, setRev] = useState(0);         // bump to refresh after dev actions
+  const [selId, setSelId] = useState(() =>
+    options.find(o => o.id === "cloud")?.id || options[0]?.id
+  );
+  const [rev, setRev] = useState(0);          // bump to refresh after dev actions
   const [showDev, setShowDev] = useState(false);
 
-  const selChar = useMemo(() => chars.find(c => c.id === selId) || null, [chars, selId, rev]);
+  const selChar = useMemo(
+    () => chars.find(c => c.id === selId) || null,
+    [chars, selId, rev]
+  );
   const s = selId ? (statusMap[selId] || {}) : {};
 
   const hp = selChar?.baseStats?.hp ?? 0;
@@ -41,7 +48,7 @@ export default function StatusView({ chars, statusMap, playerFemale, fertilityMa
   const mood = s.mood || "Neutral";
   const effects = Array.isArray(s.effects) ? s.effects : [];
 
-  // Effective profile = base (JSON) + override (localStorage)
+  // Effective per-character profile = base JSON + overrides
   const overrides = loadOverrides();
   const effProfile = mergedProfile(fertilityMap, overrides, selId);
   const repro = (playerFemale && effProfile && effProfile.visible !== false)
@@ -52,6 +59,7 @@ export default function StatusView({ chars, statusMap, playerFemale, fertilityMa
   function doPregnant() { setPregnant(selId); setRev(v=>v+1); }
   function doDeliver()  { setDelivered(selId); setRev(v=>v+1); }
   function doReset()    { resetToCycle(selId); setRev(v=>v+1); }
+  function doAdvance(n) { advanceDays(n); setRev(v=>v+1); }
 
   return h("div", null, [
     h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
@@ -70,8 +78,8 @@ export default function StatusView({ chars, statusMap, playerFemale, fertilityMa
           }, options.map(o => h("option", { value: o.id }, o.name)))
         : h("div", { class: "small" }, "No characters loaded."),
 
-      // Dev toggle
-      h("div", { class: "small", style: "margin-top:6px" }, [
+      // Dev toggle + clock readout
+      h("div", { class: "small", style: "margin-top:6px; display:flex; gap:16px; align-items:center;" }, [
         h("label", { style: "display:inline-flex; align-items:center; gap:8px; cursor:pointer;" }, [
           h("input", {
             type: "checkbox",
@@ -79,7 +87,8 @@ export default function StatusView({ chars, statusMap, playerFemale, fertilityMa
             onChange: e => setShowDev(e.currentTarget.checked)
           }),
           "Show Dev Panel"
-        ])
+        ]),
+        h("span", null, `Current Day: ${getClock().day}`)
       ])
     ]),
 
@@ -147,11 +156,13 @@ export default function StatusView({ chars, statusMap, playerFemale, fertilityMa
         showDev && h("div", { class: "kv", style: "margin-top:12px" }, [
           h("div", { class: "label" }, "Dev Panel"),
           h("div", { class: "kv", style: "gap:8px; display:flex; flex-wrap:wrap;" }, [
-            h(Button, { onClick: doPregnant }, "Start Pregnancy"),
-            h(Button, { onClick: doDeliver, ghost: true }, "Mark Delivery"),
-            h(Button, { onClick: doReset, ghost: true }, "Reset to Cycle")
+            h(Button, { onClick: () => doPregnant() }, "Start Pregnancy"),
+            h(Button, { onClick: () => doDeliver(), ghost: true }, "Mark Delivery"),
+            h(Button, { onClick: () => doReset(), ghost: true }, "Reset to Cycle"),
+            h(Button, { onClick: () => doAdvance(1) }, "+1 Day"),
+            h(Button, { onClick: () => doAdvance(7), ghost: true }, "+7 Days")
           ]),
-          h("div", { class: "small", style: "margin-top:6px" }, "These actions write a local override in your browser (saved).")
+          h("div", { class: "small", style: "margin-top:6px" }, "Actions write browser-local overrides and advance the global game day.")
         ])
       ])
     ])
