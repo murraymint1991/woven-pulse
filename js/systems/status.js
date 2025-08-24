@@ -167,3 +167,33 @@ function addDaysUTC(d, days){
   return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + days));
 }
 function mod1(n, m){ const r = ((n % m) + m) % m; return r === 0 ? m : r; }
+
+// Helper: ISO date for "world today" (now shifted by clock.day)
+function isoWorldToday() {
+  const c = getClock();
+  const d = addDaysUTC(new Date(), Number(c?.day) || 0);
+  return d.toISOString().slice(0,10);
+}
+
+// Replace the three mutators to use isoWorldToday()
+
+export function setPregnant(id, conceptionISO = isoWorldToday()) {
+  const ov = loadOverrides();
+  ov[id] = { ...(ov[id] || {}), mode: "pregnant", conceptionISO, visible: true };
+  saveOverrides(ov);
+  return ov[id];
+}
+
+export function setDelivered(id, deliveryISO = isoWorldToday()) {
+  const ov = loadOverrides();
+  ov[id] = { ...(ov[id] || {}), mode: "postpartum", deliveryISO, visible: true };
+  saveOverrides(ov);
+  return ov[id];
+}
+
+export function resetToCycle(id, startISO = isoWorldToday()) {
+  const ov = loadOverrides();
+  ov[id] = { ...(ov[id] || {}), mode: "cycle", startISO, visible: true };
+  saveOverrides(ov);
+  return ov[id];
+}
