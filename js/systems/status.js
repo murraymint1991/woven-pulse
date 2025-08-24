@@ -1,17 +1,53 @@
 // js/systems/status.js
 import { fetchJson } from "../utils.js";
 
+/* ---------------------------
+   Data loading
+---------------------------- */
 export async function loadFertility(url) {
   const r = await fetchJson(url);
   if (!r.ok) return {};
   return r.data?.profiles || {};
 }
 
+/* ---------------------------
+   Global game clock (days)
+   - persisted in localStorage
+---------------------------- */
+const CLOCK_KEY = "sim_game_clock_v1";
+
+export function getClock() {
+  try {
+    return JSON.parse(localStorage.getItem(CLOCK_KEY) || '{"day":0}');
+  } catch {
+    return { day: 0 };
+  }
+}
+
+export function setClock(clock) {
+  localStorage.setItem(CLOCK_KEY, JSON.stringify(clock || { day: 0 }));
+  return clock;
+}
+
+export function advanceDays(n = 1) {
+  const c = getClock();
+  c.day += Number(n) || 0;
+  setClock(c);
+  return c;
+}
+
+export function resetClock(day = 0) {
+  return setClock({ day: Number(day) || 0 });
+}
+
+/* ---------------------------
+   Fertility / Pregnancy math
+---------------------------- */
 /**
- * Unified reproductive state:
- * - If profile.mode === "pregnant": compute weeks, trimester, ETA, percent to term
- * - If profile.mode === "postpartum": compute weeks since delivery, percent of a 6-week window
- * - Else (or missing): compute cycle phase/day via cycleCfg
+ * Unified reproductive state driven by:
+ *  - Global config in player_female_v1.json (cycle + defaults)
+ *  - Per-character profile from fertility_v1.json (mode: cycle/pregnant/postpartum)
+ *  - Global game clock day offset (getClock().day)
  *
  * Returns one of:
  * { kind:"pregnant", weeks, trimester, etaDays, percent }
@@ -21,31 +57,34 @@ export async function loadFertility(url) {
 export function computeReproState(cycleCfg, profile, now = new Date()) {
   if (!profile || profile.visible === false) return null;
 
+  // apply global clock as a day offset to "now"
+  const clock = getClock();
+  const nowShifted = addDaysUTC(now, Number(clock?.day) || 0);
+
   const mode = (profile.mode || "cycle").toLowerCase();
 
   if (mode === "pregnant") {
-    // Config
     const gestWeeks = Number(cycleCfg?.gestationWeeks) || 40;
     const start = parseISO(profile.conceptionISO);
     if (!start) return null;
 
-    const weeks = clamp(Math.floor(diffDaysUTC(now, start) / 7), 0, gestWeeks);
+    const weeks = clamp(Math.floor(diffDaysUTC(nowShifted, start) / 7), 0, gestWeeks);
     const trimester = weeks < 13 ? 1 : weeks < 27 ? 2 : 3;
 
     const due = addDaysUTC(start, gestWeeks * 7);
-    const etaDays = Math.max(0, Math.ceil(diffDaysUTC(due, now)));
+    const etaDays = Math.max(0, Math.ceil(diffDaysUTC(due, nowShifted)));
     const percent = clamp(Math.round((weeks / gestWeeks) * 100), 0, 100);
 
     return { kind: "pregnant", weeks, trimester, etaDays, percent };
   }
 
   if (mode === "postpartum") {
-    const ppWindowWeeks = Number(cycleCfg?.postpartumWeeks) || 6;
+    const ppWeeks = Number(cycleCfg?.postpartumWeeks) || 6;
     const delivery = parseISO(profile.deliveryISO);
     if (!delivery) return null;
 
-    const weeksSince = Math.max(0, Math.floor(diffDaysUTC(now, delivery) / 7));
-    const percent = clamp(Math.round((weeksSince / ppWindowWeeks) * 100), 0, 100);
+    const weeksSince = Math.max(0, Math.floor(diffDaysUTC(nowShifted, delivery) / 7));
+    const percent = clamp(Math.round((weeksSince / ppWeeks) * 100), 0, 100);
 
     return { kind: "postpartum", weeksSince, percent };
   }
@@ -59,7 +98,7 @@ export function computeReproState(cycleCfg, profile, now = new Date()) {
   const start = parseISO(profile.startISO);
   if (!start) return null;
 
-  const days = diffDaysUTC(now, start);
+  const days = diffDaysUTC(nowShifted, start);
   const dayInCycle = mod1(days, length); // 1..length
 
   let phase = "Safe";
@@ -71,18 +110,10 @@ export function computeReproState(cycleCfg, profile, now = new Date()) {
   return { kind: "cycle", phase, dayInCycle, length, percent };
 }
 
-// ---- helpers ----
-function clamp(n, lo, hi){ return Math.max(lo, Math.min(hi, n)); }
-function parseISO(iso){ if (!iso) return null; const d = new Date(iso + (/\dT/.test(iso) ? "" : "T00:00:00Z")); return isNaN(d.getTime()) ? null : d; }
-function diffDaysUTC(a, b){ // a - b in days, UTC
-  const au = Date.UTC(a.getUTCFullYear(), a.getUTCMonth(), a.getUTCDate());
-  const bu = Date.UTC(b.getUTCFullYear(), b.getUTCMonth(), b.getUTCDate());
-  return Math.floor((au - bu) / 86400000);
-}
-function addDaysUTC(d, days){ return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + days)); }
-function mod1(n, m){ const r = ((n % m) + m) % m; return r === 0 ? m : r; }
-
-// ---- Runtime overrides (saved to localStorage) ----
+/* ---------------------------
+   Runtime overrides (per character)
+   - saved to localStorage
+---------------------------- */
 const OV_KEY = "sim_fertility_overrides_v1";
 
 export function loadOverrides() {
@@ -93,14 +124,12 @@ export function saveOverrides(map) {
   localStorage.setItem(OV_KEY, JSON.stringify(map || {}));
 }
 
-// Merge base profile (from JSON) with any override
 export function mergedProfile(baseProfiles, overrides, id) {
   const base = (baseProfiles && baseProfiles[id]) ? baseProfiles[id] : {};
   const ov   = (overrides && overrides[id]) ? overrides[id] : {};
   return { ...base, ...ov };
 }
 
-// Convenience mutators you can call from game logic
 export function setPregnant(id, conceptionISO = new Date().toISOString().slice(0,10)) {
   const ov = loadOverrides();
   ov[id] = { ...(ov[id] || {}), mode: "pregnant", conceptionISO, visible: true };
@@ -120,23 +149,21 @@ export function resetToCycle(id, startISO = new Date().toISOString().slice(0,10)
   return ov[id];
 }
 
-// js/systems/status.js
-
-const CLOCK_KEY = "sim_game_clock_v1";
-
-export function getClock() {
-  try { return JSON.parse(localStorage.getItem(CLOCK_KEY) || '{"day":0}'); }
-  catch { return { day: 0 }; }
+/* ---------------------------
+   Small date helpers
+---------------------------- */
+function clamp(n, lo, hi){ return Math.max(lo, Math.min(hi, n)); }
+function parseISO(iso){
+  if (!iso) return null;
+  const d = new Date(iso + (/\dT/.test(iso) ? "" : "T00:00:00Z"));
+  return isNaN(d.getTime()) ? null : d;
 }
-
-export function setClock(clock) {
-  localStorage.setItem(CLOCK_KEY, JSON.stringify(clock));
-  return clock;
+function diffDaysUTC(a, b){
+  const au = Date.UTC(a.getUTCFullYear(), a.getUTCMonth(), a.getUTCDate());
+  const bu = Date.UTC(b.getUTCFullYear(), b.getUTCMonth(), b.getUTCDate());
+  return Math.floor((au - bu) / 86400000);
 }
-
-export function advanceDays(n=1) {
-  const clock = getClock();
-  clock.day += n;
-  setClock(clock);
-  return clock;
+function addDaysUTC(d, days){
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + days));
 }
+function mod1(n, m){ const r = ((n % m) + m) % m; return r === 0 ? m : r; }
