@@ -5,7 +5,7 @@ import { sleep, nowStamp, fetchJson, countScenesAnywhere } from "./js/utils.js";
 import { Button, Badge, Dot } from "./js/ui.js";
 import RelationshipsView from "./js/views/relationships.js";
 import StatusView from "./js/views/status.js";
-import { loadFertility } from "./js/systems/status.js?v=33";
+import { loadFertility } from "./js/systems/status.js?v=34";
 import { loadAssignments as loadTraitAssignments } from "./js/systems/traits.js";
 import {
   loadCatalog as loadSensCatalog,
