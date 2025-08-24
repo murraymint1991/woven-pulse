@@ -11,7 +11,7 @@ import {
   resetToCycle,
   getClock,
   advanceDays
-} from "../systems/status.js";
+} from "../systems/status.js?v=34";
 
 function Bar({ label, value, max=100 }) {
   const pct = Math.max(0, Math.min(100, Math.round((value / max) * 100)));
