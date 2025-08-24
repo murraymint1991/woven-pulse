@@ -95,7 +95,9 @@ export function saveOverrides(map) {
 
 // Merge base profile (from JSON) with any override
 export function mergedProfile(baseProfiles, overrides, id) {
-  return { ...(baseProfiles?.[id] || null), ...(overrides?.[id] || null) };
+  const base = (baseProfiles && baseProfiles[id]) ? baseProfiles[id] : {};
+  const ov   = (overrides && overrides[id]) ? overrides[id] : {};
+  return { ...base, ...ov };
 }
 
 // Convenience mutators you can call from game logic
