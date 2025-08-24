@@ -78,19 +78,32 @@ export default function StatusView({ chars, statusMap, playerFemale, fertilityMa
           }, options.map(o => h("option", { value: o.id }, o.name)))
         : h("div", { class: "small" }, "No characters loaded."),
 
-      // Dev toggle + clock readout
-      h("div", { class: "small", style: "margin-top:6px; display:flex; gap:16px; align-items:center;" }, [
-        h("label", { style: "display:inline-flex; align-items:center; gap:8px; cursor:pointer;" }, [
-          h("input", {
-            type: "checkbox",
-            checked: showDev,
-            onChange: e => setShowDev(e.currentTarget.checked)
-          }),
-          "Show Dev Panel"
-        ]),
-        h("span", null, `Current Day: ${getClock().day}`)
-      ])
+    // Dev toggle + clock readout (stays near the Character selector)
+    h("div", { class: "small", style: "margin-top:6px; display:flex; gap:16px; align-items:center;" }, [
+      h("label", { style: "display:inline-flex; align-items:center; gap:8px; cursor:pointer;" }, [
+        h("input", {
+          type: "checkbox",
+          checked: showDev,
+          onChange: e => setShowDev(e.currentTarget.checked)
+        }),
+        "Show Dev Panel"
+      ]),
+      h("span", null, `Current Day: ${getClock().day}`)
     ]),
+
+// …later in the right-hand Notes card:
+showDev && h("div", { class: "kv", style: "margin-top:12px" }, [
+  h("div", { class: "label" }, "Dev Panel"),
+  h("div", { class: "kv", style: "gap:8px; display:flex; flex-wrap:wrap;" }, [
+    h(Button, { onClick: () => setPregnant(selId) || setRev(v=>v+1) }, "Start Pregnancy"),
+    h(Button, { onClick: () => setDelivered(selId) || setRev(v=>v+1), ghost: true }, "Mark Delivery"),
+    h(Button, { onClick: () => resetToCycle(selId) || setRev(v=>v+1), ghost: true }, "Reset to Cycle"),
+    h(Button, { onClick: () => doAdvance(1) }, "+1 Day"),
+    h(Button, { onClick: () => doAdvance(7), ghost: true }, "+7 Days")
+  ]),
+  h("div", { class: "small", style: "margin-top:6px" }, "Actions write browser‑local overrides and advance the global game day.")
+])
+
 
     selChar && h("div", { class: "grid", style: "margin-top:12px" }, [
       h("div", { class: "card" }, [
