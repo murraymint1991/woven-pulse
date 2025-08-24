@@ -119,3 +119,24 @@ export function resetToCycle(id, startISO = new Date().toISOString().slice(0,10)
   saveOverrides(ov);
   return ov[id];
 }
+
+// js/systems/status.js
+
+const CLOCK_KEY = "sim_game_clock_v1";
+
+export function getClock() {
+  try { return JSON.parse(localStorage.getItem(CLOCK_KEY) || '{"day":0}'); }
+  catch { return { day: 0 }; }
+}
+
+export function setClock(clock) {
+  localStorage.setItem(CLOCK_KEY, JSON.stringify(clock));
+  return clock;
+}
+
+export function advanceDays(n=1) {
+  const clock = getClock();
+  clock.day += n;
+  setClock(clock);
+  return clock;
+}
