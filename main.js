@@ -5,7 +5,7 @@ import { sleep, nowStamp, fetchJson, countScenesAnywhere } from "./js/utils.js";
 import { Button, Badge, Dot } from "./js/ui.js";
 import RelationshipsView from "./js/views/relationships.js";
 import StatusView from "./js/views/status.js";
-import { loadFertility } from "./js/systems/status.js";   // ← add this
+import { loadFertility } from "./js/systems/status.js";
 import { loadAssignments as loadTraitAssignments } from "./js/systems/traits.js";
 import {
   loadCatalog as loadSensCatalog,
@@ -37,22 +37,11 @@ const DATA = {
   sensCatalog: "data/sensitivities/catalog_v1.json",
   sensAssignments: "data/sensitivities/assignments_v1.json",
   sensEvolution: "data/sensitivities/evolution_v1.json",
-// NEW: status pillar
-const st = await fetchJson(DATA.statusActors);
-setStatusMap(st.ok ? (st.data?.status || {}) : {});
-d.push({ label: "status/actors_v1.json", status: st.ok ? "ok" : "err" });
 
-const pf = await fetchJson(DATA.statusPlayerFemale);
-setPlayerFemale(pf.ok ? pf.data : null);
-d.push({ label: "status/player_female_v1.json", status: pf.ok ? "ok" : "err" });
-
-// Fertility opt-ins (per character)
-const fert = await loadFertility(DATA.statusFertility);
-setFertilityMap(fert);
-d.push({
-  label: "status/fertility_v1.json",
-  status: Object.keys(fert).length ? "ok" : "err"
-});
+  // NEW: status pillar (paths only)
+  statusActors: "data/status/actors_v1.json",
+  statusPlayerFemale: "data/status/player_female_v1.json",
+  statusFertility: "data/status/fertility_v1.json"
 };
 
 const LS_KEYS = { AUTOSAVE: "sim_autosave_v1", SLOT: (n) => `sim_slot_${n}_v1` };
@@ -61,7 +50,10 @@ const LS_KEYS = { AUTOSAVE: "sim_autosave_v1", SLOT: (n) => `sim_slot_${n}_v1` }
 function App() {
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState("");
-  const [view, setView] = useState(() => (location.hash === "#relationships" ? "relationships" : location.hash === "#status" ? "status" : "home"));
+  const [view, setView] = useState(() =>
+    location.hash === "#relationships" ? "relationships" :
+    location.hash === "#status" ? "status" : "home"
+  );
 
   // Data
   const [traitsFound, setTraitsFound] = useState(false);
@@ -73,10 +65,11 @@ function App() {
   const [sensCatalog, setSensCatalog] = useState({});
   const [sensMap, setSensMap] = useState({});
   const [sensRules, setSensRules] = useState([]);
+
   // NEW: status pillar
   const [statusMap, setStatusMap] = useState({});     // { id -> { role, level, exp, limit, mood, effects[] } }
   const [playerFemale, setPlayerFemale] = useState(null);
-  const [fertilityMap, setFertilityMap] = useState({});   // ← add this
+  const [fertilityMap, setFertilityMap] = useState({});
 
   // Saves + selection
   const [relationship, setRelationship] = useState(Number(localStorage.getItem("sim_rel_value")) || 0);
@@ -86,7 +79,9 @@ function App() {
 
   // Routing
   useEffect(() => {
-    const onHash = () => setView(location.hash === "#relationships" ? "relationships" : location.hash === "#status" ? "status" : "home");
+    const onHash = () =>
+      setView(location.hash === "#relationships" ? "relationships" :
+              location.hash === "#status" ? "status" : "home");
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
@@ -94,7 +89,7 @@ function App() {
   // Load saves
   useEffect(() => {
     const next = [];
-    for (let i=1;i<=20;i++){
+    for (let i = 1; i <= 20; i++) {
       const raw = localStorage.getItem(LS_KEYS.SLOT(i));
       next.push(raw ? JSON.parse(raw) : null);
     }
@@ -119,9 +114,17 @@ function App() {
         const file = path.split("/").pop();
         if (r.ok) {
           const c = r.data.character || {};
-          loaded.push({ id: c.id || file.replace(".json",""), displayName: c.displayName || c.id || "Unknown", type: c.type || "Humanoid", portrait: c.portrait || "", baseStats: c.baseStats || {} });
+          loaded.push({
+            id: c.id || file.replace(".json",""),
+            displayName: c.displayName || c.id || "Unknown",
+            type: c.type || "Humanoid",
+            portrait: c.portrait || "",
+            baseStats: c.baseStats || {}
+          });
           d.push({ label: `characters/${file}`, status: "ok" });
-        } else d.push({ label: `characters/${file}`, status: "err" });
+        } else {
+          d.push({ label: `characters/${file}`, status: "err" });
+        }
       }
       setChars(loaded);
 
@@ -144,7 +147,7 @@ function App() {
       const sr = await fetchJson(DATA.sensEvolution); setSensRules(sr.ok ? (sr.data?.rules || []) : []);
       d.push({ label: "sensitivities/evolution_v1.json", status: sr.ok ? "ok" : "err" });
 
-      // NEW: status pillar
+      // --- NEW: status pillar (loader) ---
       const st = await fetchJson(DATA.statusActors);
       setStatusMap(st.ok ? (st.data?.status || {}) : {});
       d.push({ label: "status/actors_v1.json", status: st.ok ? "ok" : "err" });
@@ -153,15 +156,25 @@ function App() {
       setPlayerFemale(pf.ok ? pf.data : null);
       d.push({ label: "status/player_female_v1.json", status: pf.ok ? "ok" : "err" });
 
+      const fert = await loadFertility(DATA.statusFertility);
+      setFertilityMap(fert);
+      d.push({ label: "status/fertility_v1.json", status: Object.keys(fert).length ? "ok" : "err" });
+      // --- end status pillar ---
+
       setDetails(d);
       await sleep(100);
       setLoading(false);
     })();
   }, []);
 
-  function flash(msg){ setToast(msg); setTimeout(()=>setToast(""), 1200) }
+  function flash(msg){ setToast(msg); setTimeout(()=>setToast(""), 1200); }
   function doAutosave(){
-    const snapshot = { at: nowStamp(), rel: relationship, roster: chars.map(c=>c.id), info: { chars: chars.length, scenes: scenesCount, traits: traitsFound ? "yes":"no" } };
+    const snapshot = {
+      at: nowStamp(),
+      rel: relationship,
+      roster: chars.map(c=>c.id),
+      info: { chars: chars.length, scenes: scenesCount, traits: traitsFound ? "yes":"no" }
+    };
     localStorage.setItem(LS_KEYS.AUTOSAVE, JSON.stringify(snapshot));
     setAutosaveMeta(snapshot); flash("Autosaved.");
   }
@@ -175,14 +188,28 @@ function App() {
   function clearAllSaves(){
     localStorage.removeItem(LS_KEYS.AUTOSAVE);
     for (let i=1;i<=20;i++) localStorage.removeItem(LS_KEYS.SLOT(i));
-    setAutosaveMeta(null); setSlots(Array.from({length:20},()=>null)); flash("All save slots cleared.");
+    setAutosaveMeta(null);
+    setSlots(Array.from({length:20},()=>null));
+    flash("All save slots cleared.");
   }
   function clearCacheAndReload(){ clearAllSaves(); location.reload(); }
 
-  const summaryText = useMemo(() => `${chars.length} char · ${scenesCount} scenes · traits: ${traitsFound ? "yes":"no"}`, [chars.length, scenesCount, traitsFound]);
-  const edges = useMemo(() => { const idset = new Set(chars.map(c=>c.id)); return edgesRaw.filter(e => idset.has(e.from) && idset.has(e.to)); }, [edgesRaw, chars]);
+  const summaryText = useMemo(
+    () => `${chars.length} char · ${scenesCount} scenes · traits: ${traitsFound ? "yes":"no"}`,
+    [chars.length, scenesCount, traitsFound]
+  );
+  const edges = useMemo(() => {
+    const idset = new Set(chars.map(c=>c.id));
+    return edgesRaw.filter(e => idset.has(e.from) && idset.has(e.to));
+  }, [edgesRaw, chars]);
   const selected  = useMemo(() => chars.find(c=>c.id===selectedId) || null, [selectedId, chars]);
-  const selectedAffinity = useMemo(() => { if (!selectedId) return 0; const rels = edges.filter(e => e.from === selectedId || e.to === selectedId); if (!rels.length) return 0; const avg = rels.reduce((s,e)=>s+(Number(e.strength)||0),0)/rels.length; return Math.round(avg); }, [edges, selectedId]);
+  const selectedAffinity = useMemo(() => {
+    if (!selectedId) return 0;
+    const rels = edges.filter(e => e.from === selectedId || e.to === selectedId);
+    if (!rels.length) return 0;
+    const avg = rels.reduce((s,e)=>s+(Number(e.strength)||0),0)/rels.length;
+    return Math.round(avg);
+  }, [edges, selectedId]);
 
   // Shared nav (now 3 tabs)
   const Nav = () => h("div", { class: "menu", style:"margin-bottom:8px" }, [
@@ -212,28 +239,49 @@ function App() {
       ]),
       h("div",{class:"card"},[
         h("h3",null,"Saves"),
-        h("div",{class:"kv"},[ h(Button,{onClick:doAutosave},"Autosave"), h(Button,{onClick:doManualSave},"Manual Save"), h(Button,{ghost:true,onClick:clearAllSaves},"Clear All") ]),
-        autosaveMeta ? h("div",{class:"kv"}, h(Badge,null,`Autosave · ${autosaveMeta.at} · rel ${autosaveMeta.rel}`)) : h("div",{class:"kv small"},"No autosave yet."),
+        h("div",{class:"kv"},[
+          h(Button,{onClick:doAutosave},"Autosave"),
+          h(Button,{onClick:doManualSave},"Manual Save"),
+          h(Button,{ghost:true,onClick:clearAllSaves},"Clear All")
+        ]),
+        autosaveMeta
+          ? h("div",{class:"kv"}, h(Badge,null,`Autosave · ${autosaveMeta.at} · rel ${autosaveMeta.rel}`))
+          : h("div",{class:"kv small"},"No autosave yet."),
         h("div",{class:"small"},"Slot clicks are stubs for now (load logic not wired yet).")
       ]),
       h("div",{class:"card"},[
         h("h3",null,"Choice (example)"),
         h("div",{class:"kv"},`Relationship: ${relationship}`),
-        h("div",{class:"kv"},[ h(Button,{onClick:()=>{ setRelationship(v=>v+1); setToast("+1 (kind)"); setTimeout(()=>setToast(""), 1200); }},"Be Kind (+1)"), h(Button,{ghost:true,onClick:()=>{ setRelationship(v=>v-1); setToast("-1 (tease)"); setTimeout(()=>setToast(""), 1200); }},"Tease (-1)") ]),
+        h("div",{class:"kv"},[
+          h(Button,{onClick:()=>{ setRelationship(v=>v+1); setToast("+1 (kind)"); setTimeout(()=>setToast(""), 1200); }},"Be Kind (+1)"),
+          h(Button,{ghost:true,onClick:()=>{ setRelationship(v=>v-1); setToast("-1 (tease)"); setTimeout(()=>setToast(""), 1200); }},"Tease (-1)")
+        ]),
         h("div",{class:"small"},"This is just a mock stat; autosave/slots capture its value.")
       ])
     ]),
     h("div",{class:"card",style:"margin-top:12px"},[
       h("h3",null,"Manual Slots (20)"),
-      h("div",{class:"grid"}, slots.map((s,i)=> h("div",{class:"slot",onClick:()=>setToast(`Load Slot ${i+1} (stub)`)},[ h("div",null,`Slot ${i+1}`), h("div",{class:"meta"}, s ? `${s.note} · ${s.at}` : "empty") ])))
+      h("div",{class:"grid"},
+        slots.map((s,i)=> h("div",{class:"slot",onClick:()=>setToast(`Load Slot ${i+1} (stub)`)},[
+          h("div",null,`Slot ${i+1}`),
+          h("div",{class:"meta"}, s ? `${s.note} · ${s.at}` : "empty")
+        ]))
+      )
     ]),
-    h("div",{class:"savebar"},[ h(Button,{onClick:doAutosave},"Autosave"), h(Button,{onClick:doManualSave},"Manual Save"), h(Button,{ghost:true,onClick:()=>{ clearCacheAndReload(); }},"Clear Cache & Reload"), toast ? h(Badge,null,toast) : null ])
+    h("div",{class:"savebar"},[
+      h(Button,{onClick:doAutosave},"Autosave"),
+      h(Button,{onClick:doManualSave},"Manual Save"),
+      h(Button,{ghost:true,onClick:()=>{ clearCacheAndReload(); }},"Clear Cache & Reload"),
+      toast ? h(Badge,null,toast) : null
+    ])
   ]);
 
   return h("div",{class:"app"},
-    view==="status" ? h(StatusView, { chars, statusMap, playerFemale, fertilityMap, Nav })
-    : view==="relationships" ? h(RelationshipsView, { chars, edges, selected: selected || null, setSelected: setSelectedId, selectedAffinity, traitMap, sensCatalog, sensMap, sensRules, Nav })
-    : h(Home)
+    view==="status"
+      ? h(StatusView, { chars, statusMap, playerFemale, fertilityMap, Nav })
+      : view==="relationships"
+      ? h(RelationshipsView, { chars, edges, selected: selected || null, setSelected: setSelectedId, selectedAffinity, traitMap, sensCatalog, sensMap, sensRules, Nav })
+      : h(Home)
   );
 }
 
