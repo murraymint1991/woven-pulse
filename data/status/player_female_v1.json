@@ -4,9 +4,11 @@
     "lengthDays": 28,
     "ovulationDay": 14,
     "luteal": 14,
-    "gestationWeeks": 40,    // default full term used for progress/ETA
-    "postpartumWeeks": 6     // default recovery window for the UI bar
+    "gestationWeeks": 40,
+    "postpartumWeeks": 6
   },
-  "modifiers": { /* ... */ },
-  "body": { /* ... */ }
+  "modifiers": {
+    "fertilityHighDays": [13, 14, 15]
+  },
+  "body": {}
 }
