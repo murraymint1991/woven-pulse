@@ -2,7 +2,14 @@
 import { h } from "https://esm.sh/preact@10.22.0";
 import { useMemo, useState } from "https://esm.sh/preact@10.22.0/hooks";
 import { Button, Badge } from "../ui.js";
-import { computeReproState } from "../systems/status.js";
+import {
+  computeReproState,
+  loadOverrides,
+  mergedProfile,
+  setPregnant,
+  setDelivered,
+  resetToCycle
+} from "../systems/status.js";
 
 function Bar({ label, value, max=100 }) {
   const pct = Math.max(0, Math.min(100, Math.round((value / max) * 100)));
@@ -18,8 +25,10 @@ function Bar({ label, value, max=100 }) {
 export default function StatusView({ chars, statusMap, playerFemale, fertilityMap, Nav }) {
   const options = chars.map(c => ({ id: c.id, name: c.displayName }));
   const [selId, setSelId] = useState(() => options.find(o => o.id === "cloud")?.id || options[0]?.id);
+  const [rev, setRev] = useState(0);         // bump to refresh after dev actions
+  const [showDev, setShowDev] = useState(false);
 
-  const selChar = useMemo(() => chars.find(c => c.id === selId) || null, [chars, selId]);
+  const selChar = useMemo(() => chars.find(c => c.id === selId) || null, [chars, selId, rev]);
   const s = selId ? (statusMap[selId] || {}) : {};
 
   const hp = selChar?.baseStats?.hp ?? 0;
@@ -32,9 +41,17 @@ export default function StatusView({ chars, statusMap, playerFemale, fertilityMa
   const mood = s.mood || "Neutral";
   const effects = Array.isArray(s.effects) ? s.effects : [];
 
-  // Repro state if configured for this character
-  const reproProfile = fertilityMap?.[selId] && fertilityMap[selId].visible !== false ? fertilityMap[selId] : null;
-  const repro = (playerFemale && reproProfile) ? computeReproState(playerFemale.cycle, reproProfile) : null;
+  // Effective profile = base (JSON) + override (localStorage)
+  const overrides = loadOverrides();
+  const effProfile = mergedProfile(fertilityMap, overrides, selId);
+  const repro = (playerFemale && effProfile && effProfile.visible !== false)
+    ? computeReproState(playerFemale.cycle, effProfile)
+    : null;
+
+  // Dev actions
+  function doPregnant() { setPregnant(selId); setRev(v=>v+1); }
+  function doDeliver()  { setDelivered(selId); setRev(v=>v+1); }
+  function doReset()    { resetToCycle(selId); setRev(v=>v+1); }
 
   return h("div", null, [
     h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
@@ -51,7 +68,19 @@ export default function StatusView({ chars, statusMap, playerFemale, fertilityMa
             onChange: e => setSelId(e.currentTarget.value),
             style: "margin: 8px 0; padding:8px; border-radius:10px; background:#0b1020; color:#9eeefc;"
           }, options.map(o => h("option", { value: o.id }, o.name)))
-        : h("div", { class: "small" }, "No characters loaded.")
+        : h("div", { class: "small" }, "No characters loaded."),
+
+      // Dev toggle
+      h("div", { class: "small", style: "margin-top:6px" }, [
+        h("label", { style: "display:inline-flex; align-items:center; gap:8px; cursor:pointer;" }, [
+          h("input", {
+            type: "checkbox",
+            checked: showDev,
+            onChange: e => setShowDev(e.currentTarget.checked)
+          }),
+          "Show Dev Panel"
+        ])
+      ])
     ]),
 
     selChar && h("div", { class: "grid", style: "margin-top:12px" }, [
@@ -99,9 +128,7 @@ export default function StatusView({ chars, statusMap, playerFemale, fertilityMa
 
         repro && repro.kind === "postpartum" && h("div", { class: "kv", style: "margin-top:10px" }, [
           h("div", { class: "label" }, "Postpartum"),
-          h("div", null, [
-            h(Badge, null, `Week ${repro.weeksSince}`)
-          ])
+          h("div", null, [ h(Badge, null, `Week ${repro.weeksSince}`) ])
         ]),
         repro && repro.kind === "postpartum" && h(Bar, { label: "Recovery", value: repro.percent, max: 100 }),
 
@@ -114,7 +141,18 @@ export default function StatusView({ chars, statusMap, playerFemale, fertilityMa
       h("div", { class: "card" }, [
         h("h3", null, "Notes"),
         h("div", { class: "small" }, "Fertility/pregnancy visibility is controlled by data under /data/status/fertility_v1.json."),
-        playerFemale ? h("div", { class: "small", style: "margin-top:6px" }, "Global female cycle config loaded.") : null
+        playerFemale ? h("div", { class: "small", style: "margin-top:6px" }, "Global female cycle config loaded.") : null,
+
+        // Dev Panel (hidden unless toggled)
+        showDev && h("div", { class: "kv", style: "margin-top:12px" }, [
+          h("div", { class: "label" }, "Dev Panel"),
+          h("div", { class: "kv", style: "gap:8px; display:flex; flex-wrap:wrap;" }, [
+            h(Button, { onClick: doPregnant }, "Start Pregnancy"),
+            h(Button, { onClick: doDeliver, ghost: true }, "Mark Delivery"),
+            h(Button, { onClick: doReset, ghost: true }, "Reset to Cycle")
+          ]),
+          h("div", { class: "small", style: "margin-top:6px" }, "These actions write a local override in your browser (saved).")
+        ])
       ])
     ])
   ]);
