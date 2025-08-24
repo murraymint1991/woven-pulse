@@ -23,19 +23,16 @@ export function getClock() {
     return { day: 0 };
   }
 }
-
 export function setClock(clock) {
   localStorage.setItem(CLOCK_KEY, JSON.stringify(clock || { day: 0 }));
   return clock;
 }
-
 export function advanceDays(n = 1) {
   const c = getClock();
   c.day += Number(n) || 0;
   setClock(c);
   return c;
 }
-
 export function resetClock(day = 0) {
   return setClock({ day: Number(day) || 0 });
 }
@@ -44,11 +41,6 @@ export function resetClock(day = 0) {
    Fertility / Pregnancy math
 ---------------------------- */
 /**
- * Unified reproductive state driven by:
- *  - Global config in player_female_v1.json (cycle + defaults)
- *  - Per-character profile from fertility_v1.json (mode: cycle/pregnant/postpartum)
- *  - Global game clock day offset (getClock().day)
- *
  * Returns one of:
  * { kind:"pregnant", weeks, trimester, etaDays, percent }
  * { kind:"postpartum", weeksSince, percent }
@@ -130,19 +122,26 @@ export function mergedProfile(baseProfiles, overrides, id) {
   return { ...base, ...ov };
 }
 
-export function setPregnant(id, conceptionISO = new Date().toISOString().slice(0,10)) {
+/* Use “world today” (real today + clock.day) when stamping new states */
+function isoWorldToday() {
+  const c = getClock();
+  const d = addDaysUTC(new Date(), Number(c?.day) || 0);
+  return d.toISOString().slice(0,10);
+}
+
+export function setPregnant(id, conceptionISO = isoWorldToday()) {
   const ov = loadOverrides();
   ov[id] = { ...(ov[id] || {}), mode: "pregnant", conceptionISO, visible: true };
   saveOverrides(ov);
   return ov[id];
 }
-export function setDelivered(id, deliveryISO = new Date().toISOString().slice(0,10)) {
+export function setDelivered(id, deliveryISO = isoWorldToday()) {
   const ov = loadOverrides();
   ov[id] = { ...(ov[id] || {}), mode: "postpartum", deliveryISO, visible: true };
   saveOverrides(ov);
   return ov[id];
 }
-export function resetToCycle(id, startISO = new Date().toISOString().slice(0,10)) {
+export function resetToCycle(id, startISO = isoWorldToday()) {
   const ov = loadOverrides();
   ov[id] = { ...(ov[id] || {}), mode: "cycle", startISO, visible: true };
   saveOverrides(ov);
@@ -167,33 +166,3 @@ function addDaysUTC(d, days){
   return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + days));
 }
 function mod1(n, m){ const r = ((n % m) + m) % m; return r === 0 ? m : r; }
-
-// Helper: ISO date for "world today" (now shifted by clock.day)
-function isoWorldToday() {
-  const c = getClock();
-  const d = addDaysUTC(new Date(), Number(c?.day) || 0);
-  return d.toISOString().slice(0,10);
-}
-
-// Replace the three mutators to use isoWorldToday()
-
-export function setPregnant(id, conceptionISO = isoWorldToday()) {
-  const ov = loadOverrides();
-  ov[id] = { ...(ov[id] || {}), mode: "pregnant", conceptionISO, visible: true };
-  saveOverrides(ov);
-  return ov[id];
-}
-
-export function setDelivered(id, deliveryISO = isoWorldToday()) {
-  const ov = loadOverrides();
-  ov[id] = { ...(ov[id] || {}), mode: "postpartum", deliveryISO, visible: true };
-  saveOverrides(ov);
-  return ov[id];
-}
-
-export function resetToCycle(id, startISO = isoWorldToday()) {
-  const ov = loadOverrides();
-  ov[id] = { ...(ov[id] || {}), mode: "cycle", startISO, visible: true };
-  saveOverrides(ov);
-  return ov[id];
-}
