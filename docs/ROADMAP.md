@@ -32,7 +32,7 @@ flowchart TD
 ---
 
 2) Systems Dependency Map (who affects whom)
-
+```mermaid
 Rule of thumb:
 
 Green edges = reads
@@ -41,7 +41,6 @@ Blue edges = writes/updates
 
 Orange edges = gates/locks
 
-```mermaid
 flowchart LR
     Time[Time Engine]:::sys -->|tick| Sched[Schedules/Reminders]:::sys
     Time -->|tick| Status[Status/Mood/Cycle]:::sys
@@ -62,7 +61,6 @@ flowchart LR
 
 classDef sys fill:#202c55,stroke:#88f,stroke-width:1px,color:#fff;
 ```
-
 
 ---
 
