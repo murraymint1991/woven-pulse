@@ -65,27 +65,28 @@ classDef sys fill:#202c55,stroke:#88f,stroke-width:1px,color:#fff;
 
 ---
 
-3) Impact Rules — “If we add X, it affects Y”
+## 3) Impact Rules — “If we add X, it affects Y”
+
 ```mermaid
 graph LR
-    X1[Add a new Interaction] --> Y1[Updates Affection/Trust]
-    X1 --> Y2[Consumes Time Slot]
-    X1 --> Y3[May raise Suspicion if risky]
-    X1 --> Y4[Can unlock Path flags]
+  X1["Add a new Interaction"] --> Y1["Updates Affection/Trust"]
+  X1 --> Y2["Consumes Time Slot"]
+  X1 --> Y3["May raise Suspicion if risky"]
+  X1 --> Y4["Can unlock Path flags"]
 
-    X2[Add a new Location] --> Y5[Expands available actions]
-    Y5 --> Y6[Potential new witnesses (jealousy graph)]
+  X2["Add a new Location"] --> Y5["Expands available actions"]
+  Y5 --> Y6["Potential new witnesses (jealousy graph)"]
 
-    X3[Schedule a Date] --> Y7[Creates reminder]
-    Y7 --> Y8[Triggers Scene at time]
-    Y8 --> Y9[On miss: affection penalty/jealousy]
-    Y9 --> Y10[On meet: apply scene outcomes]
+  X3["Schedule a Date"] --> Y7["Creates reminder"]
+  Y7 --> Y8["Triggers Scene at time"]
+  Y8 --> Y9["On miss: affection penalty/jealousy"]
+  Y9 --> Y10["On meet: apply scene outcomes"]
 
-    X4[Change Party] --> Y11[Locks/Unlocks scene variants]
-    Y11 --> Y12[Alters witness set for jealousy]
+  X4["Change Party"] --> Y11["Locks/Unlocks scene variants"]
+  Y11 --> Y12["Alters witness set for jealousy"]
 
-    X5[Raise Suspicion Rules] --> Y13[Jealousy more likely]
-    X5 --> Y14[More penalties on being caught]
+  X5["Raise Suspicion Rules"] --> Y13["Jealousy more likely"]
+  X5 --> Y14["More penalties on being caught"]
 ```
 
 ---
