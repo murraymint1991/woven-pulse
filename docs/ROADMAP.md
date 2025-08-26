@@ -91,45 +91,27 @@ graph LR
 
 ---
 
-4) Milestones (checklist → ship in slices)
+## 4) Milestones (checklist → ship in slices)
 
-Phase A — Foundation
+### Phase A — Foundation
+- [ ] **A1 Time Engine:** slots/day, rest, HUD on Home
+- [ ] **A2 Schedules & Reminders:** create & resolve events
+- [ ] **A3 Interactions v1:** universal actions → stat deltas & time
+- [ ] **A4 Jealousy/Suspicion v1:** witness rules, penalties
+- [ ] **A5 Paths v1:** pair-specific unlocks
+- [ ] **A6 Party Manager:** switchers + story locks
 
-[ ] A1 Time Engine: slots/day, rest, HUD on Home
+### Phase B — Content Hooks
+- [ ] **B1 Locations & Activities:** open as story flags unlock
+- [ ] **B2 NPC Schedules:** availability windows
+- [ ] **B3 Scene Variants:** by party composition & path flags
+- [ ] **B4 Relationship Endings:** branch per path/affection stats
 
-[ ] A2 Schedules & Reminders: create & resolve events
-
-[ ] A3 Interactions v1: universal actions → stat deltas & time
-
-[ ] A4 Jealousy/Suspicion v1: witness rules, penalties
-
-[ ] A5 Paths v1: pair-specific unlocks
-
-[ ] A6 Party Manager: switchers + story locks
-
-
-Phase B — Content Hooks
-
-[ ] B1 Locations & Activities: open as story flags unlock
-
-[ ] B2 NPC Schedules: availability windows
-
-[ ] B3 Scene Variants: by party composition & path flags
-
-[ ] B4 Relationship Endings: branch per path/affection stats
-
-
-Phase C — Expansion
-
-[ ] C1 Generational Play: children, family trees
-
-[ ] C2 Unique Systems per MC: e.g. Nanaki can’t high-five but can be petted
-
-[ ] C3 Advanced Mood/Sensitivities: likes/dislikes evolve dynamically
-
-[ ] C4 Complex Consequences: missing story beats → cascades to endings
-
-
+### Phase C — Expansion
+- [ ] **C1 Generational Play:** children, family trees
+- [ ] **C2 Unique Systems per MC:** e.g., Nanaki can’t high-five but can be petted
+- [ ] **C3 Advanced Mood/Sensitivities:** likes/dislikes evolve dynamically
+- [ ] **C4 Complex Consequences:** missing story beats → cascades to endings
 
 ---
 
