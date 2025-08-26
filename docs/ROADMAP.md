@@ -43,24 +43,51 @@ Orange edges = gates/locks
 
 ```mermaid
 flowchart LR
+    %% Core time-driven systems
     Time[Time Engine]:::sys -->|tick| Sched[Schedules/Reminders]:::sys
     Time -->|tick| Status[Status/Mood/Cycle]:::sys
     Time -->|tick| Rel[Relationship Web]:::sys
 
+    %% Interactions & outcomes
     Interact[Interactions]:::sys -->|modify| Rel
     Interact -->|delta| Status
     Interact --> Paths[Path Unlocks]:::sys
 
+    %% Jealousy/Suspicion loop
     Jealousy[Jealousy/Suspicion]:::sys --> Rel
     Jealousy --> Interact
 
+    %% Party & scenes
     Party[Party Manager]:::sys --> Scenes[Scene Variants]:::sys
+    Sched -->|triggers| Scenes
     Scenes --> Endings[Relationship Endings]:::sys
     Status --> Endings
-    Paths --> Endings
-    Rel --> Endings
+    Paths  --> Endings
+    Rel    --> Endings
 
-classDef sys fill:#202c55,stroke:#88f,stroke-width:1px,color:#fff;
+    %% Phase D — Identity & Consequence
+    Interact --> Rep[Reputation]:::sys
+    Interact --> Drift[Personality Drift]:::sys
+
+    Rep --> Titles[Titles & Identities]:::sys
+    Rep --> Feedback[World Feedback]:::sys
+    Rep --> Locks[Cascading Story Locks]:::sys
+
+    Drift --> Rel
+    Drift --> Locks
+
+    Memory[Memory System]:::sys --> Rel
+    Memory --> Jealousy
+    Memory --> Feedback
+
+    %% Locks gate content and outcomes
+    Locks -. gates .-> Scenes
+    Locks -. gates .-> Endings
+
+    %% World feedback influences future choices
+    Feedback --> Interact
+
+    classDef sys fill:#202c55,stroke:#88f,stroke-width:1px,color:#fff;
 ```
 
 ---
