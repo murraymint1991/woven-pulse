@@ -27,7 +27,7 @@ flowchart TD
     B --> V[Reminders/Notifications]
     %% Status is influenced continuously
     %% (mood, cycle, effects)
-
+```
 
 ---
 
@@ -41,7 +41,7 @@ Blue edges = writes/updates
 
 Orange edges = gates/locks
 
-
+```mermaid
 flowchart LR
     Time[Time Engine]:::sys -->|tick| Sched[Schedules/Reminders]:::sys
     Time -->|tick| Status[Status/Mood/Cycle]:::sys
@@ -61,12 +61,14 @@ flowchart LR
     Rel --> Endings
 
 classDef sys fill:#202c55,stroke:#88f,stroke-width:1px,color:#fff;
+```
 
 
 ---
 
 3) Impact Rules — “If we add X, it affects Y”
 
+```mermaid
 graph LR
     X1[Add a new Interaction] --> Y1[Updates Affection/Trust]
     X1 --> Y2[Consumes Time Slot]
@@ -87,6 +89,7 @@ graph LR
     X5[Raise Suspicion Rules] --> Y13[Jealousy more likely]
     X5 --> Y14[More penalties on being caught]
 
+```
 
 ---
 
