@@ -95,25 +95,62 @@ flowchart LR
 ## 3) Impact Rules — “If we add X, it affects Y”
 
 ```mermaid
+%% 3) Impact Rules — “If we add X, it affects Y”
 graph LR
-  X1["Add a new Interaction"] --> Y1["Updates Affection/Trust"]
-  X1 --> Y2["Consumes Time Slot"]
-  X1 --> Y3["May raise Suspicion if risky"]
-  X1 --> Y4["Can unlock Path flags"]
 
-  X2["Add a new Location"] --> Y5["Expands available actions"]
-  Y5 --> Y6["Potential new witnesses (jealousy graph)"]
+%% Interactions ripple
+X1[Add a new Interaction] --> Y1[Updates Affection/Trust]
+X1 --> Y2[Consumes Time Slot]
+X1 --> Y3[May raise Suspicion if risky]
+X1 --> Y4[Can unlock Path flags]
+X1 --> Y5[Reputation ± (local/party/global)]
+X1 --> Y6[Personality Drift (trait delta)]
+X1 --> Y7[Memory Entry recorded]
+Y5 --> Y8[Titles/Identities (award/remove)]
+Y5 --> Y9[World Feedback (NPC chatter, prices, access)]
+Y6 --> Y10[New dialogue/romance options]
+Y7 --> Y11[Future Jealousy checks use past actions]
 
-  X3["Schedule a Date"] --> Y7["Creates reminder"]
-  Y7 --> Y8["Triggers Scene at time"]
-  Y8 --> Y9["On miss: affection penalty/jealousy"]
-  Y9 --> Y10["On meet: apply scene outcomes"]
+%% Locations & witnesses
+X2[Add a new Location] --> Y12[Expands available actions]
+Y12 --> Y13[Potential new witnesses (jealousy graph)]
+Y13 --> Y7
+Y13 --> Y9
 
-  X4["Change Party"] --> Y11["Locks/Unlocks scene variants"]
-  Y11 --> Y12["Alters witness set for jealousy"]
+%% Scheduling & consequences
+X3[Schedule a Date] --> Y14[Creates reminder]
+Y14 --> Y15[Triggers Scene at time]
+Y15 --> Y16[On meet: apply scene outcomes]
+Y14 --> Y17[On miss: affection penalty / suspicion / rep −]
+Y17 --> Y9
 
-  X5["Raise Suspicion Rules"] --> Y13["Jealousy more likely"]
-  X5 --> Y14["More penalties on being caught"]
+%% Party composition & story gates
+X4[Change Party] --> Y18[Locks/Unlocks scene variants]
+Y18 --> Y19[Cascading Story Locks (branch availability)]
+Y18 --> Y13
+Y19 --> Y15
+Y19 --> Y16
+
+%% Suspicion tuning
+X5[Raise Suspicion Rules] --> Y20[Jealousy more likely]
+Y20 --> Y11
+Y20 --> Y17
+
+%% Reputation system edits
+X6[Adjust Reputation Rules] --> Y21[New thresholds for Titles]
+Y21 --> Y8
+Y21 --> Y19
+Y21 --> Y9
+
+%% Title effects
+X7[Add a new Title/Identity] --> Y22[Passive modifiers (prices, access, dialogue)]
+Y22 --> Y9
+Y22 --> Y16
+
+%% Personality drift design
+X8[Define Drift Mapping] --> Y23[Traits → Path/Dialogue unlocks]
+Y23 --> Y10
+Y23 --> Y19
 ```
 
 ---
