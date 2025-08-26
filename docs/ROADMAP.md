@@ -93,6 +93,7 @@ flowchart LR
 ---
 
 ## 3) Impact Rules — “If we add X, it affects Y”
+
 ```mermaid
 graph LR
 
