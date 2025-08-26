@@ -113,6 +113,14 @@ graph LR
 - [ ] **C3 Advanced Mood/Sensitivities:** likes/dislikes evolve dynamically
 - [ ] **C4 Complex Consequences:** missing story beats → cascades to endings
 
+### Phase D — Identity & Consequence
+- [ ] D1 Reputation System: global, local, and party reputation values
+- [ ] D2 Titles & Identities: earned through milestones and behaviors
+- [ ] D3 Personality Drift: characters evolve likes/dislikes, dialogue, and romance options
+- [ ] D4 Memory System: NPCs and party recall past actions dynamically
+- [ ] D5 Cascading Story Locks: entire questlines branch by reputation/personality
+- [ ] D6 World Feedback: NPC chatter and environments reflect your choices
+
 ---
 
 5) Notes & Philosophy
