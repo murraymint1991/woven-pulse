@@ -95,19 +95,18 @@ flowchart LR
 ## 3) Impact Rules — "If we add X, it affects Y"
 
 ```mermaid
-
 graph LR
 
 %% Interactions ripple
-X1[Add a new Interaction] --> Y1[Updates Affection / Trust]
+X1[Add a new Interaction] --> Y1[Updates Affection · Trust]
 X1 --> Y2[Consumes Time Slot]
 X1 --> Y3[May raise Suspicion if risky]
 X1 --> Y4[Can unlock Path flags]
-X1 --> Y5[Reputation change (local / party / global)]
-X1 --> Y6[Personality Drift: traits shift]
+X1 --> Y5[Reputation change · local · party · global]
+X1 --> Y6[Personality Drift · traits shift]
 X1 --> Y7[Memory Entry recorded]
-Y5 --> Y8[Titles & Identities earned / removed]
-Y5 --> Y9[World Feedback: NPC chatter, prices, access]
+Y5 --> Y8[Titles & Identities earned · removed]
+Y5 --> Y9[World Feedback · NPC chatter · prices · access]
 Y6 --> Y10[New dialogue or romance options]
 Y7 --> Y11[Future Jealousy checks use past actions]
 
@@ -120,8 +119,8 @@ Y13 --> Y9
 %% Scheduling & consequences
 X3[Schedule a Date] --> Y14[Creates reminder]
 Y14 --> Y15[Triggers Scene at time]
-Y15 --> Y16[On meet: apply scene outcomes]
-Y14 --> Y17[On miss: affection penalty / suspicion / reputation loss]
+Y15 --> Y16[On meet · apply scene outcomes]
+Y14 --> Y17[On miss · affection penalty · suspicion · reputation loss]
 Y17 --> Y9
 
 %% Party composition & story gates
@@ -143,12 +142,12 @@ Y21 --> Y19
 Y21 --> Y9
 
 %% Title effects
-X7[Add a new Title / Identity] --> Y22[Passive modifiers: prices, access, dialogue]
+X7[Add a new Title · Identity] --> Y22[Passive modifiers · prices · access · dialogue]
 Y22 --> Y9
 Y22 --> Y16
 
 %% Personality drift design
-X8[Define Drift Mapping] --> Y23[Traits unlock new paths / dialogue]
+X8[Define Drift Mapping] --> Y23[Traits unlock new paths · dialogue]
 Y23 --> Y10
 Y23 --> Y19
 ```
