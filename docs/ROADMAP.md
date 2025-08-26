@@ -88,7 +88,6 @@ graph LR
 
     X5[Raise Suspicion Rules] --> Y13[Jealousy more likely]
     X5 --> Y14[More penalties on being caught]
-
 ```
 
 ---
