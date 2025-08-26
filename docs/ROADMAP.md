@@ -93,7 +93,6 @@ flowchart LR
 ---
 
 ## 3) Impact Rules — “If we add X, it affects Y”
-
 ```mermaid
 graph LR
 
@@ -150,6 +149,7 @@ Y22 --> Y16
 X8[Define Drift Mapping] --> Y23[Traits unlock new paths / dialogue]
 Y23 --> Y10
 Y23 --> Y19
+```
 
 ---
 
