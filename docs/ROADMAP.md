@@ -47,7 +47,7 @@ flowchart TD
 
 ---
 
-2) Systems Dependency Map (who affects whom)
+## 2) Systems Dependency Map (who affects whom)
 
 Rule of thumb:
 
@@ -224,7 +224,7 @@ Phase D — Identity & Consequence
 
 ---
 
-5) Diary Architecture
+## 5) Diary Architecture
  
 ```mermaid
 flowchart TD
@@ -249,7 +249,7 @@ flowchart TD
 ```
 ---
 
-6) Notes & Philosophy
+## 6) Notes & Philosophy
 
 Main Menu = RPG mechanics (status, equipment, party, quests).
 
