@@ -173,54 +173,54 @@ Y23 --> Y19
 
 Phase A — Foundation
 
-[ ] A1 Time Engine (day slots, HUD, rest)
+- [ ] A1 Time Engine (day slots, HUD, rest)
 
-[ ] A2 Schedules & Reminders
+- [ ] A2 Schedules & Reminders
 
-[ ] A3 Interactions v1 (universal actions → stat deltas)
+- [ ] A3 Interactions v1 (universal actions → stat deltas)
 
-[ ] A4 Jealousy/Suspicion v1
+- [ ] A4 Jealousy/Suspicion v1
 
-[ ] A5 Paths v1
+- [ ] A5 Paths v1
 
-[ ] A6 Party Manager
+- [ ] A6 Party Manager
 
 
 Phase B — Content Hooks
 
-[ ] B1 Locations & Activities
+- [ ] B1 Locations & Activities
 
-[ ] B2 NPC Schedules
+- [ ] B2 NPC Schedules
 
-[ ] B3 Scene Variants
+- [ ] B3 Scene Variants
 
-[ ] B4 Relationship Endings
+- [ ] B4 Relationship Endings
 
 
 Phase C — Expansion
 
-[ ] C1 Generational Play (children, family trees)
+- [ ] C1 Generational Play (children, family trees)
 
-[ ] C2 Unique Systems per MC
+- [ ] C2 Unique Systems per MC
 
-[ ] C3 Advanced Mood/Sensitivities
+- [ ] C3 Advanced Mood/Sensitivities
 
-[ ] C4 Complex Consequences
+- [ ] C4 Complex Consequences
 
 
 Phase D — Identity & Consequence
 
-[ ] D1 Reputation System
+- [ ] D1 Reputation System
 
-[ ] D2 Titles/Identities
+- [ ] D2 Titles/Identities
 
-[ ] D3 Personality Drift
+- [ ] D3 Personality Drift
 
-[ ] D4 Memory & Journals
+- [ ] D4 Memory & Journals
 
-[ ] D5 World State & Factions
+- [ ] D5 World State & Factions
 
-[ ] D6 Director AI
+- [ ] D6 Director AI
 
 ---
 
