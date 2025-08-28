@@ -171,33 +171,56 @@ Y23 --> Y19
 
 ## 4) Milestones (checklist → ship in slices)
 
-### Phase A — Foundation
-- [ ] **A1 Time Engine:** slots/day, rest, HUD on Home
-- [ ] **A2 Schedules & Reminders:** create & resolve events
-- [ ] **A3 Interactions v1:** universal actions → stat deltas & time
-- [ ] **A4 Jealousy/Suspicion v1:** witness rules, penalties
-- [ ] **A5 Paths v1:** pair-specific unlocks
-- [ ] **A6 Party Manager:** switchers + story locks
+Phase A — Foundation
 
-### Phase B — Content Hooks
-- [ ] **B1 Locations & Activities:** open as story flags unlock
-- [ ] **B2 NPC Schedules:** availability windows
-- [ ] **B3 Scene Variants:** by party composition & path flags
-- [ ] **B4 Relationship Endings:** branch per path/affection stats
+[ ] A1 Time Engine (day slots, HUD, rest)
 
-### Phase C — Expansion
-- [ ] **C1 Generational Play:** children, family trees
-- [ ] **C2 Unique Systems per MC:** e.g., Nanaki can’t high-five but can be petted
-- [ ] **C3 Advanced Mood/Sensitivities:** likes/dislikes evolve dynamically
-- [ ] **C4 Complex Consequences:** missing story beats → cascades to endings
+[ ] A2 Schedules & Reminders
 
-### Phase D — Identity & Consequence
-- [ ] D1 Reputation System: global, local, and party reputation values
-- [ ] D2 Titles & Identities: earned through milestones and behaviors
-- [ ] D3 Personality Drift: characters evolve likes/dislikes, dialogue, and romance options
-- [ ] D4 Memory System: NPCs and party recall past actions dynamically
-- [ ] D5 Cascading Story Locks: entire questlines branch by reputation/personality
-- [ ] D6 World Feedback: NPC chatter and environments reflect your choices
+[ ] A3 Interactions v1 (universal actions → stat deltas)
+
+[ ] A4 Jealousy/Suspicion v1
+
+[ ] A5 Paths v1
+
+[ ] A6 Party Manager
+
+
+Phase B — Content Hooks
+
+[ ] B1 Locations & Activities
+
+[ ] B2 NPC Schedules
+
+[ ] B3 Scene Variants
+
+[ ] B4 Relationship Endings
+
+
+Phase C — Expansion
+
+[ ] C1 Generational Play (children, family trees)
+
+[ ] C2 Unique Systems per MC
+
+[ ] C3 Advanced Mood/Sensitivities
+
+[ ] C4 Complex Consequences
+
+
+Phase D — Identity & Consequence
+
+[ ] D1 Reputation System
+
+[ ] D2 Titles/Identities
+
+[ ] D3 Personality Drift
+
+[ ] D4 Memory & Journals
+
+[ ] D5 World State & Factions
+
+[ ] D6 Director AI
 
 ---
 
