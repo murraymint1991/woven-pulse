@@ -9,24 +9,40 @@ It combines **flowcharts**, **impact rules**, and a **delivery checklist**.
 ```mermaid
 flowchart TD
     A[Time Engine] --> B[Schedules & Reminders]
-    A --> C[Status: Mood, Cycle, Effects]
+    A --> C[Status · Mood · Cycle · Effects]
     A --> D[Relationship Web]
     D --> E[Interactions]
-    E --> F[Paths/Unlocks]
-    F --> G[Story Locks/Quests]
+    E --> F[Paths · Unlocks]
+    F --> G[Story Locks · Quests]
     C --> H[Party Manager]
     H --> I[Scene Variants]
     I --> J[Relationship Endings]
-    L[Jealousy/Suspicion] --> D
+    L[Jealousy · Suspicion] --> D
     L --> P[Interactions & Choices]
-    N[Locations/Activities] --> P
+    N[Locations · Activities] --> P
     N --> Q[Scene Variants]
     B --> O[Consequences]
     E --> T[Stat Deltas]
     D --> U[Affinity Map]
-    B --> V[Reminders/Notifications]
-    %% Status is influenced continuously
-    %% (mood, cycle, effects)
+    B --> V[Reminders · Notifications]
+
+    %% Phase D + Expansion
+    E --> Rep[Reputation System]
+    E --> Drift[Personality Drift]
+    E --> M[Memory Log]
+    Rep --> Titles[Titles · Identities]
+    Rep --> Feedback[World Feedback]
+    Rep --> Locks[Cascading Story Locks]
+    Drift --> Rel[Relationship Web]
+    Drift --> Locks
+    M --> Rel
+    M --> L
+    M --> Feedback
+    Econ[Economy · Money · Resources] --> N
+    Econ --> E
+    Rep --> Factions[World State · Factions]
+    Dir[Director AI] --> G
+    Dir --> Feedback
 ```
 
 ---
@@ -43,49 +59,48 @@ Orange edges = gates/locks
 
 ```mermaid
 flowchart LR
-    %% Core time-driven systems
-    Time[Time Engine]:::sys -->|tick| Sched[Schedules/Reminders]:::sys
-    Time -->|tick| Status[Status/Mood/Cycle]:::sys
+    Time[Time Engine]:::sys -->|tick| Sched[Schedules & Reminders]:::sys
+    Time -->|tick| Status[Status · Mood · Cycle]:::sys
     Time -->|tick| Rel[Relationship Web]:::sys
 
-    %% Interactions & outcomes
-    Interact[Interactions]:::sys -->|modify| Rel
-    Interact -->|delta| Status
+    Interact[Interactions]:::sys --> Rel
+    Interact --> Status
     Interact --> Paths[Path Unlocks]:::sys
 
-    %% Jealousy/Suspicion loop
-    Jealousy[Jealousy/Suspicion]:::sys --> Rel
+    Jealousy[Jealousy · Suspicion]:::sys --> Rel
     Jealousy --> Interact
 
-    %% Party & scenes
     Party[Party Manager]:::sys --> Scenes[Scene Variants]:::sys
-    Sched -->|triggers| Scenes
+    Sched --> Scenes
     Scenes --> Endings[Relationship Endings]:::sys
     Status --> Endings
-    Paths  --> Endings
-    Rel    --> Endings
+    Paths --> Endings
+    Rel --> Endings
 
-    %% Phase D — Identity & Consequence
+    %% Phase D
     Interact --> Rep[Reputation]:::sys
     Interact --> Drift[Personality Drift]:::sys
+    Interact --> Memory[Memory Log]:::sys
 
     Rep --> Titles[Titles & Identities]:::sys
     Rep --> Feedback[World Feedback]:::sys
     Rep --> Locks[Cascading Story Locks]:::sys
+    Rep --> Factions[World State & Factions]:::sys
 
     Drift --> Rel
     Drift --> Locks
 
-    Memory[Memory System]:::sys --> Rel
+    Memory --> Rel
     Memory --> Jealousy
     Memory --> Feedback
 
-    %% Locks gate content and outcomes
-    Locks -. gates .-> Scenes
-    Locks -. gates .-> Endings
+    Econ[Economy & Resources]:::sys --> Interact
+    Econ --> Sched
+    Econ --> Feedback
 
-    %% World feedback influences future choices
-    Feedback --> Interact
+    Dir[Director AI]:::sys --> Feedback
+    Dir --> Locks
+    Dir --> Scenes
 
     classDef sys fill:#202c55,stroke:#88f,stroke-width:1px,color:#fff;
 ```
@@ -101,11 +116,11 @@ graph LR
 X1[Add a new Interaction] --> Y1[Updates Affection · Trust]
 X1 --> Y2[Consumes Time Slot]
 X1 --> Y3[May raise Suspicion if risky]
-X1 --> Y4[Can unlock Path flags]
+X1 --> Y4[Unlocks Path flags]
 X1 --> Y5[Reputation change · local · party · global]
-X1 --> Y6[Personality Drift · traits shift]
+X1 --> Y6[Personality Drift · trait shift]
 X1 --> Y7[Memory Entry recorded]
-Y5 --> Y8[Titles & Identities earned · removed]
+Y5 --> Y8[Titles & Identities · earned or removed]
 Y5 --> Y9[World Feedback · NPC chatter · prices · access]
 Y6 --> Y10[New dialogue or romance options]
 Y7 --> Y11[Future Jealousy checks use past actions]
@@ -186,12 +201,41 @@ Y23 --> Y19
 
 ---
 
-5) Notes & Philosophy
+5) Diary Architecture
+ 
+```mermaid
+flowchart TD
+    Diary[Character Diary] --> RelTab[Relationships Tab]
+    Diary --> TraitsTab[Traits & Personality]
+    Diary --> FamTab[Family Tree]
+    Diary --> SensTab[Sensitivities & Experiences]
+    Diary --> RepTab[Reputation & Titles]
+    Diary --> MemTab[Memory · Personal Log]
 
-Keep sandbox feel: time advances by actions, not cutscenes.
+    RelTab --> RelData[Relationship System]
+    TraitsTab --> TraitData[Traits JSON]
+    FamTab --> FamData[Family Tree JSON]
+    SensTab --> SensData[Sensitivities JSON]
+    RepTab --> RepData[Reputation · Titles JSON]
+    MemTab --> MemData[Global Memory Log]
 
-Use stat progression + hidden modifiers for depth.
+    Diary --> Theme[Character Theme Config]
+    Theme --> Style[Background · Fonts · Icons · Highlight Tab]
 
-Paths replace flat affection: character-specific relationship identities.
+    classDef sys fill:#2c2c55,stroke:#88f,stroke-width:1px,color:#fff;
+```
+---
 
-Maintain modularity: systems can expand without rewriting everything.
+6) Notes & Philosophy
+
+Main Menu = RPG mechanics (status, equipment, party, quests).
+
+Character Diaries = SIM systems (relationships, traits, reputation, fertility, memory).
+
+Player-facing first for clarity/debugging. Later, optional Immersion Mode (first-person entries).
+
+Sandbox pace: time advances by actions. Story events = optional triggers, not forced timers.
+
+Director AI prevents “flat zones” by injecting drama when world is too calm.
+
+Keep modular: add new tabs/systems via config, not rewrites.
