@@ -1,26 +1,26 @@
-🌸 Aerith ↔ Tifa ↔ Vagrant — Progression Map
+🌸 Aerith ↔ Tifa ↔ Vagrant — Triangle Progression Map
 
-This document details the triad relationship progression between Aerith, Tifa, and Vagrant, using the Love / Corruption / Jealousy axes.
+This document details the triangular relationship progression between Aerith, Tifa, and Vagrant, combining Love, Corruption, Jealousy, and Hybrid axes with pregnancy gating.
 
 
 ---
 
 Stage 0 — First Impressions
 
-Aerith → Vagrant: Sympathetic but wary.
+Aerith → Vagrant: Curious, cautious but sympathetic.
 
-Tifa → Vagrant: Distrustful, cautious.
+Tifa → Vagrant: Distrustful, protective of others.
 
 Vagrant → Aerith/Tifa: Mocking, playful, distrustful.
 
 
 Systems:
 
-Diary entries note suspicion or curiosity.
+Aerith diary: “He’s rough, but maybe… there’s more.”
 
-Corruption + if Aerith/Tifa tolerate unsolicited comments/touches.
+Tifa diary: “He’s trouble. I can’t let my guard down.”
 
-Love + if they show compassion/defend him.
+Love + if defended. Corruption + if unsolicited advances tolerated.
 
 
 
@@ -28,94 +28,97 @@ Love + if they show compassion/defend him.
 
 Stage 1 — Early Bonds
 
-Aerith and Tifa can separately build trust with Vagrant.
+Aerith warms faster; Tifa more resistant.
 
-Negative drift if they insult/avoid him.
-
-Soft Lock: Must choose to spend time in slums with him.
+Vagrant deliberately contrasts how he treats each of them → sparks comparison.
 
 
-Branches:
+Branch Potential:
 
-Love Path: Compassion unlocks small moments of trust.
+Aerith or Tifa can progress alone (solo path).
 
-Corruption Path: Accepting rough advances/shady activities raises tolerance.
+Both showing affection triggers Jealousy system.
 
-Jealousy: Triggered if both show affection → rivalry flags set.
+Both tolerating corruption triggers Shared Corruption bond.
 
 
-🔒 Pregnancy State: Protected → implied contraception/resistance mechanics. Early intimacy scenes possible, but no pregnancy outcomes yet.
+🔒 Pregnancy State: Locked — contraception implied.
 
 
 ---
 
-Stage 2 — Fork in the Road
+Stage 2 — Shifting Dynamics
 
-Love Path:
+Aerith: Starts seeing good in Vagrant.
 
-Aerith or Tifa may pursue Vagrant alone (exclusive).
+Tifa: Torn between disgust and intrigue.
 
-Rivalry triggered with the other.
-
-
-Corruption Path:
-
-Joint participation in Vagrant’s darker activities.
-
-Unsolicited intimacy shifts from resisted → tolerated → enjoyed.
+Vagrant: Leverages differences → plays them off one another.
 
 
-Jealousy + Corruption Path:
+Jealousy Trigger:
 
-Rivalry mutates into shared corruption bond.
-
-Early Dark Trio begins.
+If both have rising affection, rivalry begins (banter, suspicion).
 
 
+Shared Corruption Trigger:
 
-🔒 Pregnancy State: Still locked. “Prevented intimacy” flagged in diary (“…we were careful”).
+If both tolerate taboo actions → Corruption scores rise together.
+
+
+🔒 Pregnancy State: Locked — “we were careful” flagged.
 
 
 ---
 
 Stage 3 — Escalation
 
-Friendship: Aerith or Tifa develops “Stray Companion” bond with Vagrant.
+Love-High (one side): One bonds more deeply → exclusivity. Rivalry spikes.
 
-Romance (Love-high, Corr-low): Exclusive partner → fragile but healthy. Rivalry intensifies.
+Corruption-High (one side): One submits → becomes Plaything. Rival distances.
 
-Dark Romance (Corr-high, Love-low): Submission → fully corrupted partner.
-
-Hybrid (Love+Corr-high): Passionate, volatile, unstable bond.
-
-Dark Trio (Love+Corr+Jealousy-high): Both women accept shared intimacy → corrupted trio romance.
+Hybrid (Love+Corr, one side): Forbidden but cherished intimacy. Rival suspects.
 
 
-🔒 Pregnancy State: Still “soft locked.” Mechanics like corruption not high enough, or implied contraceptive choices prevent outcomes.
+Triangle-specific:
+
+If both are high affection → volatile jealousy.
+
+If both are high corruption → darker trio temptation.
+
+If both are high love + corruption → potential Taboo Trio.
+
+
+🔒 Pregnancy State: Still locked until Stage 4.
 
 
 ---
 
 Stage 4 — Divergences
 
-Healthy Romance: Aerith + Vagrant OR Tifa + Vagrant → stable couple, rival distances.
+Love Path (Solo): Aerith ↔ Vagrant OR Tifa ↔ Vagrant bond forms. Rival distances.
 
-Corruption-only Resolution: Aerith or Tifa becomes Vagrant’s Plaything. Other distances; party suspicion grows.
+Corruption Path (Solo): One corrupted, the other refuses → triangle fractures.
 
-Hybrid Resolution: Oscillates between tenderness/toxicity. World gossip notes instability.
+Hybrid (Solo): Forbidden but cherished → rival left confused/resentful.
 
-Dark Trio Resolution: Aerith + Tifa + Vagrant form corrupted but intimate bond. Unlocks unique trio diary entries and scenes.
+Triangle Paths:
+
+Jealousy Fallout: Aerith vs. Tifa rivalry → banter sharpens, suspicion penalties apply.
+
+Shared Corruption Bond: Rivalry flips → both women accept taboo intimacy → Dark Trio unlocks.
+
 
 
 🔓 Pregnancy State: Now unlocked.
 
-If corruption or love thresholds are met, pregnancy becomes a possible outcome.
+Solo love → mutual choice.
 
-Corruption → darker pregnancy framing (possession, submission).
+Solo corruption → possession.
 
-Love → mutual choice of parenthood.
+Solo hybrid → taboo parenthood.
 
-Trio → duo pregnancies possible.
+Trio → duo pregnancies possible, unique diary outcomes.
 
 
 
@@ -123,17 +126,17 @@ Trio → duo pregnancies possible.
 
 Stage 5 — Outcomes & Titles
 
-Possible Outcomes
+Outcomes
 
-Healthy Romance: Aerith + Vagrant OR Tifa + Vagrant. Parenthood possible if unlocked.
+Healthy Romance: Aerith + Vagrant OR Tifa + Vagrant. Rival breaks ties.
 
-Rivalry Fallout: Aerith vs. Tifa fractured. Can be repaired with effort.
+Rivalry Fallout: Aerith vs. Tifa fractured, may be repaired with effort.
 
-Dark Romance: Aerith or Tifa corrupted, submissive to Vagrant. Open to taboo acts and parenthood framed as dominance.
+Dark Romance (Solo): One corrupted, submissive. Rival distances.
 
-Hybrid Bond: Twisted passion, volatile but genuine. Pregnancy possible but unstable (e.g. jealousy impacting child’s life).
+Hybrid Romance (Solo): Forbidden but cherished → private intimacy.
 
-Dark Trio: Aerith + Tifa + Vagrant → shared corruption romance, with duo pregnancies → unique ending content.
+Dark Trio: Aerith + Tifa + Vagrant → corrupted but intimate trio romance.
 
 
 Title Unlocks
@@ -144,9 +147,9 @@ Vagrant Lover (Love path)
 
 Vagrant’s Plaything (Corruption-only)
 
-Slum Sister (Dark Trio)
+Bloom in Shadows (Hybrid)
 
-Darkened Flower (Hybrid)
+Slum Sister (Trio)
 
 
 Tifa:
@@ -155,39 +158,43 @@ Vagrant Lover (Love path)
 
 Vagrant’s Plaything (Corruption-only)
 
-Slum Sister (Dark Trio)
+Scarlet Shadow (Hybrid)
 
-Broken Fist (Hybrid)
+Slum Sister (Trio)
 
 
 Vagrant:
 
 Possessive Rebel (Love-mid, Corr-high)
 
-Dark Patriarch (Corr-high, Trio)
+Dark Patriarch (Solo corruption ending)
 
-King of the Slums → only unlocked if Vagrant corrupts all female MCs in the game.
+Shadow Consort (Hybrid outcome)
+
+King of the Slums → unlocked only if Vagrant corrupts all female MCs in game.
+
+
+
 
 ---
 
 System Notes
 
-Love Score: Drives healthy intimacy. Counterbalances jealousy.
+Love Score: Mutual tenderness, drives exclusivity.
 
-Corruption Score: Unlocks unsolicited/taboo intimacy, darker alliances, eventual pregnancy tolerance.
+Corruption Score: Tolerance of unsolicited/taboo acts, drives dark romance.
 
-Jealousy Trigger: Fires when both Aerith & Tifa pursue Vagrant. Can escalate into rivalry or trio.
+Jealousy: Fires when both Aerith & Tifa pursue Vagrant. Can lead to rivalry or trio.
+
+Shared Corruption Bond: Jealousy + high corruption flips rivalry → Dark Trio unlock.
 
 Pregnancy Gating:
 
-Stages 1–3 → pregnancy “soft locked” (implied protection mechanics).
+Stages 1–3 → locked.
 
-Stages 4–5 → pregnancy unlocked, tied to outcome branch (healthy, dark, hybrid, trio).
+Stages 4–5 → unlocked (solo or trio outcomes).
 
-
-Shared Corruption Bond: High corruption + jealousy flips rivalry into trio path.
 
 Meta-condition: King of the Slums requires corruption of all female MCs.
-
 
 ---
