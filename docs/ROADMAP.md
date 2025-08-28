@@ -6,7 +6,6 @@ It combines **flowcharts**, **impact rules**, and a **delivery checklist**.
 ---
 
 ## 1) High-Level Systems Overview
-
 ```mermaid
 flowchart TD
     A[Time Engine] --> B[Schedules & Reminders]
