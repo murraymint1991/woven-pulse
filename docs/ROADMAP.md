@@ -249,6 +249,29 @@ flowchart TD
 ```
 ---
 
+## 6) Relationship axes
+```mermaid
+flowchart TD
+    Interact[Interactions] --> Love[Love Score]
+    Interact --> Corr[Corruption Score]
+    Interact --> Jeal[Jealousy Trigger]
+
+    Love --> Romance[Romance Paths]
+    Corr --> Dark[Dark Romance Paths]
+    Jeal --> Rival[Rivalry / Suspicion]
+
+    Love & Corr --> Hybrid[Hybrid / Twisted Outcomes]
+    Jeal & Corr --> Possessive[Possessive Romance]
+    Jeal & Corr & Love --> Trio[Shared Corruption · Trio Romance]
+
+    Romance --> Titles
+    Dark --> Titles
+    Hybrid --> Titles
+    Possessive --> Titles
+    Trio --> Titles
+```
+---
+
 ## 6) Notes & Philosophy
 
 Main Menu = RPG mechanics (status, equipment, party, quests).
