@@ -9,28 +9,28 @@ It combines **flowcharts**, **impact rules**, and a **delivery checklist**.
 ```mermaid
 flowchart TD
     A[Time Engine] --> B[Schedules & Reminders]
-    A --> C[Status · Mood · Cycle · Effects]
+    A --> C[Status / Mood / Cycle / Effects]
     A --> D[Relationship Web]
     D --> E[Interactions]
-    E --> F[Paths · Unlocks]
-    F --> G[Story Locks · Quests]
+    E --> F[Paths & Unlocks]
+    F --> G[Story Locks & Quests]
     C --> H[Party Manager]
     H --> I[Scene Variants]
     I --> J[Relationship Endings]
-    L[Jealousy · Suspicion] --> D
+    L[Jealousy & Suspicion] --> D
     L --> P[Interactions & Choices]
-    N[Locations · Activities] --> P
+    N[Locations & Activities] --> P
     N --> Q[Scene Variants]
     B --> O[Consequences]
     E --> T[Stat Deltas]
     D --> U[Affinity Map]
-    B --> V[Reminders · Notifications]
+    B --> V[Reminders & Notifications]
 
     %% Phase D + Expansion
     E --> Rep[Reputation System]
     E --> Drift[Personality Drift]
     E --> M[Memory Log]
-    Rep --> Titles[Titles · Identities]
+    Rep --> Titles[Titles & Identities]
     Rep --> Feedback[World Feedback]
     Rep --> Locks[Cascading Story Locks]
     Drift --> Rel[Relationship Web]
@@ -38,9 +38,9 @@ flowchart TD
     M --> Rel
     M --> L
     M --> Feedback
-    Econ[Economy · Money · Resources] --> N
+    Econ[Economy / Money / Resources] --> N
     Econ --> E
-    Rep --> Factions[World State · Factions]
+    Rep --> Factions[World State & Factions]
     Dir[Director AI] --> G
     Dir --> Feedback
 ```
