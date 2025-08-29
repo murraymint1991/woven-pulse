@@ -1,0 +1,64 @@
+{
+  "version": "1.0",
+  "characterId": "aerith",
+  "desires": {
+    "vagrant": {
+      "love": [
+        "He smells of rust and alleys, and still… I want to believe there’s someone gentler beneath all that grime.",
+        "When I look past the dirt, I glimpse loneliness. I want to be the one who wipes it away.",
+        "Every smile of his is cracked and dirty… but if it’s for me, I want to see more of it.",
+        "I want to hold him despite the grime, to show him that even filth can be cherished.",
+        "If he shed the dirt, I’d still love him. But maybe I want to be the reason he finally bathes in light.",
+        "I want to prove that even a man covered in ash and dust can bloom if someone believes in him."
+      ],
+      "corruption": [
+        "He’s filthy, unwashed, shameless. I hate that part of me wonders what it would feel like if he touched me anyway.",
+        "The smell of him clings, the roughness unsettles me—and I keep imagining letting it linger.",
+        "He mocks me with that smirk, foul and brazen. I want him to prove just how low I’ll sink to keep him looking at me.",
+        "His dirt feels like ownership, smearing into me. Part of me craves being stained by him completely.",
+        "He makes me carry his filth proudly, like a mark. And I want to keep carrying it.",
+        "I want to be ruined by him, filth and all, until the world sees me as his and only his."
+      ],
+      "hybrid": [
+        "He’s everything I should turn away from—yet something in me aches to test what happens if I don’t.",
+        "I want him to keep being terrible and then, in secret, show me kindness. Both would burn, and I’d welcome it.",
+        "It excites me that he’s unclean, like touching him is a sin no one else dares to commit.",
+        "It’s both shame and thrill: to want his filth, to let it stay, to call it ours.",
+        "Love wrapped in grime—taboo but tender. I want to choose him dirty and still call it holy.",
+        "I want the dirt, the danger, the love—everything people would call wrong, but feels truer than anything else."
+      ]
+    }
+  },
+  "reflections": {
+    "vagrant": {
+      "tifa": [
+        "Tifa scowls when he gets near. I can’t blame her—his dirt, his roughness… it’s overwhelming.",
+        "She wrinkled her nose at his smell. I told myself I didn’t notice, but I did. Maybe I just hide it better.",
+        "She looks disgusted when he leans too close. But I… I can’t stop imagining if it were me.",
+        "Watching him test her patience made my stomach twist—disgust for him, envy for her.",
+        "She doesn’t flinch at his dirt anymore. It frightens me how normal this is becoming… even for me.",
+        "They look almost natural together. Filth and all. And part of me aches—because I want to feel that too."
+      ],
+      "renna": [
+        "Renna laughs too easily at his mockery. She doesn’t see the grime like I do.",
+        "She treats his dirt like a joke. I envy how lightly she carries it.",
+        "He lets her near him, grime and all. She doesn’t flinch. Why can’t I stop caring that I would?",
+        "I thought it would repulse me to see them close. Instead, I felt a bitter kind of longing.",
+        "Renna leans into him now, like she doesn’t even notice the filth. I can’t decide if that makes me jealous or horrified.",
+        "She smiles at him as if the dirt makes no difference. Watching it feels like losing something I never had."
+      ],
+      "yuffie": [
+        "Yuffie mocks his smell, loud and playful. I almost admire her for turning dirt into a game.",
+        "She teases him about smelling like trash, and he actually laughs. It’s infuriating that I smiled too.",
+        "Yuffie shrugs off his filth like it doesn’t matter. Why can’t I?",
+        "If she can find joy in his grime, maybe I’m not so strange for wanting to touch it.",
+        "She grins at him, dirt and all, like it’s harmless. And it unsettles me that I envy her boldness.",
+        "She’s made his filth a joke, a bond between them. And I—I’ve made it a shameful desire."
+      ]
+    }
+  },
+  "meta": {
+    "notes": "Desire streams include Love/Corruption/Hybrid with the 'dirty/unattractive' perception threaded throughout. Reflections run stage 0-5 per girl.",
+    "updated": "2025-08-29"
+  }
+}
