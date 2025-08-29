@@ -12,6 +12,8 @@ import {
   loadAssignments as loadSensAssignments,
   loadEvolution as loadSensEvolution
 } from "./js/systems/sensitivities.js";
+import DiaryView from "./js/views/diary.js";
+import { loadDiary } from "./js/systems/diary.js";
 
 /* ---------- Config (DATA) ---------- */
 const DATA = {
