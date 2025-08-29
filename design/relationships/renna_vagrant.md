@@ -56,9 +56,9 @@ Diary: “He’s softer when it’s just us… I knew it.”
 
 Corruption Path:
 
-Vagrant manipulates Renna into darker activities (stealing, caressing, lying).
+Vagrant manipulates Renna into darker activities (stealing, caressing, small sins, lying).
 
-Diary: “It’s just a game… right?”
+Diary: “It’s just a game, fufufu… right?”
 
 
 Hybrid:
@@ -80,14 +80,14 @@ Love (High):
 
 Renna clings to him as a “protector,” affection grows.
 
-NPC gossip: “That girl’s too young-minded to know better.”
+NPC gossip: “She treats it like a game... but look how close they've gotten.”
 
 
 Corruption (High):
 
 Vagrant dominates, Renna bends easily, diary shifts to justification.
 
-“If I say no… he might leave. I don’t want that.”
+“I can't say no anymore… the way he treats me feels so wrong, but so good.”
 
 
 Hybrid (Both High):
@@ -129,9 +129,9 @@ Diary: “Everyone says it’s wrong… but I don't care anymore.”
 
 Love → framed as innocent “new family” ideal.
 
-Corruption → framed as Vagrant’s possession.
+Corruption → framed as Vagrant’s possession. "He told me not to use protection, who am I to say no".
 
-Hybrid → framed as “dangerous fun,” but cherished.
+Hybrid → framed as “dangerous fun,” but cherished. "We weren't careful and I don't mind."
 
 
 
@@ -151,9 +151,9 @@ Pregnancy Endings:
 
 Love → “Naïve Bride” (soft, romantic ending).
 
-Corruption → “Bound Witch” (Renna enslaved to his will).
+Corruption → “Bound Witch” (Renna enslaved to his will). "I'm his, forever".
 
-Hybrid → “Playful Shadows” (dangerous but loving family).
+Hybrid → “Playful Shadows” (dangerous but loving family). "We're a family now, I couldn't be happier". 
 
 
 
