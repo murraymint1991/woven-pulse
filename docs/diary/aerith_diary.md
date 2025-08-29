@@ -1,10 +1,10 @@
 # Aerith's Personal Diary
 
----
-
 ## Section A: Desire Journal (Direct feelings & wants)
 
 ### Vagrant 
+
+---
 
 ## Stage 0 — First Impressions
 - **Love Desire:** “I want to see the good in him, even if it’s buried deep. Something in me aches to believe he can be more than what he shows.”
