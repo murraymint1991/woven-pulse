@@ -3,11 +3,23 @@ import { fetchJson } from "../utils.js";
 import { currentISO, isoFor } from "./clock.js";
 
 /* ---------------------------------------
+   SHAPE & NORMALIZATION
+---------------------------------------- */
+function ensureDiaryShape(raw) {
+  const d = raw && typeof raw === "object" ? raw : {};
+  d.characterId  = d.characterId || "unknown";
+  d.desires      = d.desires || {};      // { targetId: { love|corruption|hybrid: [text] } }
+  d.reflections  = d.reflections || {};  // { targetId: { witnessId: [text] } }
+  d.entries      = Array.isArray(d.entries) ? d.entries : []; // timeline entries
+  return d;
+}
+
+/* ---------------------------------------
    LOAD
 ---------------------------------------- */
 export async function loadDiary(url) {
   const r = await fetchJson(url);
-  return r.ok ? (r.data || null) : null;
+  return r.ok ? ensureDiaryShape(r.data || {}) : null;
 }
 
 /* ---------------------------------------
@@ -30,6 +42,86 @@ export function selectReflectionEntries(diary, targetId, witnessId, stage) {
 }
 
 /* ---------------------------------------
+   TIMELINE API (mutable, in-memory)
+---------------------------------------- */
+/**
+ * Append a new diary timeline entry stamped with current in-game time.
+ * @param {Object} diaryObj  - the loaded diary object (mutated in place)
+ * @param {Object} payload   - { text, path?, stage?, mood?:string[], tags?:string[], witness?:string, asides?:string[] }
+ * @returns {Object} the created entry
+ */
+export function appendDiaryEntry(diaryObj, {
+  text,
+  path = null,
+  stage = null,
+  mood = [],
+  tags = [],
+  witness = null,
+  asides = []
+}) {
+  if (!diaryObj || typeof diaryObj !== "object") return null;
+  if (!Array.isArray(diaryObj.entries)) diaryObj.entries = [];
+
+  const entry = {
+    id: `${diaryObj.characterId || "char"}-${Math.random().toString(36).slice(2, 8)}`,
+    date: currentISO(),   // e.g. "0001-01-01T13:00:00Z" from in-game clock
+    mood: Array.isArray(mood) ? mood : [],
+    tags: Array.isArray(tags) ? tags : [],
+    path,
+    stage,
+    witness,
+    text: String(text || ""),
+    asides: Array.isArray(asides) ? asides : []
+  };
+
+  diaryObj.entries.push(entry);
+  return entry;
+}
+
+/**
+ * Append an entry at a specific in-game day/hour (for backfill or scripted beats).
+ */
+export function appendDiaryEntryAt(diaryObj, day, hour, payload = {}) {
+  if (!diaryObj || typeof diaryObj !== "object") return null;
+  if (!Array.isArray(diaryObj.entries)) diaryObj.entries = [];
+
+  const entry = {
+    id: `${diaryObj.characterId || "char"}-${Math.random().toString(36).slice(2, 8)}`,
+    date: isoFor(day, hour),
+    mood: Array.isArray(payload.mood) ? payload.mood : [],
+    tags: Array.isArray(payload.tags) ? payload.tags : [],
+    path: payload.path ?? null,
+    stage: payload.stage ?? null,
+    witness: payload.witness ?? null,
+    text: String(payload.text || ""),
+    asides: Array.isArray(payload.asides) ? payload.asides : []
+  };
+
+  diaryObj.entries.push(entry);
+  return entry;
+}
+
+/**
+ * Query entries (simple helper for future use).
+ * options: { fromDay?, toDay?, tag?, mood?, limit? }
+ */
+export function getEntries(diaryObj, opts = {}) {
+  const src = Array.isArray(diaryObj?.entries) ? diaryObj.entries : [];
+  let out = src.slice();
+
+  if (opts.fromDay) out = out.filter(e => (e.date || "").slice(0, 10) >= opts.fromDay);
+  if (opts.toDay)   out = out.filter(e => (e.date || "").slice(0, 10) <= opts.toDay);
+  if (opts.tag)     out = out.filter(e => Array.isArray(e.tags) && e.tags.includes(opts.tag));
+  if (opts.mood)    out = out.filter(e => Array.isArray(e.mood) && e.mood.includes(opts.mood));
+
+  // newest first by ISO string
+  out.sort((a, b) => (a.date < b.date ? 1 : -1));
+
+  if (opts.limit) out = out.slice(0, opts.limit);
+  return out;
+}
+
+/* ---------------------------------------
    PATH/STAGE STATE (per character pair)
    localStorage shape:
    {
@@ -41,8 +133,11 @@ export function selectReflectionEntries(diary, targetId, witnessId, stage) {
 const PS_KEY = "sim_path_state_v1";
 
 export function getPathState() {
-  try { return JSON.parse(localStorage.getItem(PS_KEY) || "{}"); }
-  catch { return {}; }
+  try {
+    return JSON.parse(localStorage.getItem(PS_KEY) || "{}");
+  } catch {
+    return {};
+  }
 }
 export function setPathState(next) {
   localStorage.setItem(PS_KEY, JSON.stringify(next || {}));
@@ -57,110 +152,8 @@ export function setPairState(charId, targetId, patch) {
   if (!all[charId]) all[charId] = {};
   const curr = all[charId][targetId] || { path: "love", stage: 0 };
   const next = { ...curr, ...(patch || {}) };
-  // clamp stage if provided
-  if (typeof next.stage === "number") {
-    next.stage = Math.max(0, Math.min(5, next.stage));
-  }
+  if (typeof next.stage === "number") next.stage = Math.max(0, Math.min(5, next.stage));
   all[charId][targetId] = next;
   setPathState(all);
   return next;
-}
-
-/* ---------------------------------------
-   TIMELINE ENTRIES (runtime)
-   - append with in-game timestamp
-   - optional persistence
----------------------------------------- */
-// Optional persistence helpers (call after load & after edits)
-const DIARY_ENTRIES_KEY = (charId) => `sim_diary_entries_${charId}_v1`;
-
-export function loadPersistedEntries(diaryObj) {
-  const who = diaryObj?.characterId || "unknown";
-  try {
-    const raw = localStorage.getItem(DIARY_ENTRIES_KEY(who));
-    if (raw) {
-      const saved = JSON.parse(raw);
-      // merge with any bundled entries (keep bundled first, then saved)
-      const base = Array.isArray(diaryObj.entries) ? diaryObj.entries : [];
-      diaryObj.entries = base.concat(saved);
-    } else {
-      diaryObj.entries = Array.isArray(diaryObj.entries) ? diaryObj.entries : [];
-    }
-  } catch {
-    diaryObj.entries = Array.isArray(diaryObj.entries) ? diaryObj.entries : [];
-  }
-  return diaryObj.entries;
-}
-
-export function savePersistedEntries(diaryObj) {
-  const who = diaryObj?.characterId || "unknown";
-  // Only persist entries that were added at runtime (heuristic: those without a known seed flag)
-  // If you want to persist all, just store diaryObj.entries directly:
-  localStorage.setItem(DIARY_ENTRIES_KEY(who), JSON.stringify(diaryObj.entries || []));
-}
-
-/** Append entry at the current in-game time */
-export function appendDiaryEntry(
-  diaryObj,
-  { text, path = null, stage = null, mood = [], tags = [], witness = null, location = null }
-) {
-  if (!diaryObj) return null;
-  if (!Array.isArray(diaryObj.entries)) diaryObj.entries = [];
-  const who = diaryObj.characterId || "unknown";
-  const id = `${who}-${Math.random().toString(36).slice(2, 8)}`;
-
-  const entry = {
-    id,
-    date: currentISO(),  // from game clock
-    mood,
-    tags,
-    path,
-    stage: typeof stage === "number" ? Math.max(0, Math.min(5, stage)) : stage,
-    witness,
-    location,
-    text
-  };
-  diaryObj.entries.push(entry);
-  return entry;
-}
-
-/** Append entry for a specific in-game day/hour (backfill) */
-export function appendDiaryEntryAt(
-  diaryObj,
-  day,
-  hour,
-  { text, path = null, stage = null, mood = [], tags = [], witness = null, location = null }
-) {
-  if (!diaryObj) return null;
-  if (!Array.isArray(diaryObj.entries)) diaryObj.entries = [];
-  const who = diaryObj.characterId || "unknown";
-  const id = `${who}-${Math.random().toString(36).slice(2, 8)}`;
-
-  const entry = {
-    id,
-    date: isoFor(day, hour), // from game clock
-    mood,
-    tags,
-    path,
-    stage: typeof stage === "number" ? Math.max(0, Math.min(5, stage)) : stage,
-    witness,
-    location,
-    text
-  };
-  diaryObj.entries.push(entry);
-  return entry;
-}
-
-/* ---------------------------------------
-   VIEW HELPERS
----------------------------------------- */
-// Group entries by YYYY-MM-DD (sorted ascending)
-export function groupEntriesByDay(entries = []) {
-  const by = new Map();
-  for (const e of entries) {
-    const day = (e.date || "").slice(0, 10) || "unknown";
-    if (!by.has(day)) by.set(day, []);
-    by.get(day).push(e);
-  }
-  return Array.from(by.entries()).sort((a, b) => (a[0] < b[0] ? -1 : 1));
 }
