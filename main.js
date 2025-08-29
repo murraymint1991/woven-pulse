@@ -46,6 +46,11 @@ const DATA = {
   statusFertility: "data/status/fertility_v1.json"
 };
 
+const DATA = {
+  // ...existing
+  diaryAerith: "data/diaries/aerith_diary_v1.json"
+};
+
 const LS_KEYS = { AUTOSAVE: "sim_autosave_v1", SLOT: (n) => `sim_slot_${n}_v1` };
 
 /* ---------- App ---------- */
