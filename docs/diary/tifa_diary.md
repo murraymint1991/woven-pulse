@@ -4,6 +4,8 @@
 
 ### Vagrant
 
+---
+
 ## Stage 0 — First Impressions
 - **Love Desire:**  
   “He’s dangerous, and I know it. But some part of me wonders if there’s more beneath that smirk — something worth saving.”  
