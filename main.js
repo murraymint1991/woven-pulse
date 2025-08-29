@@ -40,14 +40,12 @@ const DATA = {
   sensAssignments: "data/sensitivities/assignments_v1.json",
   sensEvolution: "data/sensitivities/evolution_v1.json",
 
-  // NEW: status pillar (paths only)
+  // Status pillar
   statusActors: "data/status/actors_v1.json",
   statusPlayerFemale: "data/status/player_female_v1.json",
-  statusFertility: "data/status/fertility_v1.json"
-};
+  statusFertility: "data/status/fertility_v1.json",
 
-const DATA = {
-  // ...existing
+  // Diary
   diaryAerith: "data/diaries/aerith_diary_v1.json"
 };
 
@@ -57,12 +55,26 @@ const LS_KEYS = { AUTOSAVE: "sim_autosave_v1", SLOT: (n) => `sim_slot_${n}_v1` }
 function App() {
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState("");
-  const [view, setView] = useState(() =>
-    location.hash === "#relationships" ? "relationships" :
-    location.hash === "#status" ? "status" : "home"
-  );
 
-  // Data
+  // ROUTING (includes #diary)
+  const [view, setView] = useState(() =>
+    (location.hash === "#relationships") ? "relationships" :
+    (location.hash === "#status")         ? "status" :
+    (location.hash === "#diary")          ? "diary" :
+                                            "home"
+  );
+  useEffect(() => {
+    const onHash = () => setView(
+      (location.hash === "#relationships") ? "relationships" :
+      (location.hash === "#status")         ? "status" :
+      (location.hash === "#diary")          ? "diary" :
+                                              "home"
+    );
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
+  // DATA STATE
   const [traitsFound, setTraitsFound] = useState(false);
   const [chars, setChars] = useState([]);
   const [scenesCount, setScenesCount] = useState(0);
@@ -73,27 +85,21 @@ function App() {
   const [sensMap, setSensMap] = useState({});
   const [sensRules, setSensRules] = useState([]);
 
-  // NEW: status pillar
+  // Status pillar
   const [statusMap, setStatusMap] = useState({});     // { id -> { role, level, exp, limit, mood, effects[] } }
   const [playerFemale, setPlayerFemale] = useState(null);
   const [fertilityMap, setFertilityMap] = useState({});
 
-  // Saves + selection
+  // Diary data
+  const [diaryAerith, setDiaryAerith] = useState(null);
+
+  // SAVES + selection
   const [relationship, setRelationship] = useState(Number(localStorage.getItem("sim_rel_value")) || 0);
   const [slots, setSlots] = useState(Array.from({ length: 20 }, () => null));
   const [autosaveMeta, setAutosaveMeta] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
 
-  // Routing
-  useEffect(() => {
-    const onHash = () =>
-      setView(location.hash === "#relationships" ? "relationships" :
-              location.hash === "#status" ? "status" : "home");
-    window.addEventListener("hashchange", onHash);
-    return () => window.removeEventListener("hashchange", onHash);
-  }, []);
-
-  // Load saves
+  // LOAD SAVES
   useEffect(() => {
     const next = [];
     for (let i = 1; i <= 20; i++) {
@@ -106,15 +112,21 @@ function App() {
   }, []);
   useEffect(() => localStorage.setItem("sim_rel_value", String(relationship)), [relationship]);
 
-  // Load data
+  // LOAD DATA
   useEffect(() => {
     (async () => {
       const d = [];
 
+      // Traits/moods
       const tm = await fetchJson(DATA.traitsMoods);
-      if (tm.ok) { setTraitsFound(Boolean(tm.data?.traits && Object.keys(tm.data.traits).length)); d.push({ label: "traits_moods/traits_moods_v1.json", status: "ok" }); }
-      else d.push({ label: "traits_moods/traits_moods_v1.json", status: "err" });
+      if (tm.ok) {
+        setTraitsFound(Boolean(tm.data?.traits && Object.keys(tm.data.traits).length));
+        d.push({ label: "traits_moods/traits_moods_v1.json", status: "ok" });
+      } else {
+        d.push({ label: "traits_moods/traits_moods_v1.json", status: "err" });
+      }
 
+      // Characters
       const loaded = [];
       for (const path of DATA.characters) {
         const r = await fetchJson(path);
@@ -135,18 +147,22 @@ function App() {
       }
       setChars(loaded);
 
+      // Demo module
       const dm = await fetchJson(DATA.demoModule);
       if (dm.ok) { setScenesCount(countScenesAnywhere(dm.data)); d.push({ label: "demo/demo_module_v0_5.json", status: "ok" }); }
       else d.push({ label: "demo/demo_module_v0_5.json", status: "err" });
 
+      // Relationships
       const rel = await fetchJson(DATA.relationships);
       if (rel.ok) { setEdgesRaw(Array.isArray(rel.data?.edges) ? rel.data.edges : []); d.push({ label: "relationships/relationships_v1.json", status: "ok" }); }
       else { setEdgesRaw([]); d.push({ label: "relationships/relationships_v1.json", status: "err" }); }
 
+      // Traits assignments
       const ta = await loadTraitAssignments(DATA.traitAssignments);
       if (ta.ok) { setTraitMap(ta.map); d.push({ label: "traits/assignments_v1.json", status: "ok" }); }
       else { setTraitMap({}); d.push({ label: "traits/assignments_v1.json", status: "err" }); }
 
+      // Sensitivities
       const sc = await fetchJson(DATA.sensCatalog); setSensCatalog(sc.ok ? (sc.data?.stimuli || {}) : {});
       d.push({ label: "sensitivities/catalog_v1.json", status: sc.ok ? "ok" : "err" });
       const sa = await fetchJson(DATA.sensAssignments); setSensMap(sa.ok ? (sa.data?.characters || {}) : {});
@@ -154,7 +170,12 @@ function App() {
       const sr = await fetchJson(DATA.sensEvolution); setSensRules(sr.ok ? (sr.data?.rules || []) : []);
       d.push({ label: "sensitivities/evolution_v1.json", status: sr.ok ? "ok" : "err" });
 
-      // --- NEW: status pillar (loader) ---
+      // Diary (Aerith)
+      const ad = await loadDiary(DATA.diaryAerith);
+      setDiaryAerith(ad);
+      d.push({ label: "diaries/aerith_diary_v1.json", status: ad ? "ok" : "err" });
+
+      // Status pillar
       const st = await fetchJson(DATA.statusActors);
       setStatusMap(st.ok ? (st.data?.status || {}) : {});
       d.push({ label: "status/actors_v1.json", status: st.ok ? "ok" : "err" });
@@ -166,7 +187,6 @@ function App() {
       const fert = await loadFertility(DATA.statusFertility);
       setFertilityMap(fert);
       d.push({ label: "status/fertility_v1.json", status: Object.keys(fert).length ? "ok" : "err" });
-      // --- end status pillar ---
 
       setDetails(d);
       await sleep(100);
@@ -174,6 +194,7 @@ function App() {
     })();
   }, []);
 
+  // HELPERS
   function flash(msg){ setToast(msg); setTimeout(()=>setToast(""), 1200); }
   function doAutosave(){
     const snapshot = {
@@ -201,6 +222,7 @@ function App() {
   }
   function clearCacheAndReload(){ clearAllSaves(); location.reload(); }
 
+  // MEMOS
   const summaryText = useMemo(
     () => `${chars.length} char · ${scenesCount} scenes · traits: ${traitsFound ? "yes":"no"}`,
     [chars.length, scenesCount, traitsFound]
@@ -218,13 +240,16 @@ function App() {
     return Math.round(avg);
   }, [edges, selectedId]);
 
-  // Shared nav (now 3 tabs)
-  const Nav = () => h("div", { class: "menu", style:"margin-bottom:8px" }, [
-    h(Button, { onClick: ()=>{ location.hash=""; setView("home"); }, ghost: view!=="home" }, "Home"),
-    h(Button, { onClick: ()=>{ location.hash="#status"; setView("status"); }, ghost: view!=="status" }, "Status"),
-    h(Button, { onClick: ()=>{ location.hash="#relationships"; setView("relationships"); }, ghost: view!=="relationships" }, "Relationships")
-  ]);
+  // NAV (single definition)
+  const Nav = () =>
+    h("div", { class: "menu", style:"margin-bottom:8px; display:flex; gap:8px; flex-wrap:wrap" }, [
+      h(Button, { onClick: ()=>{ location.hash=""; setView("home"); }, ghost: view!=="home" }, "Home"),
+      h(Button, { onClick: ()=>{ location.hash="#status"; setView("status"); }, ghost: view!=="status" }, "Status"),
+      h(Button, { onClick: ()=>{ location.hash="#relationships"; setView("relationships"); }, ghost: view!=="relationships" }, "Relationships"),
+      h(Button, { onClick: ()=>{ location.hash="#diary"; setView("diary"); }, ghost: view!=="diary" }, "Diary"),
+    ]);
 
+  // HOME
   const Home = () => h("div", null, [
     h("div", { class:"hero" }, h("div",{class:"hero-inner"},[
       h("div",{class:"stage-title"},"SIM Prototype — Start"),
@@ -283,12 +308,12 @@ function App() {
     ])
   ]);
 
+  // FINAL RETURN (adds Diary route)
   return h("div",{class:"app"},
-    view==="status"
-      ? h(StatusView, { chars, statusMap, playerFemale, fertilityMap, Nav })
-      : view==="relationships"
-      ? h(RelationshipsView, { chars, edges, selected: selected || null, setSelected: setSelectedId, selectedAffinity, traitMap, sensCatalog, sensMap, sensRules, Nav })
-      : h(Home)
+    view==="status" ? h(StatusView, { chars, statusMap, playerFemale, fertilityMap, Nav })
+    : view==="relationships" ? h(RelationshipsView, { chars, edges, selected: selected || null, setSelected: setSelectedId, selectedAffinity, traitMap, sensCatalog, sensMap, sensRules, Nav })
+    : view==="diary" ? h(DiaryView, { diary: diaryAerith, characterId: "aerith", targetId: "vagrant", witnesses:["tifa","renna","yuffie"], Nav })
+    : h(Home)
   );
 }
 
