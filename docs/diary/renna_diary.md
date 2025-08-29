@@ -39,3 +39,45 @@
 - **Love:** “Even covered in filth, I choose him. I can’t imagine walking away anymore.”  
 - **Corruption:** “I am nothing but his now—his puppet, his plaything. I crave his disgusting seed.”  
 - **Hybrid:** “The dirt no longer feels like filth. It feels like belonging. I love him, I crave him, I let him consume me.”
+
+# Renna — Reflections (Vagrant & the Girls)
+
+## Stage 0 — First Impressions
+- **On Aerith:** “She’s so kind… of course she pities him. But doesn’t she see how dirty he is?”  
+- **On Tifa:** “Tifa just glares at him. She’s strong, but maybe too proud to admit curiosity.”  
+- **On Yuffie:** “She laughs at him, calls him gross. But I can tell she’s intrigued too.”
+
+---
+
+## Stage 1 — Early Tensions
+- **On Aerith:** “She tries to see the good in him. It makes me wonder if she’s blind, or if I’m missing something.”  
+- **On Tifa:** “I think she hates him… but I’ve caught her eyes lingering when he talks. She pretends otherwise.”  
+- **On Yuffie:** “Yuffie teases him constantly, but her jokes are too sharp. Maybe she’s covering her nerves.”
+
+---
+
+## Stage 2 — Growing Jealousies
+- **On Aerith:** “Aerith looks at him differently now. Softly. I don’t like it. Why does she get that side of him and not me?”  
+- **On Tifa:** “Tifa’s disgust is turning into something else… something hotter. She’s fighting herself.”  
+- **On Yuffie:** “She acts playful, but the way she blushes tells the truth. Does she even realize it?”
+
+---
+
+## Stage 3 — Rivalry Brews
+- **On Aerith:** “She writes about saving him, I just know it. But what if he doesn’t want saving? What if he likes the darkness?”  
+- **On Tifa:** “Her anger is turning into passion. It’s obvious. She doesn’t hate him half as much as she says.”  
+- **On Yuffie:** “She wants him for herself, I can see it. But she’s too reckless—too obvious.”
+
+---
+
+## Stage 4 — Taboo Acceptance
+- **On Aerith:** “She’s given herself over to him. Watching it makes my chest ache—jealousy or desire, I can’t tell.”  
+- **On Tifa:** “Even Tifa has stopped resisting. She’s letting him stain her, the same way he did me. Why does that excite me?”  
+- **On Yuffie:** “She’s playful even as she lets him touch her. It should feel wrong… but seeing her like that makes me curious.”
+
+---
+
+## Stage 5 — Dark Resolution
+- **On Aerith:** “She belongs to him now. And I don’t resent her… because so do I.”  
+- **On Tifa:** “Tifa has fallen, too. Once disgusted, now marked like the rest of us.”  
+- **On Yuffie:** “Yuffie’s laughter has changed. It’s not teasing anymore—it’s hungry. And I can’t help but want to laugh with her.”
