@@ -1,112 +1,58 @@
-# Aerith's Personal Diary
-
-## Section A: Desire Journal (Direct feelings & wants)
-
-### Vagrant 
-
----
+# Aerith — Desire Journal (Vagrant)
 
 ## Stage 0 — First Impressions
-- **Love Desire:** “I want to see the good in him, even if it’s buried deep. Something in me aches to believe he can be more than what he shows.”
-- **Corruption Desire:** “I wonder what it would feel like to stop resisting… to let myself be pulled into his darkness instead of pulling him toward the light.”
-- **Hybrid Desire:** “I want him to be both danger and comfort. A secret fire only I would dare to hold.”
+- **Love Desire:** “He smells of rust and alleys, and still… I want to believe there’s someone gentler beneath all that grime.”
+- **Corruption Desire:** “He’s filthy, unwashed, and shameless. I hate that part of me wonders what it would feel like if he touched me anyway.”
+- **Hybrid Desire:** “He’s everything I should turn away from—yet something in me aches to test what happens if I don’t.”
 
 ---
 
 ## Stage 1 — Early Bonds
-- **Love Desire:** “I want him to open up, to trust me with the parts of himself he hides from the world. I want to be the one he softens for.”
-- **Corruption Desire:** “I want the thrill of letting him take what he wants… to feel his claim on me, even if it leaves me trembling.”
-- **Hybrid Desire:** “I want to blur the lines with him — where his roughness excites me as much as his rare moments of kindness.”
+- **Love Desire:** “When I look past the dirt, I glimpse loneliness. I want to be the one who wipes it away.”
+- **Corruption Desire:** “The smell of him clings, the roughness unsettles me—and I keep imagining letting it linger.”
+- **Hybrid Desire:** “I want him to keep being terrible and then, in secret, show me kindness. Both would burn, and I’d welcome it.”
 
 ---
 
-## Stage 2 — Shifting Lines
-- **Love Desire:** “I long for the quiet in his eyes when he lets his guard fall, even for a moment. I want to believe those moments are meant only for me.”
-- **Corruption Desire:** “I want to be undone by him — to feel how far I can fall before I stop recognizing myself in the mirror.”
-- **Hybrid Desire:** “I want to love both his shadows and his light, to cradle the danger as if it were precious.”
+## Stage 2 — Naïve Curiosity
+- **Love Desire:** “Every smile of his is cracked and dirty… but if it’s for me, I want to see more of it.”
+- **Corruption Desire:** “He mocks me with that smirk, foul and brazen. I want him to prove just how low I’ll sink to keep him looking at me.”
+- **Hybrid Desire:** “It excites me that he’s unclean, like touching him is a sin no one else dares to commit.”
 
 ---
 
-## Stage 3 — The Tipping Point
-- **Love Desire:** “I imagine walking beside him as though he’s been forgiven, as though with me he could finally rest and not fight.”
-- **Corruption Desire:** “I want to be marked, owned, shaped by his will… even if it means losing pieces of who I was before.”
-- **Hybrid Desire:** “I want a love that feels like temptation itself, where surrender and sanctuary come from the same man.”
+## Stage 3 — Escalation
+- **Love Desire:** “I want to hold him despite the grime, to show him that even filth can be cherished.”
+- **Corruption Desire:** “His dirt feels like ownership, smearing into me. Part of me craves being stained by him completely.”
+- **Hybrid Desire:** “It’s both shame and thrill: to want his filth, to let it stay, to call it ours.”
 
 ---
 
-## Stage 4 — Commitment & Consequence
-
-- **Love Desire:**  
-  “I want to build something lasting with him, even if everyone else doubts. A home, a future, a love stubborn enough to survive anything.  
-   Sometimes I imagine holding his child… proof that what we share isn’t just fleeting, but the start of a life together.”
-
-- **Corruption Desire:**  
-  “I want to belong to him completely — body, soul, every breath claimed so I can’t imagine life without him.  
-   Part of me aches to be filled, to swell with his mark, so no one could ever doubt who owns me.”
-
-- **Hybrid Desire:**  
-  “I want us to write our own rules, where every forbidden touch becomes sacred because it’s ours.  
-   Even the thought of carrying his child feels like the sweetest scandal — dangerous, but ours to cherish.”
+## Stage 4 — Breaking Point
+- **Love Desire:** “If he shed the dirt, I’d still love him. But maybe I want to be the reason he finally bathes in light.”
+- **Corruption Desire:** “He makes me carry his filth proudly, like a mark. And I want to keep carrying it.”
+- **Hybrid Desire:** “Love wrapped in grime—taboo but tender. I want to choose him dirty and still call it holy.”
 
 ---
 
 ## Stage 5 — Outcomes
+- **Love Desire:** “I want to prove that even a man covered in ash and dust can bloom if someone believes in him.”
+- **Corruption Desire:** “I want to be ruined by him, filth and all, until the world sees me as his and only his.”
+- **Hybrid Desire:** “I want the dirt, the danger, the love—everything people would call wrong, but feels truer than anything else.”
 
-- **Love Desire:**  
-  “I want him to believe he can be loved, not because he changed, but because I chose every part of him and never let go.  
-   If I bore his child, I’d cradle it as proof that love makes even broken things bloom.”
+# Aerith — Reflections & Witnessed Interactions
 
-- **Corruption Desire:**  
-  “I want to drown in him, to be swallowed whole by his darkness and never look back.  
-   To carry his child would be the ultimate surrender — my body branded forever with his will.”
+## Vagrant & Tifa
+- **Entry 1 (Stage 1):** “She wrinkled her nose at his smell. I told myself I didn’t notice, but I did. Maybe I just hide it better.”
+- **Entry 2 (Stage 2):** “She looks disgusted when he leans too close. But I… I can’t stop thinking of what it would be like if he leaned closer to me.”
+- **Entry 3 (Stage 3):** “Watching him test her patience made my stomach twist—disgust for him, envy for her.”
 
-- **Hybrid Desire:**  
-  “I want to be his forbidden miracle — the one who embraces both the danger and the tenderness, and calls it love.  
-   The thought of a child between us thrills me; scandal to the world, but to us… perfection.”
+## Vagrant & Renna
+- **Entry 1 (Stage 1):** “She treats his dirt like a joke. I envy how easily she laughs about it.”
+- **Entry 2 (Stage 2):** “He lets her near him, grime and all. She doesn’t flinch. Why can’t I stop caring that I would?”
+- **Entry 3 (Stage 3):** “I thought it would repulse me to see them close. Instead, I felt a bitter kind of longing.”
 
-## Section B: Reflections & Witnessed Interactions
-
----
-
-### Vagrant & Tifa
-- **Entry 1 (Stage 1):**  
-  “The way he looked at her… sharp, hungry. I told myself it didn’t matter, but it stung in a place I didn’t know existed.”  
-
-- **Entry 2 (Stage 2):**  
-  “She’s so strong… if he turned that hunger on her, would she resist? Why do I care so much?”  
-
-- **Entry 3 (Stage 3 — Jealousy):**  
-  “When she laughed at his joke, I felt a crack inside me. Am I afraid of losing him… or of losing her?”  
-
-- **Entry 4 (Stage 4 — Corruption awareness):**  
-  “I caught them alone. His hands were bolder, and she didn’t push him away. The thought twisted me — fear, envy, and heat all at once.”  
-
----
-
-### Vagrant & Renna
-- **Entry 1 (Stage 1):**  
-  “She’s so naïve. Watching her hover around him makes me anxious… but also oddly protective.”  
-
-- **Entry 2 (Stage 2 — Jealousy):**  
-  “I saw him lean too close to her. My chest burned — anger, worry, maybe even envy. Why do I want to keep him to myself?”  
-
-- **Entry 3 (Stage 3 — Conflict):**  
-  “Renna looks at him like a child chasing fireflies. I want to shield her… yet a part of me envies how easily she gives herself to him.”  
-
-- **Entry 4 (Stage 4 — Hybrid trigger):**  
-  “When I saw them, I felt torn. I should be furious… but instead, I wondered what it would feel like to share him.”  
-
----
-
-### Vagrant & Yuffie
-- **Entry 1 (Stage 1):**  
-  “Yuffie’s playful nature draws everyone in… even him. I laughed it off, but deep inside, I felt uneasy.”  
-
-- **Entry 2 (Stage 2):**  
-  “She teases him shamelessly. I tell myself it’s harmless, but what if it isn’t?”  
-
-- **Entry 3 (Stage 3 — Jealousy):**  
-  “They sparred today, trading jabs and laughter. My stomach knotted. Is this how it starts — while I’m standing on the sidelines?”  
-
-- **Entry 4 (Stage 4 — Corruption temptation):**  
-  “Watching them play made me ache. A thought whispered: maybe I don’t have to fight it… maybe I could be part of it too.”
+## Vagrant & Yuffie
+- **Entry 1 (Stage 1):** “She teases him about smelling like trash, and he actually laughs. It’s infuriating that I smiled too.”
+- **Entry 2 (Stage 2):** “Yuffie shrugs off his dirt like it doesn’t matter. Why can’t I?”
+- **Entry 3 (Stage 3):** “If she can find joy in his filth, maybe I’m not so strange for wanting to touch it.”
