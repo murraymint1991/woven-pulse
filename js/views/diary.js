@@ -4,15 +4,22 @@ import {
   selectDesireEntries,
   selectReflectionEntries,
   getPairState,
-  setPairState
+  setPairState,
+  appendDiaryEntry,           // ← new: log into Timeline on changes
 } from "../systems/diary.js";
-import { fmtClock, getClock, advanceMinutes, advanceHours, advanceDays } from "../systems/clock.js";
+import {
+  fmtClock,
+  getClock,
+  advanceMinutes,
+  advanceHours,
+  advanceDays,
+} from "../systems/clock.js";
 import { Button, Badge } from "../ui.js";
 
-// Helper: group entries by YYYY-MM-DD
+/* Helper: group entries by YYYY-MM-DD */
 function groupByDay(entries) {
   const out = {};
-  (entries || []).forEach(e => {
+  (entries || []).forEach((e) => {
     const day = e.date?.slice(0, 10) || "unknown";
     (out[day] ||= []).push(e);
   });
@@ -24,23 +31,45 @@ export default function DiaryView({
   characterId = "aerith",
   targetId = "vagrant",
   witnesses = ["tifa", "renna", "yuffie"],
-  Nav
+  Nav,
 }) {
   if (!diary) return h("div", { class: "card" }, "No diary data loaded.");
 
   // current pair state (lane + stage)
   const pair = getPairState(characterId, targetId); // { path, stage }
-  const setPath = (p) => { setPairState(characterId, targetId, { path: p }); rerender(); };
-  const setStage = (delta) => {
+
+  // --- handlers: also write an auto entry to the timeline ---
+  const onSetPath = (p) => {
+    if (p === pair.path) return;
+    setPairState(characterId, targetId, { path: p });
+    appendDiaryEntry(diary, {
+      text: `I feel myself leaning toward ${p}.`,
+      path: p,
+      stage: pair.stage,
+      tags: ["#path-change", `#${p}`],
+      mood: ["conflicted"],
+    });
+    rerender();
+  };
+  const onSetStage = (delta) => {
     const n = Math.max(0, Math.min(5, Number(pair.stage || 0) + delta));
-    setPairState(characterId, targetId, { stage: n }); rerender();
+    if (n === pair.stage) return;
+    setPairState(characterId, targetId, { stage: n });
+    appendDiaryEntry(diary, {
+      text: `Something shifted inside me. (stage → ${n})`,
+      path: pair.path,
+      stage: n,
+      tags: ["#stage-change", `#${pair.path}`],
+      mood: ["reflective"],
+    });
+    rerender();
   };
 
   // data for the panel sections
-  const desire  = selectDesireEntries(diary, targetId, pair.path, pair.stage);
+  const desire = selectDesireEntries(diary, targetId, pair.path, pair.stage);
   const grouped = groupByDay(diary.entries);
 
-  // in-game clock (for the tiny dev strip)
+  // in-game clock (tiny dev strip)
   const c = getClock();
 
   return h("div", null, [
@@ -52,8 +81,8 @@ export default function DiaryView({
         h(Badge, null, fmtClock(c)),
         h(Button, { ghost: true, onClick: () => { advanceMinutes(15); location.reload(); } }, "+15m"),
         h(Button, { ghost: true, onClick: () => { advanceHours(1);  location.reload(); } }, "+1h"),
-        h(Button, { ghost: true, onClick: () => { advanceDays(1);   location.reload(); } }, "+1d")
-      ])
+        h(Button, { ghost: true, onClick: () => { advanceDays(1);   location.reload(); } }, "+1d"),
+      ]),
     ])),
 
     // Desires
@@ -61,32 +90,32 @@ export default function DiaryView({
       h("h3", null, `Desires · target: ${targetId}`),
       h("div", { class: "kv" }, [
         h(Badge, null, `Path: ${pair.path}`),
-        h(Badge, null, `Stage: ${pair.stage}`)
+        h(Badge, null, `Stage: ${pair.stage}`),
       ]),
       h("div", { class: "kv" }, [
-        h(Button, { onClick: () => setPath("love"),       ghost: pair.path !== "love" }, "Love"),
-        h(Button, { onClick: () => setPath("corruption"), ghost: pair.path !== "corruption" }, "Corruption"),
-        h(Button, { onClick: () => setPath("hybrid"),     ghost: pair.path !== "hybrid" }, "Hybrid"),
-        h(Button, { onClick: () => setStage(-1), ghost: true }, "Stage −"),
-        h(Button, { onClick: () => setStage(+1), ghost: true }, "Stage +")
+        h(Button, { onClick: () => onSetPath("love"),       ghost: pair.path !== "love" }, "Love"),
+        h(Button, { onClick: () => onSetPath("corruption"), ghost: pair.path !== "corruption" }, "Corruption"),
+        h(Button, { onClick: () => onSetPath("hybrid"),     ghost: pair.path !== "hybrid" }, "Hybrid"),
+        h(Button, { onClick: () => onSetStage(-1), ghost: true }, "Stage −"),
+        h(Button, { onClick: () => onSetStage(+1), ghost: true }, "Stage +"),
       ]),
       desire.length
         ? h("div", { class: "diary-hand" }, desire.map((t, i) => h("p", { key: i }, t)))
-        : h("div", { class: "small" }, "— no entries yet —")
+        : h("div", { class: "small" }, "— no entries yet —"),
     ]),
 
     // Reflections
     h("div", { class: "card diary-card" }, [
       h("h3", null, "Reflections (witnessed)"),
-      ...witnesses.map(w => {
+      ...witnesses.map((w) => {
         const lines = selectReflectionEntries(diary, targetId, w, pair.stage);
         return h("div", { class: "subcard", style: "margin-top:8px" }, [
           h("h4", null, `With ${w}`),
           lines.length
             ? h("div", { class: "diary-hand" }, lines.map((t, i) => h("p", { key: w + i }, t)))
-            : h("div", { class: "small" }, "— no entries yet —")
+            : h("div", { class: "small" }, "— no entries yet —"),
         ]);
-      })
+      }),
     ]),
 
     // Timeline
@@ -96,17 +125,17 @@ export default function DiaryView({
         h("div", { class: "diary-day" }, [
           h("div", { class: "diary-meta" }, [
             h(Badge, null, day),
-            ...((entries[0].mood || []).map(m => h(Badge, { ghost: true }, m)))
+            ...((entries[0].mood || []).map((m) => h(Badge, { ghost: true }, m))),
           ]),
           ...entries.map((e, i) =>
             h("div", { class: "diary-hand", key: day + i }, [
               h("p", null, e.text),
-              ...((e.asides || []).map((a, j) => h("p", { class: "diary-thought", key: j }, a)))
+              ...((e.asides || []).map((a, j) => h("p", { class: "diary-thought", key: j }, a))),
             ])
-          )
+          ),
         ])
-      )
-    ])
+      ),
+    ]),
   ]);
 }
 
