@@ -1,3 +1,11 @@
+# Aerith's Personal Diary
+
+---
+
+## Section A: Desire Journal (Direct feelings & wants)
+
+### Vagrant 
+
 ## Stage 0 — First Impressions
 - **Love Desire:** “I want to see the good in him, even if it’s buried deep. Something in me aches to believe he can be more than what he shows.”
 - **Corruption Desire:** “I wonder what it would feel like to stop resisting… to let myself be pulled into his darkness instead of pulling him toward the light.”
@@ -55,3 +63,50 @@
 - **Hybrid Desire:**  
   “I want to be his forbidden miracle — the one who embraces both the danger and the tenderness, and calls it love.  
    The thought of a child between us thrills me; scandal to the world, but to us… perfection.”
+
+## Section B: Reflections & Witnessed Interactions
+
+---
+
+### Vagrant & Tifa
+- **Entry 1 (Stage 1):**  
+  “The way he looked at her… sharp, hungry. I told myself it didn’t matter, but it stung in a place I didn’t know existed.”  
+
+- **Entry 2 (Stage 2):**  
+  “She’s so strong… if he turned that hunger on her, would she resist? Why do I care so much?”  
+
+- **Entry 3 (Stage 3 — Jealousy):**  
+  “When she laughed at his joke, I felt a crack inside me. Am I afraid of losing him… or of losing her?”  
+
+- **Entry 4 (Stage 4 — Corruption awareness):**  
+  “I caught them alone. His hands were bolder, and she didn’t push him away. The thought twisted me — fear, envy, and heat all at once.”  
+
+---
+
+### Vagrant & Renna
+- **Entry 1 (Stage 1):**  
+  “She’s so naïve. Watching her hover around him makes me anxious… but also oddly protective.”  
+
+- **Entry 2 (Stage 2 — Jealousy):**  
+  “I saw him lean too close to her. My chest burned — anger, worry, maybe even envy. Why do I want to keep him to myself?”  
+
+- **Entry 3 (Stage 3 — Conflict):**  
+  “Renna looks at him like a child chasing fireflies. I want to shield her… yet a part of me envies how easily she gives herself to him.”  
+
+- **Entry 4 (Stage 4 — Hybrid trigger):**  
+  “When I saw them, I felt torn. I should be furious… but instead, I wondered what it would feel like to share him.”  
+
+---
+
+### Vagrant & Yuffie
+- **Entry 1 (Stage 1):**  
+  “Yuffie’s playful nature draws everyone in… even him. I laughed it off, but deep inside, I felt uneasy.”  
+
+- **Entry 2 (Stage 2):**  
+  “She teases him shamelessly. I tell myself it’s harmless, but what if it isn’t?”  
+
+- **Entry 3 (Stage 3 — Jealousy):**  
+  “They sparred today, trading jabs and laughter. My stomach knotted. Is this how it starts — while I’m standing on the sidelines?”  
+
+- **Entry 4 (Stage 4 — Corruption temptation):**  
+  “Watching them play made me ache. A thought whispered: maybe I don’t have to fight it… maybe I could be part of it too.”
