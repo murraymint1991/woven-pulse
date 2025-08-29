@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Character Diary v1",
+  "type": "object",
+  "required": ["version", "characterId", "desires", "reflections"],
+  "properties": {
+    "version": { "type": "string", "const": "1.0" },
+    "characterId": { "type": "string", "minLength": 1 },
+    "desires": {
+      "type": "object",
+      "description": "Per-target desire streams (Love/Corruption/Hybrid) by stage 0-5.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "love": { "type": "array", "items": { "type": "string" }, "minItems": 6, "maxItems": 6 },
+          "corruption": { "type": "array", "items": { "type": "string" }, "minItems": 6, "maxItems": 6 },
+          "hybrid": { "type": "array", "items": { "type": "string" }, "minItems": 6, "maxItems": 6 }
+        },
+        "required": ["love", "corruption", "hybrid"],
+        "additionalProperties": false
+      }
+    },
+    "reflections": {
+      "type": "object",
+      "description": "How this character feels when seeing the target with other individuals, stage 0-5.",
+      "additionalProperties": {
+        "type": "object",
+        "patternProperties": {
+          "^[a-z0-9_]+$": {
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 6,
+            "maxItems": 6
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "notes": { "type": "string" },
+        "updated": { "type": "string" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}
