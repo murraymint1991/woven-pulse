@@ -1,57 +1,61 @@
+# Renna — Desire Journal (Vagrant)
+
 ## Stage 0 — First Impressions
-- **Love Desire:**  
-  “He’s rough, reckless, and everyone tells me to stay away. But I can’t help thinking there’s more to him than he shows… and I want to be the one who sees it.”  
-- **Corruption Desire:**  
-  “He laughs at me, calls me foolish… and I still blush. Maybe I like it when he teases too much. Maybe I want him to push further.”  
-- **Hybrid Desire:**  
-  “It’s dangerous, but it feels like a game. What if I let him get a little closer, just to see what happens?”
+- **Love Desire:** “Everyone says he’s bad for me. I keep wondering if there’s a softer version he only shows to people who don’t run.”
+- **Corruption Desire:** “He laughs when I blush. I want him to push farther—just to see what it feels like when I stop telling him no.”
+- **Hybrid Desire:** “I want the trouble and the tenderness together, like a dare I’m brave enough to accept.”
 
 ---
 
 ## Stage 1 — Early Bonds
-- **Love Desire:**  
-  “Sometimes, when he’s not looking, I see something gentler in him. I want to be the reason he softens… the reason he changes.”  
-- **Corruption Desire:**  
-  “He dares me to do things I shouldn’t. Stealing, lying, letting him touch me where no one else has. I know it’s wrong… but I like how it makes me feel.”  
-- **Hybrid Desire:**  
-  “Every time we meet, I feel like we’re sharing a secret no one else can know. It’s wrong, it’s dangerous… and it’s fun.”
+- **Love Desire:** “I want to be the reason he changes his mind about himself—just a little.”
+- **Corruption Desire:** “I want him to take the lead and make it easy to follow, even when I know I shouldn’t.”
+- **Hybrid Desire:** “I want secret rules that only we know—naughty, sweet, and ours.”
 
 ---
 
 ## Stage 2 — Naïve Curiosity
-- **Love Desire:**  
-  “He let me see a side no one else does. Just a smile, just a word, but it was real. I want to believe I’m special to him.”  
-- **Corruption Desire:**  
-  “He takes more each time. A touch, a command, a dare… and I obey. I hate that I like it. I hate that I want more.”  
-- **Hybrid Desire:**  
-  “Every dangerous thing we do together makes me laugh, makes me tremble. I know I should be afraid, but instead I can’t wait for the next game.”
+- **Love Desire:** “I want his guard to drop because I’m near. I want him to reach for me first.”
+- **Corruption Desire:** “I want to be undone by how he looks at me—owned, guided, claimed.”
+- **Hybrid Desire:** “I want to hold his darkness close and call it beautiful anyway.”
 
 ---
 
 ## Stage 3 — Escalation
-- **Love Desire:**  
-  “I feel safe when he’s with me, even if I shouldn’t. I want him to keep choosing me, over and over. Maybe I’m already his.”  
-- **Corruption Desire:**  
-  “He doesn’t ask anymore — he takes. And I let him. Maybe I need him to. Maybe I need to be wanted this badly, even if it means losing myself.”  
-- **Hybrid Desire:**  
-  “Every ‘no’ becomes a ‘yes’ too easily. I giggle, I play along, and then I can’t stop thinking about what we did. It’s wrong, it’s thrilling, it’s everything I shouldn’t want.”
+- **Love Desire:** “I want him to choose me on purpose, not by accident. I want to be the calm he didn’t know he wanted.”
+- **Corruption Desire:** “I want to say yes before he asks. I want to belong so completely I stop wondering who I was before.”
+- **Hybrid Desire:** “I want to giggle through danger and melt into safety—both, in the same breath.”
 
 ---
 
-## Stage 4 — Breaking Point
-- **Love Desire:**  
-  “Everyone says he’s trouble, but I don’t care anymore. When he’s with me, I feel like the world disappears. I even dream about what it would be like to have a child with him, like we could make something new together out of all this mess.”  
-- **Corruption Desire:**  
-  “I don’t fight him anymore. I want him to take me however he wants, whenever he wants. If he told me I’d carry his child, I’d nod and smile and tell myself I wanted it too.”  
-- **Hybrid Desire:**  
-  “The thrill, the danger, the way he makes me laugh right before he makes me moan. I love it, I hate it, I want more. Even the thought of him giving me a child feels like a wicked joke I’d never want to end.”
+## Stage 4 — Breaking Point (Commitment & Consequence)
+- **Love Desire:** “I want a stubborn, ordinary happiness with him—meals, mornings, promises. I even want the chance to be a mother if our love grows that far.”
+- **Corruption Desire:** “I want to carry his mark—inside and out. If he wanted me to bear his child, I’d whisper yes and mean it.”
+- **Hybrid Desire:** “I want us to write our own vows in the dark—sacred because they’re secret. Even the idea of a child feels like a perfect, wicked blessing.”
 
 ---
 
 ## Stage 5 — Outcomes
-- **Love Desire:**  
-  “He makes me feel like I was right to believe in him all along. Maybe I can be the one who changes him. If we had a child, it would be proof that even in darkness, we can grow something good.”  
-- **Corruption Desire:**  
-  “I belong to him now. My body, my heart, my future. If I bear his child, it will be because I wanted nothing else but to be his, completely.”  
-- **Hybrid Desire:**  
-  “I know it’s wrong, I know it’s dangerous… and I don’t care anymore. I love that it’s forbidden. If I carried his child, it would be our wicked little secret, proof of how far I’ve fallen for him.”
+- **Love Desire:** “I want to prove we can make something gentle from everything rough—maybe even a family.”
+- **Corruption Desire:** “I want to be his completely, with nothing left unclaimed. If I carry his child, let it bind me to him for good.”
+- **Hybrid Desire:** “I want to be the smile in his storm and the storm in his smile—dangerous, tender, forever ours.”
+
+# Renna — Reflections & Witnessed Interactions
+
+## Vagrant & Aerith
+- **Entry 1 (Stage 1):** “She’s gentle in ways I’m not. He watches her softness like it’s a miracle. It makes me feel small—and a little jealous.”
+- **Entry 2 (Stage 2):** “When he’s near her, he quiets down. Part of me wants to pull him back by the sleeve and say, ‘Look at me like that.’”
+- **Entry 3 (Stage 3 — Jealousy):** “I thought I only wanted his attention. Now I want hers too, or at least her approval. Why does that make my chest sting?”
+- **Entry 4 (Stage 4 — Hybrid Temptation):** “A wild thought: maybe I don’t have to lose anything. Maybe there’s a way for all of us to stop pretending.”
+
+## Vagrant & Tifa
+- **Entry 1 (Stage 1):** “She’s steel and sunlight; he’s smoke and sparks. Watching them together feels like standing too close to fireworks.”
+- **Entry 2 (Stage 2):** “She’s trying to resist him. I can tell. I also see the part of her that doesn’t want to.”
+- **Entry 3 (Stage 3 — Conflict):** “If she lets him in, where does that leave me? I want to be brave enough not to flinch.”
+- **Entry 4 (Stage 4 — Corruption Awareness):** “When they moved together, it lit something dark in me—envy that tasted like excitement.”
+
+## Vagrant & Yuffie
+- **Entry 1 (Stage 1):** “She plays with him like it’s a sport. I laugh, then worry I’m the only one who doesn’t know the rules.”
+- **Entry 2 (Stage 2):** “He likes the way she pushes back. It makes me want to learn how to tease without trembling.”
+- **Entry 3 (Stage 3 — Jealousy):** “They turn the room into a dare. I want to be daring too, not just obedient.”
+- **Entry 4 (Stage 4 — Hybrid Spark):** “Maybe I don’t have to choose between being sweet and being bold. Maybe I can be both—and be chosen anyway.”
