@@ -27,13 +27,31 @@
 ---
 
 ## Stage 4 — Commitment & Consequence
-- **Love Desire:** “I want to build something lasting with him, even if everyone else doubts. A home, a future, a love stubborn enough to survive anything.”
-- **Corruption Desire:** “I want to belong to him completely — body, soul, every breath claimed so I can’t imagine life without him.”
-- **Hybrid Desire:** “I want us to write our own rules, where every forbidden touch becomes sacred because it’s ours.”
+
+- **Love Desire:**  
+  “I want to build something lasting with him, even if everyone else doubts. A home, a future, a love stubborn enough to survive anything.  
+   Sometimes I imagine holding his child… proof that what we share isn’t just fleeting, but the start of a life together.”
+
+- **Corruption Desire:**  
+  “I want to belong to him completely — body, soul, every breath claimed so I can’t imagine life without him.  
+   Part of me aches to be filled, to swell with his mark, so no one could ever doubt who owns me.”
+
+- **Hybrid Desire:**  
+  “I want us to write our own rules, where every forbidden touch becomes sacred because it’s ours.  
+   Even the thought of carrying his child feels like the sweetest scandal — dangerous, but ours to cherish.”
 
 ---
 
 ## Stage 5 — Outcomes
-- **Love Desire:** “I want him to believe he can be loved, not because he changed, but because I chose every part of him and never let go.”
-- **Corruption Desire:** “I want to drown in him, to be swallowed whole by his darkness and never look back.”
-- **Hybrid Desire:** “I want to be his forbidden miracle — the one who embraces both the danger and the tenderness, and calls it love.”
+
+- **Love Desire:**  
+  “I want him to believe he can be loved, not because he changed, but because I chose every part of him and never let go.  
+   If I bore his child, I’d cradle it as proof that love makes even broken things bloom.”
+
+- **Corruption Desire:**  
+  “I want to drown in him, to be swallowed whole by his darkness and never look back.  
+   To carry his child would be the ultimate surrender — my body branded forever with his will.”
+
+- **Hybrid Desire:**  
+  “I want to be his forbidden miracle — the one who embraces both the danger and the tenderness, and calls it love.  
+   The thought of a child between us thrills me; scandal to the world, but to us… perfection.”
