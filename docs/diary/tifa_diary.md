@@ -1,6 +1,6 @@
 # Tifa's Personal Diary
 
-## Section A: Personal Desires
+## Section A: Desire Journal (Direct feelings & wants)
 
 ### Vagrant
 
