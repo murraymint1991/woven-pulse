@@ -57,48 +57,38 @@ export function setPairState(charId, targetId, patch) {
   if (!all[charId]) all[charId] = {};
   const curr = all[charId][targetId] || { path: "love", stage: 0 };
   const next = { ...curr, ...(patch || {}) };
-  if (typeof next.stage === "number") next.stage = Math.max(0, Math.min(5, next.stage));
+  if (typeof next.stage === "number") {
+    next.stage = Math.max(0, Math.min(5, next.stage));
+  }
   all[charId][targetId] = next;
   setPathState(all);
   return next;
 }
 
 /* ---------------------------------------
-   APPEND ENTRIES (dynamic diary stream)
+   FREEFORM ENTRY APPENDS (timeline)
 ---------------------------------------- */
 export function appendDiaryEntry(diaryObj, {
   text,
-  path = null,          // "love" | "corruption" | "hybrid" | null
-  stage = null,         // 0..5 or null
-  mood = [],            // ["hopeful"], ["quiet"], ...
-  tags = [],            // ["#auto", "#stage-change"], ...
-  witness = null
+  path = null,      // "love" | "corruption" | "hybrid" | null
+  stage = null,     // 0..5 or null
+  mood = [],        // ["hopeful"]
+  tags = [],        // ["#auto", "#stage-change"]
+  witness = null    // "tifa" | "renna" | etc
 }) {
-  if (!diaryObj) return null;
   if (!diaryObj.entries) diaryObj.entries = [];
   const id = `${diaryObj.characterId || "char"}-${Math.random().toString(36).slice(2,8)}`;
-  const entry = {
-    id,
-    date: currentISO(), // in-game time
-    mood,
-    tags,
-    path,
-    stage,
-    witness,
-    text
-  };
+  const entry = { id, date: currentISO(), mood, tags, path, stage, witness, text };
   diaryObj.entries.push(entry);
   return entry;
 }
 
-// Backfill at specific in-game day/hour
 export function appendDiaryEntryAt(diaryObj, day, hour, payload) {
-  if (!diaryObj) return null;
   if (!diaryObj.entries) diaryObj.entries = [];
   const id = `${diaryObj.characterId || "char"}-${Math.random().toString(36).slice(2,8)}`;
   const entry = {
     id,
-    date: isoFor(day, hour),
+    date: isoFor(day, hour, payload.minute ?? 0),
     mood: payload.mood || [],
     tags: payload.tags || [],
     path: payload.path ?? null,
@@ -110,40 +100,12 @@ export function appendDiaryEntryAt(diaryObj, day, hour, payload) {
   return entry;
 }
 
-/* ---------------------------------------
-   AUTO-NOTES on path / stage change
-   (reads optional diary.autoNotes)
----------------------------------------- */
-function pickAutoNote(diaryObj, lane, stage){
-  const arr = diaryObj?.autoNotes?.[lane];
-  if (!Array.isArray(arr) || !arr.length) return null;
-
-  // allow either strings or arrays of variants per stage
-  const idx = Math.max(0, Math.min(arr.length - 1, Number(stage || 0)));
-  const slot = arr[idx];
-  const pool = Array.isArray(slot) ? slot : [slot];
-  return pool[Math.floor(Math.random() * pool.length)];
-}
-
-// Use this instead of setPairState when you want auto logging.
-export function setPairStateWithAutoNote(diaryObj, charId, targetId, patch){
-  const before = getPairState(charId, targetId);
-  const after  = setPairState(charId, targetId, patch);
-
-  const laneChanged  = before.path  !== after.path;
-  const stageChanged = before.stage !== after.stage;
-
-  if ((laneChanged || stageChanged) && diaryObj){
-    const text = pickAutoNote(diaryObj, after.path, after.stage);
-    if (text){
-      appendDiaryEntry(diaryObj, {
-        text,
-        path: after.path,
-        stage: after.stage,
-        mood: [after.path],              // paints a badge in UI
-        tags: ["#auto", "#stage-change"]
-      });
-    }
-  }
-  return after;
+/* convenience: auto line when stage changes (you can call this inside UI) */
+export function autoNoteStageChange(diaryObj, charName, targetName, stage) {
+  return appendDiaryEntry(diaryObj, {
+    text: `${charName} feels something shift with ${targetName}. (Stage ${stage})`,
+    mood: ["restless"],
+    tags: ["#auto", "#stage-change"],
+    stage
+  });
 }
