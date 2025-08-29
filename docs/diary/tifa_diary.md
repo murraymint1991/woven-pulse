@@ -73,49 +73,32 @@
 
 ---
 
-## Section B: Reflections & Witnessed Interactions
+# Aerith — Reflections & Witnessed Interactions
+
+## Vagrant & Tifa
+- **Stage 0:** “Tifa scowls when he gets near. I can’t blame her—his dirt, his roughness… it’s overwhelming.”  
+- **Stage 1:** “She wrinkled her nose at his smell. I told myself I didn’t notice, but I did. Maybe I just hide it better.”  
+- **Stage 2:** “She looks disgusted when he leans too close. But I… I can’t stop imagining if it were me.”  
+- **Stage 3:** “Watching him test her patience made my stomach twist—disgust for him, envy for her.”  
+- **Stage 4:** “She doesn’t flinch at his dirt anymore. It frightens me how normal this is becoming… even for me.”  
+- **Stage 5:** “They look almost natural together. Filth and all. And part of me aches—because I want to feel that too.”  
 
 ---
 
-### Vagrant & Aerith
-- **Entry 1 (Stage 1):**  
-  “She’s always so open with him… too open. I tell myself she’s just being kind, but sometimes kindness looks a lot like desire.”  
-
-- **Entry 2 (Stage 2):**  
-  “He lingers near her. She doesn’t flinch — she welcomes it. It makes me feel… replaced, somehow.”  
-
-- **Entry 3 (Stage 3 — Jealousy):**  
-  “I caught them sharing a quiet moment. My chest tightened. Why her? Why not me?”  
-
-- **Entry 4 (Stage 4 — Corruption awareness):**  
-  “I thought I’d be furious. But watching them, I felt a strange mix of envy and heat. What’s wrong with me?”  
+## Vagrant & Renna
+- **Stage 0:** “Renna laughs too easily at his mockery. She doesn’t see the grime like I do.”  
+- **Stage 1:** “She treats his dirt like a joke. I envy how lightly she carries it.”  
+- **Stage 2:** “He lets her near him, grime and all. She doesn’t flinch. Why can’t I stop caring that I would?”  
+- **Stage 3:** “I thought it would repulse me to see them close. Instead, I felt a bitter kind of longing.”  
+- **Stage 4:** “Renna leans into him now, like she doesn’t even notice the filth. I can’t decide if that makes me jealous or horrified.”  
+- **Stage 5:** “She smiles at him as if the dirt makes no difference. Watching it feels like losing something I never had.”  
 
 ---
 
-### Vagrant & Renna
-- **Entry 1 (Stage 1):**  
-  “That girl doesn’t know what she’s playing with. She treats him like a game — but games with him are dangerous.”  
-
-- **Entry 2 (Stage 2):**  
-  “He toys with her, and she just giggles. It makes my blood boil… is it jealousy, or concern?”  
-
-- **Entry 3 (Stage 3 — Conflict):**  
-  “Renna is too naïve. I want to warn her, but part of me thinks she already knows… and she likes it.”  
-
-- **Entry 4 (Stage 4 — Hybrid temptation):**  
-  “I hate myself for thinking it — but maybe I don’t need to fight her. Maybe sharing wouldn’t be so bad.”  
-
----
-
-### Vagrant & Yuffie
-- **Entry 1 (Stage 1):**  
-  “She teases everyone… but with him, it feels different. I can’t shake the unease it leaves in me.”  
-
-- **Entry 2 (Stage 2):**  
-  “The way she laughs around him — careless, wild. I wish I could be that free… but instead, I just feel left behind.”  
-
-- **Entry 3 (Stage 3 — Jealousy):**  
-  “They sparred and collapsed in laughter. My fists clenched before I even knew it. Why does it hurt so much to watch?”  
-
-- **Entry 4 (Stage 4 — Corruption temptation):**  
-  “I felt something dark whisper in me: maybe I’d rather join them than keep watching. The thought both thrills and terrifies me.”
+## Vagrant & Yuffie
+- **Stage 0:** “Yuffie mocks his smell, loud and playful. I almost admire her for turning dirt into a game.”  
+- **Stage 1:** “She teases him about smelling like trash, and he actually laughs. It’s infuriating that I smiled too.”  
+- **Stage 2:** “Yuffie shrugs off his filth like it doesn’t matter. Why can’t I?”  
+- **Stage 3:** “If she can find joy in his grime, maybe I’m not so strange for wanting to touch it.”  
+- **Stage 4:** “She grins at him, dirt and all, like it’s harmless. And it unsettles me that I envy her boldness.”  
+- **Stage 5:** “She’s made his filth a joke, a bond between them. And I—I’ve made it a shameful desire.”
