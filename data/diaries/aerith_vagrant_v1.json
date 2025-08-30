@@ -68,6 +68,29 @@
       { "key": "quiet_hold",  "stageMin": 3, "path": "love", "text": "We said nothing. His weight, his warmth, the grime—somehow it felt like safety." },
       { "key": "claimed_whisper", "stageMin": 4, "path": "corruption", "text": "He murmured at my ear that I’m his. The word sank deep; I didn’t fight it." }
     ],
+"erotic": [
+  { "key": "ass_grab", "stageMin": 0, "path": "any", "text": "His huge hands squeezed my behind, a small yelp left my lips. I was quick to scold him. I hope that never happens again." },
+
+  { "key": "nipple_tease", "stageMin": 1, "path": "any", "text": "I felt his fingers run down my chest and linger where I'm most sensitive. I promised myself I won't let it happen again." },
+
+  { "key": "bath_play", "stageMin": 2, "path": "love", "text": "He convinced me to help him wash the other day. He just seems so helpless, how could I refuse. While bathing, I couldn't help but notice how big he was... S-s-stop thinking about it Aerith." },
+
+  { "key": "first_time_corruption", "stageMin": 3, "path": "corruption", "text": "One minute he was whispering in my ear. The next... I lost control. He finally made me his. I can still feel his filth all over me, marking me as his." },
+
+  { "key": "first_time_love", "stageMin": 3, "path": "love", "text": "The night was soft, and even with his rough edges, he touched me like I mattered. It hurt, but I wanted him close. I wanted all of him." },
+
+  { "key": "first_time_hybrid", "stageMin": 3, "path": "hybrid", "text": "I told myself I hated how dirty he was, but when he pressed me down and kissed me with that smirk, I melted. Shame and thrill mixed, and I gave in." },
+
+  { "key": "morning_aftermath", "stageMin": 4, "path": "any", "text": "I woke sore and flushed, his smell still clinging to me. I should have bathed immediately, but part of me wanted to keep it—like proof of last night." },
+
+  { "key": "rough_claim", "stageMin": 4, "path": "corruption", "text": "He pushed me hard against the wall, and I didn’t resist. The sting, the filth—it made me tremble in ways I never imagined I’d crave." },
+
+  { "key": "tender_bed", "stageMin": 4, "path": "love", "text": "He lay beside me, unwashed and raw, yet he touched me so gently. I buried my face in his chest, choosing to see past the dirt to the man inside." },
+
+  { "key": "public_thrill", "stageMin": 5, "path": "hybrid", "text": "We slipped into a dark alley. He pulled me close, rough hands on me while the world bustled just beyond the wall. I thought I’d die of shame… but I wanted more." },
+
+  { "key": "pregnant_touch", "stageMin": 5, "path": "any", "text": "His hand lingered on my belly today, possessive and heavy. Whether love or corruption, I know now—my body belongs to him." }
+]
     "exploration": [
       { "key": "slum_walk",     "stageMin": 0, "path": "any", "text": "We walked alleys that smelled of rust and rain. He mocked the world; I laughed despite myself." },
       { "key": "church_visit",  "stageMin": 1, "path": "any", "text": "He stepped into the church with mud on his boots. I should’ve scolded him. I asked him to stay." },
