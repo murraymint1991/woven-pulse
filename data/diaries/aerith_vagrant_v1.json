@@ -95,7 +95,23 @@
 
 { "key": "market_yuffie_spot", "stageMin": 4, "path": "corruption", "text": "He cornered me in the market stalls, mouth on mine. When I opened my eyes Yuffie was there—grinning, watching. I shoved him away, but the heat in me refused to fade." },
 
-{ "key": "campfire_nanaki", "stageMin": 5, "path": "hybrid", "text": "We lay too close by the campfire, his hand beneath my clothes. Nanaki lifted his head, ears twitching. He didn’t speak, but I know he saw—and still I didn’t stop." }
+{ "key": "campfire_nanaki", "stageMin": 5, "path": "hybrid", "text": "We lay too close by the campfire, his hand beneath my clothes. Nanaki lifted his head, ears twitching. He didn’t speak, but I know he saw—and still I didn’t stop." },
+      [
+  { "key": "shared_cup", "stageMin": 1, "path": "any", "text": "He handed me a drink without wiping the rim. I hesitated, then sipped anyway. His eyes caught mine when I did." },
+  { "key": "brushed_cheek", "stageMin": 1, "path": "any", "text": "His rough fingers brushed dirt from my cheek. I told myself it was only kindness, but my heart jumped." },
+  { "key": "shoulder_rest", "stageMin": 2, "path": "any", "text": "I nodded off leaning on his shoulder. He didn’t move away, and I pretended not to notice." },
+  { "key": "midnight_confession", "stageMin": 2, "path": "love", "text": "By lantern light he admitted he dreamed of leaving the slums. I touched his hand. Maybe he meant leaving with me." },
+  { "key": "accidental_brush", "stageMin": 2, "path": "hybrid", "text": "Our hands brushed too many times to be accidents. He smirked; I swallowed my scolding." },
+  { "key": "neck_whisper", "stageMin": 3, "path": "corruption", "text": "He leaned close, lips almost grazing my neck, and whispered something I can’t repeat. My body shivered anyway." },
+  { "key": "hidden_laughter", "stageMin": 3, "path": "any", "text": "We shared a laugh too loud for the shadows we hid in. His arm lingered around me longer than the joke required." },
+  { "key": "bandage_care", "stageMin": 3, "path": "love", "text": "I wrapped his hand in cloth after a fight. He watched me too closely for someone bleeding." },
+  { "key": "back_hold", "stageMin": 4, "path": "any", "text": "He slipped behind me, arms around my waist. I told him to let go, but stayed in his hold a moment longer." },
+  { "key": "ear_breath", "stageMin": 4, "path": "hybrid", "text": "He breathed against my ear, not kissing—just hovering. The restraint was worse than the act itself." },
+  { "key": "trembling_kiss", "stageMin": 4, "path": "love", "text": "When our lips finally met, I was trembling. He kissed me slowly, as if afraid I’d vanish." },
+  { "key": "dirty_tease", "stageMin": 4, "path": "corruption", "text": "He tugged my skirt in public, just enough to make me panic. He laughed when I gasped—and I hated how warm it made me feel." },
+  { "key": "shelter_embrace", "stageMin": 5, "path": "any", "text": "We sheltered from the rain, pressed close under one roof. I barely noticed the storm over my heartbeat." },
+  { "key": "slow_dance", "stageMin": 5, "path": "love", "text": "There was no music. He still pulled me into a slow dance, whispering that I was his song." },
+  { "key": "possessive_kiss", "stageMin": 5, "path": "corruption", "text": "He kissed me rough enough to leave marks. Later, I traced them in the mirror and shivered." }
     ],
 "erotic": [
   { "key": "ass_grab", "stageMin": 0, "path": "any", "text": "His huge hands squeezed my behind, a small yelp left my lips. I was quick to scold him. I hope that never happens again." },
