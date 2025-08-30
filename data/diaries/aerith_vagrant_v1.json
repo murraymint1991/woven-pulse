@@ -157,6 +157,18 @@
 
 { "key": "campfire_nanaki", "stageMin": 5, "path": "corruption", "text": "By the fire he entered me rough, not caring about the others nearby. Nanaki lifted his head, ears twitching, gaze fixed on us. I should’ve begged him to stop—but I arched instead, letting the beast inside and outside of me witness it." }
 ],
+    "extreme_erotic": [
+  { "key": "alley_taken", "stageMin": 4, "path": "corruption", "text": "He pressed me against a slum wall in broad daylight. I heard voices passing—didn’t care. I wanted them to know I was his." },
+  { "key": "public_whisper", "stageMin": 4, "path": "hybrid", "text": "He whispered the filthiest things into my ear at the market stalls. People glanced, but I only leaned closer, aching for more." },
+  { "key": "caught_by_cloud", "stageMin": 5, "path": "corruption", "text": "Cloud barged in while he had me pinned. My face burned with humiliation, yet my hips never stopped moving. Cloud’s eyes—his shock—only made me cling harder." },
+  { "key": "tent_exposed", "stageMin": 5, "path": "any", "text": "The tent flap opened mid-thrust. I should’ve screamed, should’ve covered myself. Instead I arched louder, forcing the intruder to watch." },
+  { "key": "inn_scandal", "stageMin": 5, "path": "corruption", "text": "The innkeeper knocked—told us to quiet down. Vagrant growled, pushed harder, and I cried his name loud enough for the whole hall." },
+  { "key": "bathhouse_claim", "stageMin": 5, "path": "hybrid", "text": "Steam hid nothing. I let him take me in the bathhouse while others soaked nearby. I wanted them to hear my moans echo through the tiles." },
+  { "key": "slum_stage", "stageMin": 5, "path": "corruption", "text": "He pulled me onto a crate in the slums like a throne. His hand between my thighs, his smirk daring the crowd to stare. And I spread wider, letting them." },
+  { "key": "open_air_possession", "stageMin": 5, "path": "corruption", "text": "He bent me over under the open sky. Passersby gasped, muttered—my body still welcomed him. Shame was long gone." },
+  { "key": "shared_look", "stageMin": 5, "path": "hybrid", "text": "Tifa saw. Her eyes locked with mine as he claimed me. I didn’t look away. I wanted her to know how far I’d fallen… or risen." },
+  { "key": "filthy_family", "stageMin": 5, "path": "corruption", "text": "I stroked my swollen belly as he used me, groaning loud enough for the neighbors. Let them all hear—this child is proof I’m his." }
+      ],
     "exploration": [
       { "key": "slum_walk",     "stageMin": 0, "path": "any", "text": "We walked alleys that smelled of rust and rain. He mocked the world; I laughed despite myself." },
       { "key": "church_visit",  "stageMin": 1, "path": "any", "text": "He stepped into the church with mud on his boots. I should’ve scolded him. I asked him to stay." },
