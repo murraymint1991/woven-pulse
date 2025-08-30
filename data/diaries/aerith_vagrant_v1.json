@@ -239,7 +239,7 @@
   { "key": "rooftop_dare", "stageMin": 5, "path": "hybrid", "text": "On a rooftop, the city beneath us, he dared me to strip bare for him. I did, trembling in the open air." },
   { "key": "marketplace_take", "stageMin": 5, "path": "corruption", "text": "In a shadowed market stall, he pushed inside me—people only steps away. Shame bled into rapture." },
   { "key": "inn_door_open", "stageMin": 5, "path": "corruption", "text": "He left the inn door ajar as he claimed me. Anyone could’ve walked by and seen." },
-  { "key": "altar_blasphemy", "stageMin": 5, "path": "corruption", "text": "He pressed me against the altar itself. Sin and desire blurred until I couldn’t tell them apart." }
+  { "key": "altar_blasphemy", "stageMin": 5, "path": "corruption", "text": "He pressed me against the altar itself. Sin and desire blurred until I couldn’t tell them apart." },
   { "key": "cloud_tent", "stageMin": 3, "path": "love", "text": "He slid against me in the tent, and just as I moaned, Cloud called my name outside. My heart nearly stopped—Vagrant smirked like he planned it." },
 
   { "key": "tifa_stairwell", "stageMin": 3, "path": "corruption", "text": "On the inn stairwell he pinned me, lips on my neck. The creak of a board above—Tifa passing by. I froze, but he didn’t stop." },
@@ -258,8 +258,55 @@
 
   { "key": "barmaid_inn", "stageMin": 4, "path": "any", "text": "He kissed me rough against the inn wall. A barmaid’s tray clattered nearby—I don’t know if she caught a glimpse before scurrying off." },
 
-  { "key": "caught_together", "stageMin": 5, "path": "corruption", "text": "We were reckless, half-dressed in the slum alley. A group passed by, gasping. He only laughed, pulling me tighter as my shame burned hotter." }
-  ],
+  { "key": "caught_together", "stageMin": 5, "path": "corruption", "text": "We were reckless, half-dressed in the slum alley. A group passed by, gasping. He only laughed, pulling me tighter as my shame burned hotter." },
+  
+  { "key": "flower_field_barret", "stageMin": 1, "path": "love", "text": "He brushed a kiss against my neck among the flowers. Barret stomped past and grunted. I froze, cheeks aflame, pretending nothing happened." },
+
+  { "key": "training_yuffie", "stageMin": 2, "path": "hybrid", "text": "He pinned me against the post during Yuffie’s training. She turned mid-spin, eyes narrowing, but I forced a laugh as if it were nothing." },
+
+  { "key": "church_cloud_confession", "stageMin": 3, "path": "love", "text": "He pulled me close in the church, lips brushing mine. Cloud opened the door, his eyes dark with hurt. My chest burned hotter than his kiss." },
+
+  { "key": "inn_corridor_renna", "stageMin": 3, "path": "corruption", "text": "He had me pressed against the inn wall when Renna walked by, humming. Her eyes flickered, but she kept going. I shivered at the thought she knew." },
+
+  { "key": "slum_market_crowd", "stageMin": 4, "path": "hybrid", "text": "His hand slid beneath my skirt in the crowded slum market. Someone bumped into us, I stifled a gasp, but he only pressed deeper, daring me not to cry out." },
+
+  { "key": "camp_shadow_nanaki", "stageMin": 4, "path": "corruption", "text": "Under the camp’s lantern light, he took liberties with me. Nanaki’s golden eyes lingered too long before turning away. Shame and thrill tangled in my chest." },
+
+  { "key": "dockside_tifa", "stageMin": 5, "path": "corruption", "text": "At the docks, he bent me over the railing. Tifa’s footsteps echoed nearby. I moaned too loud; her pace quickened, and I couldn’t tell if it was disgust—or envy." },
+
+  { "key": "inn_window_exposure", "stageMin": 5, "path": "hybrid", "text": "He pushed me against the open window. Voices drifted from below. The danger of being seen only made me cling to him harder." },
+],
+  "erotic_caught": [
+  { "key": "garden_peek", "stageMin": 1, "path": "love", "text": "He kissed me between the hedges. A child peeked through the leaves before being pulled away by their mother. My heart pounded like a guilty hymn." },
+
+  { "key": "inn_door_knock", "stageMin": 1, "path": "any", "text": "He slipped his hands under my dress just as someone knocked on the door. I nearly screamed—he whispered for me to stay quiet until they left." },
+
+  { "key": "tavern_shadow", "stageMin": 2, "path": "corruption", "text": "He pressed me against the tavern wall, mouths locked. Footsteps passed by, laughter echoing, and still he wouldn’t let me go." },
+
+  { "key": "training_ground_barret", "stageMin": 2, "path": "any", "text": "We lingered too close at the training ground. Barret barked at us from across the yard. I jumped, cheeks aflame, his hand still on my hip." },
+
+  { "key": "haunted_room_yuffie", "stageMin": 2, "path": "hybrid", "text": "He tugged me into a haunted corridor. Yuffie stumbled in behind us, flashlight catching our tangled hands. Her giggle made me shiver." },
+
+  { "key": "dockside_moonlight", "stageMin": 3, "path": "love", "text": "The moonlight glittered on the water while he kissed me. Tifa’s voice carried nearby. I pulled back, but he only smiled and kissed me harder." },
+
+  { "key": "market_corner_cloud", "stageMin": 3, "path": "corruption", "text": "He pinned me behind a vendor’s stall. Cloud’s silhouette walked by, his voice calling my name. I pressed my face into Vagrant’s chest and stayed silent." },
+
+  { "key": "tent_lantern", "stageMin": 3, "path": "any", "text": "He slipped beneath my blankets. The lantern outside flickered as Nanaki passed. I swore he could smell what we were doing." },
+
+  { "key": "church_statue", "stageMin": 4, "path": "hybrid", "text": "He laid me against the statue’s base, lips on my throat. Candles burned all around. Anyone could’ve walked in—I almost wanted them to." },
+
+  { "key": "alley_gang", "stageMin": 4, "path": "corruption", "text": "In a dark alley, he lifted me onto a crate. Voices of thugs drifted closer. He only held me tighter, daring them to hear my muffled gasps." },
+
+  { "key": "slum_window", "stageMin": 4, "path": "any", "text": "His hand crept beneath my skirt as I leaned on the window sill. I bit my lip as neighbors argued below, oblivious to what was happening above." },
+
+  { "key": "inn_corridor_cloud", "stageMin": 4, "path": "corruption", "text": "He kissed me rough against the corridor wall. Cloud turned the corner. I shoved Vagrant away, but Cloud’s eyes had already seen too much." },
+
+  { "key": "campfire_circle", "stageMin": 5, "path": "any", "text": "He touched me under the blanket by the fire. The others laughed and sang, unaware—or pretending not to be. My pulse thundered in my ears." },
+
+  { "key": "dockside_barret", "stageMin": 5, "path": "corruption", "text": "He bent me low at the dock’s edge. Barret’s shadow fell across us. He cursed under his breath and left, but the shame only made me shiver harder." },
+
+  { "key": "inn_balcony_tifa", "stageMin": 5, "path": "hybrid", "text": "On the inn balcony, he pressed me against the railing. Tifa’s door opened just beside us. I hid my face against his chest as she looked into the night." },
+],
 "daily_moments": [
   { "key": "flower_water", "stageMin": 0, "path": "any", "text": "Watering flowers, I caught myself humming the tune he whistled yesterday." },
   { "key": "sleepless", "stageMin": 1, "path": "any", "text": "I couldn’t sleep; the night felt too quiet without the rasp of his laugh in it." },
