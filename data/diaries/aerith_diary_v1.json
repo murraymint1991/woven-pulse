@@ -1,64 +1,118 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "characterId": "aerith",
   "desires": {
     "vagrant": {
       "love": [
-        "He smells of rust and alleys, and still… I want to believe there’s someone gentler beneath all that grime.",
-        "When I look past the dirt, I glimpse loneliness. I want to be the one who wipes it away.",
-        "Every smile of his is cracked and dirty… but if it’s for me, I want to see more of it.",
-        "I want to hold him despite the grime, to show him that even filth can be cherished.",
-        "If he shed the dirt, I’d still love him. But maybe I want to be the reason he finally bathes in light.",
-        "I want to prove that even a man covered in ash and dust can bloom if someone believes in him."
+        "He reeks of rust and alleys, yet… something inside me whispers there’s a gentler heart beneath the grime.",
+        "When I look past the filth, I see loneliness. I want to be the one who risks touching it.",
+        "Every cracked smile of his still smells of dirt, but if it’s meant for me, I want to see more of it.",
+        "They say I’m foolish for wanting to hold a man so unwashed. Maybe I am, but I ache for it anyway.",
+        "If he shed the dirt tomorrow, I’d still love him—but part of me longs to be the reason he tries to shine.",
+        "His ruggedness, his stench, his scars—it should drive me away. Instead it feels like everything forbidden I secretly crave."
       ],
       "corruption": [
-        "He’s filthy, unwashed, shameless. I hate that part of me wonders what it would feel like if he touched me anyway.",
-        "The smell of him clings, the roughness unsettles me—and I keep imagining letting it linger.",
-        "He mocks me with that smirk, foul and brazen. I want him to prove just how low I’ll sink to keep him looking at me.",
-        "His dirt feels like ownership, smearing into me. Part of me craves being stained by him completely.",
-        "He makes me carry his filth proudly, like a mark. And I want to keep carrying it.",
-        "I want to be ruined by him, filth and all, until the world sees me as his and only his."
+        "He’s filthy, shameless, unwashed. It sickens me that I want to feel him anyway.",
+        "His odor clings like chains, and I imagine never washing it away.",
+        "That crooked smirk—foul, brazen—makes me want him to push me further than I can excuse.",
+        "The way his stench smears into me feels like ownership. Part of me wants to be fully stained.",
+        "I’m already marked by his filth. All I think about is how far I’ll let him drag me down.",
+        "I want him to ruin me, drown me in his scent, make me his disgrace in full view of everyone."
       ],
       "hybrid": [
-        "He’s everything I should turn away from—yet something in me aches to test what happens if I don’t.",
-        "I want him to keep being terrible and then, in secret, show me kindness. Both would burn, and I’d welcome it.",
-        "It excites me that he’s unclean, like touching him is a sin no one else dares to commit.",
-        "It’s both shame and thrill: to want his filth, to let it stay, to call it ours.",
-        "Love wrapped in grime—taboo but tender. I want to choose him dirty and still call it holy.",
-        "I want the dirt, the danger, the love—everything people would call wrong, but feels truer than anything else."
+        "He is everything I should avoid—and exactly what I ache to test myself against.",
+        "I want him to stay terrible and then, suddenly, show me tenderness. Both would burn. I’d welcome both.",
+        "It excites me that he is unclean, like touching him is a sin carved into flesh.",
+        "The shame and thrill blend together: to want his filth and to keep it, to call it ours.",
+        "Love wrapped in taboo. Tenderness wrapped in stench. I want both, even if it damns me.",
+        "The dirt, the danger, the love—it’s all wrong, and it’s truer than anything else I’ve known."
       ]
     }
   },
-  "reflections": {
+  "witnessed": {
     "vagrant": {
-      "tifa": [
-        "Tifa scowls when he gets near. I can’t blame her—his dirt, his roughness… it’s overwhelming.",
-        "She wrinkled her nose at his smell. I told myself I didn’t notice, but I did. Maybe I just hide it better.",
-        "She looks disgusted when he leans too close. But I… I can’t stop imagining if it were me.",
-        "Watching him test her patience made my stomach twist—disgust for him, envy for her.",
-        "She doesn’t flinch at his dirt anymore. It frightens me how normal this is becoming… even for me.",
-        "They look almost natural together. Filth and all. And part of me aches—because I want to feel that too."
-      ],
-      "renna": [
-        "Renna laughs too easily at his mockery. She doesn’t see the grime like I do.",
-        "She treats his dirt like a joke. I envy how lightly she carries it.",
-        "He lets her near him, grime and all. She doesn’t flinch. Why can’t I stop caring that I would?",
-        "I thought it would repulse me to see them close. Instead, I felt a bitter kind of longing.",
-        "Renna leans into him now, like she doesn’t even notice the filth. I can’t decide if that makes me jealous or horrified.",
-        "She smiles at him as if the dirt makes no difference. Watching it feels like losing something I never had."
-      ],
-      "yuffie": [
-        "Yuffie mocks his smell, loud and playful. I almost admire her for turning dirt into a game.",
-        "She teases him about smelling like trash, and he actually laughs. It’s infuriating that I smiled too.",
-        "Yuffie shrugs off his filth like it doesn’t matter. Why can’t I?",
-        "If she can find joy in his grime, maybe I’m not so strange for wanting to touch it.",
-        "She grins at him, dirt and all, like it’s harmless. And it unsettles me that I envy her boldness.",
-        "She’s made his filth a joke, a bond between them. And I—I’ve made it a shameful desire."
-      ]
+      "tifa": {
+        "love": [
+          "She recoiled at his odor, and I told myself I agreed… but secretly I wondered what it would be like to endure it for him.",
+          "She avoided his closeness, and it made me ache—because I want that closeness despite the filth.",
+          "Her nose wrinkled, but my stomach twisted with envy: what if he leaned that close to me?",
+          "When she no longer flinched at his dirt, I felt frightened—and jealous of how natural it looked.",
+          "She trusted him despite the grime. I wanted to believe I could, too.",
+          "Watching them almost belong together—filth and all—left me aching to belong there myself."
+        ],
+        "corruption": [
+          "She scowled at him, disgust clear. I should feel the same. Instead, I envied her attention.",
+          "She endured his stink, and my heart thumped—because I wanted to endure it too.",
+          "He leaned close, his smell heavy, and her breath quickened. Mine did too.",
+          "He touched her boldly, unwashed hands roaming. She didn’t stop him. I burned imagining it was me.",
+          "She let the dirt claim her. I felt horror—and unbearable longing.",
+          "Seeing her surrender to his filth made me tremble with a shameful kind of hunger."
+        ],
+        "hybrid": [
+          "She teased him while wrinkling her nose. It was almost… playful. I laughed before I could stop myself.",
+          "She allowed him near, dirt and all, and turned it into banter. I wanted to do the same.",
+          "They laughed together, wrong and right at once. My chest fluttered painfully.",
+          "She accepted his roughness and made it something light. I wished I had her boldness.",
+          "Their closeness looked shameless and soft in the same breath. I couldn’t look away.",
+          "They made filth look like intimacy. And I wanted to share in it, even knowing it was forbidden."
+        ]
+      },
+      "renna": {
+        "love": [
+          "Renna treated his stench like nothing at all. I wished I could laugh it off like her.",
+          "She leaned into his grime as if it were harmless. I envied how easily she did it.",
+          "She smiled at him while others gagged. I wanted that ease, that freedom.",
+          "They looked like misfits who belonged. My heart pinched that I wasn’t part of it.",
+          "Renna never seemed to notice his filth. Watching it made me question my own hesitation.",
+          "She carried it lightly, like dirt was just air. I wished I could breathe it like her."
+        ],
+        "corruption": [
+          "She laughed at his filthy mockery. I wanted to scold her… but instead I wanted to join in.",
+          "She played with his dirt like it was fun. I hated her for making it seem easy.",
+          "She leaned into his touch, grime and all. My breath caught with shame and envy.",
+          "Watching him stain her made my stomach churn—and my skin tingle.",
+          "She seemed proud to wear his dirt. I trembled, wondering if I could be the same.",
+          "It was wrong, and she looked radiant in it. I felt small and hungry watching."
+        ],
+        "hybrid": [
+          "She teased him about the smell until even I laughed. It hurt how natural it seemed.",
+          "She made dirt into a joke. I wanted to play along too.",
+          "They shared an ease that looked forbidden but fun. My heart ached with curiosity.",
+          "She leaned close and made it light. I wanted to feel that daring.",
+          "Their laughter felt scandalous and sweet. It made me want in.",
+          "They turned his filth into something playful. I wanted it to be mine too."
+        ]
+      },
+      "yuffie": {
+        "love": [
+          "Yuffie mocked his smell loudly, making it a joke. I admired her boldness.",
+          "She teased him without fear, and he laughed. I laughed too—before remembering it was wrong.",
+          "She shrugged off his filth. I wished I could, too.",
+          "Her joy made the grime seem harmless. My chest tightened at the thought.",
+          "She grinned through the stench like it was nothing. I wanted that courage.",
+          "She made dirt into laughter. I wanted to share in it instead of hiding."
+        ],
+        "corruption": [
+          "She joked about his stink, and he smirked like it was a victory. I burned with jealousy.",
+          "She laughed as though the smell was nothing. I hated that I wanted to laugh with her.",
+          "She made filth a game—and I wanted to play, even if it meant surrendering.",
+          "He touched her with dirty hands and she only laughed. I wanted to know what that felt like.",
+          "She leaned into the dirt, unashamed. My shame turned into desire.",
+          "They looked filthy and free, and I envied them with every breath."
+        ],
+        "hybrid": [
+          "She turned his odor into a competition of jokes. I wanted to join their game.",
+          "She made even filth sound fun. I wished I could smile that freely.",
+          "They laughed like conspirators in sin. I wanted to be their third.",
+          "She embraced his roughness and mocked it, and I envied her bravery.",
+          "Their shameless play looked dangerous and thrilling. My heart fluttered.",
+          "They looked like partners in crime. I wanted to share the crime, too."
+        ]
+      }
     }
   },
   "meta": {
-    "notes": "Desire streams include Love/Corruption/Hybrid with the 'dirty/unattractive' perception threaded throughout. Reflections run stage 0-5 per girl.",
-    "updated": "2025-08-29"
+    "notes": "Desires include Love/Corruption/Hybrid with the 'dirty/unattractive' perception woven through. Witnessed entries now path-aware, stage 0–5 for Tifa, Renna, Yuffie.",
+    "updated": "2025-08-30"
   }
 }
