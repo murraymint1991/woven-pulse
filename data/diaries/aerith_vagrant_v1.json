@@ -346,8 +346,23 @@
   { "key": "public_joke", "stageMin": 4, "path": "any", "text": "He made a crude joke in front of others. I blushed hard, but secretly loved the way he made me feel claimed." },
   { "key": "comforted", "stageMin": 4, "path": "love", "text": "When I cried, he wiped my cheek with the back of his rough hand. I leaned into it." },
   { "key": "lingering_smell", "stageMin": 5, "path": "corruption", "text": "His smell clings to me everywhere I go. People look disgusted, but I wear it like perfume." },
-  { "key": "daydreams", "stageMin": 5, "path": "any", "text": "I daydream of him while watering flowers, dirt under my nails, heat in my cheeks. He’s in me now." }
-]
+  { "key": "daydreams", "stageMin": 5, "path": "any", "text": "I daydream of him while watering flowers, dirt under my nails, heat in my cheeks. He’s in me now." },
+  { "key": "laundry_shared",      "stageMin": 0, "path": "any", "text": "I washed his shirt. Even clean, a hint of him stayed. I pressed it to my face and pretended it was the wind that made me smile." },
+  { "key": "bread_bite",          "stageMin": 0, "path": "any", "text": "We split bread. Grease on his fingers, crumbs on mine. When he held a piece to my lips, I forgot to be proper." },
+  { "key": "lantern_fix",         "stageMin": 1, "path": "any", "text": "He fixed a broken lantern outside the church. Soot on his jaw, stubborn light in his eyes. I wanted to wipe both away with my thumb." },
+  { "key": "alley_rain",          "stageMin": 1, "path": "any", "text": "A sudden rain pinned us beneath a tin awning. Drips kept time while he stood too close. I didn’t step back." },
+  { "key": "market_share",        "stageMin": 1, "path": "any", "text": "He haggled for fruit and handed me the ripest. Our fingers brushed; my cheeks burned warmer than the sun." },
+  { "key": "scarf_scent_stronger","stageMin": 2, "path": "any", "text": "My scarf held his smell again. I should have washed it last night. I folded it instead, like hiding a secret." },
+  { "key": "flowerbed_tumble",    "stageMin": 2, "path": "any", "text": "We tripped over a root and fell into the flowerbed. Dirt on my dress, laughter in my throat, his breath close enough to taste." },
+  { "key": "window_watch",        "stageMin": 2, "path": "any", "text": "I watched him from the window as he joked with a shopkeep. When he glanced up, I ducked and laughed at myself." },
+  { "key": "tea_pause",           "stageMin": 3, "path": "any", "text": "He took tea without complaint. Hands wrapped round the cup, eyes on me instead of the steam. I couldn’t hold his gaze for long." },
+  { "key": "quiet_walk_home",     "stageMin": 3, "path": "any", "text": "We walked the long way home in silence. Our shoulders brushed now and then, like the night had its own ideas." },
+  { "key": "bonfire_story",       "stageMin": 4, "path": "any", "text": "By a slum bonfire he told a story that wasn’t cruel. Ash turned his hair silver; for a moment he looked almost gentle." },
+  { "key": "shared_blanket",      "stageMin": 4, "path": "any", "text": "One blanket between us. He pretended to sleep; I pretended not to notice when he shifted closer." },
+  { "key": "morning_afterglow",   "stageMin": 5, "path": "any", "text": "Sunlight crept across the floorboards. I traced it with my toes, still warm from the way he’d held me through the night." },
+  { "key": "public_handhold",     "stageMin": 5, "path": "any", "text": "He offered his hand in the market without words. I took it. Whispers followed; I walked taller." },
+  { "key": "petal_press",         "stageMin": 5, "path": "any", "text": "I pressed a flower into his palm. He tucked it behind my ear with a roughness that somehow felt careful." }
+],
   },
   "entries": [],
   "meta": {
