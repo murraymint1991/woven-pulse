@@ -67,6 +67,25 @@
       { "key": "first_kiss",  "stageMin": 2, "path": "any", "text": "He tasted of ash and sweat; it should have repelled me. I leaned in instead." },
       { "key": "quiet_hold",  "stageMin": 3, "path": "love", "text": "We said nothing. His weight, his warmth, the grime—somehow it felt like safety." },
       { "key": "claimed_whisper", "stageMin": 4, "path": "corruption", "text": "He murmured at my ear that I’m his. The word sank deep; I didn’t fight it." }
+  { "key": "shared_blanket", "stageMin": 1, "path": "any", "text": "It was freezing, and he pulled the blanket over both of us. His chest brushed my back—hard, rough, but I didn’t pull away." },
+
+  { "key": "accidental_straddle", "stageMin": 2, "path": "any", "text": "I tripped while reaching for my bag, and ended up straddling him. His hands held me steady a moment too long. My cheeks burned." },
+
+  { "key": "neck_kiss", "stageMin": 2, "path": "corruption", "text": "His lips grazed my neck—filthy breath and all. I gasped before I could stop myself, shame flooding through me." },
+
+  { "key": "forehead_kiss", "stageMin": 2, "path": "love", "text": "He pressed a rough kiss against my forehead. Such a small gesture, but my heart felt full." },
+
+  { "key": "lap_rest", "stageMin": 3, "path": "any", "text": "I fell asleep with my head in his lap. His scent clung to my hair; I dreamed of him." },
+
+  { "key": "wall_pin", "stageMin": 3, "path": "corruption", "text": "He cornered me against the wall, his body trapping mine. I should’ve screamed, but my lips parted instead." },
+
+  { "key": "slow_undress", "stageMin": 3, "path": "hybrid", "text": "He tugged at my clothes gently, almost playfully. I laughed nervously, then let him continue." },
+
+  { "key": "bite_mark", "stageMin": 4, "path": "corruption", "text": "His teeth sank into my shoulder. It hurt. I moaned anyway." },
+
+  { "key": "afterglow_whisper", "stageMin": 4, "path": "love", "text": "Afterwards, his arms were tight around me. He whispered my name like it meant something. I wanted to believe it." },
+
+  { "key": "mirror_play", "stageMin": 5, "path": "corruption", "text": "He made me look into the cracked mirror while he moved against me. My face was flushed, filthy… his." }
     ],
 "erotic": [
   { "key": "ass_grab", "stageMin": 0, "path": "any", "text": "His huge hands squeezed my behind, a small yelp left my lips. I was quick to scold him. I hope that never happens again." },
@@ -117,7 +136,45 @@
     "beach": [
       { "key": "secluded_rocks_microbikini",   "stageMin": 3, "path": "any", "text": "We went on a secluded excursion, just the two of us. His eyes lingered on my body. What possessed me to wear this... I couldn't help but wonder what he was thinking as his eyes devoured my body." },
     ],
-      
+    "tent": [
+  { "key": "tent_camp_setup", "stageMin": 0, "path": "any", "text": "We struggled with the canvas. His hands were clumsy, filthy, but I found myself smiling anyway." },
+  { "key": "tent_lantern", "stageMin": 1, "path": "any", "text": "Inside the tent, the lantern light made shadows of his grin. I tried not to stare." },
+  { "key": "tent_rain", "stageMin": 2, "path": "any", "text": "The rain drummed above us. We sat shoulder to shoulder, the closeness harder to ignore." },
+  { "key": "tent_sleep_shift", "stageMin": 3, "path": "any", "text": "I woke to find him shifted closer. His heat pressed against me. I didn’t move away." },
+  { "key": "tent_midnight", "stageMin": 4, "path": "any", "text": "He whispered my name in the dark. The air grew heavy with things we shouldn’t want." }
+],
+
+"beach": [
+  { "key": "beach_arrival", "stageMin": 0, "path": "any", "text": "The sea air tangled with the grime on him. I told myself I only noticed the view." },
+  { "key": "beach_waves", "stageMin": 1, "path": "any", "text": "We let the waves lap at our feet. His laugh was rough, but it felt alive here." },
+  { "key": "beach_fire", "stageMin": 2, "path": "any", "text": "We built a small fire. He stretched out in the sand, looking almost human." },
+  { "key": "beach_secluded", "stageMin": 3, "path": "any", "text": "He led me past the rocks where no one else walked. The sound of waves masked my racing heart." },
+  { "key": "beach_microbikini", "stageMin": 4, "path": "any", "text": "His eyes burned on my body as the tide rolled in. I pretended I didn’t notice… but I did." }
+],
+
+"cave": [
+  { "key": "cave_entry", "stageMin": 0, "path": "any", "text": "The cave smelled of earth and damp. His shadow loomed larger than life against the walls." },
+  { "key": "cave_echo", "stageMin": 1, "path": "any", "text": "Every sound echoed. His laugh, his steps—it felt like there was no escape from him." },
+  { "key": "cave_torchlight", "stageMin": 2, "path": "any", "text": "In the torchlight, his eyes seemed brighter. I couldn’t look away." },
+  { "key": "cave_close", "stageMin": 3, "path": "any", "text": "He guided me through a narrow pass. His chest brushed my back, and I shivered." },
+  { "key": "cave_hidden_pool", "stageMin": 4, "path": "any", "text": "We stumbled into a hidden pool. He dipped his filthy hands into the water, then touched my cheek. I let him." }
+],
+
+"inn": [
+  { "key": "inn_entry", "stageMin": 0, "path": "any", "text": "The innkeeper frowned at his smell. I quickly booked a room before anyone could complain." },
+  { "key": "inn_smallroom", "stageMin": 1, "path": "any", "text": "The room was tiny—one bed, no space between us. My heart skipped." },
+  { "key": "inn_window", "stageMin": 2, "path": "any", "text": "Moonlight slipped through the shutters. I caught his reflection beside mine." },
+  { "key": "inn_bedshift", "stageMin": 3, "path": "any", "text": "The bed dipped under his weight. Our arms brushed, and neither of us pulled back." },
+  { "key": "inn_whispers", "stageMin": 4, "path": "any", "text": "He leaned close, voice low, daring me to admit I wanted this." }
+],
+
+"slums": [
+  { "key": "slum_gossip", "stageMin": 0, "path": "any", "text": "People whispered as I walked beside him. I pretended not to hear." },
+  { "key": "slum_shack", "stageMin": 1, "path": "any", "text": "We ducked into an abandoned shack. His laughter echoed off the rotten walls." },
+  { "key": "slum_market", "stageMin": 2, "path": "any", "text": "Vendors turned up their noses when he passed. I wanted to defend him, but I said nothing." },
+  { "key": "slum_guard", "stageMin": 3, "path": "any", "text": "A guard shoved him for loitering. I stepped in before it turned ugly, shaking with fear—and something else." },
+  { "key": "slum_midnight", "stageMin": 4, "path": "any", "text": "The alleys at midnight were ours alone. His hand brushed mine, bold, unashamed." }
+]  
   { "key": "river_bridge", "stageMin": 1, "path": "any", "text": "We lingered on a creaking bridge over the river. He leaned close; the stink of the water matched his own. I still stayed." },
   { "key": "abandoned_trolley", "stageMin": 2, "path": "any", "text": "He pulled me into a broken trolley car. I laughed at the dust; he grinned, daring me to sit beside him." },
   { "key": "train_tunnel", "stageMin": 2, "path": "any", "text": "The dark swallowed us whole. I clung to his arm, telling myself it was just the cold." },
@@ -145,7 +202,29 @@
   { "key": "scarf_smell", "stageMin": 2, "path": "any", "text": "My scarf picked up his scent. I should wash it. I didn’t." },
   { "key": "laundry_smell", "stageMin": 1, "path": "any", "text": "I washed his shirt today. Even clean, the smell lingered. I held it longer than I should have." },
   { "key": "market_gossip", "stageMin": 2, "path": "any", "text": "They whispered about us at the stalls. I pretended not to hear, but my chest tightened with a strange pride." },
+  { "key": "shared_drink", "stageMin": 0, "path": "any", "text": "He offered me his flask. It smelled awful, but I still took a sip—our lips touched the same edge." },
+  { "key": "cooking_meal", "stageMin": 0, "path": "any", "text": "We cooked together in the slums. He burned the pan, I laughed harder than I should have." },
+  { "key": "scarf_fix", "stageMin": 1, "path": "any", "text": "He tugged my scarf straight. His fingers lingered at my collar longer than necessary." },
+  { "key": "accidental_brush", "stageMin": 1, "path": "any", "text": "Our hands brushed reaching for the same basket. I pretended not to notice, but my heart raced." },
+  { "key": "hair_touch", "stageMin": 1, "path": "any", "text": "He touched a strand of my hair, saying it looked 'too clean for here.' I couldn’t tell if it was mockery or praise." },
 
+  { "key": "shoulder_bump", "stageMin": 2, "path": "any", "text": "Walking side by side, he bumped my shoulder playfully. I bumped back, smiling." },
+  { "key": "arm_grab", "stageMin": 2, "path": "any", "text": "He caught my arm suddenly as I slipped. His grip was rough, grounding… I didn’t want him to let go." },
+  { "key": "feeding_bite", "stageMin": 2, "path": "any", "text": "He stole food off my plate, then offered me his half. I leaned in, our mouths too close." },
+  { "key": "lap_sit", "stageMin": 2, "path": "corruption", "text": "No chairs left, he patted his lap. I sat, flushed, pretending it was nothing." },
+  { "key": "back_rub", "stageMin": 2, "path": "love", "text": "My shoulders ached. He pressed his palms into me. His touch was clumsy, but sweet." },
+
+  { "key": "hand_holding", "stageMin": 3, "path": "any", "text": "Without asking, he laced his fingers with mine. I squeezed back before I realized." },
+  { "key": "whisper_joke", "stageMin": 3, "path": "any", "text": "He leaned close to whisper something crude. His breath was hot at my ear—I laughed anyway." },
+  { "key": "hip_grab", "stageMin": 3, "path": "corruption", "text": "His hand stayed on my hip long after guiding me aside. I didn’t push it away." },
+  { "key": "chest_pillow", "stageMin": 3, "path": "love", "text": "I fell asleep against his chest. He smelled of smoke and sweat, but I found comfort there." },
+  { "key": "neck_sniff", "stageMin": 3, "path": "hybrid", "text": "He leaned in, inhaling me, saying I smelled 'too clean.' I should’ve shoved him off—but my cheeks burned." },
+
+  { "key": "waist_grip", "stageMin": 4, "path": "corruption", "text": "He grabbed me at the waist in front of others. Shame turned into something hotter." },
+  { "key": "dirty_whisper", "stageMin": 4, "path": "hybrid", "text": "He whispered filth in my ear while others talked nearby. I nearly buckled." },
+  { "key": "bath_together", "stageMin": 4, "path": "love", "text": "We shared a wash basin. I tried to keep it innocent, but I caught myself watching the water drip down him." },
+  { "key": "public_touch", "stageMin": 4, "path": "corruption", "text": "His hand slid down my back in the market crowd. I froze, breath caught, afraid someone noticed." },
+  { "key": "secret_smile", "stageMin": 5, "path": "any", "text": "We shared a glance across the room—everyone else blurred out. Only us, our filthy secret." }
   { "key": "shared_meal", "stageMin": 2, "path": "love", "text": "We shared bread in the alley. He tore it with dirty fingers and offered me half. I didn’t hesitate." },
   { "key": "hand_brush", "stageMin": 2, "path": "any", "text": "Our hands brushed reaching for the same basket. I pulled back quickly—too quickly." },
   { "key": "stare_too_long", "stageMin": 3, "path": "any", "text": "I caught myself staring at his jaw, his lips, even the grime. My chest burned when he caught me." },
