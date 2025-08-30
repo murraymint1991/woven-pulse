@@ -247,7 +247,27 @@
   { "key": "inn_smallroom", "stageMin": 1, "path": "any", "text": "The room was tiny—one bed, no space between us. My heart skipped." },
   { "key": "inn_window", "stageMin": 2, "path": "any", "text": "Moonlight slipped through the shutters. I caught his reflection beside mine." },
   { "key": "inn_bedshift", "stageMin": 3, "path": "any", "text": "The bed dipped under his weight. Our arms brushed, and neither of us pulled back." },
-  { "key": "inn_whispers", "stageMin": 4, "path": "any", "text": "He leaned close, voice low, daring me to admit I wanted this." }
+  { "key": "inn_whispers", "stageMin": 4, "path": "any", "text": "He leaned close, voice low, daring me to admit I wanted this." },
+  "inn": [
+  { "key": "inn_first_room", "stageMin": 1, "path": "any", "tags": ["inn"], "text": "We rented a room. Just one bed. I told myself it was practical, but my chest tightened the moment the door shut." },
+
+  { "key": "inn_candlelight", "stageMin": 2, "path": "love", "tags": ["inn","intimacy"], "text": "The single candle softened his dirt and shadowed his scars. I stared too long and blushed when he noticed." },
+
+  { "key": "inn_silent_sleep", "stageMin": 2, "path": "any", "tags": ["inn","intimacy"], "text": "He lay beside me, breathing heavy. I pretended to be asleep… but all I could think of was the warmth of his arm brushing mine." },
+
+  { "key": "inn_listening_walls", "stageMin": 2, "path": "any", "tags": ["inn","risky"], "text": "The walls were thin. I could hear laughter and footsteps outside as his hand slid under the blanket. Every sound felt too loud, too close." },
+
+  { "key": "inn_kiss_against_wall", "stageMin": 3, "path": "love", "tags": ["inn","intimacy"], "text": "He kissed me and pressed me against the wall. The plaster felt cold; his body felt like fire. I didn’t want it to stop." },
+
+  { "key": "inn_hand_over_mouth", "stageMin": 3, "path": "corruption", "tags": ["inn","erotic","risky"], "text": "He clamped his dirty hand over my mouth to stifle my gasp. The thrill of being silenced made my heart race." },
+
+  { "key": "inn_overheard", "stageMin": 3, "path": "risky", "tags": ["inn","caught"], "text": "I heard footsteps pause outside our door as he pressed into me harder. Whoever it was lingered—listening. I should have panicked. Instead, I melted." },
+
+  { "key": "inn_sheets_claim", "stageMin": 4, "path": "corruption", "tags": ["inn","extreme"], "text": "The sheets were already stained, and now they’re mine too. I let him mark me without hesitation, not caring if the innkeeper noticed later." },
+
+  { "key": "inn_tender_after", "stageMin": 4, "path": "love", "tags": ["inn","intimacy"], "text": "Afterwards, he pulled the blanket around me, kissed my temple, and whispered that I was safe. The bed never felt so warm." },
+
+  { "key": "inn_knock_on_door", "stageMin": 5, "path": "corruption", "tags": ["inn","caught","extreme"], "text": "Someone knocked at the door, calling my name. I was pinned beneath him, too lost in the moment to respond. He only grinned, daring me to answer while he stayed inside me." }
 ],
 
 "slums": [
@@ -265,7 +285,7 @@
   { "key": "junkyard_rest", "stageMin": 4, "path": "any", "text": "We sat on a mountain of rust. He leaned back like he owned the world; I lay beside him, not caring about the dirt." },
   { "key": "rain_hideout", "stageMin": 4, "path": "any", "text": "The storm drove us under an old canopy. My clothes clung to me, his warmth pressed close—it felt too much like temptation." },
   { "key": "lantern_field", "stageMin": 5, "path": "any", "text": "The slums lit lanterns that night. They flickered on his face, shadows and smoke. I touched his cheek without thinking." }
-    ]
+    ],
     "pregnancy": [
       { "key": "scare",      "stageMin": 3, "path": "any", "text": "I felt lightheaded today. Fear pricked at me… and a strange, secret joy." },
       { "key": "confirmed",  "stageMin": 4, "path": "any", "text": "It’s real. His life grows inside me. The future smells like smoke and roses." },
