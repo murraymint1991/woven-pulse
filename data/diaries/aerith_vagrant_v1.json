@@ -4,7 +4,7 @@
   "desires": {
     "vagrant": {
       "love": [
-        "Stage 0 — I met him among the alleys; beneath the grime I sense a loneliness I can’t turn away from.",
+        "Stage 0 — I met him among the alleys; beneath the filth I sense a loneliness I can’t turn away from.",
         "Stage 1 — If he’d let me close, I’d show him he’s more than the dirt the world sees.",
         "Stage 2 — His rough smile is cracked, but when it’s for me I feel warm all the way through.",
         "Stage 3 — I want to be the person who coaxes gentleness out of him, even if my hands come away stained.",
@@ -75,17 +75,23 @@
 
   { "key": "bath_play", "stageMin": 2, "path": "love", "text": "He convinced me to help him wash the other day. He just seems so helpless, how could I refuse. While bathing, I couldn't help but notice how big he was... S-s-stop thinking about it Aerith." },
 
+ { "key": "first_tent_oral", "stageMin": 2, "path": "corruption", "text": "I-I-I couldn't hold back my curiosity, he slowly unzipped and unleashed his monster. Stench dripping off it ... I felt my thighs heat up. The smell was so intoxicating, my lips quivered but were soon engulfed in his stench" },
+
   { "key": "first_time_corruption", "stageMin": 3, "path": "corruption", "text": "One minute he was whispering in my ear. The next... I lost control. He finally made me his. I can still feel his filth all over me, marking me as his." },
 
   { "key": "first_time_love", "stageMin": 3, "path": "love", "text": "The night was soft, and even with his rough edges, he touched me like I mattered. It hurt, but I wanted him close. I wanted all of him." },
 
   { "key": "first_time_hybrid", "stageMin": 3, "path": "hybrid", "text": "I told myself I hated how dirty he was, but when he pressed me down and kissed me with that smirk, I melted. Shame and thrill mixed, and I gave in." },
 
+   { "key": "first_tongue_kissing", "stageMin": 3, "path": "corruption", "text": "He leaned in for a kiss and before I knew it our tongues were dancing together. I just can't get enough of this taste" },
+
   { "key": "morning_aftermath", "stageMin": 4, "path": "any", "text": "I woke sore and flushed, his smell still clinging to me. I should have bathed immediately, but part of me wanted to keep it—like proof of last night." },
 
   { "key": "rough_claim", "stageMin": 4, "path": "corruption", "text": "He pushed me hard against the wall, and I didn’t resist. The sting, the filth—it made me tremble in ways I never imagined I’d crave." },
 
   { "key": "tender_bed", "stageMin": 4, "path": "love", "text": "He lay beside me, unwashed and raw, yet he touched me so gently. I buried my face in his chest, choosing to see past the dirt to the man inside." },
+
+   { "key": "tent_caught",     "stageMin": 3, "path": "love", "text": "I--I-I was lost in the moment with him. Every inch slid deeper but then Cloud started calling for me. As he peeked into the tent I've never felt so ashamed. We covered up in time, Vagrant still teased me from behind. I made up some excuse but Cloud definitely suspects something..." },
 
   { "key": "stained_flower", "stageMin": 4, "path": "corruption", "text": "He'd always use protection... Up until now. He kept teasing me, pushing my limits. I finally caved in and accepted." },
 
@@ -101,16 +107,21 @@
       { "key": "slum_walk",     "stageMin": 0, "path": "any", "text": "We walked alleys that smelled of rust and rain. He mocked the world; I laughed despite myself." },
       { "key": "church_visit",  "stageMin": 1, "path": "any", "text": "He stepped into the church with mud on his boots. I should’ve scolded him. I asked him to stay." },
       { "key": "night_market",  "stageMin": 2, "path": "any", "text": "Lanterns flickered on his cheekbones; the dirt didn’t look so ugly in the warm light." }
+      { "key": "slum_walk_marked",     "stageMin": 5, "path": "corruption", "text": "We walked the dark alleys together. His hands clinging to my body in front of everyone. Everyone looks disgusted, but it makes me even more excited." },  
     ],
     "haunted_mansion": [
       { "key": "threshold",   "stageMin": 2, "path": "any", "text": "At the mansion doors, the air went cold. I took his arm and told myself it was the wind." },
       { "key": "whispers",    "stageMin": 3, "path": "any", "text": "Floorboards sighed; I held his sleeve. He smirked at my grip—and I didn’t let go." },
       { "key": "shadow_nook", "stageMin": 4, "path": "hybrid", "text": "Hidden in a shadowed room, I pressed close, heart racing at danger and desire braided together." }
     ],
+    "beach": [
+      { "key": "secluded_rocks_microbikini",   "stageMin": 3, "path": "any", "text": "We went on a secluded excursion, just the two of us. His eyes lingered on my body. What possessed me to wear this... I couldn't help but wonder what he was thinking as his eyes devoured my body." },
+    ],
     "pregnancy": [
       { "key": "scare",      "stageMin": 3, "path": "any", "text": "I felt lightheaded today. Fear pricked at me… and a strange, secret joy." },
       { "key": "confirmed",  "stageMin": 4, "path": "any", "text": "It’s real. His life grows inside me. The future smells like smoke and roses." },
       { "key": "protective", "stageMin": 5, "path": "love", "text": "I rested my hand against a new heartbeat and prayed the world would be kind." },
+       { "key": "Excitement",      "stageMin": 5, "path": "Corruption", "text": "I've been marked again by his seed. Another child of his grows inside me and I will welcome it." },
       { "key": "possessive", "stageMin": 5, "path": "corruption", "text": "When another girl touched his arm, I felt a growl rise; he is mine, and everyone should know." }
     ],
     "confession": [
