@@ -1,0 +1,130 @@
+{
+  "version": "1.0",
+  "characterId": "aerith",
+  "targetId": "vagrant",
+
+  "desires": {
+    "vagrant": {
+      "love": [
+        "He smells of rust and alleys, and still… I want to believe someone gentler lives beneath all that grime.",
+        "If I look past the dirt, I see loneliness. I keep wondering what would happen if I reached for it.",
+        "He smiles like a crack through stone. I want to be the reason it keeps opening, even if I come away dusty.",
+        "People would tell me to stay clean. But I want to hold him as he is, and let the world frown.",
+        "I don’t want to fix him—I want to be chosen by him, and choose him back, no matter how he looks at me.",
+        "If I call this love, then the dirt is only the skin of it—and I want to live under that skin with him."
+      ],
+      "corruption": [
+        "He’s filthy, unwashed, shameless. I hate that part of me wonders what it would feel like to let him closer.",
+        "His odor clings like chains, and I imagine never washing it away.",
+        "That crooked smirk—foul, brazen—makes me want him to push me further than I can excuse.",
+        "The way his stench smears into me feels like ownership. Part of me wants to be fully stained.",
+        "I’m already marked by his filth. All I think about is how far I’ll let him drag me down.",
+        "I want him to ruin me, drown me in his disgrace until there’s no Aerith without his scent."
+      ],
+      "hybrid": [
+        "He’s everything I should turn from—yet something in me aches to test what happens if I don’t.",
+        "I want him to be terrible to the world and gentle to me; I want the contrast to burn.",
+        "Touching him feels like a sin I keep choosing. Maybe that choice is where the honesty lives.",
+        "Shame and thrill braid together; I call it ours and my heart doesn’t correct me.",
+        "Love wrapped around taboo—I want it because it’s forbidden and because it’s real.",
+        "Let them whisper. I will choose him, dirt and all, and call it love while my pulse begs for more."
+      ]
+    }
+  },
+
+  "witnessed": {
+    "vagrant": {
+      "tifa": {
+        "love": [
+          "Tifa kept her chin high and told him to back off; I felt proud—and a little jealous she could be so clear.",
+          "She let him help with something small. Not trust, but not refusal either. It stirred hope in me.",
+          "I saw them trade a quiet look that wasn’t hostile. I wanted to be inside that calm.",
+          "She listened to him explain himself. The dirt didn’t vanish, but the edge did. I breathed easier.",
+          "There was a softness in her voice. I wondered if she was finding the man I think I see.",
+          "When she smiled at him, it didn’t feel like surrender—more like recognition. It made my heart ache and open."
+        ],
+        "corruption": [
+          "She recoiled from his smell—and I felt the tremor in my own chest.",
+          "He stood too close; she didn’t hide the disgust. I imagined taking her place anyway.",
+          "He touched her wrist, unwashed fingers rough; shame pooled in me because I wished it was mine.",
+          "Watching him stain her made my stomach churn—and my skin tingle.",
+          "She didn’t stop him. A part of me screamed; another begged to be next.",
+          "Seeing her surrender to his filth made me tremble with a shameful kind of hunger."
+        ],
+        "hybrid": [
+          "She bantered with him like dirt could be laughed away. I envied her ease.",
+          "He was bold; she was braver. It looked wrong and almost right at once.",
+          "They were a dare I wanted to accept: be honest, be unclean, be chosen.",
+          "The air between them felt wicked and warm. I wondered how it would feel around me.",
+          "If this is forbidden, then why did it feel like relief watching them let it happen?",
+          "They found a rhythm in the mess. I wanted to step into it and not look back."
+        ]
+      },
+
+      "renna": {
+        "love": [
+          "Renna called him ‘trouble’ and smiled like she wanted to fix it. I worried for her—and recognized myself.",
+          "She listened, childish and kind. I hoped he would be kind back.",
+          "They shared a secret grin; I wished it were harmless.",
+          "He tried tenderness; she brightened. It made me believe again.",
+          "Renna saw something soft in him and reached. I held my breath.",
+          "They stood close without fear. I prayed it was love and not a trap."
+        ],
+        "corruption": [
+          "She laughed at his mockery; the grime didn’t faze her. I felt small and hungry watching.",
+          "He baited her and she followed; dirt turned playful, then heavy.",
+          "He marked her with that smell; she didn’t fight it. Envy hurt worse than disgust.",
+          "She leaned into the filth like a dare. I wanted to be brave—or reckless—enough to join.",
+          "Her innocence made his darkness look bigger. I couldn’t look away.",
+          "It was wrong, and she looked radiant in it. I hated that beauty and craved it."
+        ],
+        "hybrid": [
+          "She turned sin into a joke; the joke felt like confession.",
+          "They were messy and happy; my pulse matched their tempo.",
+          "I caught myself smiling for them and for what it awakened in me.",
+          "If love can live in a gutter, maybe it can bloom anywhere.",
+          "They looked like trouble and home at the same time.",
+          "I wanted to be the third beat in their rhythm."
+        ]
+      },
+
+      "yuffie": {
+        "love": [
+          "Yuffie teased him, fearless; I admired her courage.",
+          "She offered him a clean hand. He took it. I warmed.",
+          "Their laughter made the alley feel less cruel.",
+          "She found the person under the grime and shouted it to his face.",
+          "He listened when she told him to try. I wanted to believe he would.",
+          "They looked like friends the world hadn’t earned. I smiled with them."
+        ],
+        "corruption": [
+          "She joked about his stink; he grinned. My shame stirred.",
+          "He crowded her; she shoved back and laughed anyway.",
+          "Their game made me want to stop pretending I didn’t want in.",
+          "He smeared his dirt across the moment and she let him. I swallowed heat.",
+          "They were wild and filthy and alive; I hated how alive it made me feel.",
+          "They looked filthy and free, and I envied them with every breath."
+        ],
+        "hybrid": [
+          "She made taboo look weightless.",
+          "They dared the world to judge them. I almost applauded.",
+          "I imagined stepping between them and being caught, not condemned.",
+          "The wrongness sparkled; the warmth stayed.",
+          "I could live in that mischief if it were also love.",
+          "I’m ready to say yes to the mess if it means yes to us."
+        ]
+      }
+    }
+  },
+
+  "milestones": {
+    "first_meet":        { "stageHint": 0, "tags": ["#first-meet"] },
+    "first_touch":       { "stageHint": 1, "tags": ["#first-touch"] },
+    "first_kiss":        { "stageHint": 2, "tags": ["#first-kiss"] },
+    "first_intimacy":    { "stageHint": 3, "tags": ["#first-intimacy"] },
+    "pregnancy_unlock":  { "stageHint": 4, "tags": ["#pregnancy-unlock"] },
+    "pregnancy_discover":{ "stageHint": 5, "tags": ["#pregnancy-discovered"] }
+  },
+
+  "entries": []
+}
