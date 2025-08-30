@@ -221,7 +221,26 @@
   { "key": "marketplace_take", "stageMin": 5, "path": "corruption", "text": "In a shadowed market stall, he pushed inside me—people only steps away. Shame bled into rapture." },
   { "key": "inn_door_open", "stageMin": 5, "path": "corruption", "text": "He left the inn door ajar as he claimed me. Anyone could’ve walked by and seen." },
   { "key": "altar_blasphemy", "stageMin": 5, "path": "corruption", "text": "He pressed me against the altar itself. Sin and desire blurred until I couldn’t tell them apart." }
-],
+  { "key": "cloud_tent", "stageMin": 3, "path": "love", "text": "He slid against me in the tent, and just as I moaned, Cloud called my name outside. My heart nearly stopped—Vagrant smirked like he planned it." },
+
+  { "key": "tifa_stairwell", "stageMin": 3, "path": "corruption", "text": "On the inn stairwell he pinned me, lips on my neck. The creak of a board above—Tifa passing by. I froze, but he didn’t stop." },
+
+  { "key": "barret_market", "stageMin": 2, "path": "any", "text": "He brushed his hand across me in the crowded market. Barret was haggling just a few stalls away. I prayed he wouldn’t turn around." },
+
+  { "key": "yuffie_bathhouse", "stageMin": 4, "path": "corruption", "text": "Steam hid us poorly. His hands roamed under the water when Yuffie’s voice echoed from the next room. I bit my lip to silence the cry." },
+
+  { "key": "renna_shadow", "stageMin": 4, "path": "hybrid", "text": "In the mansion’s shadowed hall, he pressed close. Renna’s laugh rang down the corridor—I stiffened, but he only held me tighter." },
+
+  { "key": "inn_knock", "stageMin": 5, "path": "corruption", "text": "The door rattled—someone knocked while he was still inside me. I covered my mouth, trembling, as he whispered not to stop." },
+
+  { "key": "flowerbed_caught", "stageMin": 2, "path": "any", "text": "His kiss pushed me into the flowerbed. The church doors opened, voices spilling out. We broke apart in a panic, dirt on my dress." },
+
+  { "key": "nanaki_watch", "stageMin": 3, "path": "corruption", "text": "In the campfire glow, his hand slipped too high under my skirt. Nanaki’s golden eyes flickered toward us—I don’t know if he saw." },
+
+  { "key": "barmaid_inn", "stageMin": 4, "path": "any", "text": "He kissed me rough against the inn wall. A barmaid’s tray clattered nearby—I don’t know if she caught a glimpse before scurrying off." },
+
+  { "key": "caught_together", "stageMin": 5, "path": "corruption", "text": "We were reckless, half-dressed in the slum alley. A group passed by, gasping. He only laughed, pulling me tighter as my shame burned hotter." }
+  ],
 "daily_moments": [
   { "key": "flower_water", "stageMin": 0, "path": "any", "text": "Watering flowers, I caught myself humming the tune he whistled yesterday." },
   { "key": "sleepless", "stageMin": 1, "path": "any", "text": "I couldn’t sleep; the night felt too quiet without the rasp of his laugh in it." },
