@@ -196,6 +196,32 @@
       { "key": "own_words",    "stageMin": 4, "path": "hybrid", "text": "I said it out loud: I love the tenderness and the taboo. It’s ours." },
       { "key": "forever_hint", "stageMin": 5, "path": "any", "text": "I pictured a small home that smells like tea and rain—and a little smoke that never quite leaves." }
     ],
+"risky_play": [
+  { "key": "market_glance", "stageMin": 1, "path": "any", "text": "In the middle of the market, his eyes lingered far too long on me. I flushed—terrified someone else saw." },
+  { "key": "alley_whisper", "stageMin": 1, "path": "any", "text": "He pulled me into an alley just to whisper something filthy. My cheeks burned until we stepped back out." },
+  { "key": "accidental_flash", "stageMin": 1, "path": "corruption", "text": "His hand tugged my skirt too high as I sat. Someone might have seen—my breath caught at the thought." },
+
+  { "key": "crowded_hand", "stageMin": 2, "path": "any", "text": "His fingers brushed mine under the table. We stayed like that, unseen but not innocent." },
+  { "key": "wall_press", "stageMin": 2, "path": "corruption", "text": "He pinned me against a wall, half-hidden in shadow. My gasp echoed down the alleyway." },
+  { "key": "temple_dare", "stageMin": 2, "path": "hybrid", "text": "He dared me to kiss him in the church’s shadow. I did—heart racing at the sacred shame." },
+  { "key": "public_joke", "stageMin": 2, "path": "any", "text": "He teased me loudly, so others laughed without knowing the truth behind his words." },
+
+  { "key": "lap_tease_inn", "stageMin": 3, "path": "any", "text": "No seat left again. I sat on his lap, praying no one noticed how still I suddenly went." },
+  { "key": "stairwell_touch", "stageMin": 3, "path": "corruption", "text": "On the inn’s stairwell, his hand crept higher. Voices were close. I didn’t stop him." },
+  { "key": "window_shadow", "stageMin": 3, "path": "hybrid", "text": "We kissed by the window, backlit so anyone outside could see the silhouette. A thrill shot through me." },
+  { "key": "slum_corner", "stageMin": 3, "path": "corruption", "text": "In the slum alleys, he shoved me close, hands wandering. A passerby coughed but didn’t stop us." },
+  { "key": "flowerbed_kiss", "stageMin": 3, "path": "love", "text": "In the church garden, he kissed me roughly against the flowerbeds. The thought of someone walking in made it dizzying." },
+
+  { "key": "tent_whisper", "stageMin": 4, "path": "any", "text": "In the tent, he whispered obscene promises. The others were only a few feet away." },
+  { "key": "inn_moans", "stageMin": 4, "path": "corruption", "text": "I tried to stifle my voice while he had me in the inn bed. Every creak of the walls felt like exposure." },
+  { "key": "balcony_brazen", "stageMin": 4, "path": "hybrid", "text": "He kissed me deeply on the balcony, lights flickering in the street below. We wanted someone to see." },
+  { "key": "public_fingers", "stageMin": 4, "path": "corruption", "text": "His fingers slid under my clothes while we stood in line. I could barely breathe for fear of discovery." },
+
+  { "key": "rooftop_dare", "stageMin": 5, "path": "hybrid", "text": "On a rooftop, the city beneath us, he dared me to strip bare for him. I did, trembling in the open air." },
+  { "key": "marketplace_take", "stageMin": 5, "path": "corruption", "text": "In a shadowed market stall, he pushed inside me—people only steps away. Shame bled into rapture." },
+  { "key": "inn_door_open", "stageMin": 5, "path": "corruption", "text": "He left the inn door ajar as he claimed me. Anyone could’ve walked by and seen." },
+  { "key": "altar_blasphemy", "stageMin": 5, "path": "corruption", "text": "He pressed me against the altar itself. Sin and desire blurred until I couldn’t tell them apart." }
+],
 "daily_moments": [
   { "key": "flower_water", "stageMin": 0, "path": "any", "text": "Watering flowers, I caught myself humming the tune he whistled yesterday." },
   { "key": "sleepless", "stageMin": 1, "path": "any", "text": "I couldn’t sleep; the night felt too quiet without the rasp of his laugh in it." },
