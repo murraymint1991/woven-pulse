@@ -145,7 +145,23 @@
       { "key": "slum_walk",     "stageMin": 0, "path": "any", "text": "We walked alleys that smelled of rust and rain. He mocked the world; I laughed despite myself." },
       { "key": "church_visit",  "stageMin": 1, "path": "any", "text": "He stepped into the church with mud on his boots. I should’ve scolded him. I asked him to stay." },
       { "key": "night_market",  "stageMin": 2, "path": "any", "text": "Lanterns flickered on his cheekbones; the dirt didn’t look so ugly in the warm light." }
-      { "key": "slum_walk_marked",     "stageMin": 5, "path": "corruption", "text": "We walked the dark alleys together. His hands clinging to my body in front of everyone. Everyone looks disgusted, but it makes me even more excited." },  
+      { "key": "slum_walk_marked",     "stageMin": 5, "path": "corruption", "text": "We walked the dark alleys together. His hands clinging to my body in front of everyone. Everyone looks disgusted, but it makes me even more excited." },
+      [
+  { "key": "rooftop_view", "stageMin": 1, "path": "any", "text": "We climbed a rickety ladder to the rooftops. From up there the slums looked almost peaceful. He laughed when I held his arm too tightly." },
+  { "key": "sewer_shortcut", "stageMin": 1, "path": "any", "text": "He led me through a sewer shortcut. The smell was unbearable, yet I followed. His torchlight was the only thing I could cling to." },
+  { "key": "junkyard_stumble", "stageMin": 2, "path": "any", "text": "We wandered the junkyard together. He kicked rusted metal; I found a flower poking through. He smirked at me like I was ridiculous." },
+  { "key": "outskirts_field", "stageMin": 2, "path": "any", "text": "Past the edge of the slums, wildflowers still grew. I picked one and tucked it in his pocket. He didn’t throw it away." },
+  { "key": "collapsed_bridge", "stageMin": 2, "path": "any", "text": "We crossed a broken bridge, boards groaning beneath us. He teased me for hesitating. I teased him for smelling worse than the river below." },
+  { "key": "hidden_alcove", "stageMin": 3, "path": "any", "text": "He pulled me into a shadowed alcove to avoid a patrol. His breath was close, his eyes darker than the night. My heart didn’t slow even after they passed." },
+  { "key": "trainyard_rest", "stageMin": 3, "path": "any", "text": "We rested near the trainyard, leaning against cold steel. The way he lit a cigarette made me stare longer than I should have." },
+  { "key": "riverbank_stop", "stageMin": 3, "path": "any", "text": "We stopped by the riverbank. His boots muddied the water; I lifted my skirt from the dirt. He told me I looked better when I wasn’t so careful." },
+  { "key": "slum_rooftop_night", "stageMin": 4, "path": "any", "text": "At night on the rooftop, lanterns flickered in the slums below. He sat close, shoulder to shoulder, and I pretended it was just for the view." },
+  { "key": "abandoned_market", "stageMin": 4, "path": "any", "text": "The old market stalls stood empty. He stole a kiss between the shadows. My protest never made it past my lips." },
+  { "key": "windy_cliffside", "stageMin": 4, "path": "any", "text": "The wind nearly swept me off the cliffside path. He caught my wrist, holding too tight. I felt his grip long after." },
+  { "key": "watchtower_top", "stageMin": 5, "path": "any", "text": "We reached the old watchtower. He leaned against me with no shame. The city stretched below, but all I saw was him." },
+  { "key": "slum_walk_bold", "stageMin": 5, "path": "corruption", "text": "He pressed his hand against me boldly as we walked. People saw. I flushed with shame, but I didn’t pull away." },
+  { "key": "hidden_garden", "stageMin": 5, "path": "love", "text": "He followed me into a hidden garden I thought only I knew. Dirt under his boots, flowers at my back. I realized I didn’t mind them mixing." },
+  { "key": "forbidden_wall", "stageMin": 5, "path": "hybrid", "text": "We leaned against the wall outside Don Corneo’s estate. Wrong place, wrong time… but I liked the danger almost as much as his smirk." }
     ],
     "haunted_mansion": [
       { "key": "threshold",   "stageMin": 2, "path": "any", "text": "At the mansion doors, the air went cold. I took his arm and told myself it was the wind." },
