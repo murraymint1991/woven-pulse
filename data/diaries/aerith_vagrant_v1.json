@@ -87,10 +87,16 @@
 
   { "key": "tender_bed", "stageMin": 4, "path": "love", "text": "He lay beside me, unwashed and raw, yet he touched me so gently. I buried my face in his chest, choosing to see past the dirt to the man inside." },
 
-  { "key": "public_thrill", "stageMin": 5, "path": "hybrid", "text": "We slipped into a dark alley. He pulled me close, rough hands on me while the world bustled just beyond the wall. I thought I’d die of shame… but I wanted more." },
+  { "key": "stained_flower", "stageMin": 4, "path": "corruption", "text": "He'd always use protection... Up until now. He kept teasing me, pushing my limits. I finally caved in and accepted." },
+
+  { "key": "dirtied_inside", "stageMin": 4, "path": "corruption", "text": "I shouldn't want it, but I kept clinging to him. I locked my legs around him preventing any escape. Feeling his filthy seed inside me. I've never felt more conflicted." },
+
+  { "key": "tainted_blossom", "stageMin": 5, "path": "corruption", "text": "Every inch of me feels claimed. I can’t wash away his touch anymore—his dirt lives inside me now, and shamefully, I don’t want to." },
+
+  { "key": "forbidden_bond", "stageMin": 5, "path": "hybrid", "text": "We kissed with filth still on our skin. It should feel wrong, but instead it felt sacred. Like a secret only we’re allowed to share." },
 
   { "key": "pregnant_touch", "stageMin": 5, "path": "any", "text": "His hand lingered on my belly today, possessive and heavy. Whether love or corruption, I know now—my body belongs to him." }
-]
+],
     "exploration": [
       { "key": "slum_walk",     "stageMin": 0, "path": "any", "text": "We walked alleys that smelled of rust and rain. He mocked the world; I laughed despite myself." },
       { "key": "church_visit",  "stageMin": 1, "path": "any", "text": "He stepped into the church with mud on his boots. I should’ve scolded him. I asked him to stay." },
