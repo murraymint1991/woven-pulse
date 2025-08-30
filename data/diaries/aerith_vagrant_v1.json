@@ -117,6 +117,16 @@
     "beach": [
       { "key": "secluded_rocks_microbikini",   "stageMin": 3, "path": "any", "text": "We went on a secluded excursion, just the two of us. His eyes lingered on my body. What possessed me to wear this... I couldn't help but wonder what he was thinking as his eyes devoured my body." },
     ],
+      
+  { "key": "river_bridge", "stageMin": 1, "path": "any", "text": "We lingered on a creaking bridge over the river. He leaned close; the stink of the water matched his own. I still stayed." },
+  { "key": "abandoned_trolley", "stageMin": 2, "path": "any", "text": "He pulled me into a broken trolley car. I laughed at the dust; he grinned, daring me to sit beside him." },
+  { "key": "train_tunnel", "stageMin": 2, "path": "any", "text": "The dark swallowed us whole. I clung to his arm, telling myself it was just the cold." },
+  { "key": "old_rooftop", "stageMin": 3, "path": "any", "text": "We climbed high above the slums. The stars made him look different—softer. I almost forgot the grime." },
+  { "key": "market_fight", "stageMin": 3, "path": "any", "text": "Someone insulted him at the market. He snarled, fists ready. I held him back, shaking, thrilled by the danger." },
+  { "key": "junkyard_rest", "stageMin": 4, "path": "any", "text": "We sat on a mountain of rust. He leaned back like he owned the world; I lay beside him, not caring about the dirt." },
+  { "key": "rain_hideout", "stageMin": 4, "path": "any", "text": "The storm drove us under an old canopy. My clothes clung to me, his warmth pressed close—it felt too much like temptation." },
+  { "key": "lantern_field", "stageMin": 5, "path": "any", "text": "The slums lit lanterns that night. They flickered on his face, shadows and smoke. I touched his cheek without thinking." }
+    ]
     "pregnancy": [
       { "key": "scare",      "stageMin": 3, "path": "any", "text": "I felt lightheaded today. Fear pricked at me… and a strange, secret joy." },
       { "key": "confirmed",  "stageMin": 4, "path": "any", "text": "It’s real. His life grows inside me. The future smells like smoke and roses." },
@@ -129,11 +139,25 @@
       { "key": "own_words",    "stageMin": 4, "path": "hybrid", "text": "I said it out loud: I love the tenderness and the taboo. It’s ours." },
       { "key": "forever_hint", "stageMin": 5, "path": "any", "text": "I pictured a small home that smells like tea and rain—and a little smoke that never quite leaves." }
     ],
-    "daily_moments": [
-      { "key": "flower_water", "stageMin": 0, "path": "any", "text": "Watering flowers, I caught myself humming the tune he whistled yesterday." },
-      { "key": "sleepless",    "stageMin": 1, "path": "any", "text": "I couldn’t sleep; the night felt too quiet without the rasp of his laugh in it." },
-      { "key": "scarf_smell",  "stageMin": 2, "path": "any", "text": "My scarf picked up his scent. I should wash it. I didn’t." }
-    ]
+"daily_moments": [
+  { "key": "flower_water", "stageMin": 0, "path": "any", "text": "Watering flowers, I caught myself humming the tune he whistled yesterday." },
+  { "key": "sleepless", "stageMin": 1, "path": "any", "text": "I couldn’t sleep; the night felt too quiet without the rasp of his laugh in it." },
+  { "key": "scarf_smell", "stageMin": 2, "path": "any", "text": "My scarf picked up his scent. I should wash it. I didn’t." },
+  { "key": "laundry_smell", "stageMin": 1, "path": "any", "text": "I washed his shirt today. Even clean, the smell lingered. I held it longer than I should have." },
+  { "key": "market_gossip", "stageMin": 2, "path": "any", "text": "They whispered about us at the stalls. I pretended not to hear, but my chest tightened with a strange pride." },
+
+  { "key": "shared_meal", "stageMin": 2, "path": "love", "text": "We shared bread in the alley. He tore it with dirty fingers and offered me half. I didn’t hesitate." },
+  { "key": "hand_brush", "stageMin": 2, "path": "any", "text": "Our hands brushed reaching for the same basket. I pulled back quickly—too quickly." },
+  { "key": "stare_too_long", "stageMin": 3, "path": "any", "text": "I caught myself staring at his jaw, his lips, even the grime. My chest burned when he caught me." },
+  { "key": "neighbors_whisper", "stageMin": 3, "path": "corruption", "text": "A neighbor muttered 'filth clings to filth.' Instead of shame, I felt heat run through me." },
+  { "key": "clothes_borrowed", "stageMin": 3, "path": "love", "text": "He gave me his jacket when the night turned cold. It smelled like him. I didn’t want to take it off." },
+
+  { "key": "hair_smell", "stageMin": 4, "path": "hybrid", "text": "He pressed his nose into my hair, still dirty from the day. I shivered instead of pushing him away." },
+  { "key": "public_joke", "stageMin": 4, "path": "any", "text": "He made a crude joke in front of others. I blushed hard, but secretly loved the way he made me feel claimed." },
+  { "key": "comforted", "stageMin": 4, "path": "love", "text": "When I cried, he wiped my cheek with the back of his rough hand. I leaned into it." },
+  { "key": "lingering_smell", "stageMin": 5, "path": "corruption", "text": "His smell clings to me everywhere I go. People look disgusted, but I wear it like perfume." },
+  { "key": "daydreams", "stageMin": 5, "path": "any", "text": "I daydream of him while watering flowers, dirt under my nails, heat in my cheeks. He’s in me now." }
+]
   },
   "entries": [],
   "meta": {
