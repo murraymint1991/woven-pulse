@@ -131,6 +131,15 @@
   { "key": "forbidden_bond", "stageMin": 5, "path": "hybrid", "text": "We kissed with filth still on our skin. It should feel wrong, but instead it felt sacred. Like a secret only we’re allowed to share." },
 
   { "key": "pregnant_touch", "stageMin": 5, "path": "any", "text": "His hand lingered on my belly today, possessive and heavy. Whether love or corruption, I know now—my body belongs to him." }
+  { "key": "bathhouse_cloud", "stageMin": 3, "path": "any", "text": "Steam wrapped around us in the bathhouse when he pulled me onto his lap. Just as his hands slid lower, Cloud’s silhouette appeared through the mist. My pulse thundered—if he took one more step, he'd see everything." },
+
+{ "key": "tent_tifa", "stageMin": 3, "path": "corruption", "text": "His mouth was on me, shameless in the tent, when I heard Tifa’s boots crunching outside. Her voice called my name. I should have pushed him off, but instead I clutched his head tighter, praying she wouldn’t open the flap." },
+
+{ "key": "inn_barret", "stageMin": 4, "path": "any", "text": "We were tangled on the bed, his filth heavy inside me, when Barret’s knock rattled the door. I froze—he didn’t. Each thrust muffled against my bitten lip while Barret cursed and moved on." },
+
+{ "key": "slums_yuffie", "stageMin": 4, "path": "hybrid", "text": "In the shadows of the slums, his hand shoved beneath my skirt. I gasped too loud. Yuffie turned the corner with a grin, eyes flashing like she knew exactly what she’d caught. He only pressed harder, daring me to keep quiet." },
+
+{ "key": "campfire_nanaki", "stageMin": 5, "path": "corruption", "text": "By the fire he entered me rough, not caring about the others nearby. Nanaki lifted his head, ears twitching, gaze fixed on us. I should’ve begged him to stop—but I arched instead, letting the beast inside and outside of me witness it." }
 ],
     "exploration": [
       { "key": "slum_walk",     "stageMin": 0, "path": "any", "text": "We walked alleys that smelled of rust and rain. He mocked the world; I laughed despite myself." },
