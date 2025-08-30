@@ -86,6 +86,16 @@
   { "key": "afterglow_whisper", "stageMin": 4, "path": "love", "text": "Afterwards, his arms were tight around me. He whispered my name like it meant something. I wanted to believe it." },
 
   { "key": "mirror_play", "stageMin": 5, "path": "corruption", "text": "He made me look into the cracked mirror while he moved against me. My face was flushed, filthy… his." }
+      
+      { "key": "tent_caught_cloud", "stageMin": 3, "path": "love", "text": "He pressed me down in the tent, lips trailing lower—when Cloud’s voice called from outside. I shoved Vagrant back, cheeks burning. Cloud peeked in just as we scrambled apart." },
+
+{ "key": "inn_tifa_walkin", "stageMin": 3, "path": "any", "text": "At the inn he kissed me hard against the bedpost. Tifa opened the door suddenly. My hair was a mess, lips swollen—I pretended we were just talking, but her eyes lingered too long." },
+
+{ "key": "cave_whisper_barret", "stageMin": 4, "path": "any", "text": "In the cave shadows he whispered filth against my ear, his hand wandering. Barret’s torchlight flickered close, his heavy steps echoing. We stilled, breathless, until he passed." },
+
+{ "key": "market_yuffie_spot", "stageMin": 4, "path": "corruption", "text": "He cornered me in the market stalls, mouth on mine. When I opened my eyes Yuffie was there—grinning, watching. I shoved him away, but the heat in me refused to fade." },
+
+{ "key": "campfire_nanaki", "stageMin": 5, "path": "hybrid", "text": "We lay too close by the campfire, his hand beneath my clothes. Nanaki lifted his head, ears twitching. He didn’t speak, but I know he saw—and still I didn’t stop." }
     ],
 "erotic": [
   { "key": "ass_grab", "stageMin": 0, "path": "any", "text": "His huge hands squeezed my behind, a small yelp left my lips. I was quick to scold him. I hope that never happens again." },
