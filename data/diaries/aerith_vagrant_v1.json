@@ -615,4 +615,412 @@
   { "key": "reading_stand", "stageMin": 7, "path": "hybrid", "text": "He bent me over the oak reading stand. My moans blurred into the sound of flipping pages." },
   { "key": "page_torn", "stageMin": 9, "path": "corruption", "text": "He ripped a book page in the frenzy of thrusts. I laughed, moaned, begged for more." },
   { "key": "knowledge_whore", "stageMin": 10, "path": "corruption", "text": "He finished inside me atop a pile of scrolls. I came undone knowing history would reek of us forever." }
-  ],
+  ]
+    },
+  "events": {
+    "jobs": {
+  "flower_shop": [
+  { "key": "arrange_bouquets", "stageMin": 0, "path": "any", "text": "I spent the morning arranging lilies. He leaned against the door, smirking, eyes on me instead of the flowers. I pretended not to notice." },
+  { "key": "petal_touch", "stageMin": 1, "path": "any", "text": "His fingers brushed mine as I handed him a bloom. Rough, unwashed… but it made my heart skip." },
+  { "key": "behind_counter", "stageMin": 2, "path": "any", "text": "He cornered me behind the counter. Dirt and sweat against petals, I whispered for him to stop. I didn’t move away." },
+
+  { "key": "backroom_grab", "stageMin": 3, "path": "corruption", "text": "The shop was empty when his hands slid up my skirt. Surrounded by bouquets, I gasped, 'Not here…' He didn’t care. Neither did I." },
+  { "key": "rose_thorns", "stageMin": 4, "path": "love", "text": "He pricked his hand on a thorn. I kissed the blood away. His lips caught mine next, raw and needy." },
+  { "key": "stained_petals", "stageMin": 4, "path": "corruption", "text": "Petals fell as he bent me over the workbench, every thrust scattering roses and dirt. My moans echoed like a hymn of shame." },
+
+  { "key": "display_window", "stageMin": 5, "path": "any", "text": "He pressed me against the front display window. Outside, footsteps passed. I prayed they wouldn’t glance in—while my body begged for him harder." },
+
+  { "key": "scent_of_sex", "stageMin": 6, "path": "corruption", "text": "The shop reeked of sweat and cum more than flowers. My thighs dripped as I watered roses, aching for him to ruin me again." },
+  { "key": "floral_womb", "stageMin": 7, "path": "corruption", "text": "He came inside me among the carnations, whispering that I was his fertile garden. I squeezed him tighter, craving the filth of being seeded here." },
+
+  { "key": "petals_on_tongue", "stageMin": 8, "path": "hybrid", "text": "He stuffed petals into my mouth as his cock filled me. Their sweetness mixed with his salt. I choked on both, begging for more." },
+  { "key": "display_case_fuck", "stageMin": 9, "path": "corruption", "text": "He threw me on the glass display, fucking me hard while bouquets toppled. My screams mixed with the crash of vases breaking." },
+  { "key": "seeded_in_shop", "stageMin": 10, "path": "corruption", "text": "He pinned me down in the flower bed, thrusting deep until his seed spilled inside me. Windows wide open, I screamed his name—uncaring who heard. I wanted the whole slum to know I belonged to him." }
+    ],
+"barmaid": [
+  { "key": "drink_orders", "stageMin": 0, "path": "any", "text": "I wiped mugs and carried trays. He sat at the end of the bar, watching like I was on the menu too." },
+  { "key": "close_pour", "stageMin": 1, "path": "any", "text": "I leaned to pour his drink, his hand brushed mine on the handle. My cheeks burned hotter than the liquor." },
+  { "key": "corner_table", "stageMin": 2, "path": "any", "text": "He tugged me toward the corner table when no one looked. His breath was strong with ale. I didn’t pull away." },
+  { "key": "lap_sit", "stageMin": 3, "path": "corruption", "text": "I carried his drink over, he pulled me onto his lap in front of everyone. I gasped, pretending to fight him off. My hips betrayed me, grinding down." },
+  { "key": "backroom_whisper", "stageMin": 4, "path": "love", "text": "He followed me behind the bar. I should’ve pushed him back, but instead I melted when his arms wrapped me tight, whispering I was his." },
+  { "key": "storage_kiss", "stageMin": 5, "path": "any", "text": "Among crates and kegs he kissed me breathless. The smell of beer and sweat made it dizzying. I wanted more." },
+  { "key": "bar_counter_grind", "stageMin": 6, "path": "corruption", "text": "He bent me forward over the sticky bar. Patrons shouted for drinks, and all I could feel was him pressing into me from behind." },
+  { "key": "tabletop_claim", "stageMin": 7, "path": "hybrid", "text": "He threw me atop a table, knocking mugs aside. Shame and thrill tangled as I wrapped my legs around him with people just steps away." },
+  { "key": "open_serving", "stageMin": 8, "path": "corruption", "text": "He slid me onto the counter, pulling me close while I still wore my apron. I moaned into the open bar, too far gone to care who saw." },
+  { "key": "barmaid_taken", "stageMin": 9, "path": "corruption", "text": "He pulled my skirt up as I served drinks. Every thrust rocked me against the counter, and I spilled ale all over laughing patrons." },
+  { "key": "public_exposure", "stageMin": 10, "path": "corruption", "text": "He yanked me into his lap mid-shift, legs spread wide in front of a room full of drunks. I begged, screamed, and came anyway as the bar roared." }
+],
+"nurse": [
+  { "key": "bandage_wrap", "stageMin": 0, "path": "any", "text": "I cleaned his wounds, wrapping bandages tight. He hissed at the sting, but didn’t look away from my eyes." },
+  { "key": "pulse_check", "stageMin": 1, "path": "any", "text": "I held his wrist to check his pulse. His skin was hot, and I realized mine was racing faster than his." },
+  { "key": "bedside_whisper", "stageMin": 2, "path": "any", "text": "He tugged me close while I changed his sheets. His voice was low, rough—he called me his angel. I almost believed him." },
+  { "key": "curtain_kiss", "stageMin": 3, "path": "love", "text": "I drew the privacy curtain, only to feel him grab my hand. He pulled me down onto the cot, kissing me hard enough to forget where we were." },
+  { "key": "supply_closet", "stageMin": 4, "path": "corruption", "text": "I pushed him into the supply closet to scold him. He shoved me against shelves instead, my moans mixing with the rattle of medicine bottles." },
+  { "key": "lap_check", "stageMin": 5, "path": "hybrid", "text": "I sat on his lap to take his temperature. He bit back a groan, pressing against me shamelessly. I didn’t stop writing notes." },
+  { "key": "exam_table", "stageMin": 6, "path": "any", "text": "He lifted me onto the cold exam table. My legs shook as he spread them, and I gasped at the heat between us in such a sterile place." },
+  { "key": "hallway_touch", "stageMin": 7, "path": "corruption", "text": "He caught me in the dark hallway. His hand slid beneath my skirt while footsteps passed outside. I choked down a moan, praying no one opened the door." },
+  { "key": "drip_feed", "stageMin": 8, "path": "hybrid", "text": "The IV bag clicked overhead while he thrust into me, hard and fast. My screams turned into whimpers as I clung to the rails." },
+  { "key": "clinic_claim", "stageMin": 9, "path": "corruption", "text": "He bent me over the patient desk. Papers scattered while he fucked me raw, his growls drowning out every plea for silence." },
+  { "key": "nurse_unmasked", "stageMin": 10, "path": "corruption", "text": "In my uniform, stockings ripped, I straddled him in the open ward. He came inside me again and again, patients groaning nearby, and I didn’t care who watched." }
+],
+"maid": [
+  { "key": "dusting", "stageMin": 0, "path": "any", "text": "I dusted the shelves while he lounged. He watched without shame, and I pretended not to notice." },
+  { "key": "laundry", "stageMin": 1, "path": "any", "text": "I knelt to scrub his shirt clean. His eyes lingered low, and I flushed, scrubbing harder to distract myself." },
+  { "key": "spilled_bucket", "stageMin": 2, "path": "any", "text": "I tripped, spilling water across the floor. He caught me before I fell, holding me just a beat too long." },
+  { "key": "floor_wipe", "stageMin": 3, "path": "love", "text": "I scrubbed the floor on my knees. He crouched beside me, brushing my hair back gently, then stealing a kiss." },
+  { "key": "apron_pull", "stageMin": 4, "path": "corruption", "text": "He yanked at my apron strings. I told him to wait. He didn’t." },
+  { "key": "tray_drop", "stageMin": 5, "path": "hybrid", "text": "I dropped a tray of dishes when he pressed against me from behind. He whispered filth in my ear while I bent to clean up the mess." },
+  { "key": "bed_sheets", "stageMin": 6, "path": "any", "text": "I tucked in fresh sheets, only for him to shove me onto the bed. His mouth covered mine before I could object." },
+  { "key": "hallway_order", "stageMin": 7, "path": "corruption", "text": "He barked an order and I obeyed. On my knees in the hall, anyone could have walked past while he forced my lips open." },
+  { "key": "feather_duster", "stageMin": 8, "path": "hybrid", "text": "He pinned me with the feather duster still in my hand. I gasped into the fabric as he took me hard, feathers flying everywhere." },
+  { "key": "maid_owned", "stageMin": 9, "path": "corruption", "text": "He bent me over the table I’d just polished. Each thrust smeared sweat and filth into the shine. He called me his maid, his whore, his everything." },
+  { "key": "public_uniform", "stageMin": 10, "path": "corruption", "text": "In full uniform, stockings ripped, he paraded me around the room. When he came inside me, dripping down my thighs, I was smiling—his perfect filthy servant." }
+],
+"librarian": [
+  { "key": "cataloging", "stageMin": 0, "path": "any", "text": "I spent the morning cataloging books, pretending I didn’t notice his shadow following me between the aisles." },
+  { "key": "shushed", "stageMin": 1, "path": "any", "text": "He whispered something indecent. I shushed him, cheeks burning, but part of me didn’t want him to stop." },
+  { "key": "fallen_book", "stageMin": 2, "path": "any", "text": "A heavy book slipped from the shelf. He caught it—and brushed against me so closely I could smell the sweat and smoke clinging to him." },
+  { "key": "reading_corner", "stageMin": 3, "path": "love", "text": "We shared a cramped reading chair, knees pressed together. His hand found mine between the pages." },
+  { "key": "quiet_groan", "stageMin": 4, "path": "corruption", "text": "He pulled me onto his lap in the study alcove. I bit my lip to keep quiet as his hands roamed beneath my skirt." },
+  { "key": "aisle_clutch", "stageMin": 5, "path": "hybrid", "text": "He pressed me against the dusty shelves, whispering filth into my ear. The whole library was silent, but my pulse thundered." },
+  { "key": "study_desk", "stageMin": 6, "path": "love", "text": "I sprawled across a study desk, books scattered, his mouth against my chest. His tongue left me trembling as I begged for more." },
+  { "key": "secret_stacks", "stageMin": 7, "path": "corruption", "text": "Deep in the restricted section, he bent me over the archive shelves. The slap of skin echoed louder than I could shush." },
+  { "key": "knowledge_fucked", "stageMin": 8, "path": "hybrid", "text": "He shoved open ancient tomes to lay me across them. I screamed into the pages as he filled me, desecrating knowledge with lust." },
+  { "key": "page_torn", "stageMin": 9, "path": "corruption", "text": "He ripped a book page in the frenzy of thrusts. I laughed, moaned, begged for more." },
+  { "key": "knowledge_whore", "stageMin": 10, "path": "corruption", "text": "He finished inside me atop a pile of scrolls. I came undone knowing history would reek of us forever." }
+],
+"slum_caregiver": [
+  { "key": "first_meeting", "stageMin": 0, "path": "any", "text": "I was tending to a coughing child in the alleys when he appeared—leaning in the shadows, eyes mocking, stinking of smoke and sweat. That was the first time I met him." },
+  { "key": "offered_help", "stageMin": 1, "path": "any", "text": "He sneered at my bandages, called me foolish for wasting kindness. Still… he didn’t walk away." },
+  { "key": "bloodied_hand", "stageMin": 2, "path": "any", "text": "I wrapped his hand when he got into a fight. He didn’t thank me, but he didn’t pull away either." },
+  { "key": "lingering_touch", "stageMin": 3, "path": "love", "text": "I cleaned dirt from his face, fingers brushing over his cheek longer than they should. His grin softened, just for me." },
+  { "key": "dark_teasing", "stageMin": 3, "path": "corruption", "text": "He leaned close while I treated his wounds, whispering filth about how my soft hands could do more than heal." },
+  { "key": "slum_watchers", "stageMin": 4, "path": "any", "text": "People stared as I walked the alleys with him trailing after me. Their eyes burned with judgment. My heart burned with something else." },
+  { "key": "forceful_kiss", "stageMin": 5, "path": "corruption", "text": "He pinned me against a wall behind the soup line, kissing me hard, tasting of grime. I should’ve pushed him off. I didn’t." },
+  { "key": "charity_ruined", "stageMin": 6, "path": "hybrid", "text": "I came to hand out bread. He came to take me instead. My skirt hitched up as loaves fell to the dirt." },
+  { "key": "moans_among_the_sick", "stageMin": 7, "path": "corruption", "text": "I tried to stay quiet while treating the fevered—but his fingers were already inside me. The sick groaned nearby. I groaned louder." },
+  { "key": "slum_alley_claim", "stageMin": 8, "path": "corruption", "text": "He bent me over a broken crate in full view of the alleys. I clung to him, shaking, while people whispered. He owned me in front of them all." },
+  { "key": "holy_inversion", "stageMin": 9, "path": "hybrid", "text": "I told myself it was charity still, letting him take me in the dirt. But the truth is I needed him—his filth, his possession, his ruin." },
+  { "key": "marked_by_slums", "stageMin": 10, "path": "corruption", "text": "He finished inside me where the slums could see. My body, my moans, my seed-filled belly—proof that I belong to him, proof for everyone." }
+],
+"slum_singer": [
+  { "stage": 0, "path": "any", "text": "The slum bar was thick with smoke and cheap liquor. I sang to keep their spirits alive… even if my own heart trembled." },
+  { "stage": 1, "path": "any", "text": "Vagrant leaned at the back, smirking. He said my voice was 'too clean for this place'. I wanted to prove him wrong." },
+  { "stage": 2, "path": "love", "text": "His eyes softened when I sang a softer hymn. For a moment, I believed he actually listened." },
+  { "stage": 2, "path": "corruption", "text": "He shouted for a raunchier tune, the crowd laughed, and I felt heat rise to my cheeks as I obeyed." },
+  { "stage": 3, "path": "any", "text": "He dragged me backstage, saying the crowd wanted 'more than a song'. My body shook between fear and excitement." },
+  { "stage": 4, "path": "love", "text": "He pulled me into the shadows after a set, whispering that I belonged to him. My voice caught—but I didn’t pull away." },
+  { "stage": 4, "path": "corruption", "text": "He pushed my face into the brick wall behind the stage, growling that if I wanted to keep singing, I had to earn it." },
+  { "stage": 5, "path": "hybrid", "text": "The crowd cheered as his hands slid over me while I sang. Their laughter was cruel, but his touch set me on fire." },
+  { "stage": 6, "path": "love", "text": "He kissed me right there as I finished my song. I thought I’d be ashamed—but the cheers made me smile." },
+  { "stage": 6, "path": "corruption", "text": "He shoved my dress aside, his filthy hands claiming me while drunks whistled. I sang through a moan, my shame drowned out." },
+  { "stage": 7, "path": "any", "text": "He made me sit in his lap between verses. The crowd howled; I flushed red, but couldn’t bring myself to move." },
+  { "stage": 8, "path": "corruption", "text": "He made me straddle him on stage, grinding against me while I tried to sing. Every thrust turned my voice into a moan." },
+  { "stage": 9, "path": "any", "text": "He bent me over the piano after hours, my voice cracking into cries that echoed through the empty bar." },
+  { "stage": 10, "path": "corruption", "text": "He tore the mic from my hand and fucked me in front of the entire tavern, my juices dripping down my thighs as they cheered. I screamed out the last verse as he pumped his seed deep inside me, every eye watching." },
+  { "stage": 10, "path": "hybrid", "text": "He made me his instrument—fingers inside me as I gasped lyrics into the mic. I came on stage, soaked and ruined, yet sang louder than ever." },
+  { "stage": 10, "path": "love", "text": "He held me after the performance, dirty and raw, whispering that I was 'his star'. For the first time, I believed him… and I wanted the whole world to know it." }
+],
+"stall_merchant": [
+  { "stage": 0, "path": "any", "text": "The stall smelled of fried food and dust. I smiled at passersby, trying not to notice Vagrant’s eyes on me as he leaned lazily against the crates." },
+  { "stage": 1, "path": "love", "text": "He stacked boxes beside me, brushing my arm on purpose. I laughed it off, cheeks warm. It almost felt like partnership." },
+  { "stage": 1, "path": "corruption", "text": "He brushed past me, hand sliding lower than it should’ve. I gasped, but he only smirked as if daring me to call him out." },
+  { "stage": 2, "path": "any", "text": "We argued over prices, leaning too close. His breath was heavy with smoke, mine quick with something I refused to name." },
+  { "stage": 2, "path": "corruption", "text": "Behind the stall curtain, his hand gripped my ass. I hissed at him to stop, but he squeezed harder. The heat in me betrayed my words." },
+  { "stage": 3, "path": "love", "text": "He brushed my cheek with dirty fingers while I handed change to a customer. I should’ve scolded him, but I only blushed." },
+  { "stage": 3, "path": "corruption", "text": "His bulge pressed against me while we pretended to stock goods. My thighs squeezed together, juices threatening to dampen my underwear." },
+  { "stage": 4, "path": "hybrid", "text": "He pulled me into his lap behind the counter. I tried to stifle my moans, but the jostling baskets betrayed us." },
+  { "stage": 4, "path": "corruption", "text": "He slid his filthy fingers under my skirt mid-shift. I squirted against his palm, soaking the wood floor. My knees buckled, but his grip kept me upright." },
+  { "stage": 5, "path": "any", "text": "He made me sit astride him on the stall’s chair, grinding against me until my panties stuck wet against my flower. I prayed no one peeked under the curtain." },
+  { "stage": 6, "path": "corruption", "text": "He pushed inside me quick and rough while a drunk customer haggled loudly outside. I bit his shoulder, trying not to squeal as his seed spilled in me." },
+  { "stage": 6, "path": "love", "text": "He whispered, 'You’re mine even here,' as he slowly entered me. Customers walked past, and I clung to him, breathless, wet, praying they wouldn’t notice the juices dripping down my thigh." },
+  { "stage": 7, "path": "hybrid", "text": "He pulled out mid-thrust, and I begged without words. He smirked and pushed back in harder, his filth dripping from me as I straddled him in broad daylight." },
+  { "stage": 8, "path": "corruption", "text": "He bent me over sacks of grain and pounded me until my juices sprayed over the goods. A passerby saw through the flap—our eyes locked as Vagrant came deep inside me." },
+  { "stage": 9, "path": "any", "text": "He ripped my blouse open during market rush, my breasts bouncing as he fucked me hard against the stall. The crowd roared with laughter, my body shaking with orgasm after orgasm." },
+  { "stage": 10, "path": "corruption", "text": "He tore off the condom and spilled his seed into me in full view of gawking customers. My flower drooled filth down my thighs, and I begged him to keep breeding me as the stall shook." },
+  { "stage": 10, "path": "love", "text": "He held my belly, thrusting slow but deep until I screamed. 'Our child will be born here in the slums,' he whispered, filling me as I came again, juices flooding the wooden floor." },
+  { "stage": 10, "path": "hybrid", "text": "He pinned me atop the counter, pounding me raw, my flower squirting across the goods. I wrapped my legs around him, refusing to let him pull out, screaming, 'Fill me again!' until he bred me twice more." }
+],
+"tutor": [
+  { "stage": 0, "path": "any", "text": "He smirked when I offered to tutor him in letters. I told myself it was just helping. His eyes followed my lips instead of the chalk." },
+  { "stage": 1, "path": "any", "text": "He pretended to struggle, leaning closer every time. His breath reeked of smoke and yet… I didn’t pull away." },
+  { "stage": 2, "path": "love", "text": "He traced the words I wrote with clumsy fingers. When our hands brushed, it felt more like affection than accident." },
+  { "stage": 2, "path": "corruption", "text": "He 'forgot' how to write my name three times. The last time, he whispered it against my neck instead of the slate." },
+  { "stage": 3, "path": "any", "text": "I leaned in to correct him and his hand settled brazenly on my thigh. My voice wavered, but I didn’t stop the lesson." },
+  { "stage": 4, "path": "love", "text": "Our reading dissolved into soft laughter. His dirty hands smudged ink across my cheek as he kissed me for the first time during a lesson." },
+  { "stage": 4, "path": "corruption", "text": "The lesson ended with my back pinned against the desk. He muttered 'Teacher’s pet' while pressing into me, filth staining my skirt." },
+  { "stage": 6, "path": "any", "text": "I couldn’t tell if we were studying anymore. Every touch became a distraction, every word an excuse to be closer." },
+  { "stage": 8, "path": "corruption", "text": "He shoved the books aside, bending me over the table where I taught him letters. His 'lesson' left me dripping, the chalk long forgotten." },
+  { "stage": 9, "path": "hybrid", "text": "We laughed as I tried to keep reading aloud with his thrusts shaking me against the desk. Love and filth tangled on every syllable." },
+  { "stage": 10, "path": "corruption", "text": "Ink splattered across the floor, my hair tangled in his fists as he drove into me. The tutor became the lesson—my body, his filthy textbook." }
+],
+"dancer": [
+  { "stage": 0, "path": "any", "text": "He sat at the back of the tavern, arms folded, watching as I stumbled through my first steps. I told myself I didn’t care what he thought." },
+  { "stage": 1, "path": "any", "text": "When my hips swayed, I felt his eyes burning into me. The crowd clapped. His smirk was for me alone." },
+  { "stage": 2, "path": "love", "text": "He whistled low and soft. I spun, cheeks flushed, pretending it was for the crowd when my chest ached with pride." },
+  { "stage": 2, "path": "corruption", "text": "He mouthed something filthy at me between steps—my knees nearly buckled mid-turn." },
+  { "stage": 3, "path": "any", "text": "I danced closer, close enough for his rough fingers to brush my calf as I passed. My skin tingled hotter than the lanterns." },
+  { "stage": 4, "path": "love", "text": "He pulled me into his arms after the show, spinning me, calling me his star. My laughter turned to a kiss under the lights." },
+  { "stage": 4, "path": "corruption", "text": "Backstage, he pressed me into the curtain, filthy handprints on my thighs. I danced again, but this time only for him." },
+  { "stage": 6, "path": "hybrid", "text": "Each performance became ours—my body arching for the crowd, my eyes locked on him. Tender when I faltered, greedy when I twirled too near." },
+  { "stage": 8, "path": "corruption", "text": "He yanked me off the floor mid-routine, forcing me to grind against his lap in front of gawking drunks. Their cheers blurred into moans as his cock pressed hard between my cheeks, juices already soaking my costume." },
+  { "stage": 9, "path": "hybrid", "text": "I spread my legs wide on stage, panties sticking wet against my folds, every thrust of his fingers sending squirts splashing down my thighs. The crowd thought it was part of the show—only he knew I was cumming for him." },
+  { "stage": 10, "path": "corruption", "text": "He bent me over the stage rail, pounding me raw as music blared. 'This pussy’s mine,' he growled. My flower gushed over his cock, juices spraying down my legs. I screamed my climax into the roar of applause, knowing every eye saw me branded as his." }
+],
+"acolyte": [
+  { "stage": 0, "path": "any", "text": "I lit the candles today, keeping my eyes low when he passed by the chapel doors. The smell of dirt didn’t belong here." },
+  { "stage": 1, "path": "any", "text": "He lingered too long in the pews, smirking. I whispered the hymns louder, as if the words could drown out his gaze." },
+  { "stage": 2, "path": "love", "text": "He asked if I believed the light could save him. I said yes… and meant it. My heart trembled with the hope of it." },
+  { "stage": 2, "path": "corruption", "text": "His laugh echoed against the altar. 'Save me with your body,' he teased. My knees weakened as shame warmed my thighs." },
+  { "stage": 3, "path": "any", "text": "I knelt to pray and felt his eyes roam every curve of me. I kept whispering ‘forgive me’ as heat pooled between my legs." },
+  { "stage": 4, "path": "love", "text": "He touched my hand as I placed a candle. 'You shine brighter than this place,' he murmured. My breath caught like a confession." },
+  { "stage": 4, "path": "corruption", "text": "Behind the altar, he grabbed my hips, grinding against my robes. My lips chanted devotion while my body begged for more." },
+  { "stage": 6, "path": "hybrid", "text": "He pulled me into the confessional, whispering sin into my ear. I let him slip his hand under my skirt as I gasped ‘holy, holy…’" },
+  { "stage": 8, "path": "corruption", "text": "Bent over the altar, my cries mixed with hymns as his cock drove into me, soaking the sacred cloth with my squirt. His seed spilled where prayers should rest." },
+  { "stage": 9, "path": "hybrid", "text": "I rode him on the pulpit, breasts bouncing free of my habit, moaning his name like a hymn. Each thrust made the stained glass rattle as I begged for his filthy blessing inside me." },
+  { "stage": 10, "path": "corruption", "text": "He fucked me in front of the holy statues, cock spearing my womb as I screamed his name like prayer. His cum poured into me, dripping down my thighs onto sacred stone. I grinned through tears—this temple belongs to him now, and so do I." }
+],
+"seamstress": [
+  { "stage": 0, "path": "any", "text": "I pricked my finger threading a hem when he walked in. Dirt smeared on the counter where he leaned — it didn’t belong near fine cloth." },
+  { "stage": 1, "path": "any", "text": "He brushed fabric with those filthy hands, smirking as I scolded him. My cheeks burned hotter than the iron press." },
+  { "stage": 2, "path": "love", "text": "He asked me to patch his sleeve. I stitched in silence, feeling the weight of his gaze on my lips every time I bit the thread." },
+  { "stage": 2, "path": "corruption", "text": "He whispered how pretty I’d look spread across the sewing table. My thighs pressed together under my skirt as the needle shook in my hand." },
+  { "stage": 3, "path": "any", "text": "He tugged a ribbon I wore in my hair, teasing. My heart fluttered as if he’d unraveled me entirely." },
+  { "stage": 4, "path": "corruption", "text": "Behind the counter he spread my lips, juices dripping onto the workshop floor. I whimpered—terrified someone would see, wetter each second." },
+  { "stage": 5, "path": "hybrid", "text": "He bound my wrists with measuring tape, pulling me onto his lap. My tight flower clenched around him as I gasped against the fabric rolls." },
+  { "stage": 6, "path": "love", "text": "He kissed my stitched fingers tenderly before sliding me onto his lap. Even through the filth, his eyes softened as my body gave way to him." },
+  { "stage": 7, "path": "corruption", "text": "He plugged my pussy from behind, thrusting like an animal against the workbench. My cries mixed with the clatter of spools scattering on the floor." },
+  { "stage": 8, "path": "hybrid", "text": "He spread me over the cutting table, fabric soaking beneath us. 'My breeding hole is yours,' I whispered as his gigantic cock reared and filled me again and again." },
+  { "stage": 9, "path": "corruption", "text": "He ripped open my blouse, tits bouncing with each thrust as my juices sprayed across unfinished gowns. I squealed in ecstasy, begging to be ruined more." },
+  { "stage": 10, "path": "corruption", "text": "Bent over piles of dresses, his cock drove into my womb as cum gushed down my thighs. I screamed like a whore, moaning about my filthy breeding hole while grinning—this shop is no longer mine. It’s his den, and I’m his cum-soaked seamstress." }
+]
+    },
+    "daily_life_simple": [
+  { "stage": 0, "text": "I watered the flowers and caught myself humming. When I glanced up, he was watching. I pretended not to notice." },
+  { "stage": 0, "text": "Cooking stew in the slums, I felt his eyes linger on my hands. He never said a word." },
+  { "stage": 0, "text": "He leaned against the wall while I swept the floor. He smelled of smoke. I kept sweeping anyway." },
+  { "stage": 0, "text": "We passed each other in the market. His smirk was faint, but it followed me home." },
+
+  { "stage": 1, "text": "He brushed against my shoulder in the crowd. I told myself it was accidental." },
+  { "stage": 1, "text": "He brought scraps of food, pretending it was nothing. I smiled more than I should have." },
+  { "stage": 1, "text": "I caught him whistling my tune. I didn’t call it out, but my heart skipped anyway." },
+  { "stage": 1, "text": "The dirt on his cheek made me want to reach out… I didn’t." },
+
+  { "stage": 2, "text": "He teased me while I sold flowers. I laughed louder than I meant to." },
+  { "stage": 2, "text": "He handed me a coin for flowers and brushed my palm just a second too long." },
+  { "stage": 2, "text": "He mocked the way I tuck hair behind my ear. I blushed, then scolded him." },
+  { "stage": 2, "text": "We shared bread on a crate in the alley. I told myself it was just a meal." },
+
+  { "stage": 3, "text": "He stood too close as I mixed herbs. I didn’t ask him to move." },
+  { "stage": 3, "text": "He teased me for being too clean. I teased him for never trying. We both smiled." },
+  { "stage": 3, "text": "He reached for a flower and brushed my hand instead. I let it stay." },
+  { "stage": 3, "text": "I patched a tear in his sleeve. He didn’t thank me, but he wore it proudly." },
+
+  { "stage": 4, "text": "He leaned over me while I was sewing. My breath caught, but I kept stitching." },
+  { "stage": 4, "text": "He stole a bite of stew straight from my spoon. I laughed, then flushed." },
+  { "stage": 4, "text": "He whispered something crude while I was hanging laundry. I scolded him… with a smile." },
+  { "stage": 4, "text": "He brushed dirt on my cheek with his thumb. I didn’t wash it off right away." },
+
+  { "stage": 5, "text": "He rested his hand on my lower back while we walked. I let it linger." },
+  { "stage": 5, "text": "He cornered me in the alley, close enough to smell his skin. I didn’t push him away." },
+  { "stage": 5, "text": "I dozed off on his shoulder. The grime on his shirt stained my cheek, but I didn’t move." },
+  { "stage": 5, "text": "He teased me about blushing. I teased him about noticing. Neither of us stopped smiling." },
+
+  { "stage": 6, "text": "He pulled me against him after a long day. I melted into the heat without protest." },
+  { "stage": 6, "text": "He wiped sweat from my brow with his sleeve. I told him he smelled worse, but I leaned closer anyway." },
+  { "stage": 6, "text": "He asked if I’d miss him if he disappeared. I answered before I thought: yes." },
+  { "stage": 6, "text": "He touched my hand in front of others. I didn’t let go." },
+
+  { "stage": 7, "text": "He kissed my forehead while I was cooking. The stew nearly burned." },
+  { "stage": 7, "text": "He teased me in front of the children. My cheeks burned hotter than theirs." },
+  { "stage": 7, "text": "He caught me staring at him while he fixed his boots. I didn’t look away fast enough." },
+  { "stage": 7, "text": "He held me while I swept. The broom clattered to the ground." },
+
+  { "stage": 8, "text": "He pressed me against the doorframe. I laughed nervously, but I didn’t resist." },
+  { "stage": 8, "text": "He whispered filthy things while I poured tea. My hands shook; I nearly spilled." },
+  { "stage": 8, "text": "He slid his hand lower than ever before, right in the open street. My heart raced at being seen." },
+  { "stage": 8, "text": "He teased me about panting when we danced in the slum square. I slapped him playfully, still breathless." },
+
+  { "stage": 9, "text": "He gripped me by the waist while I sold flowers. I barely managed a customer’s change." },
+  { "stage": 9, "text": "He pulled me into the shadows mid-conversation. My lips were swollen when I returned." },
+  { "stage": 9, "text": "He spread his jacket over us on the grass. The stars blurred with every touch." },
+  { "stage": 9, "text": "He kissed me in front of everyone. I didn’t care anymore." },
+
+  { "stage": 10, "text": "He bent me over the counter while customers waited outside. I moaned loud enough to be heard." },
+  { "stage": 10, "text": "He pushed me into the flowers, crushing them beneath us. I gasped and begged for more." },
+  { "stage": 10, "text": "He made me ride him on the bench by the fountain. Passersby stared; I only moved harder." },
+  { "stage": 10, "text": "He filled me in the open street. I screamed his name, unashamed of who listened." }
+    ]
+  },
+      "daily_life_tainted": [
+  { "stage": 0, "text": "He brushed past me in the slums, his filthy shoulder grazing mine. I told myself it was an accident, but my chest burned anyway." },
+  { "stage": 0, "text": "His laughter carried across the alley as I worked. I felt it crawl under my skin like dirt I couldn’t scrub out." },
+  { "stage": 0, "text": "I caught him staring while I bent for water. I flushed with anger… but I didn’t stand up right away." },
+  { "stage": 0, "text": "When our fingers brushed over coins, I jerked back. My hand tingled, and I hated the part of me that wanted to hold on." },
+
+  { "stage": 1, "text": "When he leaned close, his smell clung to me. I hated that I carried it home—and hated more that I didn’t scrub it away." },
+  { "stage": 1, "text": "He called me 'too clean' while smirking. I snapped back, but my cheeks warmed at his gaze." },
+  { "stage": 1, "text": "He tossed grime my way, and I scolded him. The smile on his lips lingered longer in my thoughts than the insult." },
+  { "stage": 1, "text": "He dropped a filthy rag into my hands. I grimaced, but my heart pounded when his fingers lingered." },
+
+  { "stage": 2, "text": "His laugh echoed behind me as I bent to fetch water. My cheeks flushed when I realized I bent slower, letting him look." },
+  { "stage": 2, "text": "I pretended to shoo him away, but the dirt he smeared on my arm stayed there until night. I kept glancing at it." },
+  { "stage": 2, "text": "I cursed when his hand brushed mine again… but later, I pressed my palm to my lips, replaying the contact." },
+  { "stage": 2, "text": "He stared openly as I worked. Instead of shame, I let myself sway just a little more." },
+
+  { "stage": 3, "text": "Sweeping the floor, he caught my wrist. Dirt smeared my skin, and I didn’t pull away. The broom clattered to the ground." },
+  { "stage": 3, "text": "He whispered filth in my ear while others were near. My body tensed, but a thrill stayed in my chest." },
+  { "stage": 3, "text": "His rough laugh echoed in my shop. I tried to act disgusted, but I smiled when he couldn’t see." },
+  { "stage": 3, "text": "When he pressed his knee against mine, I hissed at him to stop. He didn’t—and neither did I." },
+
+  { "stage": 4, "text": "I let him press against me in the alley’s shadow. His breath was rank, his hands rough, and my body betrayed me by leaning back into it." },
+  { "stage": 4, "text": "He pulled me into the dark, dirt grinding against my dress. I trembled—not with fear, but want." },
+  { "stage": 4, "text": "My lips said 'no' but my hips leaned toward him. The contradiction burned hotter than any denial." },
+  { "stage": 4, "text": "His hand on my throat left no mark, only the memory. I whispered a prayer and then begged him not to stop." },
+
+  { "stage": 5, "text": "He made a joke of my dress catching on a nail—then tugged it lower instead of fixing it. My heart raced; I didn’t stop him." },
+  { "stage": 5, "text": "He pushed me against the counter, filth against petals. I gasped, but didn’t push him away." },
+  { "stage": 5, "text": "He smeared his stench across my lips, daring me to spit. Instead, I licked it away." },
+  { "stage": 5, "text": "When he groped me openly, I hissed—but my thighs parted against his touch." },
+
+  { "stage": 6, "text": "I wore his smell all day after he touched me, even when others noticed. Instead of shame, I felt proud." },
+  { "stage": 6, "text": "I leaned into his filth, whispering that I wanted more. The grin he gave me made my chest burn." },
+  { "stage": 6, "text": "His hands dragged grime across my breasts. I arched into them, shivering with heat." },
+  { "stage": 6, "text": "I caught myself moaning his name while alone. The sound filled me with both horror and need." },
+
+  { "stage": 7, "text": "He smeared dirt across my lips and told me to smile. I did. I swallowed the taste, trembling, and begged for more." },
+  { "stage": 7, "text": "He called me his little whore in the slums. I blushed, then whispered, 'Yes' back to him." },
+  { "stage": 7, "text": "I begged him to mark me deeper. His filth seeped into my skin, and I sighed in relief." },
+  { "stage": 7, "text": "I pressed my face to his chest, inhaling smoke and grime, desperate for it never to fade." },
+
+  { "stage": 8, "text": "He pinned me against the market wall while people passed. I pretended to protest, but every thrust of his hips made me wetter." },
+  { "stage": 8, "text": "He pushed his fingers inside me mid-conversation with another. I smiled through the words, dripping down my thigh." },
+  { "stage": 8, "text": "My juices stained my dress as he fondled me in daylight. Strangers stared. I bit my lip and leaned into his hand." },
+  { "stage": 8, "text": "He spat in my mouth and laughed when I swallowed. I begged for more in the middle of the crowd." },
+
+  { "stage": 9, "text": "He forced his fingers inside me as I sold flowers. Customers saw my flushed cheeks. They thought it was heat—only I knew better." },
+  { "stage": 9, "text": "He bent me over the counter. My scream was muffled by petals, my body dripping for him." },
+  { "stage": 9, "text": "He made me taste myself on his fingers, whispering how dirty I’d become. I licked them clean eagerly." },
+  { "stage": 9, "text": "I squirted against his hand in public. My legs shook, but I grinned at the onlookers." },
+
+  { "stage": 10, "text": "I no longer care who sees. My body is his display. When his filth leaks from me in the daylight, I smile like it’s a badge." },
+  { "stage": 10, "text": "He bred me openly, growling as I screamed his name. Gasps surrounded us—I only moaned louder." },
+  { "stage": 10, "text": "He called my pussy his breeding hole. I begged him to fill it until I couldn’t walk." },
+  { "stage": 10, "text": "He dragged me into the street, juices streaming down my thighs. 'Yours,' I moaned, proud for all to hear." }
+      ]
+    },
+    "daily_life_love": [
+  { "stage": 0, "text": "I watered the flowers while he lingered nearby. His silence felt safe, like he was guarding me without saying a word." },
+  { "stage": 0, "text": "We shared bread on a broken step. He didn’t say much, but I caught him smiling when I laughed." },
+  { "stage": 0, "text": "He carried a bucket for me, grumbling, but his hand brushed mine on the handle. I felt steady." },
+  { "stage": 0, "text": "I caught him watching as I hummed a tune. For once, I didn’t look away." },
+
+  { "stage": 1, "text": "He walked me home. Neither of us spoke, but the silence was warm." },
+  { "stage": 1, "text": "I stitched a tear in his shirt. My fingers lingered on the fabric long after." },
+  { "stage": 1, "text": "He leaned against the doorway as I cooked. His presence turned the meal into comfort." },
+  { "stage": 1, "text": "When I tripped, he steadied me with one hand. My heart skipped." },
+
+  { "stage": 2, "text": "We shared tea under the stars. I let the quiet stretch because it felt right." },
+  { "stage": 2, "text": "He brushed dirt from my cheek, and I didn’t flinch. I wanted his touch to stay." },
+  { "stage": 2, "text": "He walked close, our arms grazing. I wished the path were longer." },
+  { "stage": 2, "text": "He handed me a trinket he found in the alleys. It meant nothing, but I kept it like treasure." },
+
+  { "stage": 3, "text": "He let me lean on his shoulder while I dozed. The world felt softer there." },
+  { "stage": 3, "text": "He reached for my hand. I didn’t pull away; I squeezed back." },
+  { "stage": 3, "text": "We shared a blanket in the cold. I pretended to sleep so I could stay close." },
+  { "stage": 3, "text": "He carried me when I was too tired. I protested weakly but nestled into his chest." },
+
+  { "stage": 4, "text": "He kissed my forehead without a word. I held the warmth for hours." },
+  { "stage": 4, "text": "We sat together, his rough hand brushing my hair back. I let him." },
+  { "stage": 4, "text": "His laughter filled the room. I wanted to be the reason it kept coming." },
+  { "stage": 4, "text": "I let my head rest on his lap. He didn’t move, and neither did I." },
+
+  { "stage": 5, "text": "He kissed me gently at the door. My lips tingled long after he left." },
+  { "stage": 5, "text": "His arms wrapped around me when I shivered. I didn’t want him to let go." },
+  { "stage": 5, "text": "We fell asleep side by side, not touching, but I woke up with his hand in mine." },
+  { "stage": 5, "text": "He told me my smile was the only clean thing in this city. I blushed." },
+
+  { "stage": 6, "text": "Our kisses deepened, lingering until my knees went weak." },
+  { "stage": 6, "text": "He held my face in both hands like I was something precious." },
+  { "stage": 6, "text": "We cooked together, bumping shoulders, laughing like we’d done it forever." },
+  { "stage": 6, "text": "I whispered his name before sleep, hoping he’d hear it in his dreams." },
+
+  { "stage": 7, "text": "His kisses left me breathless, his touch reverent even in its hunger." },
+  { "stage": 7, "text": "He cradled me against his chest, murmuring that I belonged there." },
+  { "stage": 7, "text": "We lay tangled in the sheets. His heart beat steady against my ear." },
+  { "stage": 7, "text": "I saw him smile softly at me when he thought I wasn’t looking." },
+
+  { "stage": 8, "text": "We gave ourselves to each other slowly, tenderly, like a promise." },
+  { "stage": 8, "text": "He kissed every inch of me as though memorizing a map." },
+  { "stage": 8, "text": "We whispered dreams between kisses, dreams only for us." },
+  { "stage": 8, "text": "He told me he loved me with every thrust, and I believed him." },
+
+  { "stage": 9, "text": "We made love like it was sacred. Every sigh was worship." },
+  { "stage": 9, "text": "I cried softly in his arms—not from sorrow, but from fullness." },
+  { "stage": 9, "text": "He pressed his forehead to mine as he moved inside me. We breathed as one." },
+  { "stage": 9, "text": "I told him I’d never leave. The way he held me said he already knew." },
+
+  { "stage": 10, "text": "We lost ourselves in love so deep it erased the world." },
+  { "stage": 10, "text": "His name left my lips like prayer, over and over." },
+  { "stage": 10, "text": "Every part of me was his, gladly, fully, without hesitation." },
+  { "stage": 10, "text": "Our love burned bright enough to make even the filth feel holy." }
+    ]
+  },
+    "daily_life_hybrid": [
+  { "stage": 0, "text": "I tended the flowers while he leaned in the doorway, filthy and amused. I wanted to scold him… yet part of me wanted him to stay." },
+  { "stage": 0, "text": "He brushed past me, reeking of smoke. I wrinkled my nose but caught myself smiling." },
+  { "stage": 0, "text": "We shared a meal, and when his rough hand grazed mine, I didn’t know whether to pull away or hold on." },
+  { "stage": 0, "text": "I told myself he didn’t belong here. Still, my eyes followed him as he left." },
+
+  { "stage": 1, "text": "He made a joke at my expense; I rolled my eyes, but laughter spilled out anyway." },
+  { "stage": 1, "text": "I patched a tear in his sleeve, my fingers trembling at the dirt still clinging to it." },
+  { "stage": 1, "text": "He leaned too close while I cooked. I felt disgust twist into a dangerous sort of warmth." },
+  { "stage": 1, "text": "He grinned, and I hated how my chest tightened in response." },
+
+  { "stage": 2, "text": "He pressed against me in a crowded alley, claiming it was an accident. My cheeks burned… because I didn’t step away." },
+  { "stage": 2, "text": "He touched my cheek with a dirty hand. I should’ve slapped it away, but I closed my eyes instead." },
+  { "stage": 2, "text": "His smell clung to my scarf. I buried my face in it, hating myself for liking it." },
+  { "stage": 2, "text": "We walked together under lanterns. I wanted people to see us, to see me choose him—grime and all." },
+
+  { "stage": 3, "text": "He pulled me close, smirk sharp, and I whispered for him to stop even as I melted into him." },
+  { "stage": 3, "text": "We shared a blanket. I told myself it was only for warmth, but the heat in my body betrayed me." },
+  { "stage": 3, "text": "He dared me to kiss him. I said no, then leaned in anyway." },
+  { "stage": 3, "text": "He mocked my blush, and I hated him for noticing… but I kept blushing for him." },
+
+  { "stage": 4, "text": "His lips tasted of ash. I told myself I hated it, then kissed him again." },
+  { "stage": 4, "text": "He pinned me to the wall, and I whispered for him to stop—but my hands clutched his shirt tighter." },
+  { "stage": 4, "text": "Every glance at him feels like betrayal and desire at once. I can’t tell which wins anymore." },
+  { "stage": 4, "text": "He laughed when I let him hold me. I should have pushed him away. Instead, I leaned closer." },
+
+  { "stage": 5, "text": "I kissed him first this time, then told myself it was a mistake." },
+  { "stage": 5, "text": "He took my hand in front of others. My shame burned hot—but I didn’t let go." },
+  { "stage": 5, "text": "He whispered filth in my ear. I should have recoiled, but I shivered with want." },
+  { "stage": 5, "text": "When he left, I touched my lips and prayed no one saw how I smiled." },
+
+  { "stage": 6, "text": "He kissed me hard enough to bruise. My lips ached, my heart raced, and I wanted more." },
+  { "stage": 6, "text": "He called me his. I didn’t deny it. The word made my stomach twist—and drip with heat." },
+  { "stage": 6, "text": "We pressed against each other in the shadows, daring someone to notice." },
+  { "stage": 6, "text": "He pulled me onto his lap, and though I hissed for him to stop, I shifted to fit him better." },
+
+  { "stage": 7, "text": "He licked dirt from his fingers, then touched my lips with them. I opened my mouth anyway." },
+  { "stage": 7, "text": "He whispered how ruined I’d look on his cock. I trembled, because I wanted to hear it again." },
+  { "stage": 7, "text": "He shoved me into an alley kiss, his stubble burning my skin raw. I clawed at him, begging silently for more." },
+  { "stage": 7, "text": "When he held me down, my voice said no but my hips betrayed me." },
+
+  { "stage": 8, "text": "He forced me onto all fours in the dirt. I moaned at the shame of it, louder than I should." },
+  { "stage": 8, "text": "His filth smeared across my thighs as he thrust. I loved the way it marked me." },
+  { "stage": 8, "text": "I begged him to take me rougher. Every slap of his hips made me wetter." },
+  { "stage": 8, "text": "We fucked where anyone could see. My fear made it hotter." },
+
+  { "stage": 9, "text": "He spat on me, and I licked it up without thinking. I hated how much it thrilled me." },
+  { "stage": 9, "text": "He called me his whore, and I gasped—because I wanted to hear it again." },
+  { "stage": 9, "text": "His cock slammed me against the wall, juices dripping onto the street. I didn’t care who saw." },
+  { "stage": 9, "text": "I begged him to come inside me, even as people walked past." },
+
+  { "stage": 10, "text": "He broke me open with his cock, and I screamed his name for the whole slum to hear." },
+  { "stage": 10, "text": "My breeding hole throbbed around him, leaking and aching, begging for more." },
+  { "stage": 10, "text": "Every thrust made me cry with ecstasy. I didn’t care if the world thought me ruined—I was his." },
+  { "stage": 10, "text": "He fucked me until my legs gave out, my juices soaking the dirt. I whispered thank you." }
+    ]
+  },
+  
