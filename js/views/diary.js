@@ -39,7 +39,7 @@ export default function DiaryView({
 
   // panels
   const desire  = selectDesireEntries(diary, targetId, pair.path, pair.stage);
-  const grouped = groupByDay(diary.entries);
+  const grouped = groupByDay(diary.entries || []);
 
   // in-game clock
   const c = getClock();
@@ -78,7 +78,6 @@ export default function DiaryView({
               h(Button, {
                 ghost: true,
                 onClick: () => {
-                  // log a summary desire line for current lane+stage
                   appendDiaryEntry(diary, {
                     text: `[desire:${pair.path} s${pair.stage}] ${desire[desire.length - 1]}`,
                     path: pair.path,
@@ -123,7 +122,7 @@ export default function DiaryView({
     h("div", { class: "card diary-card" }, [
       h("h3", null, "Timeline"),
       ...Object.entries(grouped).map(([day, entries]) =>
-        h("div", { class: "diary-day" }, [
+        h("div", { class: "diary-day", key: day }, [
           h("div", { class: "diary-meta" }, [
             h(Badge, null, day),
             ...((entries[0].mood || []).map((m, i) => h(Badge, { ghost: true, key: `m${i}` }, m))),
