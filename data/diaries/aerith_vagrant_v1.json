@@ -2,477 +2,617 @@
   "version": "1.0",
   "characterId": "aerith",
   "desires": {
-    "vagrant": {
-      "love": [
-        "Stage 0 — I met him among the alleys; beneath the filth I sense a loneliness I can’t turn away from.",
-        "Stage 1 — If he’d let me close, I’d show him he’s more than the dirt the world sees.",
-        "Stage 2 — His rough smile is cracked, but when it’s for me I feel warm all the way through.",
-        "Stage 3 — I want to be the person who coaxes gentleness out of him, even if my hands come away stained.",
-        "Stage 4 — Love can hold contradictions: I can cherish him as he is and still wish to heal what hurts.",
-        "Stage 5 — No matter what others smell or say, I choose him; I want a future woven from tenderness and grit."
-      ],
-      "corruption": [
-        "Stage 0 — He is unwashed and shameless; the wrongness lingers on my skin… and it won’t leave my thoughts.",
-        "Stage 1 — The weight of his presence clings like smoke; fear mixes with a heat I don’t understand.",
-        "Stage 2 — When he leans close, the filth feels like a claim; my breath catches and I don’t pull away.",
-        "Stage 3 — I want him to mark me so the world knows I’m his—terrible and thrilling in the same breath.",
-        "Stage 4 — The more he tests my limits, the more I find new ones to surrender; I ache for the surrender itself.",
-        "Stage 5 — Let me be his without pretense; stain me with him until even my doubts carry his scent."
-      ],
-      "hybrid": [
-        "Stage 0 — He’s everything I should refuse, yet part of me leans closer just to see what happens.",
-        "Stage 1 — Sin and softness together tempt me: his filth, my care; my blush, his smirk.",
-        "Stage 2 — If loving him means touching what’s forbidden, then let my hands be honest and my heart be brave.",
-        "Stage 3 — Shame turns to thrill when it’s ours; I want the secret and the sweetness in the same heartbeat.",
-        "Stage 4 — This feels like choosing fire and rain at once; I want both the scorch and the bloom.",
-        "Stage 5 — I accept the paradox: tender devotion wrapped in taboo—our own kind of pure."
-      ]
-    }
-  },
-  "witnessed": {
-    "vagrant": {
-      "tifa": [
-        { "stage": 0, "path": "love",       "text": "Tifa’s nose wrinkled at his smell; still, her eyes lingered a second too long. I felt a pinch of something I won’t name." },
-        { "stage": 1, "path": "corruption", "text": "He stood too close to Tifa; the air turned heavy. My pulse stuttered—disgust, envy, and a spark I shouldn’t feel." },
-        { "stage": 2, "path": "hybrid",     "text": "She didn’t flinch this time. I hated that I noticed… and that part of me wished it was me instead." },
-        { "stage": 3, "path": "love",       "text": "They spoke in low tones; his roughness softened. It hurt—and yet I smiled for both of them." },
-        { "stage": 4, "path": "corruption", "text": "Her breath hitched when he leaned in. The alley felt too warm; jealousy braided with a darker want." },
-        { "stage": 5, "path": "hybrid",     "text": "Filth and closeness and something tender—between them, and inside me. I’m frightened by how much I understand." }
-      ],
-      "renna": [
-        { "stage": 0, "path": "love",       "text": "Renna laughed off his mockery, unbothered by the grime. I wish I could be so light." },
-        { "stage": 1, "path": "corruption", "text": "She let him crowd her space—reckless, smiling. I felt heat rise in my cheeks for reasons I won’t write twice." },
-        { "stage": 2, "path": "hybrid",     "text": "Her ease with him pricked me; I envied her boldness and feared where it leads." },
-        { "stage": 3, "path": "love",       "text": "She teased him into a softer mood. I caught myself rooting for them—and then for myself." },
-        { "stage": 4, "path": "corruption", "text": "He tested her with a daring touch; she didn’t pull away. My heart pounded in something like approval." },
-        { "stage": 5, "path": "hybrid",     "text": "Watching them felt like watching a secret I already share: danger, laughter, and a choice to keep wanting." }
-      ],
-      "yuffie": [
-        { "stage": 0, "path": "love",       "text": "Yuffie joked about his stink and made even him laugh. I laughed, too—traitorously." },
-        { "stage": 1, "path": "corruption", "text": "She tossed him a grin that said: your dirt doesn’t scare me. The thrill in my chest startled me." },
-        { "stage": 2, "path": "hybrid",     "text": "She turned grime into a game. I wondered what it would be like to play along." },
-        { "stage": 3, "path": "love",       "text": "He softened around her mischief; I understood the charm—and felt my own grow sharper." },
-        { "stage": 4, "path": "corruption", "text": "Her teasing let him be bolder. My breath quickened, jealous and fascinated in equal measure." },
-        { "stage": 5, "path": "hybrid",     "text": "This triangle of jokes and heat felt inevitable; I wrote the truth: I want what she has, and what I have, too." }
-      ]
-    }
-  },
-  "events": {
-    "intro": [
-      { "key": "first_meeting",      "stageMin": 0, "path": "any", "text": "I met him in the slums—rags, smoke, and eyes that dared me to care. I did." },
-      { "key": "first_conversation", "stageMin": 0, "path": "any", "text": "He called me too clean for these alleys. I stayed anyway; something in me wanted to prove him wrong." }
+  "vagrant": {
+    "love": [
+      "I shouldn’t look twice at a man like him… yet something gentle flickers beneath the grime, and I want to see it again.",
+      "When he lets the mask slip, I feel warmth. If I stay patient, maybe he’ll trust me with more of himself.",
+      "His rough edges don’t scare me anymore. I find myself wishing he’d stay a little longer each time.",
+      "When he’s near, my chest settles. I want to be the place he can rest without pretending.",
+      "I don’t mind the dirt if the smile is real. I want to be the reason it is.",
+      "I want quiet mornings and honest evenings—no bravado, just us breathing the same air.",
+      "I want to stand beside him in the open, unashamed, and call what we have by its name.",
+      "I choose him, not a cleaned-up fantasy—him, as he is, and I’ll meet the world’s doubts with my certainty.",
+      "I want a life woven with his: shared work, shared laughter, shared burdens, and a key that fits both our doors.",
+      "Let them whisper. I know what I feel. My heart doesn’t want a savior or a project—it wants him.",
+      "This love is a vow I make daily: to see him clearly, to be seen in return, and to keep choosing us."
     ],
-    "intimacy": [
-      { "key": "first_touch", "stageMin": 1, "path": "any", "text": "His fingers grazed mine—rough and unwashed—and my skin lit like a match." },
-      { "key": "first_kiss",  "stageMin": 2, "path": "any", "text": "He tasted of ash and sweat; it should have repelled me. I leaned in instead." },
-      { "key": "quiet_hold",  "stageMin": 3, "path": "love", "text": "We said nothing. His weight, his warmth, the grime—somehow it felt like safety." },
-      { "key": "claimed_whisper", "stageMin": 4, "path": "corruption", "text": "He murmured at my ear that I’m his. The word sank deep; I didn’t fight it." }
-  { "key": "shared_blanket", "stageMin": 1, "path": "any", "text": "It was freezing, and he pulled the blanket over both of us. His chest brushed my back—hard, rough, but I didn’t pull away." },
-
-  { "key": "accidental_straddle", "stageMin": 2, "path": "any", "text": "I tripped while reaching for my bag, and ended up straddling him. His hands held me steady a moment too long. My cheeks burned." },
-
-  { "key": "neck_kiss", "stageMin": 2, "path": "corruption", "text": "His lips grazed my neck—filthy breath and all. I gasped before I could stop myself, shame flooding through me." },
-
-  { "key": "forehead_kiss", "stageMin": 2, "path": "love", "text": "He pressed a rough kiss against my forehead. Such a small gesture, but my heart felt full." },
-
-  { "key": "lap_rest", "stageMin": 3, "path": "any", "text": "I fell asleep with my head in his lap. His scent clung to my hair; I dreamed of him." },
-
-  { "key": "wall_pin", "stageMin": 3, "path": "corruption", "text": "He cornered me against the wall, his body trapping mine. I should’ve screamed, but my lips parted instead." },
-
-  { "key": "slow_undress", "stageMin": 3, "path": "hybrid", "text": "He tugged at my clothes gently, almost playfully. I laughed nervously, then let him continue." },
-
-  { "key": "bite_mark", "stageMin": 4, "path": "corruption", "text": "His teeth sank into my shoulder. It hurt. I moaned anyway." },
-
-  { "key": "afterglow_whisper", "stageMin": 4, "path": "love", "text": "Afterwards, his arms were tight around me. He whispered my name like it meant something. I wanted to believe it." },
-
-  { "key": "mirror_play", "stageMin": 5, "path": "corruption", "text": "He made me look into the cracked mirror while he moved against me. My face was flushed, filthy… his." }
-      
-      { "key": "tent_caught_cloud", "stageMin": 3, "path": "love", "text": "He pressed me down in the tent, lips trailing lower—when Cloud’s voice called from outside. I shoved Vagrant back, cheeks burning. Cloud peeked in just as we scrambled apart." },
-
-{ "key": "inn_tifa_walkin", "stageMin": 3, "path": "any", "text": "At the inn he kissed me hard against the bedpost. Tifa opened the door suddenly. My hair was a mess, lips swollen—I pretended we were just talking, but her eyes lingered too long." },
-
-{ "key": "cave_whisper_barret", "stageMin": 4, "path": "any", "text": "In the cave shadows he whispered filth against my ear, his hand wandering. Barret’s torchlight flickered close, his heavy steps echoing. We stilled, breathless, until he passed." },
-
-{ "key": "market_yuffie_spot", "stageMin": 4, "path": "corruption", "text": "He cornered me in the market stalls, mouth on mine. When I opened my eyes Yuffie was there—grinning, watching. I shoved him away, but the heat in me refused to fade." },
-
-{ "key": "campfire_nanaki", "stageMin": 5, "path": "hybrid", "text": "We lay too close by the campfire, his hand beneath my clothes. Nanaki lifted his head, ears twitching. He didn’t speak, but I know he saw—and still I didn’t stop." },
-      [
-  { "key": "shared_cup", "stageMin": 1, "path": "any", "text": "He handed me a drink without wiping the rim. I hesitated, then sipped anyway. His eyes caught mine when I did." },
-  { "key": "brushed_cheek", "stageMin": 1, "path": "any", "text": "His rough fingers brushed dirt from my cheek. I told myself it was only kindness, but my heart jumped." },
-  { "key": "shoulder_rest", "stageMin": 2, "path": "any", "text": "I nodded off leaning on his shoulder. He didn’t move away, and I pretended not to notice." },
-  { "key": "midnight_confession", "stageMin": 2, "path": "love", "text": "By lantern light he admitted he dreamed of leaving the slums. I touched his hand. Maybe he meant leaving with me." },
-  { "key": "accidental_brush", "stageMin": 2, "path": "hybrid", "text": "Our hands brushed too many times to be accidents. He smirked; I swallowed my scolding." },
-  { "key": "neck_whisper", "stageMin": 3, "path": "corruption", "text": "He leaned close, lips almost grazing my neck, and whispered something I can’t repeat. My body shivered anyway." },
-  { "key": "hidden_laughter", "stageMin": 3, "path": "any", "text": "We shared a laugh too loud for the shadows we hid in. His arm lingered around me longer than the joke required." },
-  { "key": "bandage_care", "stageMin": 3, "path": "love", "text": "I wrapped his hand in cloth after a fight. He watched me too closely for someone bleeding." },
-  { "key": "back_hold", "stageMin": 4, "path": "any", "text": "He slipped behind me, arms around my waist. I told him to let go, but stayed in his hold a moment longer." },
-  { "key": "ear_breath", "stageMin": 4, "path": "hybrid", "text": "He breathed against my ear, not kissing—just hovering. The restraint was worse than the act itself." },
-  { "key": "trembling_kiss", "stageMin": 4, "path": "love", "text": "When our lips finally met, I was trembling. He kissed me slowly, as if afraid I’d vanish." },
-  { "key": "dirty_tease", "stageMin": 4, "path": "corruption", "text": "He tugged my skirt in public, just enough to make me panic. He laughed when I gasped—and I hated how warm it made me feel." },
-  { "key": "shelter_embrace", "stageMin": 5, "path": "any", "text": "We sheltered from the rain, pressed close under one roof. I barely noticed the storm over my heartbeat." },
-  { "key": "slow_dance", "stageMin": 5, "path": "love", "text": "There was no music. He still pulled me into a slow dance, whispering that I was his song." },
-  { "key": "possessive_kiss", "stageMin": 5, "path": "corruption", "text": "He kissed me rough enough to leave marks. Later, I traced them in the mirror and shivered." }
+    "corruption": [
+      "Something about him feels like a dare I shouldn’t take—and I keep stepping closer anyway.",
+      "His grin makes rules feel flimsy. Part of me wonders how far I’d go just to keep it aimed at me.",
+      "I’m learning how temptation sounds when it uses my name. It’s reckless… and thrilling.",
+      "He tilts the world off its axis and I don’t rush to set it straight. I like the tilt.",
+      "If I cross one more line, will I still recognize myself? The thought doesn’t scare me as much as it should.",
+      "I catch my reflection and see someone braver—or is it hungrier? Either way, I don’t look away.",
+      "The shame fades faster now, replaced by heat that lingers. I invite it to stay.",
+      "I crave the power of surrender, the rush of being chosen and claimed—no excuses, no masks.",
+      "It’s not that I’ve lost myself; it’s that I’ve discovered a self that reaches back when darkness reaches for me.",
+      "I don’t ask permission from the world anymore. Desire writes its own rules, and I sign my name.",
+      "Whatever we are, it’s undeniable—and I accept the mark it leaves on me."
     ],
-"erotic": [
-  { "key": "ass_grab", "stageMin": 0, "path": "any", "text": "His huge hands squeezed my behind, a small yelp left my lips. I was quick to scold him. I hope that never happens again." },
-
-  { "key": "nipple_tease", "stageMin": 1, "path": "any", "text": "I felt his fingers run down my chest and linger where I'm most sensitive. I promised myself I won't let it happen again." },
-
-  { "key": "bath_play", "stageMin": 2, "path": "love", "text": "He convinced me to help him wash the other day. He just seems so helpless, how could I refuse. While bathing, I couldn't help but notice how big he was... S-s-stop thinking about it Aerith." },
-
- { "key": "first_tent_oral", "stageMin": 2, "path": "corruption", "text": "I-I-I couldn't hold back my curiosity, he slowly unzipped and unleashed his monster. Stench dripping off it ... I felt my thighs heat up. The smell was so intoxicating, my lips quivered but were soon engulfed in his stench" },
-
-  { "key": "first_time_corruption", "stageMin": 3, "path": "corruption", "text": "One minute he was whispering in my ear. The next... I lost control. He finally made me his. I can still feel his filth all over me, marking me as his." },
-
-  { "key": "first_time_love", "stageMin": 3, "path": "love", "text": "The night was soft, and even with his rough edges, he touched me like I mattered. It hurt, but I wanted him close. I wanted all of him." },
-
-  { "key": "first_time_hybrid", "stageMin": 3, "path": "hybrid", "text": "I told myself I hated how dirty he was, but when he pressed me down and kissed me with that smirk, I melted. Shame and thrill mixed, and I gave in." },
-
-   { "key": "first_tongue_kissing", "stageMin": 3, "path": "corruption", "text": "He leaned in for a kiss and before I knew it our tongues were dancing together. I just can't get enough of this taste" },
-
-  { "key": "morning_aftermath", "stageMin": 4, "path": "any", "text": "I woke sore and flushed, his smell still clinging to me. I should have bathed immediately, but part of me wanted to keep it—like proof of last night." },
-
-  { "key": "rough_claim", "stageMin": 4, "path": "corruption", "text": "He pushed me hard against the wall, and I didn’t resist. The sting, the filth—it made me tremble in ways I never imagined I’d crave." },
-
-  { "key": "tender_bed", "stageMin": 4, "path": "love", "text": "He lay beside me, unwashed and raw, yet he touched me so gently. I buried my face in his chest, choosing to see past the dirt to the man inside." },
-
-   { "key": "tent_caught",     "stageMin": 3, "path": "love", "text": "I--I-I was lost in the moment with him. Every inch slid deeper but then Cloud started calling for me. As he peeked into the tent I've never felt so ashamed. We covered up in time, Vagrant still teased me from behind. I made up some excuse but Cloud definitely suspects something..." },
-
-  { "key": "stained_flower", "stageMin": 4, "path": "corruption", "text": "He'd always use protection... Up until now. He kept teasing me, pushing my limits. I finally caved in and accepted." },
-
-  { "key": "dirtied_inside", "stageMin": 4, "path": "corruption", "text": "I shouldn't want it, but I kept clinging to him. I locked my legs around him preventing any escape. Feeling his filthy seed inside me. I've never felt more conflicted." },
-
-  { "key": "tainted_blossom", "stageMin": 5, "path": "corruption", "text": "Every inch of me feels claimed. I can’t wash away his touch anymore—his dirt lives inside me now, and shamefully, I don’t want to." },
-
-  { "key": "forbidden_bond", "stageMin": 5, "path": "hybrid", "text": "We kissed with filth still on our skin. It should feel wrong, but instead it felt sacred. Like a secret only we’re allowed to share." },
-
-  { "key": "pregnant_touch", "stageMin": 5, "path": "any", "text": "His hand lingered on my belly today, possessive and heavy. Whether love or corruption, I know now—my body belongs to him." }
-  { "key": "bathhouse_cloud", "stageMin": 3, "path": "any", "text": "Steam wrapped around us in the bathhouse when he pulled me onto his lap. Just as his hands slid lower, Cloud’s silhouette appeared through the mist. My pulse thundered—if he took one more step, he'd see everything." },
-
-{ "key": "tent_tifa", "stageMin": 3, "path": "corruption", "text": "His mouth was on me, shameless in the tent, when I heard Tifa’s boots crunching outside. Her voice called my name. I should have pushed him off, but instead I clutched his head tighter, praying she wouldn’t open the flap." },
-
-{ "key": "inn_barret", "stageMin": 4, "path": "any", "text": "We were tangled on the bed, his filth heavy inside me, when Barret’s knock rattled the door. I froze—he didn’t. Each thrust muffled against my bitten lip while Barret cursed and moved on." },
-
-{ "key": "slums_yuffie", "stageMin": 4, "path": "hybrid", "text": "In the shadows of the slums, his hand shoved beneath my skirt. I gasped too loud. Yuffie turned the corner with a grin, eyes flashing like she knew exactly what she’d caught. He only pressed harder, daring me to keep quiet." },
-
-{ "key": "campfire_nanaki", "stageMin": 5, "path": "corruption", "text": "By the fire he entered me rough, not caring about the others nearby. Nanaki lifted his head, ears twitching, gaze fixed on us. I should’ve begged him to stop—but I arched instead, letting the beast inside and outside of me witness it." }
-],
-    "extreme_erotic": [
-  { "key": "alley_taken", "stageMin": 4, "path": "corruption", "text": "He pressed me against a slum wall in broad daylight. I heard voices passing—didn’t care. I wanted them to know I was his." },
-  { "key": "public_whisper", "stageMin": 4, "path": "hybrid", "text": "He whispered the filthiest things into my ear at the market stalls. People glanced, but I only leaned closer, aching for more." },
-  { "key": "caught_by_cloud", "stageMin": 5, "path": "corruption", "text": "Cloud barged in while he had me pinned. My face burned with humiliation, yet my hips never stopped moving. Cloud’s eyes—his shock—only made me cling harder." },
-  { "key": "tent_exposed", "stageMin": 5, "path": "any", "text": "The tent flap opened mid-thrust. I should’ve screamed, should’ve covered myself. Instead I arched louder, forcing the intruder to watch." },
-  { "key": "inn_scandal", "stageMin": 5, "path": "corruption", "text": "The innkeeper knocked—told us to quiet down. Vagrant growled, pushed harder, and I cried his name loud enough for the whole hall." },
-  { "key": "bathhouse_claim", "stageMin": 5, "path": "hybrid", "text": "Steam hid nothing. I let him take me in the bathhouse while others soaked nearby. I wanted them to hear my moans echo through the tiles." },
-  { "key": "slum_stage", "stageMin": 5, "path": "corruption", "text": "He pulled me onto a crate in the slums like a throne. His hand between my thighs, his smirk daring the crowd to stare. And I spread wider, letting them." },
-  { "key": "open_air_possession", "stageMin": 5, "path": "corruption", "text": "He bent me over under the open sky. Passersby gasped, muttered—my body still welcomed him. Shame was long gone." },
-  { "key": "shared_look", "stageMin": 5, "path": "hybrid", "text": "Tifa saw. Her eyes locked with mine as he claimed me. I didn’t look away. I wanted her to know how far I’d fallen… or risen." },
-  { "key": "filthy_family", "stageMin": 5, "path": "corruption", "text": "I stroked my swollen belly as he used me, groaning loud enough for the neighbors. Let them all hear—this child is proof I’m his." }
-      ],
-    "exploration": [
-      { "key": "slum_walk",     "stageMin": 0, "path": "any", "text": "We walked alleys that smelled of rust and rain. He mocked the world; I laughed despite myself." },
-      { "key": "church_visit",  "stageMin": 1, "path": "any", "text": "He stepped into the church with mud on his boots. I should’ve scolded him. I asked him to stay." },
-      { "key": "night_market",  "stageMin": 2, "path": "any", "text": "Lanterns flickered on his cheekbones; the dirt didn’t look so ugly in the warm light." }
-      { "key": "slum_walk_marked",     "stageMin": 5, "path": "corruption", "text": "We walked the dark alleys together. His hands clinging to my body in front of everyone. Everyone looks disgusted, but it makes me even more excited." },
-      [
-  { "key": "rooftop_view", "stageMin": 1, "path": "any", "text": "We climbed a rickety ladder to the rooftops. From up there the slums looked almost peaceful. He laughed when I held his arm too tightly." },
-  { "key": "sewer_shortcut", "stageMin": 1, "path": "any", "text": "He led me through a sewer shortcut. The smell was unbearable, yet I followed. His torchlight was the only thing I could cling to." },
-  { "key": "junkyard_stumble", "stageMin": 2, "path": "any", "text": "We wandered the junkyard together. He kicked rusted metal; I found a flower poking through. He smirked at me like I was ridiculous." },
-  { "key": "outskirts_field", "stageMin": 2, "path": "any", "text": "Past the edge of the slums, wildflowers still grew. I picked one and tucked it in his pocket. He didn’t throw it away." },
-  { "key": "collapsed_bridge", "stageMin": 2, "path": "any", "text": "We crossed a broken bridge, boards groaning beneath us. He teased me for hesitating. I teased him for smelling worse than the river below." },
-  { "key": "hidden_alcove", "stageMin": 3, "path": "any", "text": "He pulled me into a shadowed alcove to avoid a patrol. His breath was close, his eyes darker than the night. My heart didn’t slow even after they passed." },
-  { "key": "trainyard_rest", "stageMin": 3, "path": "any", "text": "We rested near the trainyard, leaning against cold steel. The way he lit a cigarette made me stare longer than I should have." },
-  { "key": "riverbank_stop", "stageMin": 3, "path": "any", "text": "We stopped by the riverbank. His boots muddied the water; I lifted my skirt from the dirt. He told me I looked better when I wasn’t so careful." },
-  { "key": "slum_rooftop_night", "stageMin": 4, "path": "any", "text": "At night on the rooftop, lanterns flickered in the slums below. He sat close, shoulder to shoulder, and I pretended it was just for the view." },
-  { "key": "abandoned_market", "stageMin": 4, "path": "any", "text": "The old market stalls stood empty. He stole a kiss between the shadows. My protest never made it past my lips." },
-  { "key": "windy_cliffside", "stageMin": 4, "path": "any", "text": "The wind nearly swept me off the cliffside path. He caught my wrist, holding too tight. I felt his grip long after." },
-  { "key": "watchtower_top", "stageMin": 5, "path": "any", "text": "We reached the old watchtower. He leaned against me with no shame. The city stretched below, but all I saw was him." },
-  { "key": "slum_walk_bold", "stageMin": 5, "path": "corruption", "text": "He pressed his hand against me boldly as we walked. People saw. I flushed with shame, but I didn’t pull away." },
-  { "key": "hidden_garden", "stageMin": 5, "path": "love", "text": "He followed me into a hidden garden I thought only I knew. Dirt under his boots, flowers at my back. I realized I didn’t mind them mixing." },
-  { "key": "forbidden_wall", "stageMin": 5, "path": "hybrid", "text": "We leaned against the wall outside Don Corneo’s estate. Wrong place, wrong time… but I liked the danger almost as much as his smirk." }
+    "hybrid": [
+      "He’s everything I should avoid and everything I can’t ignore—dangerous and oddly tender.",
+      "I’m split between scolding him and staying close. The truth: I like being near the storm.",
+      "If he is the shadow and I’m the light, then maybe we’re meant to blur at the edges.",
+      "I want the forbidden and the sincere at once—hands that take and then hold.",
+      "It’s a secret I carry gladly: I love him when he’s rough and when he’s real.",
+      "I don’t need to choose between pure and profane if what we have is honest.",
+      "Let sweetness follow the burn; I want both and I won’t apologize.",
+      "We can be soft after we’re bold; we can be bold because we’re soft. That paradox feels like us.",
+      "I’m done pretending the thrill isn’t part of the love. It is—and it makes the love brighter.",
+      "Our story is messy and true. I’ll write it with ink that doesn’t wash off.",
+      "If love is a sanctuary and desire a wildfire, then our home is a hearth built from both."}
     ],
-    "haunted_mansion": [
-      { "key": "threshold",   "stageMin": 2, "path": "any", "text": "At the mansion doors, the air went cold. I took his arm and told myself it was the wind." },
-      { "key": "whispers",    "stageMin": 3, "path": "any", "text": "Floorboards sighed; I held his sleeve. He smirked at my grip—and I didn’t let go." },
-      { "key": "shadow_nook", "stageMin": 4, "path": "hybrid", "text": "Hidden in a shadowed room, I pressed close, heart racing at danger and desire braided together." }
+    "reflections": {
+  "vagrant": {
+    "tifa": [
+      "Stage 0 — She scowls when he draws near. I pretend I agree, but my heart beats faster than it should.",
+      "Stage 1 — Tifa wrinkles her nose at his smell. I should too… but the way she looks at him makes me wonder what she sees beyond it.",
+      "Stage 2 — She holds herself tall, but I catch her eyes flickering. Why does it sting that she notices him?",
+      "Stage 3 — Watching him test her patience twists my stomach. Disgust… and something hotter I don’t want to name.",
+      "Stage 4 — I saw her lean just a little closer. I shouldn’t care, but I do. My cheeks burned hotter than hers.",
+      "Stage 5 — They shared a silence too heavy. I imagined breaking it—throwing myself between them.",
+      "Stage 6 — Tifa doesn’t flinch anymore. She’s used to his filth, and that unsettles me most—I wish I were.",
+      "Stage 7 — When she let him touch her shoulder, my whole body jolted. I wanted it to be me.",
+      "Stage 8 — They looked almost natural together. I hated it… until I realized part of me wanted to join them.",
+      "Stage 9 — Her breaths grew heavy as he teased. I bit my lip raw just watching.",
+      "Stage 10 — I didn’t look away this time. I stared until he noticed—daring him to touch us both."
     ],
-    "tent": [
-  { "key": "tent_camp_setup", "stageMin": 0, "path": "any", "text": "We struggled with the canvas. His hands were clumsy, filthy, but I found myself smiling anyway." },
-  { "key": "tent_lantern", "stageMin": 1, "path": "any", "text": "Inside the tent, the lantern light made shadows of his grin. I tried not to stare." },
-  { "key": "tent_rain", "stageMin": 2, "path": "any", "text": "The rain drummed above us. We sat shoulder to shoulder, the closeness harder to ignore." },
-  { "key": "tent_sleep_shift", "stageMin": 3, "path": "any", "text": "I woke to find him shifted closer. His heat pressed against me. I didn’t move away." },
-  { "key": "tent_midnight", "stageMin": 4, "path": "any", "text": "He whispered my name in the dark. The air grew heavy with things we shouldn’t want." },
-      "tent": [
-  { "key": "tent_rain_refuge", "stageMin": 1, "path": "any", "tags": ["tent"], "text": "Rain poured outside while we huddled close. The sound of water masked the silence between us… until I realized how close our faces were." },
-
-  { "key": "tent_lantern_glow", "stageMin": 2, "path": "love", "tags": ["tent"], "text": "The lantern flickered, casting his rough edges in gold. For the first time, I thought he looked almost… handsome." },
-
-  { "key": "tent_secret_kiss", "stageMin": 2, "path": "any", "tags": ["tent","intimacy"], "text": "The world outside felt far away. In the tent’s dim light, he leaned in, and I didn’t turn away." },
-
-  { "key": "tent_sleeping_close", "stageMin": 2, "path": "any", "tags": ["tent","intimacy"], "text": "He pulled his bedroll closer than necessary. Our shoulders brushed, and neither of us moved away." },
-
-  { "key": "tent_touch_bold", "stageMin": 3, "path": "corruption", "tags": ["tent","erotic"], "text": "In the dark, his hand slid across my thigh, deliberate and heavy. I pretended to sleep, but my body betrayed me." },
-
-  { "key": "tent_caught_peek", "stageMin": 3, "path": "risky", "tags": ["tent","caught"], "text": "Cloud’s voice called outside the tent as Vagrant pressed against me. My heart pounded—half in fear, half in thrill of being found out." },
-
-  { "key": "tent_tease_whisper", "stageMin": 3, "path": "hybrid", "tags": ["tent","erotic"], "text": "His filthy breath tickled my ear as he whispered promises of what he’d do if no one else were near. I shivered, ashamed at how much I wanted him to." },
-
-  { "key": "tent_taken", "stageMin": 4, "path": "corruption", "tags": ["tent","extreme"], "text": "Pinned beneath him in the narrow space, I couldn’t hide the sounds I made. The tent walls shook, and I knew others could hear… but I didn’t care anymore." },
-
-  { "key": "tent_shared_secret", "stageMin": 4, "path": "love", "tags": ["tent"], "text": "He kissed my forehead after, murmuring words only I could hear. For a fleeting moment, the tent felt like home." },
-
-  { "key": "tent_open_flap", "stageMin": 5, "path": "corruption", "tags": ["tent","caught","extreme"], "text": "The flap slipped open and I swore I saw someone glance in. Still, I clung tighter to him, daring the world to see what we had become." }
-],
-
-"beach": [
-  { "key": "beach_arrival", "stageMin": 0, "path": "any", "text": "The sea air tangled with the grime on him. I told myself I only noticed the view." },
-  { "key": "beach_waves", "stageMin": 1, "path": "any", "text": "We let the waves lap at our feet. His laugh was rough, but it felt alive here." },
-  { "key": "beach_fire", "stageMin": 2, "path": "any", "text": "We built a small fire. He stretched out in the sand, looking almost human." },
-  { "key": "beach_secluded", "stageMin": 3, "path": "any", "text": "He led me past the rocks where no one else walked. The sound of waves masked my racing heart." },
-  { "key": "beach_microbikini", "stageMin": 4, "path": "any", "text": "His eyes burned on my body as the tide rolled in. I pretended I didn’t notice… but I did." },
-        { "key": "secluded_rocks_microbikini",   "stageMin": 3, "path": "any", "text": "We went on a secluded excursion, just the two of us. His eyes lingered on my body. What possessed me to wear this... I couldn't help but wonder what he was thinking as his eyes devoured my body." },
-  
-  { "key": "beach_midnight_swim", "stageMin": 2, "path": "love", "tags": ["beach","intimacy"], "text": "We slipped into the water at midnight, waves licking my skin. His hand brushed mine under the surface and I couldn’t tell if it was the tide or him pulling me closer." },
-
-  { "key": "beach_sand_kiss", "stageMin": 2, "path": "any", "tags": ["beach","intimacy"], "text": "The sand stuck to our lips as he kissed me under the stars. Rough, salty, messy—and I loved it." },
-
-  { "key": "beach_wave_pin", "stageMin": 3, "path": "corruption", "tags": ["beach","risky"], "text": "He pinned me in the shallows, waves splashing over us as I gasped. The sting of salt mixed with his roughness made me ache in ways I shouldn’t admit." },
-
-  { "key": "beach_towel_tease", "stageMin": 3, "path": "any", "tags": ["beach","erotic"], "text": "He pulled me onto the towel, his hands sliding under wet fabric. Every flicker of torchlight from the pier made my heart pound faster." },
-
-  { "key": "beach_hidden_dunes", "stageMin": 3, "path": "love", "tags": ["beach","intimacy"], "text": "We hid behind the dunes, laughter muffled by the crashing waves. I felt safe there, like it was our little secret world." },
-
-  { "key": "beach_caught_glimpse", "stageMin": 3, "path": "risky", "tags": ["beach","caught"], "text": "I swear someone saw us. His mouth was still on my neck, but over his shoulder I caught a lantern flicker—and a figure froze before vanishing into the night." },
-
-  { "key": "beach_bikini_pull", "stageMin": 4, "path": "corruption", "tags": ["beach","erotic"], "text": "He tugged at the strings of my bikini until I was bare under the moonlight. The air was cool, but his body burned against mine." },
-
-  { "key": "beach_public_dare", "stageMin": 4, "path": "corruption", "tags": ["beach","extreme"], "text": "He dared me to straddle him on the sand where anyone could wander by. My cheeks burned, but I obeyed. I think I wanted to be seen." },
-
-  { "key": "beach_wave_claim", "stageMin": 4, "path": "hybrid", "tags": ["beach","intimacy","erotic"], "text": "The tide rushed over us as he pressed deeper. Saltwater stung my lips; his kiss numbed everything else. Shame and love crashed together like the waves." },
-
-  { "key": "beach_sand_inside", "stageMin": 5, "path": "corruption", "tags": ["beach","extreme"], "text": "Sand clung to my thighs, grinding with every movement. It was messy, raw, and I still begged for more." },
-
-  { "key": "beach_daylight_risk", "stageMin": 5, "path": "corruption", "tags": ["beach","caught","extreme"], "text": "We didn’t wait for night. In broad daylight he pulled me close under a tattered parasol. Laughter and voices were only a few feet away… I couldn’t stop myself." },
-
-  { "key": "beach_full_exhibition", "stageMin": 5, "path": "corruption", "tags": ["beach","extreme","caught"], "text": "He made me ride him against the rocks, the ocean crashing around us. I screamed his name, not caring who heard. In that moment, shame didn’t exist." }
-],
-
-"cave": [
-  { "key": "cave_entry", "stageMin": 0, "path": "any", "text": "The cave smelled of earth and damp. His shadow loomed larger than life against the walls." },
-  { "key": "cave_echo", "stageMin": 1, "path": "any", "text": "Every sound echoed. His laugh, his steps—it felt like there was no escape from him." },
-  { "key": "cave_torchlight", "stageMin": 2, "path": "any", "text": "In the torchlight, his eyes seemed brighter. I couldn’t look away." },
-  { "key": "cave_close", "stageMin": 3, "path": "any", "text": "He guided me through a narrow pass. His chest brushed my back, and I shivered." },
-  { "key": "cave_hidden_pool", "stageMin": 4, "path": "any", "text": "We stumbled into a hidden pool. He dipped his filthy hands into the water, then touched my cheek. I let him." }
-],
-
-"inn": [
-  { "key": "inn_entry", "stageMin": 0, "path": "any", "text": "The innkeeper frowned at his smell. I quickly booked a room before anyone could complain." },
-  { "key": "inn_smallroom", "stageMin": 1, "path": "any", "text": "The room was tiny—one bed, no space between us. My heart skipped." },
-  { "key": "inn_window", "stageMin": 2, "path": "any", "text": "Moonlight slipped through the shutters. I caught his reflection beside mine." },
-  { "key": "inn_bedshift", "stageMin": 3, "path": "any", "text": "The bed dipped under his weight. Our arms brushed, and neither of us pulled back." },
-  { "key": "inn_whispers", "stageMin": 4, "path": "any", "text": "He leaned close, voice low, daring me to admit I wanted this." },
-  "inn": [
-  { "key": "inn_first_room", "stageMin": 1, "path": "any", "tags": ["inn"], "text": "We rented a room. Just one bed. I told myself it was practical, but my chest tightened the moment the door shut." },
-
-  { "key": "inn_candlelight", "stageMin": 2, "path": "love", "tags": ["inn","intimacy"], "text": "The single candle softened his dirt and shadowed his scars. I stared too long and blushed when he noticed." },
-
-  { "key": "inn_silent_sleep", "stageMin": 2, "path": "any", "tags": ["inn","intimacy"], "text": "He lay beside me, breathing heavy. I pretended to be asleep… but all I could think of was the warmth of his arm brushing mine." },
-
-  { "key": "inn_listening_walls", "stageMin": 2, "path": "any", "tags": ["inn","risky"], "text": "The walls were thin. I could hear laughter and footsteps outside as his hand slid under the blanket. Every sound felt too loud, too close." },
-
-  { "key": "inn_kiss_against_wall", "stageMin": 3, "path": "love", "tags": ["inn","intimacy"], "text": "He kissed me and pressed me against the wall. The plaster felt cold; his body felt like fire. I didn’t want it to stop." },
-
-  { "key": "inn_hand_over_mouth", "stageMin": 3, "path": "corruption", "tags": ["inn","erotic","risky"], "text": "He clamped his dirty hand over my mouth to stifle my gasp. The thrill of being silenced made my heart race." },
-
-  { "key": "inn_overheard", "stageMin": 3, "path": "risky", "tags": ["inn","caught"], "text": "I heard footsteps pause outside our door as he pressed into me harder. Whoever it was lingered—listening. I should have panicked. Instead, I melted." },
-
-  { "key": "inn_sheets_claim", "stageMin": 4, "path": "corruption", "tags": ["inn","extreme"], "text": "The sheets were already stained, and now they’re mine too. I let him mark me without hesitation, not caring if the innkeeper noticed later." },
-
-  { "key": "inn_tender_after", "stageMin": 4, "path": "love", "tags": ["inn","intimacy"], "text": "Afterwards, he pulled the blanket around me, kissed my temple, and whispered that I was safe. The bed never felt so warm." },
-
-  { "key": "inn_knock_on_door", "stageMin": 5, "path": "corruption", "tags": ["inn","caught","extreme"], "text": "Someone knocked at the door, calling my name. I was pinned beneath him, too lost in the moment to respond. He only grinned, daring me to answer while he stayed inside me." }
-],
-
-"slums": [
-  { "key": "slum_gossip", "stageMin": 0, "path": "any", "text": "People whispered as I walked beside him. I pretended not to hear." },
-  { "key": "slum_shack", "stageMin": 1, "path": "any", "text": "We ducked into an abandoned shack. His laughter echoed off the rotten walls." },
-  { "key": "slum_market", "stageMin": 2, "path": "any", "text": "Vendors turned up their noses when he passed. I wanted to defend him, but I said nothing." },
-  { "key": "slum_guard", "stageMin": 3, "path": "any", "text": "A guard shoved him for loitering. I stepped in before it turned ugly, shaking with fear—and something else." },
-  { "key": "slum_midnight", "stageMin": 4, "path": "any", "text": "The alleys at midnight were ours alone. His hand brushed mine, bold, unashamed." }
-]  
-  { "key": "river_bridge", "stageMin": 1, "path": "any", "text": "We lingered on a creaking bridge over the river. He leaned close; the stink of the water matched his own. I still stayed." },
-  { "key": "abandoned_trolley", "stageMin": 2, "path": "any", "text": "He pulled me into a broken trolley car. I laughed at the dust; he grinned, daring me to sit beside him." },
-  { "key": "train_tunnel", "stageMin": 2, "path": "any", "text": "The dark swallowed us whole. I clung to his arm, telling myself it was just the cold." },
-  { "key": "old_rooftop", "stageMin": 3, "path": "any", "text": "We climbed high above the slums. The stars made him look different—softer. I almost forgot the grime." },
-  { "key": "market_fight", "stageMin": 3, "path": "any", "text": "Someone insulted him at the market. He snarled, fists ready. I held him back, shaking, thrilled by the danger." },
-  { "key": "junkyard_rest", "stageMin": 4, "path": "any", "text": "We sat on a mountain of rust. He leaned back like he owned the world; I lay beside him, not caring about the dirt." },
-  { "key": "rain_hideout", "stageMin": 4, "path": "any", "text": "The storm drove us under an old canopy. My clothes clung to me, his warmth pressed close—it felt too much like temptation." },
-  { "key": "lantern_field", "stageMin": 5, "path": "any", "text": "The slums lit lanterns that night. They flickered on his face, shadows and smoke. I touched his cheek without thinking." }
+    "renna": [
+      "Stage 0 — Renna laughs too easily at his mockery. She makes him sound harmless when I know he isn’t.",
+      "Stage 1 — She shrugs at the grime like it’s nothing. I envy her blindness.",
+      "Stage 2 — She let him sit close, dirt and all. I told myself it was foolish. Secretly, I wished it were me.",
+      "Stage 3 — Their playfulness makes me feel left out… but also heated, like I’ve been challenged.",
+      "Stage 4 — She leaned into him, bold and smiling. I felt jealousy coil around my ribs.",
+      "Stage 5 — Her laughter sounded too intimate. I clenched my fists until my nails hurt.",
+      "Stage 6 — He brushed her hair back. The tenderness startled me—it should’ve been mine.",
+      "Stage 7 — Renna didn’t resist when he teased her waist. I wanted to scream—or beg to be touched the same.",
+      "Stage 8 — She accepts him now without question. I’m sick with envy and sick with desire.",
+      "Stage 9 — Watching them play at corruption set my body trembling. I couldn’t breathe until it ended.",
+      "Stage 10 — They both turned to me, daring me to join. My shame dissolved. I wanted to."
     ],
-    "pregnancy": [
-      { "key": "scare",      "stageMin": 3, "path": "any", "text": "I felt lightheaded today. Fear pricked at me… and a strange, secret joy." },
-      { "key": "confirmed",  "stageMin": 4, "path": "any", "text": "It’s real. His life grows inside me. The future smells like smoke and roses." },
-      { "key": "protective", "stageMin": 5, "path": "love", "text": "I rested my hand against a new heartbeat and prayed the world would be kind." },
-       { "key": "Excitement",      "stageMin": 5, "path": "Corruption", "text": "I've been marked again by his seed. Another child of his grows inside me and I will welcome it." },
-      { "key": "possessive", "stageMin": 5, "path": "corruption", "text": "When another girl touched his arm, I felt a growl rise; he is mine, and everyone should know." }
-    ],
-    "confession": [
-      { "key": "why_stay",     "stageMin": 2, "path": "any", "text": "He asked why I stay. I told him the truth: I want him exactly as he is." },
-      { "key": "own_words",    "stageMin": 4, "path": "hybrid", "text": "I said it out loud: I love the tenderness and the taboo. It’s ours." },
-      { "key": "forever_hint", "stageMin": 5, "path": "any", "text": "I pictured a small home that smells like tea and rain—and a little smoke that never quite leaves." }
-    ],
-"risky_play": [
-  { "key": "market_glance", "stageMin": 1, "path": "any", "text": "In the middle of the market, his eyes lingered far too long on me. I flushed—terrified someone else saw." },
-  { "key": "alley_whisper", "stageMin": 1, "path": "any", "text": "He pulled me into an alley just to whisper something filthy. My cheeks burned until we stepped back out." },
-  { "key": "accidental_flash", "stageMin": 1, "path": "corruption", "text": "His hand tugged my skirt too high as I sat. Someone might have seen—my breath caught at the thought." },
-
-  { "key": "crowded_hand", "stageMin": 2, "path": "any", "text": "His fingers brushed mine under the table. We stayed like that, unseen but not innocent." },
-  { "key": "wall_press", "stageMin": 2, "path": "corruption", "text": "He pinned me against a wall, half-hidden in shadow. My gasp echoed down the alleyway." },
-  { "key": "temple_dare", "stageMin": 2, "path": "hybrid", "text": "He dared me to kiss him in the church’s shadow. I did—heart racing at the sacred shame." },
-  { "key": "public_joke", "stageMin": 2, "path": "any", "text": "He teased me loudly, so others laughed without knowing the truth behind his words." },
-
-  { "key": "lap_tease_inn", "stageMin": 3, "path": "any", "text": "No seat left again. I sat on his lap, praying no one noticed how still I suddenly went." },
-  { "key": "stairwell_touch", "stageMin": 3, "path": "corruption", "text": "On the inn’s stairwell, his hand crept higher. Voices were close. I didn’t stop him." },
-  { "key": "window_shadow", "stageMin": 3, "path": "hybrid", "text": "We kissed by the window, backlit so anyone outside could see the silhouette. A thrill shot through me." },
-  { "key": "slum_corner", "stageMin": 3, "path": "corruption", "text": "In the slum alleys, he shoved me close, hands wandering. A passerby coughed but didn’t stop us." },
-  { "key": "flowerbed_kiss", "stageMin": 3, "path": "love", "text": "In the church garden, he kissed me roughly against the flowerbeds. The thought of someone walking in made it dizzying." },
-
-  { "key": "tent_whisper", "stageMin": 4, "path": "any", "text": "In the tent, he whispered obscene promises. The others were only a few feet away." },
-  { "key": "inn_moans", "stageMin": 4, "path": "corruption", "text": "I tried to stifle my voice while he had me in the inn bed. Every creak of the walls felt like exposure." },
-  { "key": "balcony_brazen", "stageMin": 4, "path": "hybrid", "text": "He kissed me deeply on the balcony, lights flickering in the street below. We wanted someone to see." },
-  { "key": "public_fingers", "stageMin": 4, "path": "corruption", "text": "His fingers slid under my clothes while we stood in line. I could barely breathe for fear of discovery." },
-
-  { "key": "rooftop_dare", "stageMin": 5, "path": "hybrid", "text": "On a rooftop, the city beneath us, he dared me to strip bare for him. I did, trembling in the open air." },
-  { "key": "marketplace_take", "stageMin": 5, "path": "corruption", "text": "In a shadowed market stall, he pushed inside me—people only steps away. Shame bled into rapture." },
-  { "key": "inn_door_open", "stageMin": 5, "path": "corruption", "text": "He left the inn door ajar as he claimed me. Anyone could’ve walked by and seen." },
-  { "key": "altar_blasphemy", "stageMin": 5, "path": "corruption", "text": "He pressed me against the altar itself. Sin and desire blurred until I couldn’t tell them apart." },
-  { "key": "cloud_tent", "stageMin": 3, "path": "love", "text": "He slid against me in the tent, and just as I moaned, Cloud called my name outside. My heart nearly stopped—Vagrant smirked like he planned it." },
-
-  { "key": "tifa_stairwell", "stageMin": 3, "path": "corruption", "text": "On the inn stairwell he pinned me, lips on my neck. The creak of a board above—Tifa passing by. I froze, but he didn’t stop." },
-
-  { "key": "barret_market", "stageMin": 2, "path": "any", "text": "He brushed his hand across me in the crowded market. Barret was haggling just a few stalls away. I prayed he wouldn’t turn around." },
-
-  { "key": "yuffie_bathhouse", "stageMin": 4, "path": "corruption", "text": "Steam hid us poorly. His hands roamed under the water when Yuffie’s voice echoed from the next room. I bit my lip to silence the cry." },
-
-  { "key": "renna_shadow", "stageMin": 4, "path": "hybrid", "text": "In the mansion’s shadowed hall, he pressed close. Renna’s laugh rang down the corridor—I stiffened, but he only held me tighter." },
-
-  { "key": "inn_knock", "stageMin": 5, "path": "corruption", "text": "The door rattled—someone knocked while he was still inside me. I covered my mouth, trembling, as he whispered not to stop." },
-
-  { "key": "flowerbed_caught", "stageMin": 2, "path": "any", "text": "His kiss pushed me into the flowerbed. The church doors opened, voices spilling out. We broke apart in a panic, dirt on my dress." },
-
-  { "key": "nanaki_watch", "stageMin": 3, "path": "corruption", "text": "In the campfire glow, his hand slipped too high under my skirt. Nanaki’s golden eyes flickered toward us—I don’t know if he saw." },
-
-  { "key": "barmaid_inn", "stageMin": 4, "path": "any", "text": "He kissed me rough against the inn wall. A barmaid’s tray clattered nearby—I don’t know if she caught a glimpse before scurrying off." },
-
-  { "key": "caught_together", "stageMin": 5, "path": "corruption", "text": "We were reckless, half-dressed in the slum alley. A group passed by, gasping. He only laughed, pulling me tighter as my shame burned hotter." },
-  
-  { "key": "flower_field_barret", "stageMin": 1, "path": "love", "text": "He brushed a kiss against my neck among the flowers. Barret stomped past and grunted. I froze, cheeks aflame, pretending nothing happened." },
-
-  { "key": "training_yuffie", "stageMin": 2, "path": "hybrid", "text": "He pinned me against the post during Yuffie’s training. She turned mid-spin, eyes narrowing, but I forced a laugh as if it were nothing." },
-
-  { "key": "church_cloud_confession", "stageMin": 3, "path": "love", "text": "He pulled me close in the church, lips brushing mine. Cloud opened the door, his eyes dark with hurt. My chest burned hotter than his kiss." },
-
-  { "key": "inn_corridor_renna", "stageMin": 3, "path": "corruption", "text": "He had me pressed against the inn wall when Renna walked by, humming. Her eyes flickered, but she kept going. I shivered at the thought she knew." },
-
-  { "key": "slum_market_crowd", "stageMin": 4, "path": "hybrid", "text": "His hand slid beneath my skirt in the crowded slum market. Someone bumped into us, I stifled a gasp, but he only pressed deeper, daring me not to cry out." },
-
-  { "key": "camp_shadow_nanaki", "stageMin": 4, "path": "corruption", "text": "Under the camp’s lantern light, he took liberties with me. Nanaki’s golden eyes lingered too long before turning away. Shame and thrill tangled in my chest." },
-
-  { "key": "dockside_tifa", "stageMin": 5, "path": "corruption", "text": "At the docks, he bent me over the railing. Tifa’s footsteps echoed nearby. I moaned too loud; her pace quickened, and I couldn’t tell if it was disgust—or envy." },
-
-  { "key": "inn_window_exposure", "stageMin": 5, "path": "hybrid", "text": "He pushed me against the open window. Voices drifted from below. The danger of being seen only made me cling to him harder." },
-],
-  "erotic_caught": [
-  { "key": "garden_peek", "stageMin": 1, "path": "love", "text": "He kissed me between the hedges. A child peeked through the leaves before being pulled away by their mother. My heart pounded like a guilty hymn." },
-
-  { "key": "inn_door_knock", "stageMin": 1, "path": "any", "text": "He slipped his hands under my dress just as someone knocked on the door. I nearly screamed—he whispered for me to stay quiet until they left." },
-
-  { "key": "tavern_shadow", "stageMin": 2, "path": "corruption", "text": "He pressed me against the tavern wall, mouths locked. Footsteps passed by, laughter echoing, and still he wouldn’t let me go." },
-
-  { "key": "training_ground_barret", "stageMin": 2, "path": "any", "text": "We lingered too close at the training ground. Barret barked at us from across the yard. I jumped, cheeks aflame, his hand still on my hip." },
-
-  { "key": "haunted_room_yuffie", "stageMin": 2, "path": "hybrid", "text": "He tugged me into a haunted corridor. Yuffie stumbled in behind us, flashlight catching our tangled hands. Her giggle made me shiver." },
-
-  { "key": "dockside_moonlight", "stageMin": 3, "path": "love", "text": "The moonlight glittered on the water while he kissed me. Tifa’s voice carried nearby. I pulled back, but he only smiled and kissed me harder." },
-
-  { "key": "market_corner_cloud", "stageMin": 3, "path": "corruption", "text": "He pinned me behind a vendor’s stall. Cloud’s silhouette walked by, his voice calling my name. I pressed my face into Vagrant’s chest and stayed silent." },
-
-  { "key": "tent_lantern", "stageMin": 3, "path": "any", "text": "He slipped beneath my blankets. The lantern outside flickered as Nanaki passed. I swore he could smell what we were doing." },
-
-  { "key": "church_statue", "stageMin": 4, "path": "hybrid", "text": "He laid me against the statue’s base, lips on my throat. Candles burned all around. Anyone could’ve walked in—I almost wanted them to." },
-
-  { "key": "alley_gang", "stageMin": 4, "path": "corruption", "text": "In a dark alley, he lifted me onto a crate. Voices of thugs drifted closer. He only held me tighter, daring them to hear my muffled gasps." },
-
-  { "key": "slum_window", "stageMin": 4, "path": "any", "text": "His hand crept beneath my skirt as I leaned on the window sill. I bit my lip as neighbors argued below, oblivious to what was happening above." },
-
-  { "key": "inn_corridor_cloud", "stageMin": 4, "path": "corruption", "text": "He kissed me rough against the corridor wall. Cloud turned the corner. I shoved Vagrant away, but Cloud’s eyes had already seen too much." },
-
-  { "key": "campfire_circle", "stageMin": 5, "path": "any", "text": "He touched me under the blanket by the fire. The others laughed and sang, unaware—or pretending not to be. My pulse thundered in my ears." },
-
-  { "key": "dockside_barret", "stageMin": 5, "path": "corruption", "text": "He bent me low at the dock’s edge. Barret’s shadow fell across us. He cursed under his breath and left, but the shame only made me shiver harder." },
-
-  { "key": "inn_balcony_tifa", "stageMin": 5, "path": "hybrid", "text": "On the inn balcony, he pressed me against the railing. Tifa’s door opened just beside us. I hid my face against his chest as she looked into the night." },
-],
-"daily_moments": [
-  { "key": "flower_water", "stageMin": 0, "path": "any", "text": "Watering flowers, I caught myself humming the tune he whistled yesterday." },
-  { "key": "sleepless", "stageMin": 1, "path": "any", "text": "I couldn’t sleep; the night felt too quiet without the rasp of his laugh in it." },
-  { "key": "scarf_smell", "stageMin": 2, "path": "any", "text": "My scarf picked up his scent. I should wash it. I didn’t." },
-  { "key": "laundry_smell", "stageMin": 1, "path": "any", "text": "I washed his shirt today. Even clean, the smell lingered. I held it longer than I should have." },
-  { "key": "market_gossip", "stageMin": 2, "path": "any", "text": "They whispered about us at the stalls. I pretended not to hear, but my chest tightened with a strange pride." },
-  { "key": "shared_drink", "stageMin": 0, "path": "any", "text": "He offered me his flask. It smelled awful, but I still took a sip—our lips touched the same edge." },
-  { "key": "cooking_meal", "stageMin": 0, "path": "any", "text": "We cooked together in the slums. He burned the pan, I laughed harder than I should have." },
-  { "key": "scarf_fix", "stageMin": 1, "path": "any", "text": "He tugged my scarf straight. His fingers lingered at my collar longer than necessary." },
-  { "key": "accidental_brush", "stageMin": 1, "path": "any", "text": "Our hands brushed reaching for the same basket. I pretended not to notice, but my heart raced." },
-  { "key": "hair_touch", "stageMin": 1, "path": "any", "text": "He touched a strand of my hair, saying it looked 'too clean for here.' I couldn’t tell if it was mockery or praise." },
-
-  { "key": "shoulder_bump", "stageMin": 2, "path": "any", "text": "Walking side by side, he bumped my shoulder playfully. I bumped back, smiling." },
-  { "key": "arm_grab", "stageMin": 2, "path": "any", "text": "He caught my arm suddenly as I slipped. His grip was rough, grounding… I didn’t want him to let go." },
-  { "key": "feeding_bite", "stageMin": 2, "path": "any", "text": "He stole food off my plate, then offered me his half. I leaned in, our mouths too close." },
-  { "key": "lap_sit", "stageMin": 2, "path": "corruption", "text": "No chairs left, he patted his lap. I sat, flushed, pretending it was nothing." },
-  { "key": "back_rub", "stageMin": 2, "path": "love", "text": "My shoulders ached. He pressed his palms into me. His touch was clumsy, but sweet." },
-
-  { "key": "hand_holding", "stageMin": 3, "path": "any", "text": "Without asking, he laced his fingers with mine. I squeezed back before I realized." },
-  { "key": "whisper_joke", "stageMin": 3, "path": "any", "text": "He leaned close to whisper something crude. His breath was hot at my ear—I laughed anyway." },
-  { "key": "hip_grab", "stageMin": 3, "path": "corruption", "text": "His hand stayed on my hip long after guiding me aside. I didn’t push it away." },
-  { "key": "chest_pillow", "stageMin": 3, "path": "love", "text": "I fell asleep against his chest. He smelled of smoke and sweat, but I found comfort there." },
-  { "key": "neck_sniff", "stageMin": 3, "path": "hybrid", "text": "He leaned in, inhaling me, saying I smelled 'too clean.' I should’ve shoved him off—but my cheeks burned." },
-
-  { "key": "waist_grip", "stageMin": 4, "path": "corruption", "text": "He grabbed me at the waist in front of others. Shame turned into something hotter." },
-  { "key": "dirty_whisper", "stageMin": 4, "path": "hybrid", "text": "He whispered filth in my ear while others talked nearby. I nearly buckled." },
-  { "key": "bath_together", "stageMin": 4, "path": "love", "text": "We shared a wash basin. I tried to keep it innocent, but I caught myself watching the water drip down him." },
-  { "key": "public_touch", "stageMin": 4, "path": "corruption", "text": "His hand slid down my back in the market crowd. I froze, breath caught, afraid someone noticed." },
-  { "key": "secret_smile", "stageMin": 5, "path": "any", "text": "We shared a glance across the room—everyone else blurred out. Only us, our filthy secret." }
-  { "key": "shared_meal", "stageMin": 2, "path": "love", "text": "We shared bread in the alley. He tore it with dirty fingers and offered me half. I didn’t hesitate." },
-  { "key": "hand_brush", "stageMin": 2, "path": "any", "text": "Our hands brushed reaching for the same basket. I pulled back quickly—too quickly." },
-  { "key": "stare_too_long", "stageMin": 3, "path": "any", "text": "I caught myself staring at his jaw, his lips, even the grime. My chest burned when he caught me." },
-  { "key": "neighbors_whisper", "stageMin": 3, "path": "corruption", "text": "A neighbor muttered 'filth clings to filth.' Instead of shame, I felt heat run through me." },
-  { "key": "clothes_borrowed", "stageMin": 3, "path": "love", "text": "He gave me his jacket when the night turned cold. It smelled like him. I didn’t want to take it off." },
-
-  { "key": "hair_smell", "stageMin": 4, "path": "hybrid", "text": "He pressed his nose into my hair, still dirty from the day. I shivered instead of pushing him away." },
-  { "key": "public_joke", "stageMin": 4, "path": "any", "text": "He made a crude joke in front of others. I blushed hard, but secretly loved the way he made me feel claimed." },
-  { "key": "comforted", "stageMin": 4, "path": "love", "text": "When I cried, he wiped my cheek with the back of his rough hand. I leaned into it." },
-  { "key": "lingering_smell", "stageMin": 5, "path": "corruption", "text": "His smell clings to me everywhere I go. People look disgusted, but I wear it like perfume." },
-  { "key": "daydreams", "stageMin": 5, "path": "any", "text": "I daydream of him while watering flowers, dirt under my nails, heat in my cheeks. He’s in me now." },
-  { "key": "laundry_shared",      "stageMin": 0, "path": "any", "text": "I washed his shirt. Even clean, a hint of him stayed. I pressed it to my face and pretended it was the wind that made me smile." },
-  { "key": "bread_bite",          "stageMin": 0, "path": "any", "text": "We split bread. Grease on his fingers, crumbs on mine. When he held a piece to my lips, I forgot to be proper." },
-  { "key": "lantern_fix",         "stageMin": 1, "path": "any", "text": "He fixed a broken lantern outside the church. Soot on his jaw, stubborn light in his eyes. I wanted to wipe both away with my thumb." },
-  { "key": "alley_rain",          "stageMin": 1, "path": "any", "text": "A sudden rain pinned us beneath a tin awning. Drips kept time while he stood too close. I didn’t step back." },
-  { "key": "market_share",        "stageMin": 1, "path": "any", "text": "He haggled for fruit and handed me the ripest. Our fingers brushed; my cheeks burned warmer than the sun." },
-  { "key": "scarf_scent_stronger","stageMin": 2, "path": "any", "text": "My scarf held his smell again. I should have washed it last night. I folded it instead, like hiding a secret." },
-  { "key": "flowerbed_tumble",    "stageMin": 2, "path": "any", "text": "We tripped over a root and fell into the flowerbed. Dirt on my dress, laughter in my throat, his breath close enough to taste." },
-  { "key": "window_watch",        "stageMin": 2, "path": "any", "text": "I watched him from the window as he joked with a shopkeep. When he glanced up, I ducked and laughed at myself." },
-  { "key": "tea_pause",           "stageMin": 3, "path": "any", "text": "He took tea without complaint. Hands wrapped round the cup, eyes on me instead of the steam. I couldn’t hold his gaze for long." },
-  { "key": "quiet_walk_home",     "stageMin": 3, "path": "any", "text": "We walked the long way home in silence. Our shoulders brushed now and then, like the night had its own ideas." },
-  { "key": "bonfire_story",       "stageMin": 4, "path": "any", "text": "By a slum bonfire he told a story that wasn’t cruel. Ash turned his hair silver; for a moment he looked almost gentle." },
-  { "key": "shared_blanket",      "stageMin": 4, "path": "any", "text": "One blanket between us. He pretended to sleep; I pretended not to notice when he shifted closer." },
-  { "key": "morning_afterglow",   "stageMin": 5, "path": "any", "text": "Sunlight crept across the floorboards. I traced it with my toes, still warm from the way he’d held me through the night." },
-  { "key": "public_handhold",     "stageMin": 5, "path": "any", "text": "He offered his hand in the market without words. I took it. Whispers followed; I walked taller." },
-  { "key": "petal_press",         "stageMin": 5, "path": "any", "text": "I pressed a flower into his palm. He tucked it behind my ear with a roughness that somehow felt careful." }
-],
-  },
-  "entries": [],
-  "meta": {
-    "notes": "Desires (path lanes 0–5), Witnessed (per stage & path), Events (category/key) ready for triggers. Timeline entries append into `entries` at runtime.",
-    "updated": "2025-08-30"
+    "yuffie": [
+      "Stage 0 — Yuffie mocked his smell, loud and bold. I smiled when he laughed back. Why did I smile?",
+      "Stage 1 — She calls him trash and he smirks anyway. I wish I could be so careless with him.",
+      "Stage 2 — She teases, he indulges. Their ease makes me ache—why can’t I play like that?",
+      "Stage 3 — When she shoved him playfully, my chest tightened. I wanted to feel his weight too.",
+      "Stage 4 — She doesn’t mind the dirt. She laughs through it. I hate that I admire her for it.",
+      "Stage 5 — They shared a grin I couldn’t break into. I went home restless and jealous.",
+      "Stage 6 — She leaned close, whispering something. My ears burned imagining it was me.",
+      "Stage 7 — Yuffie’s boldness scares me. She doesn’t flinch, even when he touches what should be private. My thighs pressed together as I watched.",
+      "Stage 8 — They make filth look fun. My shame slips faster each time I witness it.",
+      "Stage 9 — Her giggles as he pressed against her body left me breathless. I imagined myself between them.",
+      "Stage 10 — They knew I was watching. Neither stopped. I stayed—wanting, burning, ready to step in."
+    ]
   }
-}
+    },
+    "events": {
+    "locations": {
+    "cave": [
+  { "key": "drip_echoes",        "stageMin": 0,  "path": "any", "text": "Water dripped like a slow clock. I kept close for warmth, pretending I wasn’t using him as an excuse." },
+  { "key": "torch_light",        "stageMin": 1,  "path": "any", "text": "Torchlight made his grime glow copper. I caught myself staring and looked away too slowly." },
+  { "key": "hand_bridge",        "stageMin": 2,  "path": "any", "text": "A narrow ledge—he offered his hand. Rough, unwashed, steady. I took it and didn’t let go until long after." },
+  { "key": "whisper_path",       "stageMin": 3,  "path": "any", "text": "He guided me by the small of my back. I shivered and blamed the cold, not his touch." },
+  { "key": "hide_from_bats",     "stageMin": 4,  "path": "any", "text": "A flurry of bats—he covered me with his body. I breathed in smoke and earth and didn’t complain." },
+  { "key": "kiss_in_dark",       "stageMin": 5,  "path": "love", "text": "The torch died; we were mouths and breath in the dark. His kiss tasted like ash and I wanted more." },
+  { "key": "wall_press",         "stageMin": 5,  "path": "hybrid", "text": "Stone at my back, his palm at my waist. I said ‘careful’ and leaned into him anyway." },
+  { "key": "echo_laughter",      "stageMin": 6,  "path": "any", "text": "Our laughter echoed too loud. I covered his mouth with my fingers; he kissed my knuckles, filthy and sweet." },
+  { "key": "lap_warmth",         "stageMin": 7,  "path": "love", "text": "We sat to rest; he tugged me onto his lap. I stayed, pretending it was just to keep warm." },
+  { "key": "rough_graze",        "stageMin": 7,  "path": "corruption", "text": "His unwashed jaw scraped my neck and I arched to meet it. I didn’t ask him to stop." },
+  { "key": "hidden_pool",        "stageMin": 8,  "path": "hybrid", "text": "We found a subterranean pool. He waded in boots and all; I followed, dress clinging, heart racing." },
+  { "key": "wet_mark",           "stageMin": 9,  "path": "corruption", "text": "Water beaded on my skin; he smeared it away with his hands, leaving dirt in its place. I shivered and let it stay." },
+  { "key": "echoed_plea",        "stageMin": 9,  "path": "love", "text": "He asked if I was sure. I said yes, and the cave repeated it back to us—yes, yes, yes." },
+  { "key": "altar_of_stone",     "stageMin": 10, "path": "hybrid", "text": "On a flat slab of rock, we made our own ritual—half prayer, half sin—our breaths the only hymns." },
+  { "key": "claim_in_the_dark",  "stageMin": 10, "path": "corruption", "text": "He marked me where no light reached. I wore the cave’s silence like a veil and gave myself to it." }
+    ],
+  "tent": [
+  { "key": "shared_blanket", "stageMin": 0, "path": "any", "text": "The night was cold. He tugged the blanket toward himself; I pulled it back. Somehow we both ended up beneath it." },
+  { "key": "accidental_touch", "stageMin": 1, "path": "any", "text": "His hand brushed mine in the dark. I pulled away too quickly, but my heart wouldn’t slow." },
+  { "key": "shoulder_rest", "stageMin": 2, "path": "any", "text": "Exhaustion won. I leaned against his shoulder. His smell filled my lungs and lulled me to uneasy sleep." },
+  { "key": "close_whispers", "stageMin": 3, "path": "love", "text": "We whispered in the dark, secrets trading like promises. His words made the tent feel smaller, warmer." },
+  { "key": "night_stir", "stageMin": 3, "path": "corruption", "text": "I woke to his hand lingering too low on my hip. I froze… but I didn’t push it away." },
+  { "key": "tent_kiss", "stageMin": 4, "path": "any", "text": "Moonlight cut through the tent flap. He kissed me—rough, unwashed—and I kissed him back." },
+  { "key": "caught_breaths", "stageMin": 5, "path": "hybrid", "text": "Cloud’s voice called from outside. Vagrant’s mouth was still on mine. I covered my lips and lied about my breathlessness." },
+  { "key": "pressed_bodies", "stageMin": 6, "path": "love", "text": "The tent was too small for the way he pulled me against him. I felt caged—and safe." },
+  { "key": "tent_claim", "stageMin": 7, "path": "corruption", "text": "He took me in the dark while others slept nearby. My shame and excitement tangled until I couldn’t tell them apart." },
+  { "key": "whispered_dare", "stageMin": 8, "path": "hybrid", "text": "He dared me to moan louder, to risk being heard. Heat pooled in my chest as I almost did." },
+  { "key": "overheard", "stageMin": 9, "path": "any", "text": "The canvas walls couldn’t hide our sounds. I knew others heard. I should’ve cared—I didn’t." },
+  { "key": "tent_exposed", "stageMin": 10, "path": "corruption", "text": "The flap shifted; someone saw. I didn’t stop. I wanted them to know I was his." }
+  ],
+  "inn": [
+  { "key": "late_checkin", "stageMin": 1, "path": "any", "text": "The innkeeper’s eyes lingered on the grime he tracked in. I ignored it, taking the key and pretending not to care." },
+  { "key": "shared_room", "stageMin": 2, "path": "any", "text": "Only one bed. I told myself I’d sleep on the edge. By morning, I woke against his chest." },
+  { "key": "bath_basin", "stageMin": 3, "path": "love", "text": "He coaxed me to help wash him in the basin. The water turned cloudy, but my cheeks burned hotter than the steam." },
+  { "key": "door_whisper", "stageMin": 3, "path": "hybrid", "text": "The door was thin. Anyone could have heard. He pressed his lips to my ear anyway, daring me to hush him." },
+  { "key": "rough_walls", "stageMin": 4, "path": "corruption", "text": "He shoved me against the inn’s wooden wall, the bed creaking nearby. I wanted to protest, but my body betrayed me." },
+  { "key": "window_peek", "stageMin": 5, "path": "any", "text": "Curtains drawn, but I swore I saw shadows in the street. I didn’t care. I clutched him harder." },
+  { "key": "creaking_bed", "stageMin": 6, "path": "love", "text": "The old bed squealed beneath us, every sound a warning. But we didn’t stop—we made it sing with our rhythm." },
+  { "key": "midnight_knock", "stageMin": 7, "path": "any", "text": "A knock on the door froze me in place. He didn’t. I bit my hand to keep from crying out." },
+  { "key": "innkeeper_suspicion", "stageMin": 8, "path": "corruption", "text": "The innkeeper smirked at breakfast, eyes on my swollen lips and tired body. I couldn’t meet her gaze." },
+  { "key": "noisy_walls", "stageMin": 9, "path": "hybrid", "text": "I heard laughter from the next room—mocking or amused, I couldn’t tell. He only grinned and pulled me closer." },
+  { "key": "claimed_room", "stageMin": 10, "path": "corruption", "text": "By the end of the night, the whole inn knew I belonged to him. The walls carried proof of it." }
+  ],
+  "beach": [
+  { "key": "shore_walk", "stageMin": 0, "path": "any", "text": "We walked along the wet sand. He teased me for holding my skirt too high. I blushed and refused to drop it." },
+  { "key": "shell_gift", "stageMin": 1, "path": "love", "text": "He picked up a chipped seashell and pressed it into my hand like it was treasure. I kept it hidden in my pocket." },
+  { "key": "tide_splash", "stageMin": 2, "path": "any", "text": "The tide caught us. He laughed when I squealed, and before I knew it, his arms were around me, soaked together." },
+  { "key": "hidden_cove", "stageMin": 3, "path": "hybrid", "text": "We slipped into a secluded cove. His lips found mine, tasting of salt and smoke. I swore the waves hid our moans." },
+  { "key": "sandy_kiss", "stageMin": 4, "path": "love", "text": "He laid me back against the sand. It clung to our skin as our mouths tangled. Every kiss left grit, but I didn’t care." },
+  { "key": "moonlit_bathing", "stageMin": 5, "path": "love", "text": "Under the moon, I stripped to the water. He followed, unashamed. Our naked bodies brushed, slick and shimmering in the tide." },
+  { "key": "public_tease", "stageMin": 5, "path": "corruption", "text": "He pressed against me under a towel while others strolled nearby. My cheeks burned, but I couldn’t push him away." },
+  { "key": "bikini_pull", "stageMin": 6, "path": "corruption", "text": "His fingers hooked beneath my straps, tugging just enough that I gasped. Anyone could’ve seen. The thrill made me shiver." },
+  { "key": "rocky_throne", "stageMin": 7, "path": "any", "text": "He sat against a jagged rock and pulled me onto his lap. The sea roared as I sank down, every thrust daring the horizon to watch." },
+  { "key": "ocean_claim", "stageMin": 8, "path": "corruption", "text": "He took me waist-deep in the surf, waves crashing over us. Salt stung my lips as I cried out into the night air, unafraid who heard." },
+  { "key": "beachfire_shadow", "stageMin": 8, "path": "hybrid", "text": "Others laughed around the bonfire. In the shadows, his hands roamed under my dress. I bit my lip to keep quiet." },
+  { "key": "daylight_dare", "stageMin": 9, "path": "corruption", "text": "In broad daylight he pushed me to my knees behind a dune. My heart pounded with terror—and need—of being caught." },
+  { "key": "sandbound", "stageMin": 10, "path": "corruption", "text": "He pinned me to the wet sand, waves and sun beating down. I screamed his name like a challenge to the entire beach." },
+  { "key": "open_worship", "stageMin": 10, "path": "hybrid", "text": "I let him strip me bare before the ocean, body worshipped in full view of the horizon. Love and filth collided in holy abandon." }
+  ],
+  "slums": [
+  { "key": "alley_meet", "stageMin": 0, "path": "any", "text": "He dragged me through a narrow alley. The stink of trash and rust filled my nose. I should’ve pulled away, but I didn’t." },
+  { "key": "market_stare", "stageMin": 1, "path": "any", "text": "Even surrounded by beggars and vendors, his eyes pinned me. I burned under his gaze, shifting uncomfortably in the dirt." },
+  { "key": "corner_whisper", "stageMin": 2, "path": "hybrid", "text": "He pressed me against a stone wall and whispered filth in my ear. My legs shook, not from fear—because I wanted it." },
+  { "key": "dirty_kiss", "stageMin": 3, "path": "corruption", "text": "Our tongues danced together, sloppy and heated. I wanted to taste every drop of saliva. My shame was drowned by the thrill." },
+  { "key": "grimy_touch", "stageMin": 3, "path": "any", "text": "His filthy hands slipped under my skirt. I gasped when his fingers slid inside. People were walking by—I bit my lip to keep from squealing." },
+  { "key": "wall_claim", "stageMin": 4, "path": "corruption", "text": "He pinned me down against the bricks, grinding until my juices mixed with his filth. The stench of sweat and rust filled the air, intoxicating me." },
+  { "key": "public_fingers", "stageMin": 5, "path": "corruption", "text": "His fingers slipped inside with everyone around. My cheeks flushed crimson, a squeal left my lips. No one cared—no one stopped him." },
+  { "key": "deep_claim", "stageMin": 6, "path": "corruption", "text": "He thrust into me hard, each motion sending shockwaves down my spine. My cries of ecstasy echoed in the alley, shameless." },
+  { "key": "seeded", "stageMin": 7, "path": "corruption", "text": "His deep thrusts broke me open until he flooded my insides with his seed. I clenched around him, unwilling to let it drip away." },
+  { "key": "straddle_show", "stageMin": 8, "path": "corruption", "text": "I seductively straddled him in a broken chair outside the tavern. Guiding him inside, I rode him, moaning while footsteps passed nearby." },
+  { "key": "rough_rut", "stageMin": 9, "path": "corruption", "text": "He bent me over trash-strewn crates, taking me mercilessly. Every thrust made me squeal in raw pleasure, juices splattering the dirt beneath us." },
+  { "key": "open_display", "stageMin": 10, "path": "corruption", "text": "Pinned against the wall of the slums, he ravaged me while a crowd gathered. Shame burned away as his seed spilled inside me—I begged for more even as they watched." }
+  ],
+  "church": [
+  { "key": "sanctuary_peace", "stageMin": 0, "path": "any", "text": "I brought him here, hoping the quiet might soften him. He looked out of place, but I wanted to believe peace could reach him." },
+  { "key": "pew_brush", "stageMin": 1, "path": "any", "text": "We sat side by side on the pews. His hand brushed mine—rough, dirty—and I pretended it was nothing." },
+  { "key": "lingering_hand", "stageMin": 2, "path": "any", "text": "His hand stayed too long on my thigh during prayer. My heart raced. I told myself it was wrong, but my body didn’t move." },
+
+  { "key": "confessional_whisper", "stageMin": 3, "path": "corruption", "text": "Inside the confessional, his voice was in my ear. He spoke filth like a sermon, and I listened as if it were scripture." },
+  { "key": "altar_touch", "stageMin": 4, "path": "hybrid", "text": "He pinned me lightly against the altar, just a kiss. Sacred and profane clashed, and I burned with the mix of guilt and longing." },
+
+  { "key": "stained_glass_embrace", "stageMin": 5, "path": "love", "text": "Colored light from the stained glass washed over us. He kissed me like I was the only one in the world, and for a moment, it felt holy." },
+  { "key": "altar_kiss", "stageMin": 6, "path": "corruption", "text": "His mouth crashed against mine at the altar. My prayers turned to moans. The church held witness to my shame and desire." },
+  { "key": "shadowed_corner", "stageMin": 7, "path": "hybrid", "text": "In the shadows, he pushed me close, his breath heavy. I wanted to resist, but instead I wrapped my arms around him. Desire felt stronger than faith." },
+
+  { "key": "stained_glass_sin", "stageMin": 8, "path": "corruption", "text": "The church echoed with every thrust, my cries bouncing off sacred stone. His dirt stained me beneath the gaze of saints in glass." },
+  { "key": "altar_possession", "stageMin": 9, "path": "corruption", "text": "Bent over the altar, I gave in fully. His filth poured into me while holy candles flickered. Desecration became devotion." },
+  { "key": "sacred_ruin", "stageMin": 10, "path": "corruption", "text": "I no longer fear the church’s judgment. On sacred ground, with him inside me, I felt free. The house of God is now the house of our sin." }
+  ],
+  "forest": [
+  { "key": "forest_path", "stageMin": 0, "path": "any", "text": "We walked the winding trail. Birds sang, leaves rustled… and still, I felt his presence louder than anything else." },
+  { "key": "clearing_pause", "stageMin": 1, "path": "any", "text": "We stopped in a sunlit clearing. His eyes lingered on me longer than they should have, and I pretended not to notice." },
+  { "key": "branch_brush", "stageMin": 2, "path": "any", "text": "A branch snapped underfoot, startling me. His hand steadied my waist, rough and dirty, and my heart skipped." },
+
+  { "key": "tree_whisper", "stageMin": 3, "path": "love", "text": "Leaning close beneath the branches, he whispered something soft. I wanted to believe it was only for me." },
+  { "key": "hidden_kiss", "stageMin": 4, "path": "hybrid", "text": "The trees hid us. His lips found mine—tender and unclean all at once. I kissed back, shame warming my cheeks." },
+
+  { "key": "mossy_embrace", "stageMin": 5, "path": "love", "text": "We sank into the moss. His arms wrapped around me, and I swore the whole forest held its breath." },
+  { "key": "rough_tree", "stageMin": 6, "path": "corruption", "text": "He pressed me against the rough bark, his dirt smearing onto me. I should have resisted. I didn’t." },
+  { "key": "wild_gasp", "stageMin": 7, "path": "hybrid", "text": "Every sound in the woods felt louder—the rustle of leaves, my gasps, his laugh. Danger only made me cling tighter." },
+
+  { "key": "forest_claim", "stageMin": 8, "path": "corruption", "text": "The forest floor became our bed. Every thrust shook me, leaves clung to my hair, and I didn’t care who heard." },
+  { "key": "wild_throne", "stageMin": 9, "path": "corruption", "text": "He took me on the roots of an ancient tree, marking me as his in the open wild. I moaned like the forest itself was watching." },
+  { "key": "nature_bound", "stageMin": 10, "path": "corruption", "text": "No shame left—I straddled him in the open air, birds overhead, earth beneath us. Nature itself bore witness to my ruin, and I reveled in it." }
+  ],
+  "cave": [
+  { "key": "cave_entry", "stageMin": 0, "path": "any", "text": "The air turned damp and cool as we stepped inside. Shadows swallowed the walls, and his presence felt heavier here." },
+  { "key": "echo_step", "stageMin": 1, "path": "any", "text": "Every step echoed, every breath carried. I worried someone might hear us—though no one was there." },
+  { "key": "torch_glow", "stageMin": 2, "path": "any", "text": "In the torchlight, his features looked sharper, dirt and all. I caught myself staring too long." },
+
+  { "key": "corner_touch", "stageMin": 3, "path": "love", "text": "He brushed my hand in the narrow passage. It felt like more than an accident, and I didn’t pull away." },
+  { "key": "echo_kiss", "stageMin": 4, "path": "hybrid", "text": "The echo carried our kiss back to us, like the cave itself was taunting me. I kissed him harder." },
+
+  { "key": "stone_embrace", "stageMin": 5, "path": "love", "text": "He held me close against the cool rock wall. The silence was broken only by our hearts pounding." },
+  { "key": "rock_claim", "stageMin": 6, "path": "corruption", "text": "He pressed me into the stone, his dirt rubbing onto my dress. The thought of leaving a stain thrilled me." },
+  { "key": "torch_flicker", "stageMin": 7, "path": "hybrid", "text": "In the flickering shadows, we became something secret and forbidden. I moaned louder than I meant to." },
+
+  { "key": "cave_thrusts", "stageMin": 8, "path": "corruption", "text": "He drove into me with reckless force, every thrust echoing louder than my voice. I couldn’t hide it anymore." },
+  { "key": "stalagmite_throne", "stageMin": 9, "path": "corruption", "text": "He sat me atop a cold stone and used me until I forgot myself. My cries bounced back at me from every wall." },
+  { "key": "echo_ruin", "stageMin": 10, "path": "corruption", "text": "The cave rang with our frenzy—my screams, his grunts, the slap of flesh. I wanted the world to hear my ruin." }
+  ],
+  "warehouse": [
+  { "key": "warehouse_entry", "stageMin": 0, "path": "any", "text": "The air reeked of rust and oil. He smirked, calling it our 'palace'. I shivered, not entirely from the cold." },
+  { "key": "broken_glass", "stageMin": 1, "path": "any", "text": "Shards crunched under my boots. He leaned close, whispering something crude. My cheeks burned hotter than the metal walls." },
+  { "key": "dirty_smirk", "stageMin": 2, "path": "any", "text": "He teased me about staining my dress in a place like this. Part of me wanted to prove him wrong. Another part… didn’t." },
+
+  { "key": "wall_pin", "stageMin": 3, "path": "corruption", "text": "He shoved me against a rusted wall, his hands groping shamelessly. I gasped, torn between scolding and moaning." },
+  { "key": "dirty_kiss", "stageMin": 4, "path": "corruption", "text": "His mouth tasted like smoke and grease. My lips moved anyway, greedy for more." },
+
+  { "key": "oil_stains", "stageMin": 5, "path": "hybrid", "text": "He smeared oil across my neck with his filthy fingers, then kissed the mark like it was his signature." },
+  { "key": "floor_claim", "stageMin": 6, "path": "corruption", "text": "He pushed me down on the filthy floor. Dust, grease, and his weight pressed into me all at once. I couldn’t resist." },
+  { "key": "rough_take", "stageMin": 7, "path": "corruption", "text": "Every thrust made the loose boards groan beneath us. I clung to him, letting him ruin me with every filthy push." },
+
+  { "key": "graffiti_shame", "stageMin": 8, "path": "hybrid", "text": "My back scraped against graffiti-scrawled walls while he pounded into me. I wondered if the words painted there applied to me now." },
+  { "key": "grease_slick", "stageMin": 9, "path": "corruption", "text": "He dragged grease across my skin, marking me as his. I cried out shamelessly, the filth seeping into every inch of me." },
+  { "key": "public_ruin", "stageMin": 10, "path": "corruption", "text": "The warehouse doors were wide open. I straddled him anyway, moaning loud enough for the slums to hear. I wanted everyone to know who owned me." }
+  ],
+  "sewers": [
+  { "key": "sewer_entry", "stageMin": 0, "path": "any", "text": "The stench hit me instantly. I asked what we were doing here—he just grinned and kept walking." },
+  { "key": "dripping_walls", "stageMin": 1, "path": "any", "text": "Water dripped from mossy walls. I told myself to focus on the path, not his hand brushing mine." },
+  { "key": "mocking_smell", "stageMin": 2, "path": "any", "text": "He teased me about wrinkling my nose. I laughed, even though the stink made my eyes water." },
+
+  { "key": "slime_pin", "stageMin": 3, "path": "corruption", "text": "He pressed me against a slime-slick wall. My gasp echoed in the tunnels, mixing with the stink of rot and his breath." },
+  { "key": "wet_kiss", "stageMin": 4, "path": "corruption", "text": "His mouth crushed mine, filthy water dripping onto our skin. The taste of him mingled with the sewer’s foulness." },
+
+  { "key": "knees_mud", "stageMin": 5, "path": "hybrid", "text": "I dropped to my knees in the muck, pretending to hate it. My lips betrayed me as they parted for him." },
+  { "key": "sludge_claim", "stageMin": 6, "path": "corruption", "text": "He bent me over into the shallow sludge. The filth soaked my thighs as he drove into me harder than I thought I could bear." },
+  { "key": "stench_thrill", "stageMin": 7, "path": "corruption", "text": "Every thrust splashed sewage up my legs. I didn’t care. The stench made my head spin, made me scream louder." },
+
+  { "key": "filth_rush", "stageMin": 8, "path": "hybrid", "text": "I begged him not to stop, not even when rats scurried by. My voice echoed in the tunnels: desperate, ruined, hungry for more." },
+  { "key": "owned_in_shadows", "stageMin": 9, "path": "corruption", "text": "He grabbed my hair, forcing me down into the slime while taking me mercilessly. I swallowed filth, my body begging for his seed." },
+  { "key": "oblivion_surge", "stageMin": 10, "path": "corruption", "text": "The sewers shook with our cries. I straddled him in the filth, moaning as his seed spilled inside me, mixing with the slime. I screamed my surrender, uncaring who heard, desperate for the world to know I belonged to him." }
+  ],
+  "marketplace": [
+  { "key": "morning_crowds", "stageMin": 0, "path": "any", "text": "The marketplace buzzed with chatter. I told myself I only followed him to shop… not to linger by his side." },
+  { "key": "stolen_apple", "stageMin": 1, "path": "any", "text": "He tossed me an apple he’d lifted without paying. I wanted to scold him—why did it make me smile instead?" },
+  { "key": "stall_brush", "stageMin": 2, "path": "any", "text": "Pressed close at a crowded stall, his hip brushed mine. I pretended not to notice how long he left it there." },
+
+  { "key": "alley_whisper", "stageMin": 3, "path": "corruption", "text": "He yanked me into a narrow alley between stalls, whispering filth against my neck while merchants called only steps away." },
+  { "key": "grip_beneath", "stageMin": 4, "path": "corruption", "text": "His hand slipped beneath my dress in broad daylight. The noise of haggling masked my gasp as his fingers explored me." },
+
+  { "key": "fruit_stall", "stageMin": 5, "path": "hybrid", "text": "A peach burst in my hand as his hips ground into me against the stall. Juice and filth dripped down my fingers." },
+  { "key": "displayed_touch", "stageMin": 6, "path": "corruption", "text": "He pinned me against sacks of grain. People passed only steps away, but his fingers were already inside me, pumping shamelessly." },
+  { "key": "risked_kiss", "stageMin": 7, "path": "corruption", "text": "He kissed me hard in front of a vendor. Shame heated my cheeks, but I didn’t pull away. Their stare made me wetter." },
+
+  { "key": "public_claim", "stageMin": 8, "path": "hybrid", "text": "Bent over the stall, I felt his length slide into me. The crowd roared in barter, unaware I was being filled in their midst." },
+  { "key": "shameless_moan", "stageMin": 9, "path": "corruption", "text": "I moaned aloud, loud enough to draw stares. His thrusts didn’t falter; he smirked as if daring the world to watch." },
+  { "key": "market_queen", "stageMin": 10, "path": "corruption", "text": "He took me atop crates under the sun, filling me while shoppers gasped. I threw my head back, uncaring, moaning his name as he spilled inside me for all to hear." }
+  ],
+  "nightclub_backroom": [
+  { "key": "bass_pulse", "stageMin": 0, "path": "any", "text": "The bass rattled the floor. I told myself I only came to dance… not to follow him into the shadows." },
+  { "key": "drink_in_hand", "stageMin": 1, "path": "any", "text": "He shoved a dirty glass into my hand. It tasted bitter, wrong. I drank it anyway." },
+  { "key": "shoulder_grip", "stageMin": 2, "path": "any", "text": "His rough hand settled heavy on my shoulder, guiding me deeper into the backroom. My heart raced harder than the music." },
+
+  { "key": "crowd_hide", "stageMin": 3, "path": "corruption", "text": "The crowd masked us, his palm pressed against my chest. Every thrum of the bass hid my gasp." },
+  { "key": "wall_press", "stageMin": 4, "path": "corruption", "text": "He shoved me against a graffiti-smeared wall, lips devouring mine. The scent of smoke and sweat made me dizzy." },
+
+  { "key": "lap_dance", "stageMin": 5, "path": "hybrid", "text": "He dropped into a chair, pulling me onto his lap. Music throbbed through us as I ground against his filth in time with the beat." },
+  { "key": "finger_play", "stageMin": 6, "path": "corruption", "text": "The room reeked of alcohol and bodies when his fingers slipped beneath my skirt. No one could hear my moans over the music." },
+  { "key": "public_tease", "stageMin": 7, "path": "corruption", "text": "Another girl stumbled past the doorway, catching a glimpse. He didn’t stop—he only pushed deeper, smirking as her eyes widened." },
+
+  { "key": "dirty_dance", "stageMin": 8, "path": "hybrid", "text": "He bent me over the sticky table, pounding in time with the bass. Lights flashed across my flushed skin. I screamed into the music." },
+  { "key": "club_claim", "stageMin": 9, "path": "corruption", "text": "He filled me against the wall while bodies writhed just outside. His seed dripped down my thighs as I staggered back to the dance floor." },
+  { "key": "backroom_whore", "stageMin": 10, "path": "corruption", "text": "He took me raw on the back couch while strangers watched from the door. I begged for more, moaning loud enough to drown out the music—my shame long gone." }
+  ],
+  "rooftop": [
+  { "key": "night_air", "stageMin": 0, "path": "any", "text": "He dragged me up the fire escape. The city stretched below, and I told myself it was just the view I wanted." },
+  { "key": "edge_stand", "stageMin": 1, "path": "any", "text": "We stood at the edge. His arm brushed mine. The chill wasn’t just from the wind." },
+  { "key": "graffiti_smile", "stageMin": 2, "path": "any", "text": "He laughed at the graffiti, smoke curling from his lips. I shouldn’t have smiled back… but I did." },
+
+  { "key": "kiss_in_wind", "stageMin": 3, "path": "love", "text": "The night air tangled our hair as he kissed me. It was rough, clumsy, but I didn’t pull away." },
+  { "key": "bend_rail", "stageMin": 4, "path": "corruption", "text": "He bent me over the rooftop rail. Below us, life moved on. No one knew my legs were trembling from more than the cold." },
+
+  { "key": "skyline_hold", "stageMin": 5, "path": "hybrid", "text": "We lay against the rooftop tiles, staring at the skyline. His grime rubbed against my skin, but I held him closer anyway." },
+  { "key": "grip_and_thrust", "stageMin": 6, "path": "corruption", "text": "He pushed inside me under the stars. My cries echoed into the open air, drowned only by the hum of the city below." },
+  { "key": "moonlit_tongues", "stageMin": 7, "path": "hybrid", "text": "The moonlight caught his filthy grin as our tongues tangled. My shame slipped away with every sloppy kiss." },
+
+  { "key": "public_dare", "stageMin": 8, "path": "corruption", "text": "He dared me to ride him where the whole slum could see if they only looked up. I did—moaning into the wind." },
+  { "key": "seeded_above", "stageMin": 9, "path": "corruption", "text": "On the rooftop’s edge he filled me, his seed dripping down my thighs as I leaned over the city, legs quaking." },
+  { "key": "queen_of_rooftop", "stageMin": 10, "path": "corruption", "text": "He fucked me raw under the stars until I screamed his name into the night sky. The rooftops carried my cries like a crown—I was his, high above the world." }
+  ],
+  "abandoned_factory": [
+  { "key": "rust_steps", "stageMin": 0, "path": "any", "text": "The factory smelled of oil and iron. He walked ahead, boots loud, and I told myself I wasn’t following out of choice." },
+  { "key": "grease_touch", "stageMin": 2, "path": "any", "text": "He smeared grease across my cheek with a smirk. I should have slapped him. I didn’t." },
+  { "key": "kiss_against_machinery", "stageMin": 3, "path": "love", "text": "He pressed me against cold metal, lips rough and insistent. The machinery clanked like it disapproved." },
+  { "key": "oil_stained_skin", "stageMin": 5, "path": "corruption", "text": "His filthy hands left black streaks across my thighs as he shoved them apart." },
+  { "key": "taken_on_workbench", "stageMin": 8, "path": "corruption", "text": "He bent me over an old workbench. Each thrust rattled the bolts scattered beneath us." },
+  { "key": "factory_echo", "stageMin": 10, "path": "corruption", "text": "My screams echoed through the empty hall. I was oil-stained, seed-soaked, and proud to let the whole factory hear." }
+  ],
+"bathhouse": [
+  { "key": "bathhouse_entry", "stageMin": 0, "path": "any", "text": "The steam clung to my skin. He didn’t belong here—too filthy, too brazen. Still, my eyes followed him through the haze." },
+  
+  { "key": "shared_steam", "stageMin": 1, "path": "any", "text": "Our towels brushed as we passed. I scolded myself for staring, but heat flooded me anyway." },
+  
+  { "key": "accidental_splash", "stageMin": 2, "path": "any", "text": "He splashed water onto me playfully. I laughed, then froze as his gaze lingered too long on my chest through wet fabric." },
+  
+  { "key": "corner_kiss", "stageMin": 3, "path": "love", "text": "He pulled me into a quiet corner of steam, lips crashing into mine. My knees trembled with the warmth of it." },
+  { "key": "rough_grab", "stageMin": 3, "path": "corruption", "text": "Hands grabbed under the water. His fingers were shameless, and I moaned despite knowing others were nearby." },
+  { "key": "hidden_hand", "stageMin": 3, "path": "hybrid", "text": "He slid his hand between my thighs under the water. I gasped but leaned into it—thrill and tenderness clashing." },
+  
+  { "key": "body_wash", "stageMin": 4, "path": "love", "text": "I lathered his back. His sigh made me blush. I wanted to keep washing him forever." },
+  { "key": "public_fondle", "stageMin": 4, "path": "corruption", "text": "He pressed me against the bath’s edge, hand groping openly. The thought of being caught made me drip with heat." },
+  
+  { "key": "steamy_lock", "stageMin": 5, "path": "any", "text": "He locked the small wash-room door behind us. My heart raced—whether from fear or excitement, I couldn’t say." },
+  
+  { "key": "slip_inside", "stageMin": 6, "path": "corruption", "text": "He slid inside me under the steaming water. I gripped the edge, moaning into the mist." },
+  { "key": "waterfall_kiss", "stageMin": 6, "path": "love", "text": "We kissed beneath the pouring spout. It felt like the world disappeared, only his lips existed." },
+  { "key": "steamy_moan", "stageMin": 6, "path": "hybrid", "text": "Steam clouded us, muffling my moans. I wanted the world to hear, yet prayed it didn’t." },
+  
+  { "key": "pool_straddle", "stageMin": 7, "path": "corruption", "text": "I straddled him in the shallow pool, water sloshing. My moans echoed shamelessly in the chamber." },
+  { "key": "bath_slide", "stageMin": 7, "path": "hybrid", "text": "He lifted me up and slid me down onto him. I wrapped my arms tight, both scared and elated to lose myself here." },
+  
+  { "key": "moans_in_steam", "stageMin": 8, "path": "corruption", "text": "My cries bounced through the steamy chamber. I didn’t care who heard—the filth, the heat, it owned me." },
+  
+  { "key": "shared_soak", "stageMin": 8, "path": "love", "text": "We sank into the hot pool together. He held me in his lap, slow thrusts mixing tenderness and desire." },
+  
+  { "key": "caught_by_matron", "stageMin": 9, "path": "corruption", "text": "The bath matron pounded on the door, shouting. He didn’t stop. I screamed louder, drowning her out." },
+  
+  { "key": "steam_slave", "stageMin": 10, "path": "corruption", "text": "He used me against the tiled wall, pounding until I came undone, dripping down the stones. Steam and seed—my new perfume." },
+  
+  { "key": "waterbound_vows", "stageMin": 10, "path": "love", "text": "In the hottest pool, he whispered that I was his, forever. I believed him, filth and all." },
+  { "key": "taboo_union", "stageMin": 10, "path": "hybrid", "text": "We fucked in the open bath, steam cloaking our bodies. I screamed his name, daring the world to judge us." }
+],
+      "brothel": [
+  { "key": "brothel_entry", "stageMin": 0, "path": "any", "text": "The lanterns glowed red. Perfume and sweat clung to the walls. I told myself I didn’t belong here—but followed him in anyway." },
+
+  { "key": "stolen_glances", "stageMin": 1, "path": "any", "text": "He smirked while women eyed him. My chest tightened with jealousy, though I said nothing." },
+
+  { "key": "hands_on_back", "stageMin": 2, "path": "any", "text": "He pressed his palm to the small of my back, guiding me past silk curtains. It looked like ownership. It felt like it too." },
+
+  { "key": "curtain_kiss", "stageMin": 3, "path": "love", "text": "Behind the drapes, he kissed me gently, as though the noise outside didn’t exist." },
+  { "key": "wall_thrust", "stageMin": 3, "path": "corruption", "text": "He shoved me into the wall, hips grinding against me while laughter echoed from the next room. My breath betrayed me with moans." },
+  { "key": "forbidden_tease", "stageMin": 3, "path": "hybrid", "text": "His lips were sweet, but his hands rough. I melted into both—the tender and the taboo." },
+
+  { "key": "lap_dance", "stageMin": 4, "path": "corruption", "text": "He sat on the velvet chair, yanked me onto his lap. The music throbbed as I ground down shamelessly in time with it." },
+  { "key": "silk_caress", "stageMin": 4, "path": "love", "text": "He draped silk across my bare shoulders, tracing it with reverence. Even here, he made me feel cherished." },
+
+  { "key": "mirror_reflection", "stageMin": 5, "path": "any", "text": "We caught our reflection in the brothel mirror. My flushed face looked like someone else’s, someone I barely recognized." },
+
+  { "key": "velvet_claim", "stageMin": 6, "path": "corruption", "text": "He bent me over a velvet couch and took me hard. The groans around us only made me wetter." },
+  { "key": "slow_worship", "stageMin": 6, "path": "love", "text": "Among the chaos, he held me steady, whispering that I was the only one that mattered." },
+  { "key": "scent_of_lust", "stageMin": 6, "path": "hybrid", "text": "Perfume and musk coated the air. His thrusts made me forget which scent was his and which was mine." },
+
+  { "key": "open_chamber", "stageMin": 7, "path": "corruption", "text": "He pulled me into an open chamber. Curtains drawn back, eyes watching, and he still forced me down onto him. I screamed with abandon." },
+  { "key": "half_hidden", "stageMin": 7, "path": "hybrid", "text": "We hid half behind a curtain while strangers laughed only steps away. The risk only made me crave him more." },
+
+  { "key": "stage_show", "stageMin": 8, "path": "corruption", "text": "He tossed me onto the stage where others had performed. My body arched as he used me like the main act." },
+  { "key": "shared_moan", "stageMin": 8, "path": "love", "text": "Amid the brothel’s chaos, we found each other’s mouths, our kiss louder than the moans around us." },
+
+  { "key": "curtain_rip", "stageMin": 9, "path": "corruption", "text": "He tore the curtain aside, exposing me mid-thrust to the room. My shame turned instantly to dripping arousal." },
+
+  { "key": "red_lantern_vows", "stageMin": 10, "path": "love", "text": "Under the red glow, he whispered promises against my neck: love lasting longer than lust." },
+  { "key": "brothel_whore", "stageMin": 10, "path": "corruption", "text": "He made me scream until every client knew my name. I left the brothel dripping, claimed as his whore." },
+  { "key": "taboo_queen", "stageMin": 10, "path": "hybrid", "text": "The girls cheered as if I’d joined their ranks. I strutted out, body wrecked and glowing, proud to be his taboo queen." },
+        { "key": "brothel_pregnancy_scare", "stageMin": 5, "path": "any", "text": "The red lanterns blurred when my belly fluttered. Fear gnawed at me—what if his seed had already taken root here, of all places?" },
+
+  { "key": "brothel_pregnancy_confession", "stageMin": 6, "path": "love", "text": "He touched my stomach softly after the act, whispering that no matter where it began—even here—our child would be ours." },
+
+  { "key": "brothel_pregnancy_marked", "stageMin": 7, "path": "corruption", "text": "He finished inside me again and again, laughing that every man outside would hear me groan while he planted his claim deeper. I shivered at the thought of carrying it out the door." },
+
+  { "key": "brothel_pregnancy_display", "stageMin": 8, "path": "hybrid", "text": "Curtains half-open, his hand slid down to my belly mid-thrust. He pressed there like he wanted the whole room to know I might already be his breeder." },
+
+  { "key": "brothel_pregnancy_pride", "stageMin": 9, "path": "corruption", "text": "I staggered out, thighs dripping, one hand on my belly. The whores smiled knowingly, whispering 'his broodmare'—and I didn’t correct them." },
+
+  { "key": "brothel_pregnancy_vow", "stageMin": 10, "path": "love", "text": "Beneath the red lantern, he kissed my swollen belly. I cried, not for shame, but for the vow that our child was proof of love in the filthiest of places." },
+
+  { "key": "brothel_pregnancy_exhibition", "stageMin": 10, "path": "corruption", "text": "He forced me on stage with my belly heavy. Every thrust made the crowd roar. I moaned louder than ever, pride swelling that they saw me as nothing but his fertile whore." }
+      ],
+  "festival_tent": [
+  { "key": "tent_entry", "stageMin": 0, "path": "any", "text": "The music outside was wild, but in here it felt too quiet. His shadow loomed close—I told myself it was just the lantern swaying." },
+
+  { "key": "tent_glance", "stageMin": 1, "path": "any", "text": "He leaned close, laughter muffled by fabric walls. My heart raced—was it the drums, or the heat in his eyes?" },
+
+  { "key": "tent_hand_brush", "stageMin": 2, "path": "any", "text": "Our fingers touched on the straw mat. Rough, dirty, too deliberate to be accidental. I didn’t pull away fast enough." },
+
+  { "key": "tent_kiss_stolen", "stageMin": 3, "path": "love", "text": "The crowd cheered outside while he stole a kiss in the dark. I pressed back, desperate, hoping no one would hear the small sound I made." },
+
+  { "key": "tent_forceful_grab", "stageMin": 3, "path": "corruption", "text": "He pinned me against the canvas and took my lips without asking. My muffled whimper melted into hunger I didn’t want to admit." },
+
+  { "key": "tent_tangle", "stageMin": 4, "path": "hybrid", "text": "Half anger, half need—I pushed at him but let him hold me tighter. Shame bled into heat as our mouths crashed again." },
+
+  { "key": "tent_moan_hidden", "stageMin": 5, "path": "any", "text": "I bit my knuckle when he touched me where no one else dared. Outside, the festival drums masked my moans—barely." },
+
+  { "key": "tent_on_knees", "stageMin": 6, "path": "corruption", "text": "He pushed my head down, the dirt and musk overwhelming. I gagged softly, but part of me thrilled that anyone could pull open the flap and see." },
+
+  { "key": "tent_lover_embrace", "stageMin": 6, "path": "love", "text": "He laid me down gentle on the straw, his forehead pressed to mine while the fireworks shook the canvas. I let him in, whispering his name like a prayer." },
+
+  { "key": "tent_exhibition", "stageMin": 7, "path": "hybrid", "text": "He ripped my dress aside and pressed deep as the lantern light flickered. I wanted to scream, but the thought of being overheard made me burn hotter." },
+
+  { "key": "tent_taken", "stageMin": 8, "path": "corruption", "text": "He took me hard against the pole, canvas shaking with every thrust. I cried out, knowing people outside heard—and I didn’t care." },
+
+  { "key": "tent_devotion", "stageMin": 8, "path": "love", "text": "We moved together in silence, hiding love inside chaos. I wanted the moment to never end, even as the crowd laughed just beyond." },
+
+  { "key": "tent_unashamed", "stageMin": 9, "path": "hybrid", "text": "His seed dripped down my thighs when he pulled me upright. We stepped out together, flushed, knowing eyes followed us. I smiled anyway." },
+
+  { "key": "tent_possession", "stageMin": 9, "path": "corruption", "text": "He spilled inside me, then pushed me to the flap, holding me so the crowd could hear my panting. I was nothing but his, and I moaned my acceptance." },
+
+  { "key": "tent_extreme", "stageMin": 10, "path": "any", "text": "The tent collapsed around us mid-act, shouts erupting from outside. Straw, canvas, bodies tangled—and I screamed his name, unashamed, as everyone saw the truth of what we were." },
+  
+  "festival_tent_pregnancy": [
+  { "key": "tent_pregnancy_fear", "stageMin": 4, "path": "any", "text": "When he touched me beneath the lantern glow, I clutched my belly, terrified someone might notice how it swelled. The crowd laughed outside—I prayed they wouldn’t see." },
+
+  { "key": "tent_pregnancy_desire", "stageMin": 5, "path": "love", "text": "He rested his hand on my stomach as he kissed me. I thought I’d cry from the tenderness. Even hidden in this tent, the world felt bright with the future inside me." },
+
+  { "key": "tent_pregnancy_shame", "stageMin": 5, "path": "corruption", "text": "The drums outside rattled while he pushed me down. My swollen belly pressed against the mat, his seed already inside me. I whimpered—not from resistance, but from craving more." },
+
+  { "key": "tent_pregnancy_public_thill", "stageMin": 7, "path": "hybrid", "text": "The fabric walls shuddered as he moved inside me. I arched back, one hand cradling the life he gave me, the other clinging to him. I wanted someone to hear—I wanted them to know." },
+
+  { "key": "tent_pregnancy_weight", "stageMin": 8, "path": "corruption", "text": "Every thrust pressed down on the child growing within me. Shame should have stopped me, but I only begged louder, moaning as if daring the whole festival to hear." },
+
+  { "key": "tent_pregnancy_devotion", "stageMin": 8, "path": "love", "text": "He kissed my swollen belly between every movement, whispering promises even as we trembled at the thought of being overheard." },
+
+  { "key": "tent_pregnancy_display", "stageMin": 9, "path": "corruption", "text": "He pulled me to the flap, belly round and heavy, and slammed me against the canvas until it rattled. Voices outside paused—I flushed with shame, but I couldn’t stop moaning his name." },
+
+  { "key": "tent_pregnancy_pride", "stageMin": 9, "path": "love", "text": "He held me in his arms, hand on my belly, while we lay tangled in straw. For the first time, I didn’t care if the world outside guessed—I was proud of what we’d made together." },
+
+  { "key": "tent_pregnancy_extreme", "stageMin": 10, "path": "any", "text": "The tent collapsed around us, revealing everything—the sweat, the thrusts, the swell of my stomach. I cried out, overwhelmed, not in fear but in shameless pride that I was his, body and child both." }
+  ],
+  "starlight_snap_booth": [
+  { "key": "snap_booth_shy", "stageMin": 0, "path": "any", "text": "The booth curtain closed, and we were shoulder-to-shoulder in the tiny space. My heart beat louder than the timer’s beep." },
+
+  { "key": "snap_booth_brush", "stageMin": 1, "path": "any", "text": "Our arms brushed as the flash went off. I pretended to laugh, but I couldn’t stop thinking about how close he was." },
+
+  { "key": "snap_booth_kiss", "stageMin": 2, "path": "love", "text": "The camera clicked the moment his lips found mine—an accidental souvenir of something I’ll never forget." },
+
+  { "key": "snap_booth_hand", "stageMin": 2, "path": "corruption", "text": "His hand slid beneath my skirt just as the flash went off. If anyone sees the strip, they’ll know exactly what happened in that frame." },
+
+  { "key": "snap_booth_caught", "stageMin": 3, "path": "hybrid", "text": "The curtain shifted, a giggle outside. We froze—me straddling his lap, his hands gripping me. The camera captured my gasp forever." },
+
+  { "key": "snap_booth_tongue", "stageMin": 4, "path": "corruption", "text": "He kissed me with tongue, the wet sound loud in the silence between flashes. I knew the camera caught my moan." },
+
+  { "key": "snap_booth_pressed", "stageMin": 5, "path": "love", "text": "He pressed me against the glass wall, kissing me like I was the only thing that mattered, while the camera clicked our laughter." },
+
+  { "key": "snap_booth_fingers", "stageMin": 6, "path": "corruption", "text": "His fingers slipped inside me, and I bit his shoulder to keep from crying out. The photo strip will look innocent—only we know the truth." },
+
+  { "key": "snap_booth_public", "stageMin": 7, "path": "hybrid", "text": "I bounced on his lap as the flashes went off in sequence, turning our filth into a set of photos I’ll never dare show anyone." },
+
+  { "key": "snap_booth_extreme", "stageMin": 10, "path": "corruption", "text": "The booth curtain ripped open mid-thrust. I locked eyes with a stranger outside as the last flash burned his seed inside me onto film. I didn’t care. I wanted the world to see." }
+  ],
+  "starlight_snap_booth_pregnancy": [
+  { "key": "snap_booth_belly_glance", "stageMin": 4, "path": "any", "text": "The flash caught my rounded belly between us. I flushed red, but his hands lingered there, proud and possessive." },
+
+  { "key": "snap_booth_belly_kiss", "stageMin": 5, "path": "love", "text": "He kissed my swollen stomach just as the camera clicked. The picture showed nothing else, but to me it was everything." },
+
+  { "key": "snap_booth_exposed_curve", "stageMin": 6, "path": "corruption", "text": "He tugged my dress up to expose the curve of me as the shutter snapped. I should’ve stopped him—but the thrill of being displayed burned hotter than shame." },
+
+  { "key": "snap_booth_pregnant_straddle", "stageMin": 7, "path": "hybrid", "text": "I straddled him awkwardly, belly pressing into his chest. The photos will look obscene, but the smile on my lips was pure joy." },
+
+  { "key": "snap_booth_pregnant_moan", "stageMin": 8, "path": "corruption", "text": "The camera caught my head thrown back, mouth open in a moan as he filled me, swollen belly shaking with every thrust." },
+
+  { "key": "snap_booth_tender_family", "stageMin": 9, "path": "love", "text": "We sat close, his hand spread across my stomach. For once the photos looked less like scandal and more like a family portrait." },
+
+  { "key": "snap_booth_public_flaunt", "stageMin": 10, "path": "corruption", "text": "He held me wide open, my swollen belly framed in the shot, his seed dripping out of me as strangers laughed outside the booth. I didn’t care—I wanted proof that I belonged to him." }
+  ],
+  "train_ride": [
+  { "stage": 0, "path": "any", "text": "I sat across from him on the rattling bench, pretending not to notice the grime on his hands. He smirked at me like he knew I was watching." },
+  { "stage": 1, "path": "any", "text": "The sway of the carriage rocked me closer. His knee brushed mine, rough fabric scraping my skin. I pulled away… too quickly." },
+  { "stage": 2, "path": "love", "text": "The lantern light flickered over his face as he leaned close to whisper. I should have pushed him back. Instead, I found myself smiling." },
+  { "stage": 2, "path": "corruption", "text": "His hand lingered far too long on my thigh. I hissed at him to stop, but my voice shook more with heat than anger." },
+  { "stage": 3, "path": "any", "text": "The train rocked harder, and so did we—his arm curling around my waist, pulling me flush against his filthy chest. My heart pounded louder than the rails." },
+  { "stage": 4, "path": "love", "text": "He kissed me by the window. The glass fogged as our mouths moved hungrily, the world speeding past unseen." },
+  { "stage": 4, "path": "corruption", "text": "His filthy hand snuck under my skirt. I slapped it away, cheeks burning. He only grinned, the dirt under his nails still scratching my thigh." },
+  { "stage": 5, "path": "any", "text": "We found a secluded corner near the freight car. His mouth was on mine, his hand gripping my hip. Every jolt of the tracks made us grind harder together." },
+  { "stage": 6, "path": "love", "text": "He slid into me between the clatter of wheels, muffling my gasps with his lips. I clung to him, every thrust timed with the crash of the tracks." },
+  { "stage": 6, "path": "corruption", "text": "He forced me against the wall, teeth on my neck, rutting like an animal. My skirt was up, his filth grinding into me raw. I moaned even as shame flooded me." },
+  { "stage": 7, "path": "hybrid", "text": "We fucked like thieves, daring discovery. I kissed him through the dirt and sweat, crying his name as he pounded me into the rattling wood." },
+  { "stage": 8, "path": "corruption", "text": "He bent me over the rattling bench and slammed himself inside, juices dripping onto the floor. The sound of flesh and filth mixed with the rail’s thunder." },
+  { "stage": 9, "path": "any", "text": "I straddled him in the corner seat, bouncing shamelessly as the train screamed through tunnels. His hands smeared dirt over my breasts as he groaned into my mouth." },
+  { "stage": 10, "path": "corruption", "text": "He spilled inside me as the conductor walked past the door. I didn’t care. I moaned louder, grinding down, clenching around his filth, milking every drop of his seed while the whole train could hear." }
+  ],
+  "dojo": [
+  { "stage": 0, "path": "any", "text": "The tatami smelled of dust and sweat. I sat quietly, watching him mock the discipline of the place. I told myself I was only annoyed." },
+  { "stage": 1, "path": "any", "text": "He picked up a staff, twirling it clumsily but grinning at me like he’d mastered it. I laughed, then regretted giving him the satisfaction." },
+  { "stage": 2, "path": "love", "text": "I corrected his stance. My hands lingered on his wrists longer than I should have, guiding strength into filth." },
+  { "stage": 2, "path": "corruption", "text": "He pressed too close during practice, his body foul and hot against mine. The master’s scrolls watched us in silence." },
+  { "stage": 3, "path": "any", "text": "He pinned me mid-spar, his smirk daring me to wriggle free. I could feel his rough breath across my face." },
+  { "stage": 4, "path": "love", "text": "We kissed between the wooden posts. His dirt smeared across my cheek, and I let it stay as proof." },
+  { "stage": 4, "path": "corruption", "text": "He slammed me against the practice dummy, hand between my thighs. The creak of the dojo echoed louder than my gasp." },
+  { "stage": 5, "path": "any", "text": "We stole a corner behind the weapon racks. He bit down on my shoulder while I clutched at the mats." },
+  { "stage": 6, "path": "love", "text": "We fell together on the tatami, bodies slick, hips rocking in unison. My moans filled the quiet hall like chants of devotion." },
+  { "stage": 6, "path": "corruption", "text": "He took me on the dojo floor, pounding into me raw while scrolls of discipline loomed above. My cries shook the walls meant for silence." },
+  { "stage": 7, "path": "hybrid", "text": "We trained in lust instead of combat—his thrusts timed like drills, my body arching to meet each one. Tenderness blurred with filth." },
+  { "stage": 8, "path": "corruption", "text": "He forced me face-down into the tatami, slamming harder, sweat and filth dripping into my hair. The dojo reeked of sex." },
+  { "stage": 9, "path": "any", "text": "I straddled him in the practice ring, riding shamelessly. My moans bounced from the walls, louder than any sparring match." },
+  { "stage": 10, "path": "corruption", "text": "He bred me like an animal in the master’s chair. His seed spilled deep, dripping onto the tatami. I screamed for more, not caring if the entire dojo heard." }
+  ],
+  
+  "tavern_cellar": [
+  { "key": "cellar_smell", "stageMin": 0, "path": "any", "text": "The cellar reeked of ale and damp wood. He leaned too close, and I wondered if the smell was him or the barrels." },
+  { "key": "spill", "stageMin": 2, "path": "any", "text": "A barrel toppled, spilling froth across my skirt. He laughed—then reached to wipe it, far too slow." },
+  { "key": "kiss_darkness", "stageMin": 3, "path": "love", "text": "In the candlelit dark, his lips found mine. Ale dripped down, bitter and sweet." },
+  { "key": "tabletop_take", "stageMin": 5, "path": "corruption", "text": "He shoved me over the cellar table, wood splintering as he spread me wide." },
+  { "key": "barrel_press", "stageMin": 7, "path": "hybrid", "text": "He pinned me against the keg, thrusts sloshing beer with every move. My laughter broke into moans." },
+  { "key": "drunk_slave", "stageMin": 9, "path": "corruption", "text": "He poured ale over my chest before burying his mouth. I was drunk on him, not the drink." },
+  { "key": "ale_whore", "stageMin": 10, "path": "corruption", "text": "Sticky with beer, my cries echoed with his name. I let him fuck me into the wood until I reeked of tavern and man alike." }
+  ],
+  "observatory": [
+  { "stage": 0, "path": "any", "text": "The telescope pointed toward the stars. I wanted to talk about constellations; he only scoffed and muttered about how small they made him feel." },
+  { "stage": 1, "path": "any", "text": "We stood shoulder to shoulder, gazing up. His arm brushed mine—grimy, rough. I should have moved. I didn’t." },
+  { "stage": 2, "path": "love", "text": "I guided his eye to the telescope. His hands fumbled on the brass, but when he whispered my name under the stars, I melted." },
+  { "stage": 2, "path": "corruption", "text": "He leaned close, stinking of sweat and smoke, whispering filth into my ear while the stars glittered indifferently above." },
+  { "stage": 3, "path": "any", "text": "We kissed by the telescope’s base, the dome echoing the sound. My body trembled with a mix of shame and longing." },
+  { "stage": 4, "path": "love", "text": "He pressed me softly against the railing. The cosmos swam overhead, but all I saw was the strange warmth in his dirty eyes." },
+  { "stage": 4, "path": "corruption", "text": "He shoved me down over the telescope’s cold brass. My gasp echoed in the observatory as his hands roamed where they shouldn’t." },
+  { "stage": 5, "path": "hybrid", "text": "We lay beneath the rotating dome, his filth against my skin, my lips whispering love against his neck. Tenderness and taboo tangled together." },
+  { "stage": 6, "path": "any", "text": "He thrust into me under the skylight, each push timed with the rotation of the dome. The stars spun above as my cries filled the chamber." },
+  { "stage": 7, "path": "corruption", "text": "He bent me over the telescope, fucking me until the glass fogged from my moans. The stars blurred as filth dripped between my thighs." },
+  { "stage": 8, "path": "any", "text": "I rode him on the observation platform, head tossed back, breasts bouncing under the starlight. I didn’t care if the whole town below saw us." },
+  { "stage": 9, "path": "corruption", "text": "He slammed into me against the dome wall, the sound of wet flesh and filth echoing louder than the turning gears. I begged for more." },
+  { "stage": 10, "path": "corruption", "text": "He flooded me on the telescope’s brass, seed dripping down my thighs as I screamed like a star being born. I begged him to breed me again under the endless sky." }
+  ],
+  "abandoned_shack": [
+  { "stage": 0, "path": "any", "text": "The shack smelled of rot and dust. I wrinkled my nose; he smirked like it suited him." },
+  { "stage": 1, "path": "any", "text": "I sat on a broken chair. He leaned against the wall, grime blending with shadows. Somehow I wasn’t afraid." },
+  { "stage": 2, "path": "love", "text": "The wind whistled through the cracks. He pulled his coat around me. It stank of smoke—but it was warm." },
+  { "stage": 2, "path": "corruption", "text": "He pressed me against splintered wood, whispering filth as if the rot itself demanded I listen." },
+  { "stage": 3, "path": "any", "text": "His lips crushed mine, dust falling from the rafters with every shuddering kiss." },
+  { "stage": 4, "path": "love", "text": "We lay on a torn mattress, soft touches fighting the grit beneath us. I wanted to believe this ruin could hold something tender." },
+  { "stage": 4, "path": "corruption", "text": "He bent me over the table, splinters biting my palms, his cock grinding filth into me as I whimpered at every thrust." },
+  { "stage": 5, "path": "hybrid", "text": "We fucked on the floor, my moans swallowed by shadows. I loved him. I hated how much I loved the dirt, too." },
+  { "stage": 6, "path": "any", "text": "He pinned me to the broken wall, each thrust rattling the whole shack. I screamed into his shoulder, knowing anyone could hear." },
+  { "stage": 7, "path": "corruption", "text": "He held me down on the rotten floorboards, pounding into me while vermin scattered. His filthy seed soaked into the wood beneath us." },
+  { "stage": 8, "path": "any", "text": "I rode him on the splintered table, breasts bouncing, juices soaking the rotting planks. I didn’t care if the place collapsed." },
+  { "stage": 9, "path": "corruption", "text": "He spit on my face and fucked me harder, the shack echoing with wet slaps and my screams. I clawed the dirt, begging for more." },
+  { "stage": 10, "path": "corruption", "text": "He bred me like an animal on the floor, seed gushing down my thighs, my body broken and marked. I screamed his name into the rotten walls until they shook." }
+  ],
+  "playground": [
+  { "stage": 0, "text": "We passed the broken swings. I remembered children’s laughter, and felt uneasy seeing him smile there." },
+  { "stage": 2, "text": "He pushed me lightly on the swing. Rust creaked, and his eyes lingered too long on my legs." },
+  { "stage": 4, "text": "He caught me mid-swing, pulling me against him. My cheeks burned—this place isn’t for things like that." },
+  { "stage": 6, "text": "We kissed hard on the slide, paint flaking beneath my back. Wrong place, wrong time, and I didn’t care." },
+  { "stage": 8, "text": "He bent me over the metal bar, my cries mixed with squeaks of rusted chains. Anyone walking by could see everything." },
+  { "stage": 10, "text": "He took me on the merry-go-round, thrusts spinning the world until I screamed. My body clung to him, juices dripping, painted in filth under the open night." }
+  ],
+  "back_alleys": [
+  { "stage": 0, "text": "He led me down narrow streets, his hand rough on mine. I told myself it was just for safety." },
+  { "stage": 2, "text": "The alley stank of rot, yet my pulse quickened when he pressed me against a wall and whispered filth." },
+  { "stage": 4, "text": "He slid his hand under my skirt, daring me to push him away. I froze, torn between shame and heat." },
+  { "stage": 6, "text": "I spread for him against the bricks, moaning low while footsteps passed just meters away." },
+  { "stage": 8, "text": "He filled me raw in the filth of the alley, his grunts echoing with mine. Trash rustled, rats scattered—and I begged for more." },
+  { "stage": 10, "text": "Pinned against dripping walls, my cries bounced off the stone. He bred me like an animal in public filth, and I came screaming his name for all to hear." }
+  ],
+  "love_hotel": [
+  { "stage": 0, "text": "I passed the glowing sign and blushed. He chuckled, daring me to look inside. I refused." },
+  { "stage": 2, "text": "He teased me outside the red door, saying one day I’d follow him in. My cheeks betrayed me." },
+  { "stage": 4, "text": "Inside, velvet walls closed around us. My knees trembled when he locked the door." },
+
+  { "stage": 6, "text": "He laid me on satin sheets, kissing down my neck as the mirror reflected every shiver." },
+  { "stage": 6, "text": "We tried the mirror bed. Watching myself gasp as he thrust inside me made me hotter than I ever imagined." },
+    
+  { "stage": 7, "text": "He pushed me onto all fours in front of the mirror. My face burned as I watched myself moan like a whore." },
+  { "stage": 7, "text": "He spread me wide on the velvet chair. My cries echoed off the gaudy walls, and I didn’t care who heard." },
+
+  { "stage": 8, "text": "I rode him hard in the neon light, my breasts bouncing, his hands slapping my ass until I screamed." },
+  { "stage": 8, "text": "He pulled out the restraints from the drawer. I let him tie me down and fuck me like I belonged to him." },
+
+  { "stage": 9, "text": "He ripped off the condom mid-thrust, growling that he wanted me raw. My legs wrapped tight around him before I could think." },
+  { "stage": 9, "text": "He slammed into me again and again, and when I begged him not to stop, he whispered, 'Then take all of it' as his seed filled me." },
+  { "stage": 9, "text": "I felt him swelling inside me, pulsing, and I pulled him deeper with my legs locked around his waist. I wanted every drop." },
+    
+  { "stage": 10, "text": "Pinned to the mirrored wall, his cock split me wide. My moans shook the glass as he bred me like an animal." },
+  { "stage": 10, "text": "I came so hard I nearly screamed the walls down. My juices soaked the sheets, his cum pouring out of me, and still he didn’t stop." },
+  { "stage": 10, "text": "He pressed his hand against my belly, snarling that he wanted to see me swollen with his child. My body betrayed me—I came the hardest I ever have." }
+  ],
+ "playground": [
+  { "stage": 0, "text": "The rusted swings creaked in the breeze. I sat for a moment, remembering being a child here." },
+  { "stage": 1, "text": "He laughed when I sat on the swing. For a second it felt innocent… until I saw the hunger in his eyes." },
+  { "stage": 2, "text": "We walked past the seesaw. He teased me, saying I should ride it with him. I blushed and kept walking." },
+  { "stage": 3, "text": "He pushed me lightly on the swing, standing close. My heart raced with each shove forward." },
+  { "stage": 4, "text": "He pulled me against the slide, lips crushing mine. The metal was cold on my back, his body hot." },
+
+  { "stage": 6, "text": "He bent me over the slide, taking me from behind. The squeak of the metal made it feel louder, riskier." },
+  { "stage": 6, "text": "I straddled him on the old roundabout, squealing as it spun, his cock bouncing inside me with every turn." },
+
+  { "stage": 7, "text": "He shoved me onto the swing, fucking me while the chains rattled. I gripped tight, moaning with every thrust." },
+  { "stage": 7, "text": "Pinned under the monkey bars, I screamed his name as he pounded me, the whole playground echoing my cries." },
+
+  { "stage": 8, "text": "I rode his face on the slide, juices running down onto the rusted metal. He lapped me raw while I begged louder." },
+  { "stage": 8, "text": "He spit on me in the sandbox, then fucked me until sand clung to my sweaty back and I moaned like a slut." },
+
+  { "stage": 9, "text": "He tore off the condom mid-thrust in the swing seat. My legs wrapped tight around him—I wanted it raw, wanted it deep." },
+  { "stage": 9, "text": "He pushed me onto the merry-go-round, thrusting while it spun. I begged him to fill me, screaming I wanted his child." },
+  { "stage": 9, "text": "I clung to the monkey bars as he railed me from behind, snarling that he’d breed me here for everyone to see. I locked my legs and took every drop." },
+
+  { "stage": 10, "text": "He threw me down in the sandbox, pounding me until the air left my lungs. Sand stuck to my ass as he spilled inside me again and again." },
+  { "stage": 10, "text": "Straddling the seesaw, he slammed into me while I screamed for more. Our filth soaked the rusted wood, every squeal a filthy confession." },
+  { "stage": 10, "text": "He made me kneel at the slide’s bottom, fucking my throat until I gagged, then pulled me up and bred me raw. My screams turned to moans as cum dripped down my thighs in the open air." }
+ ], 
+  
+  "guard_tower": [
+  { "key": "lookout", "stageMin": 0, "path": "any", "text": "We climbed the tower at dusk. I told myself it was for the view, not for him." },
+  { "key": "lean_on_wall", "stageMin": 2, "path": "any", "text": "He braced against the stone, watching me instead of the horizon." },
+  { "key": "kiss_high", "stageMin": 3, "path": "love", "text": "Wind tangled my hair as he kissed me hard, the city sprawling beneath us." },
+  { "key": "armor_clash", "stageMin": 5, "path": "corruption", "text": "He tore at my clothes, metal clasps ringing like bells in the dark." },
+  { "key": "bend_tower", "stageMin": 7, "path": "hybrid", "text": "He bent me over the parapet, thrusting while the city slept beneath our cries." },
+  { "key": "watchman", "stageMin": 9, "path": "corruption", "text": "A guard below shouted up. I smothered my scream in his shoulder while he pounded deeper." },
+  { "key": "skyline_slut", "stageMin": 10, "path": "corruption", "text": "At dawn, he filled me raw atop the tower. I welcomed the sun as proof of my ruin, high and unashamed." }
+  ],
+    
+  "library": [
+  { "key": "whisper", "stageMin": 0, "path": "any", "text": "Books lined the walls, dust thick as silence. His whisper felt louder than it should." },
+  { "key": "page_brush", "stageMin": 2, "path": "any", "text": "His fingers brushed mine over a page. I forgot the words we were meant to be reading." },
+  { "key": "kiss_between_stacks", "stageMin": 3, "path": "love", "text": "In the hidden aisle, he kissed me. Dust fell like confetti." },
+  { "key": "silence_broken", "stageMin": 5, "path": "corruption", "text": "He lifted my skirt and shoved into me between shelves. I bit back screams; the books bore witness." },
+  { "key": "reading_stand", "stageMin": 7, "path": "hybrid", "text": "He bent me over the oak reading stand. My moans blurred into the sound of flipping pages." },
+  { "key": "page_torn", "stageMin": 9, "path": "corruption", "text": "He ripped a book page in the frenzy of thrusts. I laughed, moaned, begged for more." },
+  { "key": "knowledge_whore", "stageMin": 10, "path": "corruption", "text": "He finished inside me atop a pile of scrolls. I came undone knowing history would reek of us forever." }
+  ],
