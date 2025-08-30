@@ -196,15 +196,32 @@
       { "key": "whispers",    "stageMin": 3, "path": "any", "text": "Floorboards sighed; I held his sleeve. He smirked at my grip—and I didn’t let go." },
       { "key": "shadow_nook", "stageMin": 4, "path": "hybrid", "text": "Hidden in a shadowed room, I pressed close, heart racing at danger and desire braided together." }
     ],
-    "beach": [
-      { "key": "secluded_rocks_microbikini",   "stageMin": 3, "path": "any", "text": "We went on a secluded excursion, just the two of us. His eyes lingered on my body. What possessed me to wear this... I couldn't help but wonder what he was thinking as his eyes devoured my body." },
-    ],
     "tent": [
   { "key": "tent_camp_setup", "stageMin": 0, "path": "any", "text": "We struggled with the canvas. His hands were clumsy, filthy, but I found myself smiling anyway." },
   { "key": "tent_lantern", "stageMin": 1, "path": "any", "text": "Inside the tent, the lantern light made shadows of his grin. I tried not to stare." },
   { "key": "tent_rain", "stageMin": 2, "path": "any", "text": "The rain drummed above us. We sat shoulder to shoulder, the closeness harder to ignore." },
   { "key": "tent_sleep_shift", "stageMin": 3, "path": "any", "text": "I woke to find him shifted closer. His heat pressed against me. I didn’t move away." },
-  { "key": "tent_midnight", "stageMin": 4, "path": "any", "text": "He whispered my name in the dark. The air grew heavy with things we shouldn’t want." }
+  { "key": "tent_midnight", "stageMin": 4, "path": "any", "text": "He whispered my name in the dark. The air grew heavy with things we shouldn’t want." },
+      "tent": [
+  { "key": "tent_rain_refuge", "stageMin": 1, "path": "any", "tags": ["tent"], "text": "Rain poured outside while we huddled close. The sound of water masked the silence between us… until I realized how close our faces were." },
+
+  { "key": "tent_lantern_glow", "stageMin": 2, "path": "love", "tags": ["tent"], "text": "The lantern flickered, casting his rough edges in gold. For the first time, I thought he looked almost… handsome." },
+
+  { "key": "tent_secret_kiss", "stageMin": 2, "path": "any", "tags": ["tent","intimacy"], "text": "The world outside felt far away. In the tent’s dim light, he leaned in, and I didn’t turn away." },
+
+  { "key": "tent_sleeping_close", "stageMin": 2, "path": "any", "tags": ["tent","intimacy"], "text": "He pulled his bedroll closer than necessary. Our shoulders brushed, and neither of us moved away." },
+
+  { "key": "tent_touch_bold", "stageMin": 3, "path": "corruption", "tags": ["tent","erotic"], "text": "In the dark, his hand slid across my thigh, deliberate and heavy. I pretended to sleep, but my body betrayed me." },
+
+  { "key": "tent_caught_peek", "stageMin": 3, "path": "risky", "tags": ["tent","caught"], "text": "Cloud’s voice called outside the tent as Vagrant pressed against me. My heart pounded—half in fear, half in thrill of being found out." },
+
+  { "key": "tent_tease_whisper", "stageMin": 3, "path": "hybrid", "tags": ["tent","erotic"], "text": "His filthy breath tickled my ear as he whispered promises of what he’d do if no one else were near. I shivered, ashamed at how much I wanted him to." },
+
+  { "key": "tent_taken", "stageMin": 4, "path": "corruption", "tags": ["tent","extreme"], "text": "Pinned beneath him in the narrow space, I couldn’t hide the sounds I made. The tent walls shook, and I knew others could hear… but I didn’t care anymore." },
+
+  { "key": "tent_shared_secret", "stageMin": 4, "path": "love", "tags": ["tent"], "text": "He kissed my forehead after, murmuring words only I could hear. For a fleeting moment, the tent felt like home." },
+
+  { "key": "tent_open_flap", "stageMin": 5, "path": "corruption", "tags": ["tent","caught","extreme"], "text": "The flap slipped open and I swore I saw someone glance in. Still, I clung tighter to him, daring the world to see what we had become." }
 ],
 
 "beach": [
@@ -212,7 +229,9 @@
   { "key": "beach_waves", "stageMin": 1, "path": "any", "text": "We let the waves lap at our feet. His laugh was rough, but it felt alive here." },
   { "key": "beach_fire", "stageMin": 2, "path": "any", "text": "We built a small fire. He stretched out in the sand, looking almost human." },
   { "key": "beach_secluded", "stageMin": 3, "path": "any", "text": "He led me past the rocks where no one else walked. The sound of waves masked my racing heart." },
-  { "key": "beach_microbikini", "stageMin": 4, "path": "any", "text": "His eyes burned on my body as the tide rolled in. I pretended I didn’t notice… but I did." }
+  { "key": "beach_microbikini", "stageMin": 4, "path": "any", "text": "His eyes burned on my body as the tide rolled in. I pretended I didn’t notice… but I did." },
+        { "key": "secluded_rocks_microbikini",   "stageMin": 3, "path": "any", "text": "We went on a secluded excursion, just the two of us. His eyes lingered on my body. What possessed me to wear this... I couldn't help but wonder what he was thinking as his eyes devoured my body." },
+    ]
 ],
 
 "cave": [
