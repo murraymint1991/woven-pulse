@@ -231,7 +231,30 @@
   { "key": "beach_secluded", "stageMin": 3, "path": "any", "text": "He led me past the rocks where no one else walked. The sound of waves masked my racing heart." },
   { "key": "beach_microbikini", "stageMin": 4, "path": "any", "text": "His eyes burned on my body as the tide rolled in. I pretended I didn’t notice… but I did." },
         { "key": "secluded_rocks_microbikini",   "stageMin": 3, "path": "any", "text": "We went on a secluded excursion, just the two of us. His eyes lingered on my body. What possessed me to wear this... I couldn't help but wonder what he was thinking as his eyes devoured my body." },
-    ]
+  
+  { "key": "beach_midnight_swim", "stageMin": 2, "path": "love", "tags": ["beach","intimacy"], "text": "We slipped into the water at midnight, waves licking my skin. His hand brushed mine under the surface and I couldn’t tell if it was the tide or him pulling me closer." },
+
+  { "key": "beach_sand_kiss", "stageMin": 2, "path": "any", "tags": ["beach","intimacy"], "text": "The sand stuck to our lips as he kissed me under the stars. Rough, salty, messy—and I loved it." },
+
+  { "key": "beach_wave_pin", "stageMin": 3, "path": "corruption", "tags": ["beach","risky"], "text": "He pinned me in the shallows, waves splashing over us as I gasped. The sting of salt mixed with his roughness made me ache in ways I shouldn’t admit." },
+
+  { "key": "beach_towel_tease", "stageMin": 3, "path": "any", "tags": ["beach","erotic"], "text": "He pulled me onto the towel, his hands sliding under wet fabric. Every flicker of torchlight from the pier made my heart pound faster." },
+
+  { "key": "beach_hidden_dunes", "stageMin": 3, "path": "love", "tags": ["beach","intimacy"], "text": "We hid behind the dunes, laughter muffled by the crashing waves. I felt safe there, like it was our little secret world." },
+
+  { "key": "beach_caught_glimpse", "stageMin": 3, "path": "risky", "tags": ["beach","caught"], "text": "I swear someone saw us. His mouth was still on my neck, but over his shoulder I caught a lantern flicker—and a figure froze before vanishing into the night." },
+
+  { "key": "beach_bikini_pull", "stageMin": 4, "path": "corruption", "tags": ["beach","erotic"], "text": "He tugged at the strings of my bikini until I was bare under the moonlight. The air was cool, but his body burned against mine." },
+
+  { "key": "beach_public_dare", "stageMin": 4, "path": "corruption", "tags": ["beach","extreme"], "text": "He dared me to straddle him on the sand where anyone could wander by. My cheeks burned, but I obeyed. I think I wanted to be seen." },
+
+  { "key": "beach_wave_claim", "stageMin": 4, "path": "hybrid", "tags": ["beach","intimacy","erotic"], "text": "The tide rushed over us as he pressed deeper. Saltwater stung my lips; his kiss numbed everything else. Shame and love crashed together like the waves." },
+
+  { "key": "beach_sand_inside", "stageMin": 5, "path": "corruption", "tags": ["beach","extreme"], "text": "Sand clung to my thighs, grinding with every movement. It was messy, raw, and I still begged for more." },
+
+  { "key": "beach_daylight_risk", "stageMin": 5, "path": "corruption", "tags": ["beach","caught","extreme"], "text": "We didn’t wait for night. In broad daylight he pulled me close under a tattered parasol. Laughter and voices were only a few feet away… I couldn’t stop myself." },
+
+  { "key": "beach_full_exhibition", "stageMin": 5, "path": "corruption", "tags": ["beach","extreme","caught"], "text": "He made me ride him against the rocks, the ocean crashing around us. I screamed his name, not caring who heard. In that moment, shame didn’t exist." }
 ],
 
 "cave": [
