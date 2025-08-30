@@ -5,7 +5,8 @@ import {
   selectWitnessedLine,
   appendDiaryEntry,
   logWitnessed,
-  getPairState, setPairState
+  getPairState,
+  setPairState
 } from "../systems/diary.js";
 import { fmtClock, getClock, advanceMinutes, advanceHours, advanceDays } from "../systems/clock.js";
 import { Button, Badge } from "../ui.js";
@@ -39,10 +40,30 @@ export default function DiaryView({
 
   // panels
   const desire  = selectDesireEntries(diary, targetId, pair.path, pair.stage);
-  const grouped = groupByDay(diary.entries || []);
+  const grouped = groupByDay(diary.entries);
 
   // in-game clock
   const c = getClock();
+
+  // dev mode?
+  const params = new URLSearchParams(location.search);
+  const DEV = params.get("dev") === "1";
+
+  // expose helpers in dev
+  if (DEV && typeof window !== "undefined") {
+    window.__DIARY_CURRENT__ = diary;
+    window.__PAIR_CURRENT__  = pair;
+    window.__AppendDiaryEntry__ = (payload) => { appendDiaryEntry(diary, payload); rerender(); };
+    window.__LogWitnessed__ = (w) => {
+      const line = selectWitnessedLine(diary, targetId, w, pair.path, pair.stage);
+      if (line) { logWitnessed(diary, w, { text: line, path: pair.path, stage: pair.stage }); rerender(); }
+    };
+    window.__SetPath__  = (p) => { setPairState(characterId, targetId, { path: p }); rerender(); };
+    window.__SetStage__ = (s) => { setPairState(characterId, targetId, { stage: s }); rerender(); };
+  }
+
+  // tiny dev freeform entry text (local, not persisted)
+  let freeText = "";
 
   return h("div", null, [
     // Header + clock controls
@@ -57,9 +78,9 @@ export default function DiaryView({
       ])
     ])),
 
-    // Desires
-    h("div", { class: "card diary-card" }, [
-      h("h3", null, `Desires · target: ${targetId}`),
+    // DEV PANEL (only if ?dev=1)
+    DEV ? h("div", { class: "card", style: "border:dashed 1px #888; background:#0d0f15" }, [
+      h("h3", null, "DEV · Diary"),
       h("div", { class: "kv" }, [
         h(Badge, null, `Path: ${pair.path}`),
         h(Badge, null, `Stage: ${pair.stage}`)
@@ -71,29 +92,68 @@ export default function DiaryView({
         h(Button, { onClick: () => setStage(-1), ghost: true }, "Stage −"),
         h(Button, { onClick: () => setStage(+1), ghost: true }, "Stage +")
       ]),
+      h("div", { class: "kv" }, [
+        h(Button, {
+          ghost: true,
+          onClick: () => {
+            if (desire.length) {
+              appendDiaryEntry(diary, {
+                text: `[desire:${pair.path} s${pair.stage}] ${desire[desire.length - 1]}`,
+                path: pair.path,
+                stage: pair.stage,
+                tags: ["#desire", `#with:${targetId}`],
+                mood: ["pensive"]
+              });
+              rerender();
+            }
+          }
+        }, "Log current desire line")
+      ]),
+      h("div", { class: "kv small" }, "Log witnessed lines:"),
+      h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
+        ...witnesses.map(w => h(Button, {
+          ghost: true,
+          onClick: () => {
+            const line = selectWitnessedLine(diary, targetId, w, pair.path, pair.stage);
+            if (line) { logWitnessed(diary, w, { text: line, path: pair.path, stage: pair.stage }); rerender(); }
+          }
+        }, `With ${w}`))
+      ]),
+      h("div", { class: "kv", style: "align-items:flex-start; gap:8px" }, [
+        h("textarea", {
+          placeholder: "Freeform line…",
+          style: "min-height:60px; width:100%;",
+          onInput: (e) => { freeText = e.currentTarget.value; }
+        }),
+        h(Button, {
+          ghost: true,
+          onClick: () => {
+            if (!freeText || !freeText.trim()) return;
+            appendDiaryEntry(diary, {
+              text: freeText.trim(),
+              tags: ["#free"],
+              mood: []
+            });
+            freeText = "";
+            rerender();
+          }
+        }, "Add freeform entry")
+      ])
+    ]) : null,
+
+    // Desires (read-only, still useful without dev)
+    h("div", { class: "card diary-card" }, [
+      h("h3", null, `Desires · target: ${targetId}`),
+      h("div", { class: "kv" }, [
+        h(Badge, null, `Path: ${pair.path}`),
+        h(Badge, null, `Stage: ${pair.stage}`)
+      ]),
       desire.length
-        ? h("div", { class: "diary-hand" }, [
-            ...desire.map((t, i) => h("p", { key: i }, t)),
-            h("div", { class: "kv" }, [
-              h(Button, {
-                ghost: true,
-                onClick: () => {
-                  appendDiaryEntry(diary, {
-                    text: `[desire:${pair.path} s${pair.stage}] ${desire[desire.length - 1]}`,
-                    path: pair.path,
-                    stage: pair.stage,
-                    tags: ["#desire", `#with:${targetId}`],
-                    mood: ["pensive"]
-                  });
-                  rerender();
-                }
-              }, "Log desire to timeline")
-            ])
-          ])
+        ? h("div", { class: "diary-hand" }, desire.map((t, i) => h("p", { key: i }, t)))
         : h("div", { class: "small" }, "— no entries yet —")
     ]),
 
-    // Witnessed (path-aware, loggable)
+    // Witnessed (read-only preview of path-aware lines)
     h("div", { class: "card diary-card" }, [
       h("h3", null, "Witnessed"),
       ...witnesses.map(w => {
@@ -101,18 +161,7 @@ export default function DiaryView({
         return h("div", { class: "subcard", style: "margin-top:8px" }, [
           h("h4", null, `With ${w}`),
           line
-            ? h("div", { class: "diary-hand" }, [
-                h("p", null, line),
-                h("div", { class: "kv" }, [
-                  h(Button, {
-                    ghost: true,
-                    onClick: () => {
-                      logWitnessed(diary, w, { text: line, path: pair.path, stage: pair.stage });
-                      rerender();
-                    }
-                  }, "Log to timeline")
-                ])
-              ])
+            ? h("div", { class: "diary-hand" }, [ h("p", null, line) ])
             : h("div", { class: "small" }, "— no entry for this path/stage —")
         ]);
       })
@@ -122,7 +171,7 @@ export default function DiaryView({
     h("div", { class: "card diary-card" }, [
       h("h3", null, "Timeline"),
       ...Object.entries(grouped).map(([day, entries]) =>
-        h("div", { class: "diary-day", key: day }, [
+        h("div", { class: "diary-day" }, [
           h("div", { class: "diary-meta" }, [
             h(Badge, null, day),
             ...((entries[0].mood || []).map((m, i) => h(Badge, { ghost: true, key: `m${i}` }, m))),
