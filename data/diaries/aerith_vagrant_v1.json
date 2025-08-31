@@ -404,7 +404,7 @@
   { "key": "tent_possession", "stageMin": 9, "path": "corruption", "text": "He spilled inside me, then pushed me to the flap, holding me so the crowd could hear my panting. I was nothing but his, and I moaned my acceptance." },
 
   { "key": "tent_extreme", "stageMin": 10, "path": "any", "text": "The tent collapsed around us mid-act, shouts erupting from outside. Straw, canvas, bodies tangled—and I screamed his name, unashamed, as everyone saw the truth of what we were." },
-  
+  ],
   "festival_tent_pregnancy": [
   { "key": "tent_pregnancy_fear", "stageMin": 4, "path": "any", "text": "When he touched me beneath the lantern glow, I clutched my belly, terrified someone might notice how it swelled. The crowd laughed outside—I prayed they wouldn’t see." },
 
