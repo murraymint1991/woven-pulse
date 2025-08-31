@@ -1454,4 +1454,23 @@
   { "key": "mirror_confession", "stageMin": 3, "path": "love", "text": "I stood in front of the mirror, whispering to my reflection: 'You’re carrying his child.' My hand trembled, then held steady." },
   { "key": "mirror_confession_corr", "stageMin": 3, "path": "corruption", "text": "I stared at my belly in the mirror, imagining it swelling with his child. A filthy grin spread across my lips before I could stop it." },
   { "key": "mirror_confession_hyb", "stageMin": 3, "path": "hybrid", "text": "I pressed my palm against my stomach. My heart whispered 'love,' my body whispered 'desire.' Both truths burned into me." }
+],
+"pregnancy_body_changes": [
+  { "key": "morning_sickness", "stageMin": 2, "path": "any", "text": "The mornings are cruel. My stomach rebels, yet beneath the weakness there’s a strange pride." },
+
+  { "key": "growing_belly_love", "stageMin": 3, "path": "love", "text": "My dress tightens around me now. When I catch the curve in the mirror, I smile—his child, our future." },
+  { "key": "growing_belly_corr", "stageMin": 3, "path": "corruption", "text": "The swell of my stomach is obvious. People whisper. I walk taller, daring them to see what he’s planted in me." },
+  { "key": "growing_belly_hyb", "stageMin": 3, "path": "hybrid", "text": "I trace the outline of my belly with guilty delight—life growing, desire burning. Both truths live inside me now." },
+
+  { "key": "first_kick_love", "stageMin": 4, "path": "love", "text": "I felt a flutter tonight. A kick—tiny, gentle. I pressed his hand there and we both froze, hearts in our throats." },
+  { "key": "first_kick_corr", "stageMin": 4, "path": "corruption", "text": "The first kick stole my breath. I laughed, shameless, declaring to myself: his seed truly thrives in me." },
+  { "key": "first_kick_hyb", "stageMin": 4, "path": "hybrid", "text": "The baby stirred, and instead of tears, I felt heat. Desire and life, tangled. Even my womb is caught between the two." },
+
+  { "key": "backache", "stageMin": 5, "path": "any", "text": "My back aches carrying the weight. Still, every pang is a reminder: I am no longer just me." },
+
+  { "key": "public_notice_love", "stageMin": 5, "path": "love", "text": "The neighbors noticed. Their smiles warmed me. I blushed, proud to show the world his child." },
+  { "key": "public_notice_corr", "stageMin": 5, "path": "corruption", "text": "Whispers follow me now, sharper than knives. I smirk back at them. Let them choke on their disgust—I carry his mark proudly." },
+  { "key": "public_notice_hyb", "stageMin": 5, "path": "hybrid", "text": "People glance, whisper. Half of me shrinks, the other half secretly thrills at being seen this way." },
+
+  { "key": "heavy_waddle", "stageMin": 6, "path": "any", "text": "Walking feels heavier each day, like the world tips forward with me. Still, I wouldn’t trade this burden." }
 ]
