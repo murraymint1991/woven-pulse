@@ -1023,4 +1023,60 @@
   { "stage": 10, "text": "He fucked me until my legs gave out, my juices soaking the dirt. I whispered thank you." }
     ]
   },
-  
+  "intimacy": [
+  { "stage": 0, "path": "any", "text": "He brushed past me, and though his clothes stank of smoke, my heart fluttered before I scolded myself for noticing." },
+  { "stage": 0, "path": "any", "text": "Our hands touched by accident. I pulled away too quickly, cheeks hot, telling myself it meant nothing." },
+  { "stage": 0, "path": "any", "text": "I felt his eyes linger. I pretended not to notice, yet my stomach turned with a strange warmth." },
+  { "stage": 0, "path": "any", "text": "When he teased me about being ‘too pure,’ I laughed too hard—trying to mask the tiny thrill it gave me." },
+
+  { "stage": 1, "path": "any", "text": "He leaned close to whisper a joke. His breath was foul, but my lips tingled anyway." },
+  { "stage": 1, "path": "any", "text": "His hand steadied me as I stumbled. I pulled free quickly, but the warmth lingered." },
+  { "stage": 1, "path": "any", "text": "I scolded him for brushing dirt onto my dress, but secretly I liked the attention." },
+  { "stage": 1, "path": "any", "text": "When he called me beautiful, I rolled my eyes—but my chest ached with pride." },
+
+  { "stage": 2, "path": "any", "text": "His fingers grazed mine deliberately. I froze, then let it linger too long." },
+  { "stage": 2, "path": "any", "text": "We sat too close on the bench; my thigh burned where it pressed against his rough jeans." },
+  { "stage": 2, "path": "any", "text": "He smelled of sweat and smoke. I should’ve hated it… but I inhaled deeper." },
+  { "stage": 2, "path": "any", "text": "He teased me about blushing. I lied and said it was the cold." },
+
+  { "stage": 3, "path": "love", "text": "He wrapped me in his arms, and though he was unwashed, I felt safe." },
+  { "stage": 3, "path": "corruption", "text": "His hand wandered lower while we embraced. I gasped, but didn’t stop him right away." },
+  { "stage": 3, "path": "hybrid", "text": "I buried my face against his chest. Filth, sweat, and comfort all at once—I hated how much I liked it." },
+  { "stage": 3, "path": "any", "text": "His forehead pressed against mine. I could smell him. I didn’t move away." },
+
+  { "stage": 4, "path": "love", "text": "Our lips brushed soft and unsure. My heart soared despite the grime." },
+  { "stage": 4, "path": "corruption", "text": "He pressed his mouth on mine, tongue rough and demanding. I shivered… and let him in." },
+  { "stage": 4, "path": "hybrid", "text": "I kissed him back, even as his dirt smeared my cheek. Sweetness and shame tangled inside me." },
+  { "stage": 4, "path": "any", "text": "When I pulled away, my lips ached for more." },
+
+  { "stage": 5, "path": "love", "text": "We lay together quietly, his fingers stroking my hair. I thought: maybe this is love." },
+  { "stage": 5, "path": "corruption", "text": "He grabbed me hard, claiming my lips like they belonged to him. And they did." },
+  { "stage": 5, "path": "hybrid", "text": "I craved both—the tenderness of his hand and the rough pull of his grip. I wanted it all." },
+  { "stage": 5, "path": "any", "text": "When I looked at him, dirty and raw, I saw only the man who had made me his." },
+
+  { "stage": 6, "path": "love", "text": "His kisses lingered on my neck. I clutched him tighter, wanting every second." },
+  { "stage": 6, "path": "corruption", "text": "His tongue explored mine with animal hunger. I moaned into him, shameless." },
+  { "stage": 6, "path": "hybrid", "text": "Every kiss turned to bites, every bite softened to kisses. Pleasure and pain twined like us." },
+  { "stage": 6, "path": "any", "text": "My body trembled each time his lips found me." },
+
+  { "stage": 7, "path": "love", "text": "He whispered that I was his light. I whispered back: I’m not going anywhere." },
+  { "stage": 7, "path": "corruption", "text": "He shoved me against the wall, kissing me rough, and I kissed him back harder." },
+  { "stage": 7, "path": "hybrid", "text": "I want the dirt, the bruises, and the warmth. I want it all at once, over and over." },
+  { "stage": 7, "path": "any", "text": "I’m addicted to his mouth. Even when I push him away, I always return." },
+
+  { "stage": 8, "path": "love", "text": "We tangled beneath the stars, kisses slow and endless. I wanted to be his forever." },
+  { "stage": 8, "path": "corruption", "text": "He forced his tongue deep and I moaned, clutching his filthy shirt, begging for more." },
+  { "stage": 8, "path": "hybrid", "text": "I dragged him closer, greedy for every kiss. The dirtier it got, the sweeter it felt." },
+  { "stage": 8, "path": "any", "text": "Every kiss left me breathless, aching, wanting him inside me." },
+
+  { "stage": 9, "path": "love", "text": "We kissed until tears wet my cheeks. I wanted all of him—forever, not just tonight." },
+  { "stage": 9, "path": "corruption", "text": "His mouth owned mine, his hands pinning me. I surrendered to the filth and the fire." },
+  { "stage": 9, "path": "hybrid", "text": "Love made me stay. Desire made me open wider. Together, they made me his." },
+  { "stage": 9, "path": "any", "text": "Each kiss felt like a promise written in sweat and sin." },
+
+  { "stage": 10, "path": "love", "text": "We devoured each other, not kisses but vows, raw and desperate. My body, my heart, my soul—his." },
+  { "stage": 10, "path": "corruption", "text": "His filthy tongue claimed me, spit dripping down my chin. I moaned like a whore and begged for more." },
+  { "stage": 10, "path": "hybrid", "text": "He crushed me with kisses, filth and tenderness at war. I didn’t care who won—I only wanted him." },
+  { "stage": 10, "path": "any", "text": "The world disappeared, leaving only his mouth and the ruinous bliss of belonging to him." }
+  ]
+},
