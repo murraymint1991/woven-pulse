@@ -65,6 +65,13 @@ export default function DiaryView({
   // tiny dev freeform entry text (local, not persisted)
   let freeText = "";
 
+  // convenience wrapper to emit triggers if main attached window.emitGameEvent
+  const emit = (type, payload = {}) => {
+    if (typeof window !== "undefined" && typeof window.emitGameEvent === "function") {
+      window.emitGameEvent(type, payload);
+    }
+  };
+
   return h("div", null, [
     // Header + clock controls
     h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
@@ -92,7 +99,25 @@ export default function DiaryView({
         h(Button, { onClick: () => setStage(-1), ghost: true }, "Stage −"),
         h(Button, { onClick: () => setStage(+1), ghost: true }, "Stage +")
       ]),
-      h("div", { class: "kv" }, [
+
+      // NEW: trigger test buttons (uses window.emitGameEvent provided in main.js)
+      h("div", { class: "kv small" }, "Fire game events:"),
+      h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
+        h(Button, { ghost:true, onClick: () => emit("interaction.meet") }, "Meet"),
+        h(Button, { ghost:true, onClick: () => emit("interaction.kiss", { target: targetId }) }, "First Kiss"),
+        h(Button, { ghost:true, onClick: () => emit("location.enter", { location: "tent" }) }, "Enter Tent"),
+        h(Button, { ghost:true, onClick: () => emit("location.enter", { location: "inn" }) }, "Enter Inn"),
+        h(Button, { ghost:true, onClick: () => emit("item.use", { item: "bloomstone", variant: "sapphire" }) }, "Use Bloomstone (Sapphire)"),
+        h(Button, { ghost:true, onClick: () => emit("risky.alleyStealth") }, "Risky · Alley Stealth"),
+        h(Button, { ghost:true, onClick: () => emit("time.morningTick") }, "Time · Morning Tick"),
+        ...witnesses.map(w => h(Button, {
+          ghost:true,
+          onClick: () => emit("witness.seen", { witness: w, target: targetId })
+        }, `Witness: ${w}`))
+      ]),
+
+      // Existing quick loggers
+      h("div", { class: "kv", style:"margin-top:8px" }, [
         h(Button, {
           ghost: true,
           onClick: () => {
@@ -194,4 +219,4 @@ function rerender() {
   const h0 = location.hash;
   location.hash = "#_";
   setTimeout(() => { location.hash = h0; }, 0);
-}
+                }
