@@ -165,10 +165,8 @@
   { "key": "sanctuary_peace", "stageMin": 0, "path": "any", "text": "I brought him here, hoping the quiet might soften him. He looked out of place, but I wanted to believe peace could reach him." },
   { "key": "pew_brush", "stageMin": 1, "path": "any", "text": "We sat side by side on the pews. His hand brushed mine—rough, dirty—and I pretended it was nothing." },
   { "key": "lingering_hand", "stageMin": 2, "path": "any", "text": "His hand stayed too long on my thigh during prayer. My heart raced. I told myself it was wrong, but my body didn’t move." },
-
   { "key": "confessional_whisper", "stageMin": 3, "path": "corruption", "text": "Inside the confessional, his voice was in my ear. He spoke filth like a sermon, and I listened as if it were scripture." },
   { "key": "altar_touch", "stageMin": 4, "path": "hybrid", "text": "He pinned me lightly against the altar, just a kiss. Sacred and profane clashed, and I burned with the mix of guilt and longing." },
-
   { "key": "stained_glass_embrace", "stageMin": 5, "path": "love", "text": "Colored light from the stained glass washed over us. He kissed me like I was the only one in the world, and for a moment, it felt holy." },
   { "key": "altar_kiss", "stageMin": 6, "path": "corruption", "text": "His mouth crashed against mine at the altar. My prayers turned to moans. The church held witness to my shame and desire." },
   { "key": "shadowed_corner", "stageMin": 7, "path": "hybrid", "text": "In the shadows, he pushed me close, his breath heavy. I wanted to resist, but instead I wrapped my arms around him. Desire felt stronger than faith." },
