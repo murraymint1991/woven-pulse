@@ -1,0 +1,57 @@
+{
+  "characterId": "aerith",
+  "targetId": "vagrant",
+  "rules": [
+    {
+      "id": "intro_meet_note",
+      "event": "interaction.meet",
+      "chance": 1.0,
+      "when": { "pathStage": { "stageMin": 0, "stageMax": 1 } },
+      "actions": [
+        { "type": "diary.append", "text": "[meet] I met him today in the slums—rags and smoke, and something I can’t ignore.", "tags": ["#meet","#with:vagrant"], "mood": ["curious"] },
+        { "type": "cooldown", "id": "intro_meet_note", "ms": 86400000 }
+      ]
+    },
+    {
+      "id": "tent_first_hold",
+      "event": "location.enter",
+      "chance": 0.5,
+      "when": { "pathStage": { "pathIn": ["love","hybrid"], "stageMin": 2, "stageMax": 4 }, "time": { "hourMin": 18 } },
+      "match": { "locationIn": ["tent"] },
+      "actions": [
+        { "type": "diary.append", "text": "[tent] The canvas whispered in the wind; I took his arm and didn’t let go.", "tags": ["#tent"] }
+      ]
+    },
+    {
+      "id": "bloomstone_afterglow",
+      "event": "item.use",
+      "chance": 1.0,
+      "when": { "pathStage": { "stageMin": 3, "stageMax": 10 } },
+      "match": { "itemIn": ["bloomstone"] },
+      "actions": [
+        { "type": "flag.add", "flag": "bloomstone_active" }
+      ]
+    },
+    {
+      "id": "bloomstone_morning_note",
+      "event": "time.morningTick",
+      "chance": 1.0,
+      "when": { "pathStage": { "stageMin": 3, "stageMax": 10 } },
+      "flags": { "requireAll": ["bloomstone_active"] },
+      "actions": [
+        { "type": "diary.append", "text": "[bloom] The warmth didn’t fade overnight. My skin still hums where he touched me.", "tags": ["#bloomstone"] },
+        { "type": "flag.remove", "flag": "bloomstone_active" }
+      ]
+    },
+    {
+      "id": "witness_tifa_rivalry_tick",
+      "event": "witness.seen",
+      "chance": 1.0,
+      "when": { "pathStage": { "stageMin": 2, "stageMax": 10 } },
+      "match": { "witnessIn": ["tifa"] },
+      "actions": [
+        { "type": "diary.append", "text": "[witness:tifa] She saw him close to me. My pulse spiked; I don’t know if it was fear or thrill.", "tags": ["#witness:tifa","#jealousy?"] }
+      ]
+    }
+  ]
+}
