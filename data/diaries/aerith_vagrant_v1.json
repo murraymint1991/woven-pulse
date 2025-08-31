@@ -618,7 +618,7 @@
   ]
  },
 
-    "jobs": {
+  "jobs": {
   "flower_shop": [
   { "key": "arrange_bouquets", "stageMin": 0, "path": "any", "text": "I spent the morning arranging lilies. He leaned against the door, smirking, eyes on me instead of the flowers. I pretended not to notice." },
   { "key": "petal_touch", "stageMin": 1, "path": "any", "text": "His fingers brushed mine as I handed him a bloom. Rough, unwashed… but it made my heart skip." },
