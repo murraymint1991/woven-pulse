@@ -2604,3 +2604,200 @@
     { "stage": 10, "text": "I ride his cock shamelessly, squirting, begging, crying love and filth at once. He breeds me raw, and I moan that I love him for every thrust." }
   ]
     },
+  "triggers": [
+  {
+    "key": "jealousy_spike",
+    "when": "any stage, jealousy rises",
+    "text": "I-I saw him looking at Tifa too long. My chest burned. Do I hate her, or do I hate that part of me wanted him to keep looking?"
+  },
+  {
+    "key": "jealousy_caught",
+    "when": "stage ≥ 4, jealousy event",
+    "text": "She saw us. My lips were still wet from him when her eyes narrowed. I should feel shame, but the thrill made me wetter."
+  },
+  {
+    "key": "bloomstone_afterglow",
+    "when": "morning after bloomstone use",
+    "text": "M-my thighs still shake. That cursed stone lit me on fire, and I let him put it out. Even now, my body hums like it’s still glowing."
+  },
+  {
+    "key": "drunken_confession",
+    "when": "alcohol use, stage ≥ 2",
+    "text": "The wine loosened my lips. I whispered things I swore I’d never say—how I want him, how badly I want to be filled until I can’t walk."
+  },
+  {
+    "key": "risky_play_flash",
+    "when": "stage ≥ 6 risky play event",
+    "text": "Someone almost saw—my skirt hitched, his hand buried. My heart screamed to stop, but my body begged him not to."
+  },
+  {
+    "key": "unwanted_taste",
+    "when": "stage ≥ 5 corruption + oral",
+    "text": "His taste clung to my tongue. I gagged… then licked my lips. I couldn’t stop myself. What’s wrong with me?"
+  },
+  {
+    "key": "after_first_pregnancy",
+    "when": "pregnancy detected, stage ≥ 4",
+    "text": "The sickness came, but it wasn’t sickness. It was him, alive inside me. My diary ink smeared with tears—joy or terror, I don’t know."
+  },
+  {
+    "key": "party_teasing",
+    "when": "party gossip trigger",
+    "text": "They teased me about him again. My cheeks burned, but not from shame. I think I liked it."
+  },
+  {
+    "key": "caught_in_mirror",
+    "when": "stage ≥ 7 corruption",
+    "text": "I saw myself in the cracked glass after. Lipstick smeared, hair ruined, his filth dripping from me. And I smiled."
+  },
+  {
+  "key": "changing_caught",
+  "when": "any stage, Aerith changes clothes with Vagrant nearby",
+  "text": "I was halfway out of my dress when I felt his stare on my back. My hands shook—part fear, part heat. I didn’t cover up. Not right away."
+},
+{
+  "key": "drunken_confession_2",
+  "when": "alcohol, stage ≥ 4",
+  "text": "I-I told him through slurred lips that I want him everywhere—inside, on my skin, down my throat. I laughed, but my thighs trembled saying it."
+},
+{
+  "key": "drunken_confession_3",
+  "when": "alcohol, stage ≥ 6 corruption",
+  "text": "Wine spilled, words spilled faster. I begged him to breed me right there on the table. I woke ashamed… and wet."
+},
+{
+  "key": "risky_train",
+  "when": "stage ≥ 5, crowded train",
+  "text": "There was no space left. He pulled me into his lap. His bulge pressed against my panties, each sway of the train grinding me down. I-I tried not to moan."
+},
+{
+  "key": "party_teasing_low",
+  "when": "stage 2–3, party gossip",
+  "text": "They laughed, calling him my shadow. I blushed, protested… but my smile gave me away."
+},
+{
+  "key": "party_teasing_mid",
+  "when": "stage 5–6, party gossip",
+  "text": "Tifa nudged me and whispered about the dirt under his nails. I laughed too loudly. My cheeks burned, but my heart pounded faster than hers."
+},
+{
+  "key": "party_teasing_high",
+  "when": "stage 8–9, party gossip",
+  "text": "Barret made some crude joke about ‘the flower girl in the mud.’ I should’ve punched him. Instead, my thighs pressed together under the table."
+},
+  {
+    "key": "lap_grind_train",
+    "stageMin": 4,
+    "path": "any",
+    "text": "The train was full, no seats left. He tugged me into his lap, and I felt him swell under me with every sway. I told myself it was just the motion—but my hips kept moving."
+  },
+  {
+    "key": "lap_grind_inn",
+    "stageMin": 5,
+    "path": "love",
+    "text": "He pulled me onto his knees while the others slept. I tried to hush him, but his hardness pressed through me until I trembled quietly in his arms."
+  },
+  {
+    "key": "near_penetration_alley",
+    "stageMin": 6,
+    "path": "corruption",
+    "text": "He pushed me against the bricks, tip sliding along my entrance. I whimpered that it was too risky… but when he stopped short, I almost begged him not to."
+  },
+  {
+    "key": "dry_hump_bedroll",
+    "stageMin": 3,
+    "path": "any",
+    "text": "His body crushed mine into the thin bedroll, our clothes still on. His thrusts rubbed me raw until I soaked through the fabric."
+  },
+  {
+    "key": "stealth_fingers_tent",
+    "stageMin": 5,
+    "path": "hybrid",
+    "text": "I woke to his fingers slipping under my skirt. The others were only a few feet away. My breath caught, but I let him keep going…"
+  },
+  {
+    "key": "stealth_entry_tent",
+    "stageMin": 7,
+    "path": "corruption",
+    "text": "He slid inside me slowly, muffling my gasp with his hand. Every thrust risked waking the party—and the thrill made me clamp tighter around him."
+  },
+  {
+    "key": "peeping_inn_window",
+    "stageMin": 2,
+    "path": "any",
+    "text": "I caught him staring through the inn window while I undressed. My skin flushed, but instead of covering up, I lingered—just a little longer than I should’ve."
+  },
+  {
+    "key": "peeping_bathhouse",
+    "stageMin": 4,
+    "path": "corruption",
+    "text": "Steam hid me, but not enough. His eyes followed every drop rolling down my chest. I told myself I was outraged… but I didn’t cover myself until he’d seen it all."
+  },
+  {
+    "key": "risk_festival_crowd",
+    "stageMin": 8,
+    "path": "hybrid",
+    "text": "Fireworks cracked above as he pressed against me in the crowd. His hand snuck under my skirt, fingers teasing me while cheers masked my gasps."
+  },
+  {
+    "key": "risk_climax_public",
+    "stageMin": 9,
+    "path": "corruption",
+    "text": "Pinned in a shadowed alley, he took me from behind until I squealed into the night. A drunk stumbled past—we froze, my body still quivering around him."
+  },
+  {
+    "key": "tent_brush",
+    "stageMin": 2,
+    "path": "love",
+    "text": "He brushed against me in the dark, his hand lingering where it shouldn’t. I whispered for him to stop… but I didn’t move away."
+  },
+  {
+    "key": "tent_fingers",
+    "stageMin": 3,
+    "path": "any",
+    "text": "I woke to his fingers sliding under my panties, slow and daring. The others were only a breath away. My lips trembled, but my hips rose to meet him."
+  },
+  {
+    "key": "midnight_tease",
+    "stageMin": 4,
+    "path": "corruption",
+    "text": "His cock pressed against my entrance, only the tip slipping in as I bit my lip raw to stay silent. I whispered 'not here,' but I didn’t push him away."
+  },
+  {
+    "key": "half_entered_sleep",
+    "stageMin": 5,
+    "path": "hybrid",
+    "text": "He slid halfway inside me while I pretended to sleep. My body clenched down, betraying me. The risk made my thighs quiver until I soaked the sheets."
+  },
+  {
+    "key": "silent_fucking_tent",
+    "stageMin": 6,
+    "path": "corruption",
+    "text": "He drove into me hard, hand clamped over my mouth. I screamed into his palm, juices leaking noisily as the others snored only feet away."
+  },
+  {
+    "key": "campground_grind",
+    "stageMin": 7,
+    "path": "any",
+    "text": "He pinned me under the stars, his thrusts shallow but relentless. My muffled moans mixed with the crackle of the campfire, praying no one would turn their head."
+  },
+  {
+    "key": "risk_doggy",
+    "stageMin": 8,
+    "path": "corruption",
+    "text": "On all fours in the tent, he pounded me raw, my face buried in the bedroll. His balls slapped against me loud enough to risk waking Tifa… and shamefully, I wanted her to hear."
+  },
+  {
+    "key": "risk_cowgirl",
+    "stageMin": 9,
+    "path": "hybrid",
+    "text": "I straddled him in the dark, bouncing slow and deep. His filthy cock split me open as I buried my face into his neck to hide the sounds. Every thrust made the tent shake."
+  },
+  {
+    "key": "full_shameless",
+    "stageMin": 10,
+    "path": "corruption",
+    "text": "He jackhammered into my soaked pussy, my screams choked by his tongue. Everyone around us could hear the slaps of flesh, smell my dripping lust. I didn’t care—let them know I’m his breeding slut."
+  }
+  ]
+    },
