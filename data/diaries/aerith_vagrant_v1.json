@@ -2838,3 +2838,96 @@
   { "stageMin": 10, "path": "corruption", "text": "She leaned close, breath hot against my ear as she watched his cock stretch me wide. 'You’re gone, Aerith. Totally his.' And I knew she was right." }
   ]
     },
+  "post_pregnancy": {
+  "love": [
+    { "stageMin": 7, "text": "I held our child close, and for the first time in ages, the world felt quiet. His hand rested on my shoulder—together, we are a family." },
+    { "stageMin": 8, "text": "The nights are long, the cries unending, but when he cradles our baby, my heart swells. Dirt and all, he’s the gentlest father I’ve known." },
+    { "stageMin": 9, "text": "I wake sore and heavy with milk, yet his touch is tender. I never thought motherhood would feel this intimate, this binding." },
+    { "stageMin": 10, "text": "Even as desire returns, I want more than flesh. I want the promise of tomorrow: his love, our child, and the life we’ll protect together." }
+  ],
+  "corruption": [
+    { "stageMin": 7, "text": "My body is raw, marked by him again and again. Even as I nurse, I crave his filth, his seed—more proof that I am his." },
+    { "stageMin": 8, "text": "The child at my breast is his legacy. When his cock fills me once more, I whisper thanks that he breeds me without end." },
+    { "stageMin": 9, "text": "I feel him inside me while milk leaks down my chest. Shame and heat entwine, and I know I’ll never escape this hunger." },
+    { "stageMin": 10, "text": "Motherhood doesn’t cleanse me—it ruins me deeper. My womb, my breasts, my body… all belong to him, always begging for more." }
+  ],
+  "hybrid": [
+    { "stageMin": 7, "text": "I sang softly to our child, tears and smiles tangled. His rough hands covered mine, and for once, love and shame felt like one." },
+    { "stageMin": 8, "text": "I nursed our baby while his mouth claimed mine. I trembled—was this sacred, or was it sin? Perhaps it was both." },
+    { "stageMin": 9, "text": "The child’s breath against my chest, his thrusts inside me—it’s madness, but I welcome it. Love and filth, bound tighter than ever." },
+    { "stageMin": 10, "text": "Motherhood has not softened me—it’s sharpened my craving. To love him, to be ruined by him, to raise his child in that paradox—that is my truth." }
+  ]
+  },
+  "endgame_resolutions": {
+  "love": [
+    { "stageMin": 10, "text": "I never thought I’d find peace in a man like him. But love is not about perfection—it’s about choosing. And I choose him, as he is, every day from now until the end." },
+    { "stageMin": 10, "text": "The world may call him filth. To me, he is home. Our child, our laughter, our mornings together—they are proof that love grows even in broken soil." },
+    { "stageMin": 10, "text": "I see the scars on his hands and the tenderness in his eyes. This life is ours. Ordinary, imperfect, and exactly what my heart longed for." }
+  ],
+  "corruption": [
+    { "stageMin": 10, "text": "There is no turning back. His filth marks me forever, body and soul. I am his, ruined and radiant, and I crave only more of what he makes me." },
+    { "stageMin": 10, "text": "I begged for his seed again today. It isn’t shame anymore—it’s worship. He owns me, and I am glad to be nothing but his vessel, his whore, his woman." },
+    { "stageMin": 10, "text": "Love? That word feels too small. What we are is hunger given form. I’ll spread for him until the end of days, drowning in his stink and his seed, smiling as I fall." }
+  ],
+  "hybrid": [
+    { "stageMin": 10, "text": "Love and shame. Purity and filth. I thought I had to choose—now I know I never will. My heart and my body burn together, and he is the fire." },
+    { "stageMin": 10, "text": "In his arms, I am holy and defiled. I am cherished and ruined. That paradox is our truth, and it binds us tighter than either path alone." },
+    { "stageMin": 10, "text": "The world won’t understand. But I don’t need them to. I need only him—his love, his filth, his everything. My diary closes here, inked in contradictions that are ours." }
+  ]
+  },
+  "endgame_secret": {
+  "love": [
+    {
+      "require": { "stageMin": 10, "flagsAll": ["ending.love"] },
+      "text": "No more pretending. I choose the man I see when the noise fades—the one who holds me steady even when the world doubts us."
+    },
+    {
+      "require": { "stageMin": 10, "flagsAll": ["ending.love"], "pregnant": true },
+      "text": "I pressed his rough hand to the small stir of life and felt peace take root. If this is our future, I will meet it with an open heart."
+    },
+    {
+      "require": { "stageMin": 10, "flagsAll": ["ending.love"], "minLove": 9, "usedStonesAny": ["diamond"] },
+      "text": "Clarity came like morning after rain: devotion isn’t fragile. It’s a vow I wake up and keep, over and over."
+    },
+    {
+      "require": { "stageMin": 10, "flagsAll": ["ending.love"], "titlesAll": ["flower_guardian"] },
+      "text": "He never asked me to change; he only asked me to see him. I did. And I will keep seeing him—bright edges, shadowed corners and all."
+    }
+  ],
+  "corruption": [
+    {
+      "require": { "stageMin": 10, "flagsAll": ["ending.corruption"], "minCorruption": 9 },
+      "text": "I stopped apologizing for the mark he leaves on me. It isn’t a stain—it’s a choice, and I make it with open eyes."
+    },
+    {
+      "require": { "stageMin": 10, "flagsAll": ["ending.corruption"], "pregnant": true },
+      "text": "His claim isn’t just on my skin anymore; it’s written into tomorrow. I accept it, and I hunger for the certainty it brings."
+    },
+    {
+      "require": { "stageMin": 10, "flagsAll": ["ending.corruption"], "usedStonesAny": ["obsidian","onyx"] },
+      "text": "Darkness can cradle as well as swallow. I learned its language and answered back, and now it whispers my name like a promise."
+    },
+    {
+      "require": { "stageMin": 10, "flagsAll": ["ending.corruption"], "titlesAny": ["slum_muse","dark_consor"] },
+      "text": "Let the alleys talk. I know what I am to him—and what he is to me. The echo doesn’t frighten me anymore."
+    }
+  ],
+  "hybrid": [
+    {
+      "require": { "stageMin": 10, "flagsAll": ["ending.hybrid"] },
+      "text": "Tenderness after the storm; the storm inside the tenderness. We are both, and it finally feels honest."
+    },
+    {
+      "require": { "stageMin": 10, "flagsAll": ["ending.hybrid"], "pregnant": true },
+      "text": "A forbidden family, maybe—but it’s ours. Shame and joy braided together, and I choose not to unweave it."
+    },
+    {
+      "require": { "stageMin": 10, "flagsAll": ["ending.hybrid"], "minLove": 8, "minCorruption": 7 },
+      "text": "I don’t split myself in two anymore. I bring all of me to him—the soft and the shameless—and he meets me there."
+    },
+    {
+      "require": { "stageMin": 10, "flagsAll": ["ending.hybrid"], "usedStonesAny": ["emerald","sapphire"] },
+      "text": "Balance isn’t stillness; it’s motion we choose together. We tip toward heat, then back to hush, and call the rhythm home."
+    }
+  ]
+  }
