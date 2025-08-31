@@ -1473,4 +1473,851 @@
   { "key": "public_notice_hyb", "stageMin": 5, "path": "hybrid", "text": "People glance, whisper. Half of me shrinks, the other half secretly thrills at being seen this way." },
 
   { "key": "heavy_waddle", "stageMin": 6, "path": "any", "text": "Walking feels heavier each day, like the world tips forward with me. Still, I wouldn’t trade this burden." }
-]
+],
+"pregnancy_late": [
+  { "key": "heaviness", "stageMin": 7, "path": "any", "text": "Every step is a chore. My belly is taut, stretched, and yet—every ache reminds me I carry him with me." },
+
+  { "key": "cravings_love", "stageMin": 7, "path": "love", "text": "I craved honey water until he fetched it for me. He grumbled, but his hands brushed my belly tenderly when he gave it over." },
+  { "key": "cravings_corr", "stageMin": 7, "path": "corruption", "text": "Cravings gnaw at me, sometimes for food, sometimes for him. I confessed the second, shameless, and he only laughed." },
+  { "key": "cravings_hyb", "stageMin": 7, "path": "hybrid", "text": "I demanded sweets and kisses in the same breath. He called me greedy; I only smiled." },
+
+  { "key": "sleepless_love", "stageMin": 8, "path": "love", "text": "The baby kicks at night. He wraps his arms around me, holding me steady until I sleep again." },
+  { "key": "sleepless_corr", "stageMin": 8, "path": "corruption", "text": "Sleepless, I paced. He pulled me into his lap, filthy and rough, until exhaustion stole me. I didn’t resist." },
+  { "key": "sleepless_hyb", "stageMin": 8, "path": "hybrid", "text": "Kicks rattled me awake. He pressed his hand there, whispered something obscene, and I flushed instead of scolding him." },
+
+  { "key": "public_display", "stageMin": 8, "path": "any", "text": "Strangers look at me with awe, pity, or disgust. I hold my belly proudly. This life inside me is undeniable." },
+
+  { "key": "false_labor_love", "stageMin": 9, "path": "love", "text": "The pains came sudden. He panicked, I laughed, telling him it wasn’t time yet. Still, the worry in his eyes softened me." },
+  { "key": "false_labor_corr", "stageMin": 9, "path": "corruption", "text": "Pain shot through me. He smirked and called it my punishment for begging for his seed. Shame twisted into need all over again." },
+  { "key": "false_labor_hyb", "stageMin": 9, "path": "hybrid", "text": "The contractions faded. I should’ve felt relief—but instead, I found myself disappointed. I wanted to give him proof of his hold on me." }
+],
+"pregnancy_birth": [
+  { "key": "labor_love", "stageMin": 10, "path": "love", "text": "The pain was fire, the world a blur. Yet when I clutched his hand, I felt safe. He kissed my hair and told me I was strong. When the baby’s cry filled the air, I wept—because I knew we had made life out of something the world swore would fail." },
+
+  { "key": "labor_corruption", "stageMin": 10, "path": "corruption", "text": "Agony tore me apart, sweat and filth mixing until I felt more animal than woman. He leaned over me, smirking as I screamed, whispering: 'Bear my child, let everyone see you’re mine.' And when I finally pushed our spawn into the world, I laughed—hysterical, proud, ruined, his." },
+
+  { "key": "labor_hybrid", "stageMin": 10, "path": "hybrid", "text": "It was agony and ecstasy, blood and beauty. His rough hand gripped mine, unwashed, grounding me. I hated him, I loved him, I wanted more of him even as my body split. When our child cried, I pressed it to my chest and whispered: 'Born of dirt and devotion, you are ours.'" },
+
+  { "key": "aftercare_love", "stageMin": 10, "path": "love", "text": "Exhausted, I felt his arms wrap around me and our child. He smelled like sweat and smoke, but I didn’t care. For once, the world could burn—we had our family." },
+
+  { "key": "aftercare_corruption", "stageMin": 10, "path": "corruption", "text": "I was broken open, ruined, bleeding, still trembling when he touched me again—claiming me even as I nursed. His filthy hands smeared across my skin, marking me as his breeding sow. And I wanted more." },
+
+  { "key": "aftercare_hybrid", "stageMin": 10, "path": "hybrid", "text": "I laughed and cried at once, clutching him and our child. His kiss tasted of dirt and sin. I let it linger, let it stain this perfect moment, because nothing else could be so perfectly us." }
+],
+"pregnancy_erotic": {
+  "love": [
+    { "stageMin": 4, "text": "He kissed my belly first, whispering love into the life growing inside me before making love to me gently. Every movement was a promise." },
+    { "stageMin": 5, "text": "My breasts ache and swell, but in his hands, even that pain turns to warmth. He worships every curve the baby gives me." },
+    { "stageMin": 7, "text": "When he moved inside me, I felt our child press between us. Instead of shame, I felt whole—two loves joined in one rhythm." },
+    { "stageMin": 9, "text": "He whispered he wanted me again, even swollen, even heavy. I cried from the tenderness, clinging to him like I’d never let go." },
+    { "stageMin": 10, "text": "Even with my body stretched and full, he made me feel adored. I wanted every kiss, every thrust, to be proof our love was real and lasting." }
+  ],
+  "corruption": [
+    { "stageMin": 4, "text": "His laugh rumbled against my belly as he thrust in, saying he owned me now—me and the child inside. I couldn’t stop shivering." },
+    { "stageMin": 6, "text": "Juices dripped down my thighs as he took me from behind, one hand gripping my belly possessively. The filth of it only made me hotter." },
+    { "stageMin": 8, "text": "He snarled that my breeding hole would never rest, swollen or not. My cries echoed in the slums, but I never told him to stop." },
+    { "stageMin": 9, "text": "Pinned on my back, belly rising between us, he forced my legs apart until my juices soaked the sheets. I begged for more even as I ached." },
+    { "stageMin": 10, "text": "His seed leaked from me while his hand pressed the swell of my womb down. I screamed his name, proud to be nothing but his pregnant whore." }
+  ],
+  "hybrid": [
+    { "stageMin": 4, "text": "He teased me, saying I was more beautiful swollen. I blushed, scolding him, but I parted my legs anyway." },
+    { "stageMin": 5, "text": "We rocked slowly together, his lips on mine, my belly pressing into his chest. Tender and dirty all at once." },
+    { "stageMin": 7, "text": "He gripped my hips and whispered I was both his angel and his broodmare. I should have resisted, but the words thrilled me." },
+    { "stageMin": 8, "text": "We kissed hungrily while he filled me, his hand cupping my belly like a trophy. I both shivered at the shame and melted in the love." },
+    { "stageMin": 10, "text": "The world could see me as ruined, swollen, claimed. But in his arms I felt radiant—his filth and tenderness woven into one." }
+  ]
+},
+"risky_play": {
+  "public": {
+  "love": [
+    { "stageMin": 0, "text": "He brushed my hand in the street. I pulled away quickly—th-that wasn’t proper… but my cheeks still warmed." },
+    { "stageMin": 1, "text": "His lips grazed my ear in the marketplace. I whispered, 'S-stop… people will see,' but I didn’t really want him to." },
+    { "stageMin": 2, "text": "In the square, his arm slipped around me. I pretended to scold him, but my heart was pounding so hard I thought others could hear it." },
+    { "stageMin": 3, "text": "He stole a kiss in the alley. M-my lips trembled—why didn’t I resist longer? O-oh… because I wanted more." },
+    { "stageMin": 4, "text": "We stood in line at the inn. His hand lingered lower than it should. I froze, whispering, 'N-not here…!' but I didn’t make him stop." },
+    { "stageMin": 5, "text": "On the church steps, his mouth crushed mine. I moaned softly before I could stop myself—did someone hear?" },
+    { "stageMin": 6, "text": "He pressed me into the tavern wall, his body grinding against mine. I gasped, 'P-people… watching,' even as my hips moved on their own." },
+    { "stageMin": 7, "text": "At the market stall, his fingers teased the hem of my skirt. 'D-don’t,' I begged, voice shaking, while my thighs squeezed tight around nothing." },
+    { "stageMin": 8, "text": "He whispered filth into my ear in the square. 'Ohh… d-don’t say that,' I whimpered, feeling heat pool between my legs while families walked past." },
+    { "stageMin": 9, "text": "In the festival crowd, his fingers slid under my dress. I bit my lip so hard, trying not to cry out. O-o-oh gods, if they only knew what he was doing…" },
+    { "stageMin": 10, "text": "He took me in the dark corner of the plaza, rutting into me while voices drifted nearby. I—ahhhnn!—I couldn’t stop moaning, even knowing they might hear. I wanted them to." }
+  ],
+  "corruption": [
+    { "stageMin": 0, "text": "He slapped my ass in the crowd. I spun to glare at him—but my body… shivered." },
+    { "stageMin": 1, "text": "At the tavern, he slid his hand over my thigh, loud enough for others to notice. I hissed, 'Y-you bastard…!' but my nipples hardened." },
+    { "stageMin": 2, "text": "He shoved me into the alley, teeth biting my neck. 'S-stop,' I stammered, squirming… but gods, I was soaking." },
+    { "stageMin": 3, "text": "In the square, he pressed against me, his cock stiff through his rags. I gasped—o-oh god—it brushed right where I needed it." },
+    { "stageMin": 4, "text": "At the bar counter, his filthy hand slid up my skirt. I whispered, 'P-please, someone will see…!' but I tilted my hips for him." },
+    { "stageMin": 5, "text": "He pinned me to a wall in front of the stables, rutting against me like an animal. My voice cracked—'N-no, not here!'—as my legs wrapped around him." },
+    { "stageMin": 6, "text": "In the square, he whispered, 'Say you’re mine.' I gasped, 'N-no…!' then moaned loud enough for people to turn their heads." },
+    { "stageMin": 7, "text": "His fingers pushed inside me in the market. I squealed, clapping my hand over my mouth, wetness dripping down my thighs." },
+    { "stageMin": 8, "text": "He bent me over the cart, thrusting rough. My words came out broken—'Nnghh… p-people… watching…!'—while I begged for more." },
+    { "stageMin": 9, "text": "He made me ride him behind the festival curtain. My juices dripped down his shaft, loud enough to hear. 'O-oh f-fuck…!' I whimpered shamelessly." },
+    { "stageMin": 10, "text": "In the plaza’s shadows, he spread my pussy wide open. 'My b-breeding hole’s yours,' I moaned as his cock slammed into me, juices splattering while strangers passed close by." }
+  ],
+  "hybrid": [
+    { "stageMin": 0, "text": "He leaned near, whispering in public. I laughed nervously, not sure if I liked it… but I didn’t walk away." },
+    { "stageMin": 1, "text": "At dinner, his hand brushed my thigh. My words stumbled—I couldn’t focus on anything but his touch." },
+    { "stageMin": 2, "text": "He kissed me behind the market stall. My lips trembled—'T-this isn’t right,' I whispered, kissing back harder." },
+    { "stageMin": 3, "text": "In the park, he pressed close from behind. I stammered, 'S-stop… ahhh,' even as my body leaned into his." },
+    { "stageMin": 4, "text": "He stroked me through my skirt in the library. 'D-don’t…!' I squeaked, hips twitching against his hand." },
+    { "stageMin": 5, "text": "In the church shadows, he kissed me hard. My voice quivered—'O-oh… not here,' while I melted into him." },
+    { "stageMin": 6, "text": "At the festival, his fingers teased my folds through cloth. 'O-ohhhnn…!' escaped before I could choke it down." },
+    { "stageMin": 7, "text": "He touched me under the sheets with others nearby. I buried my face, muffling moans while my hips writhed helplessly." },
+    { "stageMin": 8, "text": "In the alley, he made me grind against him. 'F-fuck… d-don’t stop,' I begged, shame and thrill tangled." },
+    { "stageMin": 9, "text": "On the rooftop, his cock filled me. 'Ohh g-god—s-so deep!' I cried into the night, knowing we weren’t alone." },
+    { "stageMin": 10, "text": "He fucked me in the lantern light of the festival. I came screaming, juices splattering down my thighs, no longer caring who saw." }
+  ],
+  "semi_public": {
+  "love": [
+    { "stageMin": 0, "text": "He brushed his lips over mine in the empty pews. I gasped, 'N-not in here,' even though my eyes fluttered shut." },
+    { "stageMin": 1, "text": "In the library’s shadowed alcove, his hand lingered on mine. My heart thundered like someone might see us." },
+    { "stageMin": 2, "text": "We hid behind the tavern’s door. He kissed me until my knees buckled—o-oh gods, if anyone walked past…" },
+    { "stageMin": 3, "text": "He pinned me against the wagon in the stables. I moaned softly, clutching him tighter, whispering, 'D-don’t stop…'" },
+    { "stageMin": 4, "text": "In the church cellar, his fingers teased my skin. I whispered, 'You’re mad… ahhh,' even as I leaned into the touch." },
+    { "stageMin": 5, "text": "He pulled me into a storeroom. Dust, barrels, his tongue on mine—I whimpered, trying not to cry out." },
+    { "stageMin": 6, "text": "We tangled in the festival tent’s back corner. 'I-it’s too much,' I gasped as he pressed harder, my hips bucking shamelessly." },
+    { "stageMin": 7, "text": "Behind the altar curtain, his cock rubbed against me. I stammered, 'Nnnnghh—p-please…!' knowing anyone could part the fabric." },
+    { "stageMin": 8, "text": "He bent me over the pew, thrusting slowly. 'O-ohhh god,' I whimpered, pussy clenching as I fought to stay quiet." },
+    { "stageMin": 9, "text": "His fingers pumped inside me in the library’s dark. I moaned too loud—'Ahhhnn!'—and clapped my hand over my mouth, dripping on the floor." },
+    { "stageMin": 10, "text": "He fucked me against the wagon wall, juices soaking my thighs. I screamed his name into the wood, praying someone wouldn’t… or maybe would… hear." }
+  ],
+  "corruption": [
+    { "stageMin": 0, "text": "He shoved me into the cellar corner, grinding against me. I hissed, 'A-are you insane?!' even as my hips tilted back." },
+    { "stageMin": 1, "text": "In the tavern store room, his hand groped under my skirt. 'S-stop,' I whispered, legs already trembling." },
+    { "stageMin": 2, "text": "He pressed his cock against me in the pew. I squirmed, whispering, 'Ohhh… f-fuck,' as my wetness stained my panties." },
+    { "stageMin": 3, "text": "In the wagon’s shadow, he yanked my top down, biting my nipple. I squealed, clutching at him, heat flooding me." },
+    { "stageMin": 4, "text": "His fingers slid inside me behind the altar. 'Shhh…,' he whispered, while I panted and dripped down his hand." },
+    { "stageMin": 5, "text": "He bent me over crates, thrusting against me hard. 'N-no, not here!' I moaned, juices leaking onto the wood." },
+    { "stageMin": 6, "text": "His tongue licked my folds in the library dark. I cried out, 'O-ohhhnn! N-not so loud…!' as slick noises echoed." },
+    { "stageMin": 7, "text": "In the stable loft, he spread me wide, rutting. 'Fuck—f-fuck me harder,' I begged, mind hazed with lust." },
+    { "stageMin": 8, "text": "He slammed into me against the pew, rough and unyielding. 'M-my pussy’s yours,' I whimpered, moaning like a slut in sacred silence." },
+    { "stageMin": 9, "text": "He fingered me open in the storeroom until I squirted all over the floor. 'Y-you bastard,' I panted, dripping shame and bliss." },
+    { "stageMin": 10, "text": "He bred me in the altar’s shadow, his seed gushing inside. I screamed for more, juices puddling at my feet where the holy light should’ve fallen." }
+  ],
+  "hybrid": [
+    { "stageMin": 0, "text": "He kissed my neck behind the tavern. I froze, whispering, 'Not here…!' but leaned back into him." },
+    { "stageMin": 1, "text": "In the cellar, his breath was hot on my ear. I shivered, torn between slapping him and begging for more." },
+    { "stageMin": 2, "text": "He nipped at my lip behind the library shelves. 'D-don’t,' I gasped, kissing him deeper anyway." },
+    { "stageMin": 3, "text": "At the wagon, he pressed me against the boards. My body quivered, torn between fear of being caught and raw need." },
+    { "stageMin": 4, "text": "He brushed his fingers over my folds in the pew. 'P-please,' I stammered, not sure if I meant stop or don’t stop." },
+    { "stageMin": 5, "text": "We tangled in the tent shadows, lips locked, hips grinding. I moaned, 'N-not so rough… ahhh,' my thighs betraying me." },
+    { "stageMin": 6, "text": "He slid inside me behind the tavern. 'Ohhh f-fuck,' I whispered, half-ashamed, half-desperate." },
+    { "stageMin": 7, "text": "In the cellar, his thrusts echoed with my cries. I buried my face in his shoulder, trembling with lust." },
+    { "stageMin": 8, "text": "On the pew, he spread me wide open. 'O-oh god…!' I moaned, shame and desire tangled as my pussy squelched loudly." },
+    { "stageMin": 9, "text": "He fingered me until my juices ran down the wagon boards. I whimpered, 'I-I can’t stop,' thighs shaking as orgasm took me." },
+    { "stageMin": 10, "text": "He fucked me in the church dark, cock pounding. 'Y-yes—yes, ruin me!' I screamed, climax spilling over us both, uncaring if the whole world heard." }
+  ]
+"caught": {
+  "love": [
+    { "stageMin": 0, "text": "Cloud walked in on us sitting too close. I pulled my hand back fast, cheeks red, pretending it was nothing." },
+    { "stageMin": 2, "text": "Tifa spotted his lips brushing mine. I stammered excuses, but inside my chest throbbed with a guilty thrill." },
+    { "stageMin": 5, "text": "Barret barged into the tent as his mouth was on my neck. I gasped, trembling, knowing he could smell my arousal." },
+    { "stageMin": 7, "text": "Yuffie threw the curtain aside just as he pressed inside me. My cry was muffled, but the slick sounds between us betrayed me." },
+    { "stageMin": 9, "text": "Red’s ears twitched as he stared at us. I wanted to scream, but my pussy clamped down hard, squirting against his cock with every thrust." },
+    { "stageMin": 10, "text": "Cloud’s eyes locked on mine while I rode him shamelessly. His seed spilled inside me, juices dripping down, and I didn’t stop—I wanted everyone to see whose slut I had become." }
+  ],
+  "corruption": [
+    { "stageMin": 0, "text": "He pressed me up against the wall when footsteps passed. I froze, but part of me liked the danger of being seen." },
+    { "stageMin": 3, "text": "Yuffie caught sight of his hand up my skirt. I laughed it off, but deep down, the humiliation soaked me further." },
+    { "stageMin": 6, "text": "Tifa opened the flap just as he bent me over. My cunt gushed around him, dripping down my thighs, even as I moaned into my palms." },
+    { "stageMin": 8, "text": "The others heard me begging, 'M-more, don’t stop,' as his cock split me open. I came hard knowing every squelch was echoing to them." },
+    { "stageMin": 10, "text": "He made me squirt in front of them all—seed and juice running, my pussy milking him while their eyes devoured my ruin. I didn’t care. I wanted them to watch." }
+  ],
+  "hybrid": [
+    { "stageMin": 1, "text": "He kissed me in plain view. My face burned, but I leaned back into it, betraying myself." },
+    { "stageMin": 4, "text": "Cloud walked in as he sucked at my tits. My moan slipped out before I could stop it, nipples slick and aching." },
+    { "stageMin": 6, "text": "Tifa froze seeing me bounce on him. I squealed, hiding my face, but my body wouldn’t stop milking his cock." },
+    { "stageMin": 8, "text": "Yuffie saw me gush all over his lap, legs shaking as he filled me deeper. She laughed, but my pussy throbbed harder under her gaze." },
+    { "stageMin": 9, "text": "Barret’s roar shook me as he caught me bent over. My juices sprayed as I clenched around him, every thrust louder than my shame." },
+    { "stageMin": 10, "text": "We fucked shamelessly with the others watching—seed, spit, and squirt painting the floor. My heart raced with shame, but my body screamed for more." }
+  ]
+},
+"extreme_erotic": {
+  "love": [
+    { "stageMin": 10, "text": "He kissed me through my sobs of bliss, filling me until my womb ached. 'O-ohh… g-god, don’t stop… fill me again,' I begged, clinging to him like life itself." },
+    { "stageMin": 10, "text": "His cock throbbed inside me as I screamed his name, squirting down his shaft while he kissed my swollen belly. 'We’re one now,' he whispered, and I wept with joy." },
+    { "stageMin": 10, "text": "Pinned under him, juices flooding the sheets, I gasped, 'Breed me—please, I-I want your child.' The tenderness in his eyes broke me even as his thrusts ruined me." },
+    { "stageMin": 10, "text": "He licked up the mess dripping from me, growling, 'Mine.' I moaned helplessly, my thighs trembling, my body offering everything without shame." },
+    { "stageMin": 10, "text": "I wrapped my legs tighter, sobbing into his chest as he came again inside me. 'F-fuck—ohh gods—I’ll take it all,' I cried, convulsing in pleasure." },
+    { "stageMin": 10, "text": "He made me cum until I couldn’t breathe, holding me while my juices sprayed down his thighs. I whispered, 'Even ruined, I’ll always love you.'" },
+    { "stageMin": 10, "text": "He filled my ass while fingering my cunt, whispering, 'Every hole, every inch, belongs to me.' I whimpered, melting under his devotion and filth." },
+    { "stageMin": 10, "text": "I begged for more, drooling, moaning his name like a prayer. His seed overflowed me, running down my legs as I kissed him feverishly." },
+    { "stageMin": 10, "text": "Even gagging on his cock, tears running, I smiled. 'Y-you own me,' I sputtered between thrusts, moaning when he spilled down my throat." },
+    { "stageMin": 10, "text": "He fucked me raw against the altar, seed dripping out of me as I clung to him. 'Forever yours,' I cried, unashamed of the filth baptizing me." }
+  ],
+  "corruption": [
+    { "stageMin": 10, "text": "He split me open brutally, cock pounding my womb. 'A-ahhh… f-fuck, ruin me harder,' I screamed, squirting all over his belly as his cum gushed inside me." },
+    { "stageMin": 10, "text": "On all fours in the slums, his cock slammed into me while strangers watched. 'Breed me, dirty me,' I begged, dripping filth down my thighs." },
+    { "stageMin": 10, "text": "He slapped my tits as they sprayed milk, his cock battering my cervix. I squealed, 'My breeding hole’s yours—use it!' while squirting across the floor." },
+    { "stageMin": 10, "text": "He choked me while fucking me against a wall, spit and cum mixing down my chin. 'You’re my filthy slut,' he growled, and I cried out, 'Y-yes!'" },
+    { "stageMin": 10, "text": "Seed dribbled out of my ass as he pumped my cunt, double stuffed, juices gushing everywhere. I moaned, 'Fill every hole—make me leak forever.'" },
+    { "stageMin": 10, "text": "He fingered my asshole while pounding me, forcing squirt after squirt. 'Mmm, c-cream me harder,' I whined, juices soaking us both." },
+    { "stageMin": 10, "text": "My body convulsed as he came inside me again. I drooled, eyes rolling back. 'My filthy pussy can’t stop milking you,' I cried, squirting nonstop." },
+    { "stageMin": 10, "text": "In the alleys, cum streamed out of me onto the dirt. 'L-look, I’m marked forever,' I whispered, grinding back against his cock hungrily." },
+    { "stageMin": 10, "text": "He pissed on me after fucking me raw. I moaned, 'Y-your filth is mine… my body’s yours forever,' and I came hard, trembling in ecstasy." },
+    { "stageMin": 10, "text": "Covered in spit, cum, and sweat, I collapsed under him. 'F-fuck, more, never stop ruining me,' I sobbed, squirting one last time as his seed poured into me." }
+  ],
+  "hybrid": [
+    { "stageMin": 10, "text": "He alternated sweet kisses with brutal thrusts. 'I-I love you,' I whimpered, squirting as his cock battered my womb." },
+    { "stageMin": 10, "text": "Pinned on the bed, tears streaking my face, I cried, 'M-more—harder!' while his hands held me like I was precious, even as he ruined me." },
+    { "stageMin": 10, "text": "His filthy cock dripped inside me, but his lips brushed mine tenderly. I moaned, 'F-fuck, I’m yours,' squirting as love and filth tangled." },
+    { "stageMin": 10, "text": "He fucked my ass while kissing my forehead, whispering, 'My dirty girl.' I came violently, juices splattering, even as I sobbed with joy." },
+    { "stageMin": 10, "text": "Seed spilled from me as I straddled him. 'D-don’t look, I’m ruined,' I whispered, but he kissed me, and I moaned louder." },
+    { "stageMin": 10, "text": "In the church, on the altar, he filled me raw. I screamed, 'Gods forgive me,' even as I begged for more cock, squirting on sacred stone." },
+    { "stageMin": 10, "text": "My cunt dripped with his cum as I licked him clean, moaning, 'I taste us—ahhh,' before kissing him hungrily." },
+    { "stageMin": 10, "text": "He fingered me until I squirted over and over, whispering, 'You’re both holy and filthy,' while I screamed his name." },
+    { "stageMin": 10, "text": "Even gagging on his cock, he stroked my hair. I came hard as he whispered, 'You’re my love and my slut,' and I trembled, ruined with bliss." },
+    { "stageMin": 10, "text": "He slammed me against the wall, filling me raw. I cried, 'I-I’m your dirty wife, your breeding slut,' squirting one last time as his seed overfilled me." }
+  ]
+},
+"dreams": {
+  "love": [
+    { "stageMin": 0,  "text": "I dreamt of him smiling without dirt on his cheeks. For a moment, he looked like someone worth saving." },
+    { "stageMin": 1,  "text": "We walked hand in hand through flowers in my dream. His roughness softened, and I wished it wouldn’t fade." },
+    { "stageMin": 2,  "text": "He leaned close, brushing hair from my face. I woke blushing, heart pounding as if it truly happened." },
+    { "stageMin": 3,  "text": "I saw us laughing under lantern light. His touch was clumsy but tender. It felt too real." },
+    { "stageMin": 4,  "text": "We kissed by the church doors. My lips tingled when I woke, desperate for it to linger." },
+    { "stageMin": 5,  "text": "I dreamt of us lying together, tangled, skin against skin. I wanted morning never to come." },
+    { "stageMin": 6,  "text": "We made love under starlight. His warmth stayed with me long after waking." },
+    { "stageMin": 7,  "text": "I held his child in my arms in the dream, and his arms around both of us. My chest ached with longing when I woke." },
+    { "stageMin": 8,  "text": "The world saw us, but I didn’t care. His lips on mine felt worth every stare." },
+    { "stageMin": 9,  "text": "I dreamt of a home filled with laughter, touches that never stopped. I wanted to stay asleep forever." },
+    { "stageMin": 10, "text": "In my dream he loved me endlessly, filling me until I screamed his name. I woke soaked, trembling, whispering for more." }
+  ],
+  "corruption": [
+    { "stageMin": 0,  "text": "I dreamt of him grabbing me in the dark, his smell choking me. I woke shivering, guilty I wanted more." },
+    { "stageMin": 1,  "text": "He mocked me in my dream, pushing me down. My body betrayed me—I woke wet and ashamed." },
+    { "stageMin": 2,  "text": "He pulled me by the hair into shadows. I gasped awake, hand pressed between my thighs." },
+    { "stageMin": 3,  "text": "I dreamt of him pinning me, dirt pressed into my skin. My body trembled for him." },
+    { "stageMin": 4,  "text": "His filthy hands spread me open. I wanted to scream no, but my dream-self moaned instead." },
+    { "stageMin": 5,  "text": "I begged in the dream—not for mercy, but for more. I woke horrified… and wet." },
+    { "stageMin": 6,  "text": "He used me in front of others. I moaned louder when they laughed. My sheets were soaked when I woke." },
+    { "stageMin": 7,  "text": "He pumped into me until it overflowed, dripping down my thighs. I woke sticky, craving him again." },
+    { "stageMin": 8,  "text": "I begged in the dream: 'Breed me, ruin me.' When I woke, the words were still on my lips." },
+    { "stageMin": 9,  "text": "I dreamt of being marked forever, his filth inside me. The shame thrilled me awake." },
+    { "stageMin": 10, "text": "In sleep I called him master, my pussy clamping his cock as he filled me again and again. I woke crying for release." }
+  ],
+  "hybrid": [
+    { "stageMin": 0,  "text": "I dreamt of holding his hand. It was filthy, but I didn’t let go." },
+    { "stageMin": 1,  "text": "He smiled in the dream, then smeared dirt on my cheek. I laughed instead of recoiling." },
+    { "stageMin": 2,  "text": "We kissed, gentle at first. Then he pressed me into mud, and I let him." },
+    { "stageMin": 3,  "text": "I dreamt of him whispering sweet words while his hands explored where they shouldn’t. I woke wanting both." },
+    { "stageMin": 4,  "text": "He pressed me down, rough and tender at once. I woke breathless, unable to tell if it was love or lust." },
+    { "stageMin": 5,  "text": "He made me moan softly in my dream, then laugh at how dirty I looked. I didn’t mind." },
+    { "stageMin": 6,  "text": "He kissed me sweetly, then spat in my mouth. I swallowed, even in the dream." },
+    { "stageMin": 7,  "text": "I dreamt of him filling me while whispering 'mine.' I woke ashamed how much it thrilled me." },
+    { "stageMin": 8,  "text": "We fucked in the open. I covered my face while my body begged for more." },
+    { "stageMin": 9,  "text": "I dreamt of both tenderness and filth—the warmth of his chest and his cum dripping down my thighs." },
+    { "stageMin": 10, "text": "In the dream I screamed his name as he bred me raw. Love and filth merged, and I woke aching to make it real." }
+  ]
+},
+"bloomstones": {
+  "obsidian": [
+    {
+      "stageMin": 3,
+      "text": "The Obsidian hummed in my hand. When he brushed me against the alley wall, I panicked—then a shiver ran down my spine. What if someone had seen?"
+    },
+    {
+      "stageMin": 4,
+      "text": "Its dark glow made my nipples ache when he pressed me to the tent flap. I-I whispered for him to stop, but my hips betrayed me, grinding against him where shadows met lantern light."
+    },
+    {
+      "stageMin": 5,
+      "text": "I gasped as his fingers slipped inside me in the slums’ corner. A passerby walked by—so close. My cheeks burned red, but I tightened around him instead of pulling away."
+    },
+    {
+      "stageMin": 6,
+      "text": "The stone pulsed and I let out a moan too loud to be an accident. He clapped a hand over my mouth as people passed, and the thought of them hearing made my juices gush harder."
+    },
+    {
+      "stageMin": 7,
+      "text": "He bent me over a crate in the open street. My flower dripped onto the dirt as he filled me. The Obsidian throbbed in my pocket, whispering to stop hiding. M-my body quivered with every thrust, terrified and begging for more."
+    },
+    {
+      "stageMin": 8,
+      "text": "He pinned me against a shop wall, taking me hard. His seed spilled down my thighs while laughter echoed nearby. The humiliation should have killed me… but my pussy clenched, savoring every drop."
+    },
+    {
+      "stageMin": 9,
+      "text": "I spread my legs wide on the balcony rail. The stone made me shameless—I wanted the whole slum to see my breeding hole being used. H-he roared behind me and I squealed, begging for more as the crowd below stirred."
+    },
+    {
+      "stageMin": 10,
+      "text": "The Obsidian consumed me. I begged him to take me on the church steps—holy ground turned into our stage. My cunt was stretched wide, dripping as he rutted me like an animal. ‘Look at me,’ I cried, daring the world. His filth pumped into my womb, and I screamed in shameless ecstasy."
+    }
+  ],
+  "sapphire": [
+    {
+      "stageMin": 3,
+      "text": "The Sapphire hummed when he told me to sit. I obeyed without thinking. My chest fluttered—why did the word alone make my thighs tighten?"
+    },
+    {
+      "stageMin": 4,
+      "text": "He gripped my chin and told me not to move. The stone pulsed, and I froze, my lips trembling. My whole body buzzed at being held in place like a doll."
+    },
+    {
+      "stageMin": 5,
+      "text": "He whispered, ‘Kneel.’ The word sank into me like fire. The stone throbbed, my heart raced, and before I knew it, I was on the ground, wet and aching, waiting for more."
+    },
+    {
+      "stageMin": 6,
+      "text": "The glow wrapped around my wrists when he pinned me down. I couldn’t resist… and I didn’t want to. My cunt clenched hard the moment his weight pressed over me."
+    },
+    {
+      "stageMin": 7,
+      "text": "He tied a strip of cloth around my wrists. My body burned hotter than ever. The stone sang in my ears, urging me to stay bound, to be his captive. M-my pussy gushed down my thighs at the helplessness."
+    },
+    {
+      "stageMin": 8,
+      "text": "He ordered me to spread wide on the tavern floor, and I obeyed with a whimper. The Sapphire flared, my juices running shamelessly as he thrusted into my soaking heat, commanding every cry from my throat."
+    },
+    {
+      "stageMin": 9,
+      "text": "The restraints dug into my wrists as I begged, drooling, sobbing, cumming again and again. Each command was a wave—I came at his word, screamed at his word. My body isn’t mine anymore, it’s his toy."
+    },
+    {
+      "stageMin": 10,
+      "text": "The Sapphire devoured me. Shackled and gagged, my flower spasmed with every brutal thrust, squirting all over the floor. His voice was my leash, and I was nothing but his dripping breeding slut—moaning, obeying, aching for more orders to follow."
+    }
+  ],
+  "crimson": [
+  {
+    "stageMin": 3,
+    "text": "The Crimson stone throbbed hot against my skin. My breath hitched, nipples stiff under my dress—why did it feel like it was pulling blood and heat straight into my core?"
+  },
+  {
+    "stageMin": 4,
+    "text": "He pressed the Crimson against my thigh. My body jolted, o-ohh… gods, the warmth rushed up and my flower clenched tight without him even touching me."
+  },
+  {
+    "stageMin": 5,
+    "text": "The stone burned when he slid it along my belly. I gasped, 'I-It’s too much!' My juices betrayed me, soaking through as my hips rocked without permission."
+  },
+  {
+    "stageMin": 6,
+    "text": "His hand gripped my throat while the Crimson pulsed at my womb. My eyes rolled back—f-fuck, every throb made me gush, like my body was begging him to breed me."
+  },
+  {
+    "stageMin": 7,
+    "text": "The stone glowed red when he shoved it against my clit. I screamed, squirting over his arm, unable to stop. He growled that I was his little heat-drunk whore."
+  },
+  {
+    "stageMin": 8,
+    "text": "He slid the Crimson between us as he thrust. Each pulse sent shockwaves—ohhh god, I couldn’t breathe, couldn’t think, only cum again and again as his cock battered my hole."
+  },
+  {
+    "stageMin": 9,
+    "text": "Pinned to the wall, the Crimson pressed deep inside me as he pounded. 'You’re melting,' he spat in my ear, and he was right—I was dripping, begging, ruined by the heat flooding my womb."
+  },
+  {
+    "stageMin": 10,
+    "text": "The Crimson seared with every thrust, making my pussy gush like a fountain. 'Breed me—f-fill me!' I screamed, shameless, while his seed and my slick poured out, painting my thighs red with ecstasy."
+  }
+  ],
+  "emerald": [
+  {
+    "stageMin": 3,
+    "text": "The Emerald glowed faintly when he touched it to my womb. A strange warmth spread low in my belly—I whimpered, imagining life blooming there. Why did my thighs clench at the thought?"
+  },
+  {
+    "stageMin": 4,
+    "text": "He pressed me down in missionary, the Emerald humming against my skin. Each thrust made me picture him planting more than just lust inside me. 'D-do you want it?' he teased, and my whole body screamed yes."
+  },
+  {
+    "stageMin": 5,
+    "text": "The stone pulsed when he flipped me onto all fours. His cock slammed into me doggy-style, juices dripping, while the warmth swelled inside my womb. I cried out, 'Y-you’ll get me pregnant…' but my hips pushed back harder."
+  },
+  {
+    "stageMin": 6,
+    "text": "He sat back, and I climbed on top—cowgirl. With the Emerald glowing, every bounce of my pussy around his cock sent sparks of need through me. I moaned, 'Breed me, please!' as my belly tightened around the stone’s heat."
+  },
+  {
+    "stageMin": 7,
+    "text": "Pinned in a mating press, the Emerald burned between us. My legs trembled, spread wide as he jackhammered into me. My cunt gushed around him, and I begged, 'F-fill my womb, make it take, I-I need it!'"
+  },
+  {
+    "stageMin": 8,
+    "text": "He clamped his mouth around my nipple, sucking hard while driving deep. The Emerald flared green, and I screamed, squirting uncontrollably as the image of swollen breasts and a swollen belly filled my mind."
+  },
+  {
+    "stageMin": 9,
+    "text": "The stone pulsed with his every thrust, juices splattering as he fucked me like an animal. 'This is your breeding hole,' he growled, and my pussy clamped so tight I nearly blacked out from the orgasm."
+  },
+  {
+    "stageMin": 10,
+    "text": "Emerald fire seared as he fucked me raw, tongues ravaging each other while his cock split me open in a mating press. 'Breed me, b-break me, m-make me yours forever!' I shrieked as his seed flooded me, dripping out in hot waves, my womb aching to take every drop."
+  }
+  ],
+  "onyx": [
+  {
+    "stageMin": 3,
+    "text": "The Onyx pulsed cold as he pressed me against the wall. His grip locked my wrists above my head. I gasped, 'Y-you’re holding me too tight,' even as my hips betrayed me by grinding against him."
+  },
+  {
+    "stageMin": 4,
+    "text": "He used the stone like a shackle, pinning my arms behind my back. His tongue ravaged mine while his cock ground against my slit through my clothes. I moaned into his mouth, too bound to resist."
+  },
+  {
+    "stageMin": 5,
+    "text": "On my knees, wrists bound with invisible chains, he fed me his cock. The Onyx throbbed each time I gagged, my throat slick with drool. I whispered between thrusts, 'I-I can’t stop… I don’t want to.'"
+  },
+  {
+    "stageMin": 6,
+    "text": "Bent in doggy, my face pressed to the floor, the stone made my body obey every brutal thrust. My pussy clamped around him, gushing, as he barked, 'Say you’re mine.' I screamed it until my voice broke."
+  },
+  {
+    "stageMin": 7,
+    "text": "He tied my legs wide with Onyx chains, spreading me in a cruel mating press. Every slam of his cock knocked the air out of me. 'I-I’m split open,' I sobbed, quivering, juices spraying over his hips."
+  },
+  {
+    "stageMin": 8,
+    "text": "He made me ride him in reverse cowgirl, my wrists chained to my ankles. Every bounce drove him deeper, juices flying, my moans turning into squeals. 'You’re my toy,' he growled, and the Onyx pulsed in agreement."
+  },
+  {
+    "stageMin": 9,
+    "text": "The stone bound me in midair, legs spread as he fucked me standing. My cunt overflowed, dripping down his thighs, as I shrieked, 'Y-you’re ruining me!' He smirked, pounding harder, and I came until I squirted."
+  },
+  {
+    "stageMin": 10,
+    "text": "Onyx chains suspended me, wrists and ankles splayed wide. He plowed into me like an animal, juices splattering the floor. My pussy clenched in endless waves, screaming, 'F-fuck my breeding hole!' until I lost all shame in the restraint’s ecstasy."
+  }
+  ],
+  "amethyst": [
+  {
+    "stageMin": 3,
+    "text": "The Amethyst shimmered and suddenly there were two of him—both kissing me, both pulling my clothes. I gasped, 'N-no, that’s impossible,' but my cunt throbbed like it was real."
+  },
+  {
+    "stageMin": 4,
+    "text": "Hands I couldn’t see slid across my breasts, pinching, tugging. His cock was inside me, but another tongue licked my clit. 'It’s not real… o-ohh gods,' I moaned, my hips writhing into the phantom touch."
+  },
+  {
+    "stageMin": 5,
+    "text": "He whispered in my ear while another version of him pushed me down. My lips quivered, drool running as I moaned, 'T-too many… f-fuck, I can’t…' My pussy squirted against nothing but shadows."
+  },
+  {
+    "stageMin": 6,
+    "text": "The stone made his voice echo inside my skull, commanding: 'Open wider.' My thighs spread on their own, juices running down my ass. Every phantom thrust made me scream like he was inside me twice at once."
+  },
+  {
+    "stageMin": 7,
+    "text": "I saw us in the mirror: me on all fours, but a dozen of his hands slapping, grabbing, pinning me. 'Breed me,' I cried at my reflection, my pussy convulsing as if already overflowing with his seed."
+  },
+  {
+    "stageMin": 8,
+    "text": "The Amethyst fog twisted the world. I felt myself bouncing in cowgirl while he also rutted me from behind. My moans split into two voices—one begging for mercy, one begging for more. Both came until I drenched him."
+  },
+  {
+    "stageMin": 9,
+    "text": "He was everywhere—tongue in my mouth, cock in my cunt, cock in my ass, hands on my nipples. I screamed, 'F-fuck, it’s too much!' Juices gushed down my thighs, the ecstasy so sharp I almost fainted."
+  },
+  {
+    "stageMin": 10,
+    "text": "The Amethyst broke me—I was surrounded, filled from every hole by visions of him. My breeding hole stretched, my throat fucked raw, nipples sucked until they sprayed milk. I writhed in madness, screaming, 'More, more, more!' until my body convulsed in endless squirting waves."
+  }
+  ],
+  "peridot": [
+  {
+    "stageMin": 3,
+    "text": "The Peridot pulsed when I saw him laugh with Tifa. My chest ached, my thighs clenched. Why did envy make me wet?"
+  },
+  {
+    "stageMin": 4,
+    "text": "He brushed Renna’s arm and the gem throbbed inside me. I hated it. I hated her. I hated how my pussy tightened just imagining him touching me instead."
+  },
+  {
+    "stageMin": 5,
+    "text": "Yuffie teased him, bold and playful. I swore I’d scold her—yet the Peridot flared hot, my jealousy dripping down my thighs, shameful and slick."
+  },
+  {
+    "stageMin": 6,
+    "text": "The glow drove me mad. I shoved him against the wall, snarling that he’s mine. He smirked, and the stone hummed as I rode his cock, desperate to claim what no one else could have."
+  },
+  {
+    "stageMin": 7,
+    "text": "He let me straddle him while the others laughed nearby. I looked them in the eye, daring them to see I was being filled—jealousy burned into triumph, into heat spilling inside me."
+  },
+  {
+    "stageMin": 8,
+    "text": "Peridot light seared me as I bit his neck, whispering through clenched teeth: 'N-no one else gets this cock. No one.' My pussy throbbed, clamping tight, milking him like a selfish claim."
+  },
+  {
+    "stageMin": 9,
+    "text": "I watched another girl eye him. The gem’s glow made me snap—dragging him into me until seed gushed out, dripping onto the floor. I smeared it against my slit, glaring at her. He’s mine."
+  },
+  {
+    "stageMin": 10,
+    "text": "Peridot blazed. I begged him to fuck me where they all could see—Tifa, Renna, Yuffie—any of them. My cunt swallowed him with lewd squelches, and I screamed, 'Look! He’s filling me! I’m his!'"
+  }
+  ],
+  "diamond": [
+  {
+    "stageMin": 3,
+    "text": "The Diamond pulsed faintly when he pushed harder than usual. My legs trembled, my lips stammered 't-too much'—but I didn’t let go."
+  },
+  {
+    "stageMin": 4,
+    "text": "He pinned me to the floor, relentless. The gem burned cold fire through me as each thrust blurred pain into dizzying pleasure. 'I-I can take it,' I gasped, clinging tight."
+  },
+  {
+    "stageMin": 5,
+    "text": "The Diamond hummed when he forced me to my knees. My throat ached, tears streaked, but I swallowed him again and again. Each gag made the stone’s light flare brighter."
+  },
+  {
+    "stageMin": 6,
+    "text": "Hours passed—or felt like it. My body quaked, sore and dripping. The stone’s gleam urged me on, even as I whimpered, 'I c-can’t…' His cock slammed deeper. 'Yes, you can.'"
+  },
+  {
+    "stageMin": 7,
+    "text": "He bent me in half, pounding until my womb jolted with every strike. The Diamond hardened me against the overstimulation—every spasm, every gush, feeding an endless craving."
+  },
+  {
+    "stageMin": 8,
+    "text": "The gem sang as he used me again and again. My voice broke into guttural moans, my hole stretched raw, leaking down my thighs. 'More… I still need more.' Even I couldn’t believe the words."
+  },
+  {
+    "stageMin": 9,
+    "text": "I collapsed, a shaking mess, but he dragged me upright and slid back inside. The Diamond pulsed through my battered body, forcing me to endure every brutal thrust as climax ripped me open again."
+  },
+  {
+    "stageMin": 10,
+    "text": "Diamond brilliance blinded me when he bred me without pause. Seed overflowed, my cunt frothing, my mind broken to a single plea: 'U-use me until I’m nothing—fill me until I’m ruined!' And still I begged for more."
+  }
+  ],
+  "pumice": [
+  {
+    "stageMin": 3,
+    "text": "The Pumice pulsed when he spat on my chest. I gasped, 'D-don’t…' but my nipples hardened beneath the mess. I wiped it away—then licked my own fingers."
+  },
+  {
+    "stageMin": 4,
+    "text": "He smeared his sweat across my lips. I should’ve gagged. Instead I whimpered, tongue flicking out to taste. The stone burned hotter the dirtier I felt."
+  },
+  {
+    "stageMin": 5,
+    "text": "On my knees, he forced me to clean his cock with my mouth, filth and all. I choked and drooled, cunt soaking the floorboards. 'Good little slut,' he growled, and I moaned around him."
+  },
+  {
+    "stageMin": 6,
+    "text": "He bent me over and spat on my hole before ramming in. 'You’re just a dirty hole for me,' he snarled. The gem throbbed as I squealed, juices running down my thighs with every degrading thrust."
+  },
+  {
+    "stageMin": 7,
+    "text": "The Pumice glowed when he pinned me in the mud. He rutted me like livestock, smearing filth into my hair, calling me his breeding whore. I screamed—I came harder than I ever had."
+  },
+  {
+    "stageMin": 8,
+    "text": "He used me in front of others, spitting on my face while pounding my cunt raw. 'Say it,' he demanded. I sobbed, 'I’m your dirty slut, your cocksleeve!' The crowd jeered—I orgasmed anyway."
+  },
+  {
+    "stageMin": 9,
+    "text": "He made me lick the filth from his shaft after he came inside me, seed mixed with dirt. My own taste coated my tongue, and still I begged, 'P-please… ruin me more.' The stone pulsed like my clit on fire."
+  },
+  {
+    "stageMin": 10,
+    "text": "The Pumice blazed as he forced me open again, filling every hole, spit and seed running down my body. 'Nothing but a cum-drenched hole,' he growled. I screamed in filthy ecstasy, 'Y-yes—your hole, your slut, drown me in your filth!' My womb overflowed, juices spraying, humiliation and bliss tangled into one final ruin."
+  }
+  ],
+  "crystal": [
+  {
+    "stageMin": 3,
+    "text": "The Crystal shimmered when he kissed me softly. My body trembled, not from filth, but from the purity of his lips. I whispered, 'Why does this feel so holy?'"
+  },
+  {
+    "stageMin": 4,
+    "text": "His fingers slid inside, slow and reverent. The gem pulsed, and I moaned as if in prayer. 'O-ohh… I feel blessed,' I confessed, cheeks burning at my own words."
+  },
+  {
+    "stageMin": 5,
+    "text": "When he entered me, it wasn’t just rutting—it was like a vow. The stone glowed with every thrust, my body clenching around him as if this was sanctified, ordained."
+  },
+  {
+    "stageMin": 6,
+    "text": "He lifted me onto him, and our bodies joined in rhythm under the Crystal’s light. My moans came like hymns, desperate but worshipful. 'Gods, I-I’m yours… forever yours!'"
+  },
+  {
+    "stageMin": 7,
+    "text": "The gem pulsed when his tongue traced my breast, his teeth grazing my nipple. My back arched as light seemed to pour from my skin. 'I-I’m glowing inside… every thrust is heaven.'"
+  },
+  {
+    "stageMin": 8,
+    "text": "His cock slammed deeper, and I cried out as my body erupted with light. Juices sprayed, dripping onto his lap. 'Fill me—make me holy with your seed,' I begged, delirious."
+  },
+  {
+    "stageMin": 9,
+    "text": "He spilled inside me, and I screamed, every muscle convulsing. The Crystal turned white-hot, every drop of his cum consecrating me. 'B-baptize me in you,' I stammered, tears running down my cheeks."
+  },
+  {
+    "stageMin": 10,
+    "text": "The Crystal shattered my last shame. He pinned me down, thrusting like divinity itself, seed flooding me. I screamed like a saint in ecstasy, 'Yes—break me, bless me, make my womb yours!' My squirting soaked the floor, my cunt spasming around him in holy ruin."
+  }
+  ]
+},
+    "items": {
+  "aphrodisiacs": [
+    {
+      "stageMin": 2,
+      "path": "any",
+      "text": "He teased me with a vial of bitter-sweet liquid. One sip, and warmth spread between my thighs. I gasped, 'W-what is this? Why can’t I stop thinking about him?'"
+    },
+    {
+      "stageMin": 4,
+      "path": "corruption",
+      "text": "He rubbed the oil on my skin, and suddenly every touch was unbearable, electric. My nipples stiffened, my pussy wet through my dress. 'I-I can’t control it—please… don’t stop.'"
+    },
+    {
+      "stageMin": 6,
+      "path": "love",
+      "text": "We shared a draught together, and I collapsed into his arms. Every thrust felt like lightning in my womb. 'O-oh god, I want you forever,' I whispered, clinging desperately."
+    },
+    {
+      "stageMin": 8,
+      "path": "hybrid",
+      "text": "The potion ran down my throat, and soon I was begging, clawing, spreading myself open. 'Fuck me, f-fill me… I need it, I need it now,' I moaned, drool running down my chin."
+    }
+  ],
+  "alcohol": [
+    {
+      "stageMin": 1,
+      "path": "any",
+      "text": "Just a single cup of strong ale had my head dizzy. I laughed too loud, swayed too close, and whispered secrets I shouldn’t."
+    },
+    {
+      "stageMin": 3,
+      "path": "corruption",
+      "text": "I let him pour me another. My words slurred, and when his hand slid up my thigh, I didn’t push him away. I leaned into the touch, drunk on him as much as the drink."
+    },
+    {
+      "stageMin": 5,
+      "path": "hybrid",
+      "text": "I spilled wine on my chest, and he licked it off. The crowd roared with laughter, but I moaned. 'S-so shameless… but I love it,' I thought."
+    },
+    {
+      "stageMin": 7,
+      "path": "any",
+      "text": "I was drunk enough to forget shame. He bent me over the tavern table, and I moaned into the wood as ale mugs clattered nearby."
+    }
+  ],
+  "incense": [
+    {
+      "stageMin": 2,
+      "path": "any",
+      "text": "The incense smoke curled sweet and heady. I felt floaty, my thighs pressed tight together as heat coiled inside me."
+    },
+    {
+      "stageMin": 4,
+      "path": "corruption",
+      "text": "He filled the room with thick, musky incense. My body betrayed me—I spread my legs for him, too hazy to care."
+    },
+    {
+      "stageMin": 6,
+      "path": "love",
+      "text": "The soft lavender soothed me while he kissed every inch. 'I’m safe,' I whispered, trembling in bliss, the world sweet and smoky."
+    },
+    {
+      "stageMin": 9,
+      "path": "hybrid",
+      "text": "The smoke was suffocating and addictive, just like him. I gagged, I moaned, I clung—high on the fumes, high on his cock, losing myself completely."
+    }
+  ]
+    },
+    "aftermath": [
+  {
+    "key": "first_kiss_reflection",
+    "stageMin": 2,
+    "path": "any",
+    "text": "I can still feel the taste on my lips… bitter smoke, and yet my heart races like it was honey."
+  },
+  {
+    "key": "first_touch_reflection",
+    "stageMin": 1,
+    "path": "any",
+    "text": "His hand brushed mine. I told myself it was nothing, but why do I keep replaying it in my head?"
+  },
+  {
+    "key": "first_time_reflection_love",
+    "stageMin": 3,
+    "path": "love",
+    "text": "I ache, but in the ache I feel chosen. It wasn’t perfect, but it was ours—and I want more."
+  },
+  {
+    "key": "first_time_reflection_corruption",
+    "stageMin": 3,
+    "path": "corruption",
+    "text": "My thighs still tremble. Shame clings to me like sweat… and I can’t stop craving it again."
+  },
+  {
+    "key": "pregnancy_discovery_reflection",
+    "stageMin": 4,
+    "path": "any",
+    "text": "The test is true. His child grows in me. Fear and joy knot together in my chest—I can’t untangle them."
+  },
+  {
+    "key": "caught_by_friend_reflection",
+    "stageMin": 5,
+    "path": "any",
+    "text": "Their eyes saw too much. I told myself I was mortified, but when I close mine, all I feel is the heat of being watched."
+  },
+  {
+    "key": "stage10_final_reflection_love",
+    "stageMin": 10,
+    "path": "love",
+    "text": "If the world ends tomorrow, I’ll die with his name on my lips and his warmth in my heart."
+  },
+  {
+    "key": "stage10_final_reflection_corruption",
+    "stageMin": 10,
+    "path": "corruption",
+    "text": "I don’t even flinch anymore. I am his: soaked, used, claimed. And I’ve never felt freer."
+  },
+  {
+    "key": "stage10_final_reflection_hybrid",
+    "stageMin": 10,
+    "path": "hybrid",
+    "text": "I am holy and ruined. Loved and defiled. And it’s perfect because it’s both."
+  }
+    ]
+  },
+    "gossip": [
+  {
+    "key": "stage0_initial_whispers",
+    "stageMin": 0,
+    "path": "any",
+    "text": "The market girls laugh when I talk to him. 'Aerith with a beggar? As if.' I pretend not to care."
+  },
+  {
+    "key": "stage2_softening",
+    "stageMin": 2,
+    "path": "any",
+    "text": "They call him dirt and me naive. Maybe I am… but their voices sound jealous when they see him walk beside me."
+  },
+  {
+    "key": "stage3_rumors_of_touch",
+    "stageMin": 3,
+    "path": "any",
+    "text": "A woman in the slums muttered, 'She lets him touch her, you know.' I flushed so hot I almost admitted it."
+  },
+  {
+    "key": "stage4_corruption_gossip",
+    "stageMin": 4,
+    "path": "corruption",
+    "text": "They don’t even bother hiding it anymore. 'She smells like him,' one spat. Shame lingers… but it excites me."
+  },
+  {
+    "key": "stage4_love_gossip",
+    "stageMin": 4,
+    "path": "love",
+    "text": "Old men at the bar said, 'She’s softening him. Maybe she’s the only one who could.' I smiled into my cup."
+  },
+  {
+    "key": "stage6_public_affection",
+    "stageMin": 6,
+    "path": "any",
+    "text": "Children pointed and giggled when he kissed me in the street. I should’ve pulled away, but I didn’t."
+  },
+  {
+    "key": "stage7_darkening_whispers",
+    "stageMin": 7,
+    "path": "corruption",
+    "text": "They call me ruined now. 'His whore.' The words sting, but the ache between my legs when I hear them betrays me."
+  },
+  {
+    "key": "stage8_hybrid_gossip",
+    "stageMin": 8,
+    "path": "hybrid",
+    "text": "Some whisper prayers for me, others laugh behind my back. But when I meet his eyes, none of it matters."
+  },
+  {
+    "key": "stage9_shameless",
+    "stageMin": 9,
+    "path": "corruption",
+    "text": "The slums look away now. I don’t hide. I wear his marks, his scent, like jewelry—and I see the envy in their faces."
+  },
+  {
+    "key": "stage10_final",
+    "stageMin": 10,
+    "path": "any",
+    "text": "They no longer whisper. They stare. Some in disgust, some in awe. Let them. I’ve chosen my place—and it’s at his side."
+  }
+    ]
+  },
+  "party_gossip": {
+  "tifa": [
+    { "key": "tifa_stage0", "stageMin": 0, "path": "any", "text": "Tifa crossed her arms and said I was too trusting. She doesn’t understand—I just see more in him." },
+    { "key": "tifa_stage1", "stageMin": 1, "path": "any", "text": "She wrinkled her nose and muttered, 'That smell’s still on you.' I laughed it off, but my cheeks burned." },
+    { "key": "tifa_stage2", "stageMin": 2, "path": "any", "text": "When she saw us talking, she shook her head. 'You deserve better,' she whispered, but her eyes lingered on him too long." },
+    { "key": "tifa_stage3", "stageMin": 3, "path": "any", "text": "She snapped at me in front of the others: 'Don’t let him touch you like that.' Her voice was sharp, but I swore I heard envy." },
+    { "key": "tifa_stage4", "stageMin": 4, "path": "love", "text": "Tifa sighed when I told her he kissed me. 'If he hurt you, I’d never forgive him,' she admitted. I think she meant it." },
+    { "key": "tifa_stage5", "stageMin": 5, "path": "corruption", "text": "Her glare cut deep. 'He’s turning you into one of them,' she hissed. My stomach knotted—was it fear for me, or anger it wasn’t her?" },
+    { "key": "tifa_stage6", "stageMin": 6, "path": "any", "text": "She started watching him differently. I caught her eyes tracing his arms, then darting away when she saw me notice." },
+    { "key": "tifa_stage7", "stageMin": 7, "path": "hybrid", "text": "She whispered, 'Maybe there’s more to him… if you can stand it.' Her words were cautious, but her blush betrayed her." },
+    { "key": "tifa_stage8", "stageMin": 8, "path": "corruption", "text": "Tifa’s voice cracked: 'You let him inside you, don’t you?' Her fists were trembling, and I couldn’t answer." },
+    { "key": "tifa_stage9", "stageMin": 9, "path": "hybrid", "text": "She leaned close, almost conspiratorial: 'If you love him that much… maybe I should try to understand too.'" },
+    { "key": "tifa_stage10", "stageMin": 10, "path": "any", "text": "Tifa confessed in a whisper: 'I thought I hated him. But now… I envy you. Maybe even want what you have.'" }
+  ],
+    "barret": [
+  { "key": "barret_stage0", "stageMin": 0, "path": "any", "text": "Barret told me flat-out: 'Stay away from scum like him.' I smiled, but part of me wondered why it stung so much." },
+  { "key": "barret_stage1", "stageMin": 1, "path": "any", "text": "He kept hovering nearby, arms crossed. 'Ain’t right, you talkin’ with trash like that,' he grumbled. I brushed it off." },
+  { "key": "barret_stage2", "stageMin": 2, "path": "any", "text": "When he caught us walking together, his fist clenched. 'You lettin’ him near Marlene, I’ll end it,' he growled. I told him it wasn’t like that. It was." },
+  { "key": "barret_stage3", "stageMin": 3, "path": "any", "text": "Barret shouted in front of the others: 'He’ll ruin you, girl!' His voice cracked at the end, and I don’t know if it was anger… or worry." },
+  { "key": "barret_stage4", "stageMin": 4, "path": "love", "text": "When I admitted he kissed me, Barret froze. 'If he hurts you, I’ll tear him apart,' he muttered. For once, I believed him." },
+  { "key": "barret_stage5", "stageMin": 5, "path": "corruption", "text": "His words spat like bullets: 'You reek of him. Can’t you smell it?' I blushed and said nothing, because I didn’t mind." },
+  { "key": "barret_stage6", "stageMin": 6, "path": "any", "text": "He cornered me after dark: 'Why him? Outta all people—why him?' His anger felt too personal to be just about me." },
+  { "key": "barret_stage7", "stageMin": 7, "path": "hybrid", "text": "Barret lowered his voice: 'Don’t know what you see in him… but damn if you don’t glow when you’re near.' I flushed." },
+  { "key": "barret_stage8", "stageMin": 8, "path": "corruption", "text": "He snarled: 'You lettin’ him inside you? You lettin’ him own you?' My silence gave him his answer. His eyes burned with something I couldn’t read." },
+  { "key": "barret_stage9", "stageMin": 9, "path": "hybrid", "text": "Barret muttered under his breath: 'If he treats you like that and you still smile… maybe I don’t know you at all.' His voice was rough with confusion." },
+  { "key": "barret_stage10", "stageMin": 10, "path": "any", "text": "Finally, he looked at me with a strange mix of pity and hunger: 'World’s gone mad if a girl like you wants filth like that… but maybe the madness is catchin’ me too.'" }
+    ],
+    "cloud": [
+  { "key": "cloud_stage0", "stageMin": 0, "path": "any", "text": "Cloud frowned when I stopped to speak with him. 'You shouldn’t waste your time.' His voice was flat, but it cut deep." },
+  { "key": "cloud_stage1", "stageMin": 1, "path": "any", "text": "He caught me smiling at something crude Vagrant said. 'You laugh at the strangest things,' he muttered, shaking his head." },
+  { "key": "cloud_stage2", "stageMin": 2, "path": "any", "text": "When Cloud saw us together in the slums, his eyes lingered. He didn’t say a word—sometimes silence hurts worse." },
+  { "key": "cloud_stage3", "stageMin": 3, "path": "any", "text": "He asked, finally: 'What is he to you?' My answer stumbled. His sigh told me I’d already said too much." },
+  { "key": "cloud_stage4", "stageMin": 4, "path": "love", "text": "Cloud’s voice was heavy: 'If you think there’s good in him… then I’ll trust you. Just don’t get hurt.' It almost sounded like surrender." },
+  { "key": "cloud_stage5", "stageMin": 5, "path": "corruption", "text": "Cloud whispered harshly: 'You smell like him.' He couldn’t even look at me when he said it." },
+  { "key": "cloud_stage6", "stageMin": 6, "path": "any", "text": "He tried to warn me: 'This will change you.' His tone wasn’t judgment—it was grief, like he already saw me slipping away." },
+  { "key": "cloud_stage7", "stageMin": 7, "path": "hybrid", "text": "He said quietly: 'You look… happy. Even if it’s wrong.' His words shook me more than shouting ever could." },
+  { "key": "cloud_stage8", "stageMin": 8, "path": "corruption", "text": "Cloud’s jaw clenched when he caught us pressed too close. 'Don’t drag the others into this,' he snapped, anger masking something else." },
+  { "key": "cloud_stage9", "stageMin": 9, "path": "hybrid", "text": "He muttered: 'If you choose this, I can’t stop you. Just… don’t lose yourself.' It was the last time he mentioned it." },
+  { "key": "cloud_stage10", "stageMin": 10, "path": "any", "text": "He didn’t look at me anymore. Only silence. And that silence said more than any words could." }
+    ],
+    "yuffie": [
+  { "key": "yuffie_stage0", "stageMin": 0, "path": "any", "text": "Yuffie giggled when she saw me near him: 'Aerith, you’re way too shiny to hang out with trash like that!'" },
+  { "key": "yuffie_stage1", "stageMin": 1, "path": "any", "text": "She nudged me with her elbow: 'Don’t tell me you actually like that smell. Gross!' Her grin said she was joking… mostly." },
+  { "key": "yuffie_stage2", "stageMin": 2, "path": "any", "text": "Yuffie smirked: 'You two are getting awfully close… Heh, I didn’t think you were into bad boys, Aerith.'" },
+  { "key": "yuffie_stage3", "stageMin": 3, "path": "any", "text": "She teased: 'If you start kissing him, I’m watching. Someone’s gotta make sure you don’t choke on all that dirt.'" },
+  { "key": "yuffie_stage4", "stageMin": 4, "path": "love", "text": "Yuffie rolled her eyes: 'Ugh, you’re actually blushing over him. What’s next, holding hands in public? Adorable… and weird.'" },
+  { "key": "yuffie_stage5", "stageMin": 5, "path": "corruption", "text": "She wrinkled her nose and whispered: 'Aerith… you reek of him. Did you two…? Ew, but also—dang, girl.'" },
+  { "key": "yuffie_stage6", "stageMin": 6, "path": "hybrid", "text": "She leaned in close: 'You keep saying it’s wrong, but your smile says otherwise. He must be doing something right… heh.'" },
+  { "key": "yuffie_stage7", "stageMin": 7, "path": "any", "text": "Yuffie crossed her arms: 'Okay, I don’t get it. But… maybe I kinda wanna see what the fuss is about.'" },
+  { "key": "yuffie_stage8", "stageMin": 8, "path": "corruption", "text": "She muttered, eyes wide: 'You let him do THAT? Gods, Aerith… you’re way dirtier than you look.'" },
+  { "key": "yuffie_stage9", "stageMin": 9, "path": "hybrid", "text": "Her voice shook between disgust and thrill: 'You looked like you were enjoying it too much. I… I can’t get that picture out of my head now…'" },
+  { "key": "yuffie_stage10", "stageMin": 10, "path": "any", "text": "Yuffie finally went quiet. Then, softly: 'You’re not the Aerith I thought you were… but maybe this is who you’ve always been.' She didn’t meet my eyes." }
+    ],
+    "nanaki": [
+  { "key": "nanaki_stage0", "stageMin": 0, "path": "any", "text": "Nanaki growled low: 'That man stinks of rot and smoke. You shouldn’t linger near him, Aerith.'" },
+  { "key": "nanaki_stage1", "stageMin": 1, "path": "any", "text": "His ears twitched: 'His scent clings to you. Even when he’s gone, I can smell him on your clothes.'" },
+  { "key": "nanaki_stage2", "stageMin": 2, "path": "any", "text": "He narrowed his eyes: 'He watches you too closely. I do not trust his gaze—it feels like hunger.'" },
+  { "key": "nanaki_stage3", "stageMin": 3, "path": "any", "text": "Nanaki’s tail lashed: 'You’re changing, Aerith. Your scent sharpens when he’s near… as if you’re drawn to it.'" },
+  { "key": "nanaki_stage4", "stageMin": 4, "path": "love", "text": "He sighed heavily: 'If you care for him, then I will protect you both. But I’ll never like the way he smells.'" },
+  { "key": "nanaki_stage5", "stageMin": 5, "path": "corruption", "text": "He bared his fangs: 'You reek of him. Not just on your skin—inside you. He’s claimed you, and it disgusts me.'" },
+  { "key": "nanaki_stage6", "stageMin": 6, "path": "hybrid", "text": "Nanaki’s voice was low, conflicted: 'You are lost between purity and filth. Yet… you seem content in it. That frightens me.'" },
+  { "key": "nanaki_stage7", "stageMin": 7, "path": "any", "text": "His hackles rose: 'Others can’t smell what I smell. They don’t know how deeply he’s inside your life now.'" },
+  { "key": "nanaki_stage8", "stageMin": 8, "path": "corruption", "text": "He snarled quietly: 'I heard you last night. The sounds… the stench. You’ve given yourself to him without restraint.'" },
+  { "key": "nanaki_stage9", "stageMin": 9, "path": "hybrid", "text": "His gaze was heavy: 'You still shine, Aerith. But your glow is tainted, wrapped in his darkness. And you… welcome it.'" },
+  { "key": "nanaki_stage10", "stageMin": 10, "path": "any", "text": "Nanaki finally turned away: 'You are no longer the girl I swore to protect. You’ve chosen your path—and he has consumed you.'" }
+    ],
+    "renna": [
+  { "key": "renna_stage0", "stageMin": 0, "path": "any", "text": "Renna teased with a smirk: 'Out of everyone, you’re wasting smiles on him? You’re too good for that dirtbag, Aerith.'" },
+  { "key": "renna_stage1", "stageMin": 1, "path": "any", "text": "She laughed lightly but her eyes narrowed: 'He looks at you like you’re his already. Maybe I should see if he looks at me the same way.'" },
+  { "key": "renna_stage2", "stageMin": 2, "path": "any", "text": "Renna’s voice dripped with mockery: 'Careful—cling to him too long and people will start mistaking you for his wife. Or worse, his toy.'" },
+  { "key": "renna_stage3", "stageMin": 3, "path": "any", "text": "She leaned close and whispered sharply: 'I caught him staring at me last night. Are you sure you’re the only one he wants?'" },
+  { "key": "renna_stage4", "stageMin": 4, "path": "any", "text": "Renna chuckled darkly: 'He’s rough, isn’t he? I can see it in the way you limp after. Don’t act like you don’t enjoy it… or that I wouldn’t.'" },
+  { "key": "renna_stage5", "stageMin": 5, "path": "any", "text": "Her voice quivered with venom: 'You act like you’ve tamed him, but I see the marks he leaves on you. He could leave those on me just as easily.'" },
+  { "key": "renna_stage6", "stageMin": 6, "path": "any", "text": "Renna folded her arms, eyes lingering on your throat: 'That bruise… he branded you. Wonder if he’d moan my name just as loud as yours.'" },
+  { "key": "renna_stage7", "stageMin": 7, "path": "any", "text": "She spat the words at you: 'You think he’ll stay with you? Men like him use, ruin, and move on. Maybe I’ll be the one he comes to next.'" },
+  { "key": "renna_stage8", "stageMin": 8, "path": "any", "text": "Renna sneered after catching you together: 'Pathetic. Grinding against him like you’ll die without it. I could make him scream louder than that.'" },
+  { "key": "renna_stage9", "stageMin": 9, "path": "any", "text": "Her laugh was cruel: 'Everyone knows he fucks you raw. But when he finally tastes me, you’ll be nothing but a memory.'" },
+  { "key": "renna_stage10", "stageMin": 10, "path": "any", "text": "Renna’s whisper was poisonous, broken with desire: 'He should’ve been mine. Watching him flood you… gods, I hate you for making me want him more.'" }
+    ]
