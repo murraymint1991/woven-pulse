@@ -615,7 +615,8 @@
   { "key": "reading_stand", "stageMin": 7, "path": "hybrid", "text": "He bent me over the oak reading stand. My moans blurred into the sound of flipping pages." },
   { "key": "page_torn", "stageMin": 9, "path": "corruption", "text": "He ripped a book page in the frenzy of thrusts. I laughed, moaned, begged for more." },
   { "key": "knowledge_whore", "stageMin": 10, "path": "corruption", "text": "He finished inside me atop a pile of scrolls. I came undone knowing history would reek of us forever." }
-  ],
+  ]
+ },
     "jobs": {
   "flower_shop": [
   { "key": "arrange_bouquets", "stageMin": 0, "path": "any", "text": "I spent the morning arranging lilies. He leaned against the door, smirking, eyes on me instead of the flowers. I pretended not to notice." },
@@ -791,8 +792,8 @@
   { "stage": 8, "path": "hybrid", "text": "He spread me over the cutting table, fabric soaking beneath us. 'My breeding hole is yours,' I whispered as his gigantic cock reared and filled me again and again." },
   { "stage": 9, "path": "corruption", "text": "He ripped open my blouse, tits bouncing with each thrust as my juices sprayed across unfinished gowns. I squealed in ecstasy, begging to be ruined more." },
   { "stage": 10, "path": "corruption", "text": "Bent over piles of dresses, his cock drove into my womb as cum gushed down my thighs. I screamed like a whore, moaning about my filthy breeding hole while grinning—this shop is no longer mine. It’s his den, and I’m his cum-soaked seamstress." }
-]
-    },
+  ]
+},
     "daily_life_simple": [
   { "stage": 0, "text": "I watered the flowers and caught myself humming. When I glanced up, he was watching. I pretended not to notice." },
   { "stage": 0, "text": "Cooking stew in the slums, I felt his eyes linger on my hands. He never said a word." },
@@ -848,8 +849,7 @@
   { "stage": 10, "text": "He pushed me into the flowers, crushing them beneath us. I gasped and begged for more." },
   { "stage": 10, "text": "He made me ride him on the bench by the fountain. Passersby stared; I only moved harder." },
   { "stage": 10, "text": "He filled me in the open street. I screamed his name, unashamed of who listened." }
-    ]
-  },
+    ],
       "daily_life_tainted": [
   { "stage": 0, "text": "He brushed past me in the slums, his filthy shoulder grazing mine. I told myself it was an accident, but my chest burned anyway." },
   { "stage": 0, "text": "His laughter carried across the alley as I worked. I felt it crawl under my skin like dirt I couldn’t scrub out." },
@@ -905,8 +905,7 @@
   { "stage": 10, "text": "He bred me openly, growling as I screamed his name. Gasps surrounded us—I only moaned louder." },
   { "stage": 10, "text": "He called my pussy his breeding hole. I begged him to fill it until I couldn’t walk." },
   { "stage": 10, "text": "He dragged me into the street, juices streaming down my thighs. 'Yours,' I moaned, proud for all to hear." }
-      ]
-    },
+      ],
     "daily_life_love": [
   { "stage": 0, "text": "I watered the flowers while he lingered nearby. His silence felt safe, like he was guarding me without saying a word." },
   { "stage": 0, "text": "We shared bread on a broken step. He didn’t say much, but I caught him smiling when I laughed." },
@@ -962,8 +961,7 @@
   { "stage": 10, "text": "His name left my lips like prayer, over and over." },
   { "stage": 10, "text": "Every part of me was his, gladly, fully, without hesitation." },
   { "stage": 10, "text": "Our love burned bright enough to make even the filth feel holy." }
-    ]
-  },
+    ],
     "daily_life_hybrid": [
   { "stage": 0, "text": "I tended the flowers while he leaned in the doorway, filthy and amused. I wanted to scold him… yet part of me wanted him to stay." },
   { "stage": 0, "text": "He brushed past me, reeking of smoke. I wrinkled my nose but caught myself smiling." },
