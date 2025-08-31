@@ -15,6 +15,9 @@ import {
 import DiaryView from "./js/views/diary.js";
 import { loadDiary } from "./js/systems/diary.js";
 
+/* ▼ NEW: trigger engine */
+import { TriggerBus, installTriggers } from "./js/systems/triggers.js";
+
 /* ---------- Config (DATA) ---------- */
 const DATA = {
   traitsMoods: "data/traits_moods/traits_moods_v1.json",
@@ -46,7 +49,10 @@ const DATA = {
   statusFertility: "data/status/fertility_v1.json",
 
   // Diary
-  diaryAerith: "data/diaries/aerith_diary_v1.json"
+  diaryAerith: "data/diaries/aerith_diary_v1.json",
+
+  // ▼ NEW: triggers (Aerith↔Vagrant rule pack)
+  triggersAerith: "data/triggers/aerith_vagrant_v1.json"
 };
 
 const LS_KEYS = { AUTOSAVE: "sim_autosave_v1", SLOT: (n) => `sim_slot_${n}_v1` };
@@ -175,6 +181,19 @@ function App() {
       setDiaryAerith(ad);
       d.push({ label: "diaries/aerith_diary_v1.json", status: ad ? "ok" : "err" });
 
+      // ▼ NEW: Triggers (Aerith↔Vagrant)
+      const tr = await fetchJson(DATA.triggersAerith);
+      if (tr.ok && tr.data?.rules) {
+        installTriggers(tr.data.rules, {
+          characterId: "aerith",
+          targetId: "vagrant",
+          diary: ad
+        });
+        d.push({ label: "triggers/aerith_vagrant_v1.json", status: "ok" });
+      } else {
+        d.push({ label: "triggers/aerith_vagrant_v1.json", status: "err" });
+      }
+
       // Status pillar
       const st = await fetchJson(DATA.statusActors);
       setStatusMap(st.ok ? (st.data?.status || {}) : {});
@@ -189,6 +208,20 @@ function App() {
       d.push({ label: "status/fertility_v1.json", status: Object.keys(fert).length ? "ok" : "err" });
 
       setDetails(d);
+
+      /* ▼ DEV convenience: global emitter so you can fire events from console
+         Usage:
+           emitGameEvent("interaction.meet");
+           emitGameEvent("location.enter", { location: "tent" });
+           emitGameEvent("item.use", { item: "bloomstone" });
+           emitGameEvent("time.morningTick");
+           emitGameEvent("witness.seen", { witness: "tifa" });
+      */
+      window.emitGameEvent = (type, payload = {}) => {
+        TriggerBus.emit({ type, ...payload });
+        console.log("[emitGameEvent]", type, payload);
+      };
+
       await sleep(100);
       setLoading(false);
     })();
