@@ -1,20 +1,65 @@
 // js/systems/diary.js
+
+// ===============================
+// SECTION A — Imports & constants
+// ===============================
 import { fetchJson } from "../utils.js";
 import { currentISO, isoFor } from "./clock.js";
 
-/* ---------------------------------------
-   LOAD
----------------------------------------- */
+// If you ever change the cap, do it once here:
+export const DIARY_STAGE_MAX = 10; // Aerith uses 0..10
+
+// ===============================
+// SECTION B — Loader + Normalizer
+// ===============================
+
+/**
+ * Load and normalize a diary file so the rest of the app can rely on:
+ * {
+ *   id: string,
+ *   characterId: string,
+ *   targetId: string,
+ *   desires: { [targetId]: { love:[], corruption:[], hybrid:[] } } | {},
+ *   witnessed: { [targetId]: { [witnessId]: { love:[], corruption:[], hybrid:[] } } } | {},
+ *   events: { [eventKey]: { [path]: string[] } } | {},   // optional, future use
+ *   entries: Array<DiaryEntry>
+ * }
+ */
 export async function loadDiary(url) {
   const r = await fetchJson(url);
-  return r.ok ? (r.data || null) : null;
+  if (!r.ok) return null;
+
+  const raw = r.data || {};
+  const diary = {
+    id: String(raw.id || "diary"),
+    characterId: String(raw.characterId || raw.actorId || "unknown"),
+    targetId: String(raw.targetId || "unknown"),
+    desires: raw.desires && typeof raw.desires === "object" ? raw.desires : {},
+    witnessed: raw.witnessed && typeof raw.witnessed === "object" ? raw.witnessed : {},
+    events: raw.events && typeof raw.events === "object" ? raw.events : {}, // optional
+    entries: Array.isArray(raw.entries) ? raw.entries.slice() : []
+  };
+
+  // Make sure every timeline entry is minimally shaped
+  diary.entries = diary.entries.map((e, i) => ({
+    id: String(e.id || `${diary.characterId}-${i}`),
+    date: e.date ? String(e.date) : currentISO(),
+    text: String(e.text || ""),
+    path: e.path ?? null,
+    stage: typeof e.stage === "number" ? e.stage : null,
+    mood: Array.isArray(e.mood) ? e.mood : [],
+    tags: Array.isArray(e.tags) ? e.tags : [],
+    asides: Array.isArray(e.asides) ? e.asides : []
+  }));
+
+  return diary;
 }
 
-/* ---------------------------------------
-   SELECTORS (static route text)
----------------------------------------- */
+// ===============================
+// SECTION C — Selectors
+// ===============================
 
-// Desires: by target -> path -> up to stage
+/** Desires: by target -> path -> up to current stage */
 export function selectDesireEntries(diary, targetId, path, stage) {
   const lane = diary?.desires?.[targetId]?.[path];
   if (!Array.isArray(lane)) return [];
@@ -22,7 +67,7 @@ export function selectDesireEntries(diary, targetId, path, stage) {
   return lane.slice(0, s + 1);
 }
 
-// Witnessed: pick exactly one line for (target, witness, path, stage)
+/** Witnessed: pick exactly one line for (target, witness, path, stage) */
 export function selectWitnessedLine(diary, targetId, witnessId, path, stage) {
   const lane = diary?.witnessed?.[targetId]?.[witnessId]?.[path];
   if (!Array.isArray(lane) || !lane.length) return null;
@@ -30,25 +75,37 @@ export function selectWitnessedLine(diary, targetId, witnessId, path, stage) {
   return lane[s];
 }
 
-/* ---------------------------------------
-   TIMELINE (dynamic entries)
----------------------------------------- */
+/**
+ * Optional (nice to have): pick an event line
+ * Path-aware, stage-capped, from diary.events[eventKey][path] = string[]
+ */
+export function selectEventLine(diary, eventKey, path, stage) {
+  const lane = diary?.events?.[eventKey]?.[path];
+  if (!Array.isArray(lane) || !lane.length) return null;
+  const s = Math.max(0, Math.min(Number(stage ?? 0), lane.length - 1));
+  return lane[s];
+}
 
-// Append a new diary timeline entry stamped with current in-game time
+// ===============================
+// SECTION D — Timeline mutations
+// ===============================
+
+/** Append a new diary entry (stamped with current in-game time) */
 export function appendDiaryEntry(diaryObj, {
   text,
   path = null,      // "love" | "corruption" | "hybrid" | null
-  stage = null,     // 0..5 or null
+  stage = null,     // 0..DIARY_STAGE_MAX or null
   mood = [],        // ["anxious","curious"] etc
   tags = [],        // ["#witnessed","#with:tifa"] etc
   asides = []       // extra italic lines in UI
 }) {
   if (!diaryObj) return null;
   if (!Array.isArray(diaryObj.entries)) diaryObj.entries = [];
+
   const id = `${diaryObj.characterId || "char"}-${Math.random().toString(36).slice(2, 8)}`;
   const entry = {
     id,
-    date: currentISO(),  // in-game timestamp
+    date: currentISO(),
     text: String(text || ""),
     path,
     stage,
@@ -60,10 +117,11 @@ export function appendDiaryEntry(diaryObj, {
   return entry;
 }
 
-// Backfill entry for a specific in-game day/hour
+/** Backfill entry for a specific in-game day/hour */
 export function appendDiaryEntryAt(diaryObj, day, hour, payload = {}) {
   if (!diaryObj) return null;
   if (!Array.isArray(diaryObj.entries)) diaryObj.entries = [];
+
   const id = `${diaryObj.characterId || "char"}-${Math.random().toString(36).slice(2, 8)}`;
   const entry = {
     id,
@@ -79,7 +137,7 @@ export function appendDiaryEntryAt(diaryObj, day, hour, payload = {}) {
   return entry;
 }
 
-// Convenience: log the currently selected witnessed line into the timeline
+/** Convenience: log the currently selected witnessed line into the timeline */
 export function logWitnessed(diaryObj, witnessId, { text, path, stage }) {
   return appendDiaryEntry(diaryObj, {
     text,
@@ -90,15 +148,11 @@ export function logWitnessed(diaryObj, witnessId, { text, path, stage }) {
   });
 }
 
-/* ---------------------------------------
-   PATH/STAGE STATE (per-character pair)
-   localStorage shape:
-   {
-     "aerith": {
-       "vagrant": { "path": "love|corruption|hybrid", "stage": 0..5 }
-     }
-   }
----------------------------------------- */
+// ===============================
+// SECTION E — Path/Stage state (per pair)
+// localStorage shape:
+// { "<char>": { "<target>": { path: "...", stage: 0..DIARY_STAGE_MAX } } }
+// ===============================
 const PS_KEY = "sim_path_state_v1";
 
 export function getPathState() {
@@ -118,9 +172,10 @@ export function setPairState(charId, targetId, patch) {
   if (!all[charId]) all[charId] = {};
   const curr = all[charId][targetId] || { path: "love", stage: 0 };
   const next = { ...curr, ...(patch || {}) };
-  // clamp stage if provided
+
+  // Clamp stage to the configured max
   if (typeof next.stage === "number") {
-    next.stage = Math.max(0, Math.min(5, next.stage));
+    next.stage = Math.max(0, Math.min(DIARY_STAGE_MAX, next.stage));
   }
   all[charId][targetId] = next;
   setPathState(all);
