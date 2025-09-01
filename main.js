@@ -1,3 +1,4 @@
+// main.js
 import { h, render } from "https://esm.sh/preact@10.22.0";
 import { useEffect, useMemo, useState } from "https://esm.sh/preact@10.22.0/hooks";
 
@@ -13,10 +14,12 @@ import {
   loadEvolution as loadSensEvolution
 } from "./js/systems/sensitivities.js";
 import DiaryView from "./js/views/diary.js";
-import { loadDiary } from "./js/systems/diary.js";
-
-/* ▼ NEW: trigger engine */
-import { TriggerBus, installTriggers } from "./js/systems/triggers.js";
+import {
+  loadDiary,
+  appendDiaryEntry,
+  logWitnessed,
+  getPairState
+} from "./js/systems/diary.js";
 
 /* ---------- Config (DATA) ---------- */
 const DATA = {
@@ -49,10 +52,7 @@ const DATA = {
   statusFertility: "data/status/fertility_v1.json",
 
   // Diary
-  diaryAerith: "data/diaries/aerith_diary_v1.json",
-
-  // ▼ NEW: triggers (Aerith↔Vagrant rule pack)
-  triggersAerith: "data/triggers/aerith_vagrant_v1.json"
+  diaryAerith: "data/diaries/aerith_diary_v1.json"
 };
 
 const LS_KEYS = { AUTOSAVE: "sim_autosave_v1", SLOT: (n) => `sim_slot_${n}_v1` };
@@ -92,7 +92,7 @@ function App() {
   const [sensRules, setSensRules] = useState([]);
 
   // Status pillar
-  const [statusMap, setStatusMap] = useState({});     // { id -> { role, level, exp, limit, mood, effects[] } }
+  const [statusMap, setStatusMap] = useState({});
   const [playerFemale, setPlayerFemale] = useState(null);
   const [fertilityMap, setFertilityMap] = useState({});
 
@@ -181,19 +181,6 @@ function App() {
       setDiaryAerith(ad);
       d.push({ label: "diaries/aerith_diary_v1.json", status: ad ? "ok" : "err" });
 
-      // ▼ NEW: Triggers (Aerith↔Vagrant)
-      const tr = await fetchJson(DATA.triggersAerith);
-      if (tr.ok && tr.data?.rules) {
-        installTriggers(tr.data.rules, {
-          characterId: "aerith",
-          targetId: "vagrant",
-          diary: ad
-        });
-        d.push({ label: "triggers/aerith_vagrant_v1.json", status: "ok" });
-      } else {
-        d.push({ label: "triggers/aerith_vagrant_v1.json", status: "err" });
-      }
-
       // Status pillar
       const st = await fetchJson(DATA.statusActors);
       setStatusMap(st.ok ? (st.data?.status || {}) : {});
@@ -208,24 +195,80 @@ function App() {
       d.push({ label: "status/fertility_v1.json", status: Object.keys(fert).length ? "ok" : "err" });
 
       setDetails(d);
-
-      /* ▼ DEV convenience: global emitter so you can fire events from console
-         Usage:
-           emitGameEvent("interaction.meet");
-           emitGameEvent("location.enter", { location: "tent" });
-           emitGameEvent("item.use", { item: "bloomstone" });
-           emitGameEvent("time.morningTick");
-           emitGameEvent("witness.seen", { witness: "tifa" });
-      */
-      window.emitGameEvent = (type, payload = {}) => {
-        TriggerBus.emit({ type, ...payload });
-        console.log("[emitGameEvent]", type, payload);
-      };
-
       await sleep(100);
       setLoading(false);
     })();
   }, []);
+
+  // ---------- GAME EVENT DISPATCH (used by DEV buttons & future systems) ----------
+  function emitGameEvent(type, payload = {}) {
+    if (!diaryAerith) return;
+
+    // Current Aerith↔Vagrant lane+stage
+    const pair = getPairState("aerith", "vagrant"); // { path, stage }
+
+    const push = (text, extra = {}) => {
+      appendDiaryEntry(diaryAerith, {
+        text,
+        path: pair.path,
+        stage: pair.stage,
+        tags: extra.tags || [],
+        mood: extra.mood || []
+      });
+    };
+
+    switch (type) {
+      case "meet":
+        push("[meet] We crossed paths in the slums today. I shouldn’t care… but I do.", { tags:["#meet","#with:vagrant"], mood:["curious"] });
+        break;
+
+      case "first_kiss":
+        push("[first_kiss] His lips tasted like ash and rain. I leaned in anyway.", { tags:["#kiss","#with:vagrant"], mood:["flutter"] });
+        break;
+
+      case "enter.tent":
+        push("[location:tent] The canvas swallowed the night—and us with it.", { tags:["#location:tent","#with:vagrant"] });
+        break;
+
+      case "enter.inn":
+        push("[location:inn] A door, a key, a breath held too long.", { tags:["#location:inn","#with:vagrant"] });
+        break;
+
+      case "item.bloomstone.sapphire":
+        push("[bloomstone:sapphire] The hum made me obey before I thought.", { tags:["#bloomstone","#sapphire"] });
+        break;
+
+      case "risky.alley_stealth":
+        push("[risky:alley] We moved like thieves, breath shared in the dark.", { tags:["#risky","#alley"] });
+        break;
+
+      case "time.morning_tick":
+        push("[morning] I woke with his scent still clinging.", { tags:["#morning"], mood:["pensive"] });
+        break;
+
+      case "witness.tifa":
+      case "witness.renna":
+      case "witness.yuffie": {
+        const id = type.split(".")[1];
+        // Minimal witness log helper—reuses diary path+stage meta
+        logWitnessed(diaryAerith, id, {
+          text: `[witness:${id}] I saw something I can’t unsee.`,
+          path: pair.path,
+          stage: pair.stage
+        });
+        break;
+      }
+
+      default:
+        push(`[event:${type}]`, { tags:["#event"] });
+        break;
+    }
+  }
+
+  // Expose for the DEV panel in DiaryView (?dev=1)
+  if (typeof window !== "undefined") {
+    window.emitGameEvent = (type, payload) => emitGameEvent(type, payload);
+  }
 
   // HELPERS
   function flash(msg){ setToast(msg); setTimeout(()=>setToast(""), 1200); }
@@ -273,7 +316,7 @@ function App() {
     return Math.round(avg);
   }, [edges, selectedId]);
 
-  // NAV (single definition)
+  // NAV
   const Nav = () =>
     h("div", { class: "menu", style:"margin-bottom:8px; display:flex; gap:8px; flex-wrap:wrap" }, [
       h(Button, { onClick: ()=>{ location.hash=""; setView("home"); }, ghost: view!=="home" }, "Home"),
