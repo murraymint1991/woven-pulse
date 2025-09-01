@@ -1,4 +1,7 @@
-// main.js
+// ===============================
+// main.js  (pair-aware diaries)
+// ===============================
+
 import { h, render } from "https://esm.sh/preact@10.22.0";
 import { useEffect, useMemo, useState } from "https://esm.sh/preact@10.22.0/hooks";
 
@@ -6,25 +9,33 @@ import { sleep, nowStamp, fetchJson, countScenesAnywhere } from "./js/utils.js";
 import { Button, Badge, Dot } from "./js/ui.js";
 import RelationshipsView from "./js/views/relationships.js";
 import StatusView from "./js/views/status.js";
+
+// ----- Status
 import { loadFertility } from "./js/systems/status.js";
+
+// ----- Traits
 import { loadAssignments as loadTraitAssignments } from "./js/systems/traits.js";
+
+// ----- Sensitivities
 import {
   loadCatalog as loadSensCatalog,
   loadAssignments as loadSensAssignments,
   loadEvolution as loadSensEvolution
 } from "./js/systems/sensitivities.js";
+
+// ----- Diary
 import DiaryView from "./js/views/diary.js";
 import {
   loadDiary,
   appendDiaryEntry,
   logWitnessed,
-  getPairState,
-  // ⬇ needed so we can fetch a path/stage-specific witness line from the diary JSON
-  selectWitnessedLine,
+  getPairState
 } from "./js/systems/diary.js";
 
-//// [SECTION 1: DATA FILE PATHS] /////////////////////////////////////////////
-
+/* ==============================================================
+   SECTION: CONFIG (DATA PATHS)
+   - Add new diary pairs in DATA.diaries
+   ============================================================== */
 const DATA = {
   traitsMoods: "data/traits_moods/traits_moods_v1.json",
   characters: [
@@ -54,19 +65,34 @@ const DATA = {
   statusPlayerFemale: "data/status/player_female_v1.json",
   statusFertility: "data/status/fertility_v1.json",
 
-  // Diary
-  diaryAerith: "data/diaries/aerith_diary_v1.json",
+  // ---------- Pair-specific diaries go here ----------
+  // key format: "<characterId>:<targetId>"
+  diaries: {
+    "aerith:vagrant": "data/diaries/aerith_vagrant_v1.json",
+    // Add more later:
+    // "aerith:cloud":   "data/diaries/aerith_cloud_v1.json",
+    // "aerith:barret":  "data/diaries/aerith_barret_v1.json",
+  }
 };
 
 const LS_KEYS = { AUTOSAVE: "sim_autosave_v1", SLOT: (n) => `sim_slot_${n}_v1` };
 
-//// [SECTION 2: ROOT APP COMPONENT] //////////////////////////////////////////
+/* ==============================================================
+   SECTION: HELPERS (PAIR → PATH)
+   ============================================================== */
+function pairKey(characterId, targetId){ return `${characterId}:${targetId}`; }
+function getDiaryPath(characterId, targetId){
+  return DATA.diaries[pairKey(characterId, targetId)] || null;
+}
 
+/* ==============================================================
+   SECTION: APP
+   ============================================================== */
 function App() {
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState("");
 
-  // ---------- Routing (includes #diary) ----------
+  // -------- ROUTING --------
   const [view, setView] = useState(() =>
     (location.hash === "#relationships") ? "relationships" :
     (location.hash === "#status")         ? "status" :
@@ -84,7 +110,7 @@ function App() {
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
-  // ---------- Data state ----------
+  // -------- DATA STATE --------
   const [traitsFound, setTraitsFound] = useState(false);
   const [chars, setChars] = useState([]);
   const [scenesCount, setScenesCount] = useState(0);
@@ -95,21 +121,24 @@ function App() {
   const [sensMap, setSensMap] = useState({});
   const [sensRules, setSensRules] = useState([]);
 
-  // Status pillar
+  // ----- Status pillar
   const [statusMap, setStatusMap] = useState({});
   const [playerFemale, setPlayerFemale] = useState(null);
   const [fertilityMap, setFertilityMap] = useState({});
 
-  // Diary data
-  const [diaryAerith, setDiaryAerith] = useState(null);
+  // ----- Pair selection (which diary to show)
+  const [pair, setPair] = useState({ characterId: "aerith", targetId: "vagrant" });
 
-  // Saves + selection
+  // ----- Diary cache: { "<char>:<target>": diaryObject }
+  const [diaryByPair, setDiaryByPair] = useState({});
+
+  // SAVES + selection
   const [relationship, setRelationship] = useState(Number(localStorage.getItem("sim_rel_value")) || 0);
   const [slots, setSlots] = useState(Array.from({ length: 20 }, () => null));
   const [autosaveMeta, setAutosaveMeta] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
 
-  // ---------- Load saves ----------
+  // -------- LOAD SAVES --------
   useEffect(() => {
     const next = [];
     for (let i = 1; i <= 20; i++) {
@@ -122,7 +151,7 @@ function App() {
   }, []);
   useEffect(() => localStorage.setItem("sim_rel_value", String(relationship)), [relationship]);
 
-  // ---------- Load all data files ----------
+  // -------- LOAD STATIC DATA (one time) --------
   useEffect(() => {
     (async () => {
       const d = [];
@@ -180,11 +209,6 @@ function App() {
       const sr = await fetchJson(DATA.sensEvolution); setSensRules(sr.ok ? (sr.data?.rules || []) : []);
       d.push({ label: "sensitivities/evolution_v1.json", status: sr.ok ? "ok" : "err" });
 
-      // Diary (Aerith)
-      const ad = await loadDiary(DATA.diaryAerith);
-      setDiaryAerith(ad);
-      d.push({ label: "diaries/aerith_diary_v1.json", status: ad ? "ok" : "err" });
-
       // Status pillar
       const st = await fetchJson(DATA.statusActors);
       setStatusMap(st.ok ? (st.data?.status || {}) : {});
@@ -204,142 +228,86 @@ function App() {
     })();
   }, []);
 
-  //// [SECTION 3: CONTENT LOOKUP HELPERS] ////////////////////////////////////
-  // These keep prose out of JS and pull it from the diary JSON.
+  // -------- LOAD/RESOLVE PAIR DIARY (whenever pair changes) --------
+  useEffect(() => {
+    (async () => {
+      const key = pairKey(pair.characterId, pair.targetId);
+      if (diaryByPair[key]) return; // cached
 
-  function _at(obj, keys) {
-    // safely walk object by a list of keys; return [] if missing
-    let cur = obj;
-    for (const k of keys) {
-      if (!cur || typeof cur !== "object" || !(k in cur)) return [];
-      cur = cur[k];
-    }
-    return cur;
-  }
-  function _pick(listOrBuckets, path, stage) {
-    if (!listOrBuckets) return null;
+      const path = getDiaryPath(pair.characterId, pair.targetId);
+      if (!path) return; // no registered diary for this pair yet
 
-    // Bucketed by path: { love:[...], corruption:[...], hybrid:[...] }
-    if (!Array.isArray(listOrBuckets) && typeof listOrBuckets === "object") {
-      const lane = listOrBuckets[path] || listOrBuckets.any || [];
-      const eligible = (Array.isArray(lane) ? lane : []).filter(e => (e.stageMin ?? 0) <= stage);
-      return eligible.length ? eligible[Math.floor(Math.random()*eligible.length)].text : null;
-    }
-    // Flat list: [{stageMin, path?, text}, ...]
-    const eligible = (listOrBuckets || []).filter(e =>
-      (e.stageMin ?? 0) <= stage &&
-      (e.path === "any" || e.path === path || !("path" in e))
-    );
-    return eligible.length ? eligible[Math.floor(Math.random()*eligible.length)].text : null;
-  }
-  function _line(diary, keys, path, stage) {
-    const bucket = _at(diary.events || diary, keys);
-    return _pick(bucket, path, stage);
-  }
-  function _fallback(text, pair, tags=[]) {
-    return { text, path: pair.path, stage: pair.stage, tags, mood: [] };
-  }
+      const diary = await loadDiary(path);
+      if (diary) setDiaryByPair(prev => ({ ...prev, [key]: diary }));
+    })();
+  }, [pair, diaryByPair]);
 
-  //// [SECTION 4: GAME EVENT DISPATCH] ///////////////////////////////////////
-  // Centralized handler used by the Diary dev panel and (later) by real systems.
-  // If you ever need to add a new trigger, add a case here and map it to a
-  // content bucket in the diary JSON.
-
+  // =================================================================
+  // SECTION: GAME EVENT DISPATCH (DEV & future systems)
+  // - emits text into the current pair’s diary timeline
+  // =================================================================
   function emitGameEvent(type, payload = {}) {
-    if (!diaryAerith) return;
+    const key = pairKey(pair.characterId, pair.targetId);
+    const diary = diaryByPair[key];
+    if (!diary) return;
 
-    const pair = getPairState("aerith", "vagrant"); // { path, stage }
-    const push = (entry) => appendDiaryEntry(diaryAerith, entry);
+    const ps = getPairState(pair.characterId, pair.targetId); // { path, stage }
 
-    // Try multiple buckets in order; push first hit
-    const tryBuckets = (paths, tags=[]) => {
-      for (const keys of paths) {
-        const t = _line(diaryAerith, keys, pair.path, pair.stage);
-        if (t) { push({ text: t, path: pair.path, stage: pair.stage, tags, mood: [] }); return true; }
-      }
-      return false;
+    const push = (text, extra = {}) => {
+      appendDiaryEntry(diary, {
+        text,
+        path: ps.path,
+        stage: ps.stage,
+        tags: extra.tags || [],
+        mood: extra.mood || []
+      });
     };
 
     switch (type) {
-      /* ---- TIME ---- */
-      case "time.morningTick": {
-        if (!tryBuckets([["events","daily_life_simple"], ["events","daily_life_tainted"]], ["#time","#morning"])) {
-          push(_fallback("[morning passes…]", pair, ["#time","#morning"]));
-        }
+      case "meet":
+        push("[event:interaction.meet]", { tags:["#event"] });
+        break;
+      case "first_kiss":
+        push("[event:interaction.kiss]", { tags:["#event"] });
+        break;
+      case "enter.tent":
+        push("[event:location.enter]", { tags:["#event","#location:tent"] });
+        break;
+      case "enter.inn":
+        push("[event:location.enter]", { tags:["#event","#location:inn"] });
+        break;
+      case "item.bloomstone.sapphire":
+        push("[event:item.use] bloomstone:sapphire", { tags:["#event","#item"] });
+        break;
+      case "risky.alley_stealth":
+        push("[event:risky.alleyStealth]", { tags:["#event","#risky"] });
+        break;
+      case "time.morning_tick":
+        push("[event:time.morningTick]", { tags:["#event"] });
+        break;
+      case "witness.tifa":
+      case "witness.renna":
+      case "witness.yuffie": {
+        const id = type.split(".")[1];
+        logWitnessed(diary, id, {
+          text: `[event:witness.seen]`,
+          path: ps.path,
+          stage: ps.stage
+        });
         break;
       }
-
-      /* ---- INTERACTIONS ---- */
-      case "interaction.meet": {
-        if (!tryBuckets([["events","intro"]], ["#interaction","#meet","#with:vagrant"])) {
-          push(_fallback("We crossed paths in the slums; I told myself to keep walking… and still I looked back.", pair, ["#interaction"]));
-        }
+      default:
+        push(`[event:${type}]`, { tags:["#event"] });
         break;
-      }
-      case "interaction.kiss": {
-        if (!tryBuckets([["events","intimacy"]], ["#interaction","#kiss","#with:vagrant"])) {
-          push(_fallback("His mouth tasted of smoke and rain. I should’ve pulled away. I leaned in instead.", pair, ["#interaction","#kiss"]));
-        }
-        break;
-      }
-
-      /* ---- LOCATIONS ---- */
-      case "location.enter": {
-        const place = String(payload.place || "slums").toLowerCase();
-        if (!tryBuckets([["events","locations", place]], [`#location:${place}`,"#with:vagrant"])) {
-          push(_fallback(`[entered ${place}]`, pair, [`#location:${place}`]));
-        }
-        break;
-      }
-
-      /* ---- ITEMS (Bloomstones, etc.) ---- */
-      case "item.use": {
-        const kind = payload.kind || "item";
-        const id   = payload.id   || "";
-        if (kind === "bloomstone" && id) {
-          const ok = tryBuckets([["bloomstones", id]], ["#bloomstone", `#${id}`]);
-          if (!ok) push(_fallback(`[used bloomstone:${id}]`, pair, ["#bloomstone",`#${id}`]));
-        } else {
-          push(_fallback(`[used ${kind}${id?":" + id:""}]`, pair, ["#item"]));
-        }
-        break;
-      }
-
-      /* ---- RISKY PLAY ---- */
-      case "risky.alleyStealth": {
-        if (!tryBuckets(
-          [["events","risky_play","stealth"], ["events","risky_play","semi_public"], ["events","risky_play","public"]],
-          ["#risky"]
-        )) {
-          push(_fallback("We moved like thieves in the alley—quiet, breath shared, pulse too loud.", pair, ["#risky"]));
-        }
-        break;
-      }
-
-      /* ---- WITNESS ---- */
-      case "witness.seen": {
-        const who = payload.who || "someone";
-        const line = selectWitnessedLine(diaryAerith, "vagrant", who, pair.path, pair.stage);
-        const text = line || `I caught ${who} watching us. Heat ran through me—and I didn’t look away.`;
-        logWitnessed(diaryAerith, who, { text, path: pair.path, stage: pair.stage });
-        break;
-      }
-
-      default: {
-        // Visible breadcrumb if a button fires an unmapped event
-        push(_fallback(`[event:${type}]`, pair, ["#event"]));
-        break;
-      }
     }
   }
 
-  // Expose for the DEV panel in DiaryView (?dev=1)
+  // Expose for the DEV panel inside DiaryView (?dev=1)
   if (typeof window !== "undefined") {
     window.emitGameEvent = (type, payload) => emitGameEvent(type, payload);
   }
 
-  //// [SECTION 5: SAVE/LOAD + SMALL HELPERS] /////////////////////////////////
-
+  // -------- UI HELPERS --------
   function flash(msg){ setToast(msg); setTimeout(()=>setToast(""), 1200); }
   function doAutosave(){
     const snapshot = {
@@ -367,7 +335,7 @@ function App() {
   }
   function clearCacheAndReload(){ clearAllSaves(); location.reload(); }
 
-  // ---------- Memos ----------
+  // -------- MEMOS --------
   const summaryText = useMemo(
     () => `${chars.length} char · ${scenesCount} scenes · traits: ${traitsFound ? "yes":"no"}`,
     [chars.length, scenesCount, traitsFound]
@@ -385,8 +353,7 @@ function App() {
     return Math.round(avg);
   }, [edges, selectedId]);
 
-  //// [SECTION 6: NAV + ROUTES] //////////////////////////////////////////////
-
+  // -------- NAV --------
   const Nav = () =>
     h("div", { class: "menu", style:"margin-bottom:8px; display:flex; gap:8px; flex-wrap:wrap" }, [
       h(Button, { onClick: ()=>{ location.hash=""; setView("home"); }, ghost: view!=="home" }, "Home"),
@@ -395,6 +362,7 @@ function App() {
       h(Button, { onClick: ()=>{ location.hash="#diary"; setView("diary"); }, ghost: view!=="diary" }, "Diary"),
     ]);
 
+  // -------- HOME --------
   const Home = () => h("div", null, [
     h("div", { class:"hero" }, h("div",{class:"hero-inner"},[
       h("div",{class:"stage-title"},"SIM Prototype — Start"),
@@ -453,15 +421,41 @@ function App() {
     ])
   ]);
 
-  // Final return (adds Diary route)
+  // -------- CURRENT DIARY (derived) --------
+  const currentDiary = diaryByPair[pairKey(pair.characterId, pair.targetId)] || null;
+
+  // -------- PAIR PICKER (simple dev UI shown only on Diary route) --------
+  const PairPicker = () => h("div", { class:"kv", style:"gap:6px; flex-wrap:wrap" }, [
+    h(Badge,null,`Actor: ${pair.characterId}`),
+    h(Badge,null,`Target: ${pair.targetId}`),
+    // Example quick toggles: add more as you register files in DATA.diaries
+    h(Button,{ghost:true,onClick:()=>setPair({characterId:"aerith",targetId:"vagrant"})},"AERITH↔VAGRANT"),
+    // h(Button,{ghost:true,onClick:()=>setPair({characterId:"aerith",targetId:"cloud"})},"AERITH↔CLOUD"),
+  ]);
+
+  // -------- FINAL RETURN (routes) --------
   return h("div",{class:"app"},
     view==="status" ? h(StatusView, { chars, statusMap, playerFemale, fertilityMap, Nav })
     : view==="relationships" ? h(RelationshipsView, { chars, edges, selected: selected || null, setSelected: setSelectedId, selectedAffinity, traitMap, sensCatalog, sensMap, sensRules, Nav })
-    : view==="diary" ? h(DiaryView, { diary: diaryAerith, characterId: "aerith", targetId: "vagrant", witnesses:["tifa","renna","yuffie"], Nav })
+    : view==="diary" ? h("div", null, [
+        h("div",{class:"hero"}, h("div",{class:"hero-inner"},[
+          h("div",{class:"stage-title"},"Diary · Pair"),
+          h(Nav, null),
+          h(PairPicker, null)
+        ])),
+        h(DiaryView, {
+          diary: currentDiary,
+          characterId: pair.characterId,
+          targetId: pair.targetId,
+          witnesses:["tifa","renna","yuffie"],
+          Nav
+        })
+      ])
     : h(Home)
   );
 }
 
-//// [SECTION 7: MOUNT] ///////////////////////////////////////////////////////
-
+/* ==============================================================
+   SECTION: MOUNT
+   ============================================================== */
 render(h(App), document.getElementById("app"));
