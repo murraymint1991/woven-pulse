@@ -1,4 +1,5 @@
 {
+  "targetId": "vagrant",
   "version": "1.0",
   "characterId": "aerith",
   "desires": {
@@ -42,7 +43,7 @@
       "Our story is messy and true. I’ll write it with ink that doesn’t wash off.",
       "If love is a sanctuary and desire a wildfire, then our home is a hearth built from both."
     ],
-    "reflections": {
+    "witnessed": {
   "vagrant": {
     "tifa": [
       "Stage 0 — She scowls when he draws near. I pretend I agree, but my heart beats faster than it should.",
