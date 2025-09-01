@@ -18,10 +18,13 @@ import {
   loadDiary,
   appendDiaryEntry,
   logWitnessed,
-  getPairState
+  getPairState,
+  // ⬇ needed so we can fetch a path/stage-specific witness line from the diary JSON
+  selectWitnessedLine,
 } from "./js/systems/diary.js";
 
-/* ---------- Config (DATA) ---------- */
+//// [SECTION 1: DATA FILE PATHS] /////////////////////////////////////////////
+
 const DATA = {
   traitsMoods: "data/traits_moods/traits_moods_v1.json",
   characters: [
@@ -52,17 +55,18 @@ const DATA = {
   statusFertility: "data/status/fertility_v1.json",
 
   // Diary
-  diaryAerith: "data/diaries/aerith_diary_v1.json"
+  diaryAerith: "data/diaries/aerith_diary_v1.json",
 };
 
 const LS_KEYS = { AUTOSAVE: "sim_autosave_v1", SLOT: (n) => `sim_slot_${n}_v1` };
 
-/* ---------- App ---------- */
+//// [SECTION 2: ROOT APP COMPONENT] //////////////////////////////////////////
+
 function App() {
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState("");
 
-  // ROUTING (includes #diary)
+  // ---------- Routing (includes #diary) ----------
   const [view, setView] = useState(() =>
     (location.hash === "#relationships") ? "relationships" :
     (location.hash === "#status")         ? "status" :
@@ -80,7 +84,7 @@ function App() {
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
-  // DATA STATE
+  // ---------- Data state ----------
   const [traitsFound, setTraitsFound] = useState(false);
   const [chars, setChars] = useState([]);
   const [scenesCount, setScenesCount] = useState(0);
@@ -99,13 +103,13 @@ function App() {
   // Diary data
   const [diaryAerith, setDiaryAerith] = useState(null);
 
-  // SAVES + selection
+  // Saves + selection
   const [relationship, setRelationship] = useState(Number(localStorage.getItem("sim_rel_value")) || 0);
   const [slots, setSlots] = useState(Array.from({ length: 20 }, () => null));
   const [autosaveMeta, setAutosaveMeta] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
 
-  // LOAD SAVES
+  // ---------- Load saves ----------
   useEffect(() => {
     const next = [];
     for (let i = 1; i <= 20; i++) {
@@ -118,7 +122,7 @@ function App() {
   }, []);
   useEffect(() => localStorage.setItem("sim_rel_value", String(relationship)), [relationship]);
 
-  // LOAD DATA
+  // ---------- Load all data files ----------
   useEffect(() => {
     (async () => {
       const d = [];
@@ -200,68 +204,132 @@ function App() {
     })();
   }, []);
 
-  // ---------- GAME EVENT DISPATCH (used by DEV buttons & future systems) ----------
+  //// [SECTION 3: CONTENT LOOKUP HELPERS] ////////////////////////////////////
+  // These keep prose out of JS and pull it from the diary JSON.
+
+  function _at(obj, keys) {
+    // safely walk object by a list of keys; return [] if missing
+    let cur = obj;
+    for (const k of keys) {
+      if (!cur || typeof cur !== "object" || !(k in cur)) return [];
+      cur = cur[k];
+    }
+    return cur;
+  }
+  function _pick(listOrBuckets, path, stage) {
+    if (!listOrBuckets) return null;
+
+    // Bucketed by path: { love:[...], corruption:[...], hybrid:[...] }
+    if (!Array.isArray(listOrBuckets) && typeof listOrBuckets === "object") {
+      const lane = listOrBuckets[path] || listOrBuckets.any || [];
+      const eligible = (Array.isArray(lane) ? lane : []).filter(e => (e.stageMin ?? 0) <= stage);
+      return eligible.length ? eligible[Math.floor(Math.random()*eligible.length)].text : null;
+    }
+    // Flat list: [{stageMin, path?, text}, ...]
+    const eligible = (listOrBuckets || []).filter(e =>
+      (e.stageMin ?? 0) <= stage &&
+      (e.path === "any" || e.path === path || !("path" in e))
+    );
+    return eligible.length ? eligible[Math.floor(Math.random()*eligible.length)].text : null;
+  }
+  function _line(diary, keys, path, stage) {
+    const bucket = _at(diary.events || diary, keys);
+    return _pick(bucket, path, stage);
+  }
+  function _fallback(text, pair, tags=[]) {
+    return { text, path: pair.path, stage: pair.stage, tags, mood: [] };
+  }
+
+  //// [SECTION 4: GAME EVENT DISPATCH] ///////////////////////////////////////
+  // Centralized handler used by the Diary dev panel and (later) by real systems.
+  // If you ever need to add a new trigger, add a case here and map it to a
+  // content bucket in the diary JSON.
+
   function emitGameEvent(type, payload = {}) {
     if (!diaryAerith) return;
 
-    // Current Aerith↔Vagrant lane+stage
     const pair = getPairState("aerith", "vagrant"); // { path, stage }
+    const push = (entry) => appendDiaryEntry(diaryAerith, entry);
 
-    const push = (text, extra = {}) => {
-      appendDiaryEntry(diaryAerith, {
-        text,
-        path: pair.path,
-        stage: pair.stage,
-        tags: extra.tags || [],
-        mood: extra.mood || []
-      });
+    // Try multiple buckets in order; push first hit
+    const tryBuckets = (paths, tags=[]) => {
+      for (const keys of paths) {
+        const t = _line(diaryAerith, keys, pair.path, pair.stage);
+        if (t) { push({ text: t, path: pair.path, stage: pair.stage, tags, mood: [] }); return true; }
+      }
+      return false;
     };
 
     switch (type) {
-      case "meet":
-        push("[meet] We crossed paths in the slums today. I shouldn’t care… but I do.", { tags:["#meet","#with:vagrant"], mood:["curious"] });
-        break;
-
-      case "first_kiss":
-        push("[first_kiss] His lips tasted like ash and rain. I leaned in anyway.", { tags:["#kiss","#with:vagrant"], mood:["flutter"] });
-        break;
-
-      case "enter.tent":
-        push("[location:tent] The canvas swallowed the night—and us with it.", { tags:["#location:tent","#with:vagrant"] });
-        break;
-
-      case "enter.inn":
-        push("[location:inn] A door, a key, a breath held too long.", { tags:["#location:inn","#with:vagrant"] });
-        break;
-
-      case "item.bloomstone.sapphire":
-        push("[bloomstone:sapphire] The hum made me obey before I thought.", { tags:["#bloomstone","#sapphire"] });
-        break;
-
-      case "risky.alley_stealth":
-        push("[risky:alley] We moved like thieves, breath shared in the dark.", { tags:["#risky","#alley"] });
-        break;
-
-      case "time.morning_tick":
-        push("[morning] I woke with his scent still clinging.", { tags:["#morning"], mood:["pensive"] });
-        break;
-
-      case "witness.tifa":
-      case "witness.renna":
-      case "witness.yuffie": {
-        const id = type.split(".")[1];
-        // Minimal witness log helper—reuses diary path+stage meta
-        logWitnessed(diaryAerith, id, {
-          text: `[witness:${id}] I saw something I can’t unsee.`,
-          path: pair.path,
-          stage: pair.stage
-        });
+      /* ---- TIME ---- */
+      case "time.morningTick": {
+        if (!tryBuckets([["events","daily_life_simple"], ["events","daily_life_tainted"]], ["#time","#morning"])) {
+          push(_fallback("[morning passes…]", pair, ["#time","#morning"]));
+        }
         break;
       }
 
-      default:
-        push(`[event:${type}]`, { tags:["#event"] });
+      /* ---- INTERACTIONS ---- */
+      case "interaction.meet": {
+        if (!tryBuckets([["events","intro"]], ["#interaction","#meet","#with:vagrant"])) {
+          push(_fallback("We crossed paths in the slums; I told myself to keep walking… and still I looked back.", pair, ["#interaction"]));
+        }
         break;
+      }
+      case "interaction.kiss": {
+        if (!tryBuckets([["events","intimacy"]], ["#interaction","#kiss","#with:vagrant"])) {
+          push(_fallback("His mouth tasted of smoke and rain. I should’ve pulled away. I leaned in instead.", pair, ["#interaction","#kiss"]));
+        }
+        break;
+      }
+
+      /* ---- LOCATIONS ---- */
+      case "location.enter": {
+        const place = String(payload.place || "slums").toLowerCase();
+        if (!tryBuckets([["events","locations", place]], [`#location:${place}`,"#with:vagrant"])) {
+          push(_fallback(`[entered ${place}]`, pair, [`#location:${place}`]));
+        }
+        break;
+      }
+
+      /* ---- ITEMS (Bloomstones, etc.) ---- */
+      case "item.use": {
+        const kind = payload.kind || "item";
+        const id   = payload.id   || "";
+        if (kind === "bloomstone" && id) {
+          const ok = tryBuckets([["bloomstones", id]], ["#bloomstone", `#${id}`]);
+          if (!ok) push(_fallback(`[used bloomstone:${id}]`, pair, ["#bloomstone",`#${id}`]));
+        } else {
+          push(_fallback(`[used ${kind}${id?":" + id:""}]`, pair, ["#item"]));
+        }
+        break;
+      }
+
+      /* ---- RISKY PLAY ---- */
+      case "risky.alleyStealth": {
+        if (!tryBuckets(
+          [["events","risky_play","stealth"], ["events","risky_play","semi_public"], ["events","risky_play","public"]],
+          ["#risky"]
+        )) {
+          push(_fallback("We moved like thieves in the alley—quiet, breath shared, pulse too loud.", pair, ["#risky"]));
+        }
+        break;
+      }
+
+      /* ---- WITNESS ---- */
+      case "witness.seen": {
+        const who = payload.who || "someone";
+        const line = selectWitnessedLine(diaryAerith, "vagrant", who, pair.path, pair.stage);
+        const text = line || `I caught ${who} watching us. Heat ran through me—and I didn’t look away.`;
+        logWitnessed(diaryAerith, who, { text, path: pair.path, stage: pair.stage });
+        break;
+      }
+
+      default: {
+        // Visible breadcrumb if a button fires an unmapped event
+        push(_fallback(`[event:${type}]`, pair, ["#event"]));
+        break;
+      }
     }
   }
 
@@ -270,7 +338,8 @@ function App() {
     window.emitGameEvent = (type, payload) => emitGameEvent(type, payload);
   }
 
-  // HELPERS
+  //// [SECTION 5: SAVE/LOAD + SMALL HELPERS] /////////////////////////////////
+
   function flash(msg){ setToast(msg); setTimeout(()=>setToast(""), 1200); }
   function doAutosave(){
     const snapshot = {
@@ -298,7 +367,7 @@ function App() {
   }
   function clearCacheAndReload(){ clearAllSaves(); location.reload(); }
 
-  // MEMOS
+  // ---------- Memos ----------
   const summaryText = useMemo(
     () => `${chars.length} char · ${scenesCount} scenes · traits: ${traitsFound ? "yes":"no"}`,
     [chars.length, scenesCount, traitsFound]
@@ -316,7 +385,8 @@ function App() {
     return Math.round(avg);
   }, [edges, selectedId]);
 
-  // NAV
+  //// [SECTION 6: NAV + ROUTES] //////////////////////////////////////////////
+
   const Nav = () =>
     h("div", { class: "menu", style:"margin-bottom:8px; display:flex; gap:8px; flex-wrap:wrap" }, [
       h(Button, { onClick: ()=>{ location.hash=""; setView("home"); }, ghost: view!=="home" }, "Home"),
@@ -325,7 +395,6 @@ function App() {
       h(Button, { onClick: ()=>{ location.hash="#diary"; setView("diary"); }, ghost: view!=="diary" }, "Diary"),
     ]);
 
-  // HOME
   const Home = () => h("div", null, [
     h("div", { class:"hero" }, h("div",{class:"hero-inner"},[
       h("div",{class:"stage-title"},"SIM Prototype — Start"),
@@ -384,7 +453,7 @@ function App() {
     ])
   ]);
 
-  // FINAL RETURN (adds Diary route)
+  // Final return (adds Diary route)
   return h("div",{class:"app"},
     view==="status" ? h(StatusView, { chars, statusMap, playerFemale, fertilityMap, Nav })
     : view==="relationships" ? h(RelationshipsView, { chars, edges, selected: selected || null, setSelected: setSelectedId, selectedAffinity, traitMap, sensCatalog, sensMap, sensRules, Nav })
@@ -393,5 +462,6 @@ function App() {
   );
 }
 
-/* ---------- Mount ---------- */
+//// [SECTION 7: MOUNT] ///////////////////////////////////////////////////////
+
 render(h(App), document.getElementById("app"));
