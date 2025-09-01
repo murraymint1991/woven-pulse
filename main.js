@@ -1,5 +1,5 @@
 // ===============================
-// main.js  (pair-aware diaries)
+// main.js  (pair-aware diaries) — revised
 // ===============================
 
 import { h, render } from "https://esm.sh/preact@10.22.0";
@@ -58,11 +58,6 @@ const DATA = {
   sensCatalog: "data/sensitivities/catalog_v1.json",
   sensAssignments: "data/sensitivities/assignments_v1.json",
   sensEvolution: "data/sensitivities/evolution_v1.json",
-
-  // Status pillar
-  statusActors: "data/status/actors_v1.json",
-  statusPlayerFemale: "data/status/player_female_v1.json",
-  statusFertility: "data/status/fertility_v1.json",
 
   // ---------- Pair-specific diaries ----------
   diaries: {
@@ -225,9 +220,26 @@ function App() {
       const key = pairKey(pair.characterId, pair.targetId);
       if (diaryByPair[key]) return; // cached
       const path = getDiaryPath(pair.characterId, pair.targetId);
-      if (!path) return;
+      if (!path) {
+        console.warn("[Diary path missing]", { pair });
+        return;
+      }
       const diary = await loadDiary(path);
-      if (diary) setDiaryByPair(prev => ({ ...prev, [key]: diary }));
+      if (diary) {
+        setDiaryByPair(prev => ({ ...prev, [key]: diary }));
+        // --- NEW: diagnostics so we see what's coming in
+        try {
+          console.log("[Diary loaded]", {
+            key,
+            characterId: diary.characterId,
+            targetId: diary.targetId,
+            keys: Object.keys(diary || {}),
+            entriesCount: Array.isArray(diary.entries) ? diary.entries.length : 0
+          });
+        } catch {}
+      } else {
+        console.warn("[Diary missing]", { key, path });
+      }
     })();
   }, [pair, diaryByPair]);
 
@@ -411,6 +423,38 @@ function App() {
     h(Button,{ghost:true,onClick:()=>setPair({characterId:"aerith",targetId:"vagrant"})},"AERITH ↔ VAGRANT"),
   ]);
 
+  // -------- DEV STRIP (Diary local seeding) --------
+  const DiaryDevStrip = () => {
+    return h("div", { class:"kv", style:"gap:6px; flex-wrap:wrap; margin: 8px 0" }, [
+      h(Button, {
+        onClick: () => {
+          const key = pairKey(pair.characterId, pair.targetId);
+          const d = diaryByPair[key];
+          if (!d) return;
+          const ps = getPairState(pair.characterId, pair.targetId);
+          appendDiaryEntry(d, {
+            text: "[test] dev seeded entry",
+            path: ps.path,
+            stage: ps.stage,
+            tags:["#dev"]
+          });
+          // Force re-render by updating state with same object reference map
+          setDiaryByPair(prev => ({ ...prev }));
+        }
+      }, "Seed Test Entry"),
+      h(Button, {
+        ghost:true,
+        onClick: () => {
+          const key = pairKey(pair.characterId, pair.targetId);
+          const d = diaryByPair[key];
+          if (!d) return;
+          d.entries = [];
+          setDiaryByPair(prev => ({ ...prev }));
+        }
+      }, "Clear Entries")
+    ]);
+  };
+
   // -------- FINAL RETURN (routes) --------
   return h("div",{class:"app"},
     view==="status" ? h(StatusView, { chars, statusMap, playerFemale, fertilityMap, Nav })
@@ -421,6 +465,7 @@ function App() {
           h(Nav, null),
           h(PairPicker, null)
         ])),
+        h(DiaryDevStrip, null),  // <-- NEW: quick dev buttons
         h(DiaryView, {
           diary: currentDiary,
           characterId: pair.characterId,
