@@ -117,21 +117,21 @@ export default function DiaryView({
         h(Button, { onClick: () => setStage(+1), ghost: true }, "Stage +")
       ]),
 
-      // E2a. Trigger test buttons — these now emit AND refresh immediately
-      h("div", { class: "kv small" }, "Fire game events:"),
-      h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
-        h(Button, { ghost:true, onClick: () => emitAndRefresh("interaction.meet") }, "Meet"),
-        h(Button, { ghost:true, onClick: () => emitAndRefresh("interaction.firstKiss") }, "First Kiss"),
-        h(Button, { ghost:true, onClick: () => emitAndRefresh("location.enter", { place: "tent" }) }, "Enter Tent"),
-        h(Button, { ghost:true, onClick: () => emitAndRefresh("location.enter", { place: "inn" }) }, "Enter Inn"),
-        h(Button, { ghost:true, onClick: () => emitAndRefresh("item.bloomstone.sapphire") }, "Use Bloomstone (Sapphire)"),
-        h(Button, { ghost:true, onClick: () => emitAndRefresh("risky.alleyStealth") }, "Risky · Alley Stealth"),
-        h(Button, { ghost:true, onClick: () => emitAndRefresh("time.morningTick") }, "Time · Morning Tick"),
-        ...witnesses.map(w => h(Button, {
-          ghost:true,
-          onClick: () => emitAndRefresh("witness.seen", { witness: w, target: targetId })
-        }, `Witness: ${w}`))
-      ]),
+// E2a. Trigger test buttons — emit AND refresh
+h("div", { class: "kv small" }, "Fire game events:"),
+h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
+  h(Button, { ghost:true, onClick: () => emitAndRefresh("meet") }, "Meet"),
+  h(Button, { ghost:true, onClick: () => emitAndRefresh("first_kiss") }, "First Kiss"),
+  h(Button, { ghost:true, onClick: () => emitAndRefresh("enter.tent") }, "Enter Tent"),
+  h(Button, { ghost:true, onClick: () => emitAndRefresh("enter.inn") }, "Enter Inn"),
+  h(Button, { ghost:true, onClick: () => emitAndRefresh("item.bloomstone.sapphire") }, "Use Bloomstone (Sapphire)"),
+  h(Button, { ghost:true, onClick: () => emitAndRefresh("risky.alley_stealth") }, "Risky · Alley Stealth"),
+  h(Button, { ghost:true, onClick: () => emitAndRefresh("time.morning_tick") }, "Time · Morning Tick"),
+  ...witnesses.map(w => h(Button, {
+    ghost:true,
+    onClick: () => emitAndRefresh(`witness.${w}`)
+  }, `Witness: ${w}`))
+]),
 
       // E2b. Existing quick loggers
       h("div", { class: "kv", style:"margin-top:8px" }, [
