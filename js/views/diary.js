@@ -1,4 +1,6 @@
-// js/views/diary.js
+// ============================================================================
+// SECTION A — IMPORTS
+// ============================================================================
 import { h } from "https://esm.sh/preact@10.22.0";
 import {
   selectDesireEntries,
@@ -11,7 +13,12 @@ import {
 import { fmtClock, getClock, advanceMinutes, advanceHours, advanceDays } from "../systems/clock.js";
 import { Button, Badge } from "../ui.js";
 
-// group entries by YYYY-MM-DD
+// ============================================================================
+// SECTION B — HELPERS (grouping + constants)
+// ============================================================================
+const MAX_STAGE = 10; // our diary uses 0..10 stages
+
+// Group entries by YYYY-MM-DD (for timeline rendering)
 function groupByDay(entries) {
   const out = {};
   (entries || []).forEach(e => {
@@ -21,6 +28,9 @@ function groupByDay(entries) {
   return out;
 }
 
+// ============================================================================
+// SECTION C — MAIN VIEW COMPONENT
+// ============================================================================
 export default function DiaryView({
   diary,
   characterId = "aerith",
@@ -30,26 +40,26 @@ export default function DiaryView({
 }) {
   if (!diary) return h("div", { class: "card" }, "No diary data loaded.");
 
-  // current pair state (lane + stage)
+  // ---------- C1. Pair state (lane/path + stage) ----------
   const pair = getPairState(characterId, targetId); // { path, stage }
   const setPath = (p) => { setPairState(characterId, targetId, { path: p }); rerender(); };
   const setStage = (delta) => {
-    const n = Math.max(0, Math.min(5, Number(pair.stage || 0) + delta));
+    const n = Math.max(0, Math.min(MAX_STAGE, Number(pair.stage || 0) + delta));
     setPairState(characterId, targetId, { stage: n }); rerender();
   };
 
-  // panels
+  // ---------- C2. Panels ----------
   const desire  = selectDesireEntries(diary, targetId, pair.path, pair.stage);
   const grouped = groupByDay(diary.entries);
 
-  // in-game clock
+  // ---------- C3. Clock ----------
   const c = getClock();
 
-  // dev mode?
+  // ---------- C4. DEV mode gate ----------
   const params = new URLSearchParams(location.search);
   const DEV = params.get("dev") === "1";
 
-  // expose helpers in dev
+  // ---------- C5. DEV exposure (handy console hooks) ----------
   if (DEV && typeof window !== "undefined") {
     window.__DIARY_CURRENT__ = diary;
     window.__PAIR_CURRENT__  = pair;
@@ -62,18 +72,25 @@ export default function DiaryView({
     window.__SetStage__ = (s) => { setPairState(characterId, targetId, { stage: s }); rerender(); };
   }
 
-  // tiny dev freeform entry text (local, not persisted)
-  let freeText = "";
+  // ---------- C6. Local UI state ----------
+  let freeText = ""; // tiny dev freeform entry text (local, not persisted)
 
-  // convenience wrapper to emit triggers if main attached window.emitGameEvent
-  const emit = (type, payload = {}) => {
+  // ========================================================================
+  // SECTION D — DEV EVENT EMITTERS
+  // (These call window.emitGameEvent from main.js and force-refresh UI.)
+  // ========================================================================
+  const emitOnly = (type, payload = {}) => {
     if (typeof window !== "undefined" && typeof window.emitGameEvent === "function") {
       window.emitGameEvent(type, payload);
     }
   };
+  const emitAndRefresh = (type, payload = {}) => { emitOnly(type, payload); rerender(); };
 
+  // ========================================================================
+  // SECTION E — RENDER
+  // ========================================================================
   return h("div", null, [
-    // Header + clock controls
+    // E1. Header + clock controls
     h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
       h("div", { class: "stage-title" }, `Diary — ${characterId.charAt(0).toUpperCase()+characterId.slice(1)}`),
       h(Nav, null),
@@ -85,7 +102,7 @@ export default function DiaryView({
       ])
     ])),
 
-    // DEV PANEL (only if ?dev=1)
+    // E2. DEV PANEL (only with ?dev=1)
     DEV ? h("div", { class: "card", style: "border:dashed 1px #888; background:#0d0f15" }, [
       h("h3", null, "DEV · Diary"),
       h("div", { class: "kv" }, [
@@ -100,23 +117,23 @@ export default function DiaryView({
         h(Button, { onClick: () => setStage(+1), ghost: true }, "Stage +")
       ]),
 
-      // NEW: trigger test buttons (uses window.emitGameEvent provided in main.js)
+      // E2a. Trigger test buttons — these now emit AND refresh immediately
       h("div", { class: "kv small" }, "Fire game events:"),
       h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
-        h(Button, { ghost:true, onClick: () => emit("interaction.meet") }, "Meet"),
-        h(Button, { ghost:true, onClick: () => emit("interaction.kiss", { target: targetId }) }, "First Kiss"),
-        h(Button, { ghost:true, onClick: () => emit("location.enter", { location: "tent" }) }, "Enter Tent"),
-        h(Button, { ghost:true, onClick: () => emit("location.enter", { location: "inn" }) }, "Enter Inn"),
-        h(Button, { ghost:true, onClick: () => emit("item.use", { item: "bloomstone", variant: "sapphire" }) }, "Use Bloomstone (Sapphire)"),
-        h(Button, { ghost:true, onClick: () => emit("risky.alleyStealth") }, "Risky · Alley Stealth"),
-        h(Button, { ghost:true, onClick: () => emit("time.morningTick") }, "Time · Morning Tick"),
+        h(Button, { ghost:true, onClick: () => emitAndRefresh("interaction.meet") }, "Meet"),
+        h(Button, { ghost:true, onClick: () => emitAndRefresh("interaction.firstKiss") }, "First Kiss"),
+        h(Button, { ghost:true, onClick: () => emitAndRefresh("location.enter", { place: "tent" }) }, "Enter Tent"),
+        h(Button, { ghost:true, onClick: () => emitAndRefresh("location.enter", { place: "inn" }) }, "Enter Inn"),
+        h(Button, { ghost:true, onClick: () => emitAndRefresh("item.bloomstone.sapphire") }, "Use Bloomstone (Sapphire)"),
+        h(Button, { ghost:true, onClick: () => emitAndRefresh("risky.alleyStealth") }, "Risky · Alley Stealth"),
+        h(Button, { ghost:true, onClick: () => emitAndRefresh("time.morningTick") }, "Time · Morning Tick"),
         ...witnesses.map(w => h(Button, {
           ghost:true,
-          onClick: () => emit("witness.seen", { witness: w, target: targetId })
+          onClick: () => emitAndRefresh("witness.seen", { witness: w, target: targetId })
         }, `Witness: ${w}`))
       ]),
 
-      // Existing quick loggers
+      // E2b. Existing quick loggers
       h("div", { class: "kv", style:"margin-top:8px" }, [
         h(Button, {
           ghost: true,
@@ -166,7 +183,7 @@ export default function DiaryView({
       ])
     ]) : null,
 
-    // Desires (read-only, still useful without dev)
+    // E3. Desires (read-only)
     h("div", { class: "card diary-card" }, [
       h("h3", null, `Desires · target: ${targetId}`),
       h("div", { class: "kv" }, [
@@ -178,7 +195,7 @@ export default function DiaryView({
         : h("div", { class: "small" }, "— no entries yet —")
     ]),
 
-    // Witnessed (read-only preview of path-aware lines)
+    // E4. Witnessed (read-only preview)
     h("div", { class: "card diary-card" }, [
       h("h3", null, "Witnessed"),
       ...witnesses.map(w => {
@@ -192,7 +209,7 @@ export default function DiaryView({
       })
     ]),
 
-    // Timeline (dynamic entries)
+    // E5. Timeline (dynamic, grouped by day)
     h("div", { class: "card diary-card" }, [
       h("h3", null, "Timeline"),
       ...Object.entries(grouped).map(([day, entries]) =>
@@ -214,9 +231,11 @@ export default function DiaryView({
   ]);
 }
 
-/* crude rerender helper: forces a sync refresh by toggling hash */
+// ============================================================================
+// SECTION F — RERENDER HELPER (forces UI refresh by toggling hash)
+// ============================================================================
 function rerender() {
   const h0 = location.hash;
   location.hash = "#_";
   setTimeout(() => { location.hash = h0; }, 0);
-                }
+}
