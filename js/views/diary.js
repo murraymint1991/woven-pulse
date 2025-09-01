@@ -1,6 +1,6 @@
-// ============================================================================
-// SECTION A — IMPORTS
-// ============================================================================
+// js/views/diary.js
+// Diary view — timeline-first. "Caught" lines are appended straight into entries[].
+
 import { h } from "https://esm.sh/preact@10.22.0";
 import {
   selectDesireEntries,
@@ -13,208 +13,162 @@ import {
 import { fmtClock, getClock, advanceMinutes, advanceHours, advanceDays } from "../systems/clock.js";
 import { Button, Badge } from "../ui.js";
 
-// ============================================================================
-// SECTION B — HELPERS (grouping + constants)
-// ============================================================================
-const MAX_STAGE = 10; // our diary uses 0..10 stages
+const MAX_STAGE = 10;
+const WITNESSES = ["tifa", "renna", "yuffie"];
+const PATHS = ["love", "corruption", "hybrid"];
 
-// Group entries by YYYY-MM-DD (for timeline rendering)
+// Group entries by day (YYYY-MM-DD)
 function groupByDay(entries) {
   const out = {};
   (entries || []).forEach(e => {
-    const day = e.date?.slice(0, 10) || "unknown";
-    (out[day] ||= []).push(e);
+    const d = (e.date || "").slice(0, 10) || "unknown";
+    (out[d] ||= []).push(e);
   });
   return out;
 }
 
-// ============================================================================
-// SECTION C — MAIN VIEW COMPONENT
-// ============================================================================
 export default function DiaryView({
   diary,
   characterId = "aerith",
   targetId = "vagrant",
-  witnesses = ["tifa", "renna", "yuffie"],
+  witnesses = WITNESSES,
   Nav
 }) {
   if (!diary) return h("div", { class: "card" }, "No diary data loaded.");
 
-  // ---------- C1. Pair state (lane/path + stage) ----------
-  const pair = getPairState(characterId, targetId); // { path, stage }
+  // Pair state (path/stage)
+  const pair = getPairState(characterId, targetId);
   const setPath = (p) => { setPairState(characterId, targetId, { path: p }); rerender(); };
   const setStage = (delta) => {
     const n = Math.max(0, Math.min(MAX_STAGE, Number(pair.stage || 0) + delta));
     setPairState(characterId, targetId, { stage: n }); rerender();
   };
 
-  // ---------- C2. Panels ----------
-  const desire  = selectDesireEntries(diary, targetId, pair.path, pair.stage);
+  // Derived view data
+  const desireLane = selectDesireEntries(diary, targetId, pair.path, pair.stage);
   const grouped = groupByDay(diary.entries);
+  const clockNow = getClock();
 
-  // ---------- C3. Clock ----------
-  const c = getClock();
-
-  // ---------- C4. DEV mode (default ON unless ?dev=0) ----------
+  // Dev mode (default ON; use ?dev=0 to hide)
   const params = new URLSearchParams(location.search);
   const DEV = params.get("dev") !== "0";
 
-  // ---------- C5. DEV exposure (handy console hooks) ----------
-  if (DEV && typeof window !== "undefined") {
-    window.__DIARY_CURRENT__ = diary;
-    window.__PAIR_CURRENT__  = pair;
-    window.__AppendDiaryEntry__ = (payload) => { appendDiaryEntry(diary, payload); rerender(); };
-    window.__LogWitnessed__ = (w) => {
-      const line = selectWitnessedLine(diary, targetId, w, pair.path, pair.stage);
-      if (line) { logWitnessed(diary, w, { text: line, path: pair.path, stage: pair.stage }); rerender(); }
-    };
-    window.__SetPath__  = (p) => { setPairState(characterId, targetId, { path: p }); rerender(); };
-    window.__SetStage__ = (s) => { setPairState(characterId, targetId, { stage: s }); rerender(); };
-  }
-
-  // ---------- C6. Local UI state ----------
-  let freeText = ""; // tiny dev freeform entry text (local, not persisted)
-
-  // ========================================================================
-  // SECTION D — DEV EVENT EMITTERS
-  // (These call window.emitGameEvent from main.js and force-refresh UI.)
-  // ========================================================================
-  const emitOnly = (type, payload = {}) => {
+  // Helpers for dev actions
+  const appendFree = (text, extra = {}) => {
+    appendDiaryEntry(diary, {
+      text,
+      path: extra.path ?? pair.path,
+      stage: extra.stage ?? pair.stage,
+      mood: extra.mood || [],
+      tags: extra.tags || []
+    });
+    rerender();
+  };
+  const fireEvent = (type, payload = {}) => {
     if (typeof window !== "undefined" && typeof window.emitGameEvent === "function") {
       window.emitGameEvent(type, payload);
+      rerender();
     }
   };
-  const emitAndRefresh = (type, payload = {}) => { emitOnly(type, payload); rerender(); };
+  // Caught buttons: pick the correct line and append it to timeline
+  const logCaught = (who, path) => {
+    const line = selectWitnessedLine(diary, targetId, who, path, pair.stage);
+    if (!line) return;
+    logWitnessed(diary, who, { text: line, path, stage: pair.stage });
+    rerender();
+  };
 
-  // ========================================================================
-  // SECTION E — RENDER
-  // ========================================================================
   return h("div", null, [
-    // E1. Header + clock controls
+    // Header
     h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
-      h("div", { class: "stage-title" }, `Diary — ${characterId.charAt(0).toUpperCase()+characterId.slice(1)}`),
+      h("div", { class: "stage-title" }, `Diary — ${characterId.charAt(0).toUpperCase() + characterId.slice(1)}`),
       h(Nav, null),
       h("div", { class: "kv small" }, [
-        h(Badge, null, fmtClock(c)),
+        h(Badge, null, fmtClock(clockNow)),
         h(Button, { ghost: true, onClick: () => { advanceMinutes(15); location.reload(); } }, "+15m"),
         h(Button, { ghost: true, onClick: () => { advanceHours(1);  location.reload(); } }, "+1h"),
         h(Button, { ghost: true, onClick: () => { advanceDays(1);   location.reload(); } }, "+1d")
       ])
     ])),
 
-    // E2. DEV PANEL (now ON by default; hide with ?dev=0)
-    DEV ? h("div", { class: "card", style: "border:dashed 1px #888; background:#0d0f15" }, [
-      h("h3", null, "DEV · Diary"),
+    // DEV PANEL (timeline-first; emits entries directly)
+    DEV ? h("div", { class: "card", style: "border:dashed 1px #647; background:#0d0f15" }, [
+      h("h3", null, "DEV · Diary (timeline only)"),
       h("div", { class: "kv" }, [
         h(Badge, null, `Path: ${pair.path}`),
         h(Badge, null, `Stage: ${pair.stage}`)
       ]),
-      h("div", { class: "kv" }, [
-        h(Button, { onClick: () => setPath("love"),       ghost: pair.path !== "love" }, "Love"),
-        h(Button, { onClick: () => setPath("corruption"), ghost: pair.path !== "corruption" }, "Corruption"),
-        h(Button, { onClick: () => setPath("hybrid"),     ghost: pair.path !== "hybrid" }, "Hybrid"),
-        h(Button, { onClick: () => setStage(-1), ghost: true }, "Stage −"),
-        h(Button, { onClick: () => setStage(+1), ghost: true }, "Stage +")
-      ]),
-
-      // E2a. Trigger test buttons — emit AND refresh
-      h("div", { class: "kv small" }, "Fire game events:"),
+      // Path/Stage controls
       h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
-        // Map to main.js switch names:
-        h(Button, { ghost:true, onClick: () => emitAndRefresh("interaction.meet") }, "Meet"),
-        h(Button, { ghost:true, onClick: () => emitAndRefresh("interaction.firstKiss") }, "First Kiss"),
-        h(Button, { ghost:true, onClick: () => emitAndRefresh("location.enter", { place: "Tent" }) }, "Enter Tent"),
-        h(Button, { ghost:true, onClick: () => emitAndRefresh("location.enter", { place: "Inn" }) }, "Enter Inn"),
-        h(Button, { ghost:true, onClick: () => emitAndRefresh("item.bloomstone.sapphire") }, "Use Bloomstone (Sapphire)"),
-        h(Button, { ghost:true, onClick: () => emitAndRefresh("risky.alleyStealth") }, "Risky · Alley Stealth"),
-        h(Button, { ghost:true, onClick: () => emitAndRefresh("time.morningTick") }, "Time · Morning Tick"),
-        // Witnessed: log exact line into timeline based on path/stage
-        ...witnesses.map(w => h(Button, {
-          ghost:true,
-          onClick: () => {
-            const line = selectWitnessedLine(diary, targetId, w, pair.path, pair.stage);
-            if (line) { logWitnessed(diary, w, { text: line, path: pair.path, stage: pair.stage }); rerender(); }
-          }
-        }, `Witness: ${w}`))
+        ...PATHS.map(p => h(Button, { onClick: () => setPath(p), ghost: pair.path !== p }, p[0].toUpperCase()+p.slice(1))),
+        h(Button, { ghost: true, onClick: () => setStage(-1) }, "Stage −"),
+        h(Button, { ghost: true, onClick: () => setStage(+1) }, "Stage +")
       ]),
-
-      // E2b. Existing quick loggers
-      h("div", { class: "kv", style:"margin-top:8px" }, [
+      // Core event seeds (map to main.js switch)
+      h("div", { class: "kv small", style: "margin-top:8px" }, "Story beats:"),
+      h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
+        h(Button, { ghost:true, onClick: () => fireEvent("interaction.meet") }, "Meet"),
+        h(Button, { ghost:true, onClick: () => fireEvent("interaction.firstKiss") }, "First Kiss"),
+        h(Button, { ghost:true, onClick: () => fireEvent("location.enter", { place: "Tent" }) }, "Enter Tent"),
+        h(Button, { ghost:true, onClick: () => fireEvent("location.enter", { place: "Inn" }) }, "Enter Inn"),
+        h(Button, { ghost:true, onClick: () => fireEvent("item.bloomstone.sapphire") }, "Use Bloomstone (Sapphire)"),
+        h(Button, { ghost:true, onClick: () => fireEvent("risky.alleyStealth") }, "Risky · Alley Stealth"),
+        h(Button, { ghost:true, onClick: () => fireEvent("time.morningTick") }, "Time · Morning Tick")
+      ]),
+      // Caught buttons (what you asked for) — writes directly to Timeline
+      h("div", { class: "kv small", style: "margin-top:8px" }, "Caught by (writes to timeline):"),
+      ...witnesses.map(w =>
+        h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
+          h(Badge, null, w),
+          ...PATHS.map(p => h(Button, { ghost:true, onClick: () => logCaught(w, p) }, `${p[0].toUpperCase()+p.slice(1)}`))
+        ])
+      ),
+      // Desire helper: log the latest visible desire line
+      h("div", { class: "kv", style: "margin-top:8px" }, [
         h(Button, {
           ghost: true,
           onClick: () => {
-            if (desire.length) {
-              appendDiaryEntry(diary, {
-                text: `[desire:${pair.path} s${pair.stage}] ${desire[desire.length - 1]}`,
-                path: pair.path,
-                stage: pair.stage,
-                tags: ["#desire", `#with:${targetId}`],
-                mood: ["pensive"]
-              });
-              rerender();
-            }
-          }
-        }, "Log current desire line")
-      ]),
-      h("div", { class: "kv small" }, "Log witnessed lines (again):"),
-      h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
-        ...witnesses.map(w => h(Button, {
-          ghost: true,
-          onClick: () => {
-            const line = selectWitnessedLine(diary, targetId, w, pair.path, pair.stage);
-            if (line) { logWitnessed(diary, w, { text: line, path: pair.path, stage: pair.stage }); rerender(); }
-          }
-        }, `With ${w}`))
-      ]),
-      h("div", { class: "kv", style: "align-items:flex-start; gap:8px" }, [
-        h("textarea", {
-          placeholder: "Freeform line…",
-          style: "min-height:60px; width:100%;",
-          onInput: (e) => { freeText = e.currentTarget.value; }
-        }),
-        h(Button, {
-          ghost: true,
-          onClick: () => {
-            if (!freeText || !freeText.trim()) return;
+            if (!desireLane.length) return;
             appendDiaryEntry(diary, {
-              text: freeText.trim(),
-              tags: ["#free"],
-              mood: []
+              text: `[desire:${pair.path} s${pair.stage}] ${desireLane[desireLane.length - 1]}`,
+              path: pair.path,
+              stage: pair.stage,
+              tags: ["#desire", `#with:${targetId}`],
+              mood: ["pensive"]
             });
-            freeText = "";
             rerender();
           }
-        }, "Add freeform entry")
+        }, "Log current Desire line")
+      ]),
+      // Freeform line
+      h("div", { class: "kv", style:"align-items:flex-start; gap:8px" }, [
+        h("textarea", { id:"freeLine", placeholder: "Freeform line…", style: "min-height:60px; width:100%;" }),
+        h(Button, {
+          ghost: true,
+          onClick: () => {
+            const el = document.getElementById("freeLine");
+            const txt = (el?.value || "").trim();
+            if (!txt) return;
+            appendFree(txt, { tags:["#free"] });
+            if (el) el.value = "";
+          }
+        }, "Add")
       ])
     ]) : null,
 
-    // E3. Desires (read-only)
+    // Desires (read-only peek; optional but useful for testing)
     h("div", { class: "card diary-card" }, [
       h("h3", null, `Desires · target: ${targetId}`),
       h("div", { class: "kv" }, [
         h(Badge, null, `Path: ${pair.path}`),
         h(Badge, null, `Stage: ${pair.stage}`)
       ]),
-      (desire && desire.length)
-        ? h("div", { class: "diary-hand" }, desire.map((t, i) => h("p", { key: i }, t)))
+      (desireLane && desireLane.length)
+        ? h("div", { class: "diary-hand" }, desireLane.map((t, i) => h("p", { key: i }, t)))
         : h("div", { class: "small" }, "— no entries yet —")
     ]),
 
-    // E4. Witnessed (read-only preview)
-    h("div", { class: "card diary-card" }, [
-      h("h3", null, "Witnessed"),
-      ...witnesses.map(w => {
-        const line = selectWitnessedLine(diary, targetId, w, pair.path, pair.stage);
-        return h("div", { class: "subcard", style: "margin-top:8px" }, [
-          h("h4", null, `With ${w}`),
-          line
-            ? h("div", { class: "diary-hand" }, [ h("p", null, line) ])
-            : h("div", { class: "small" }, "— no entry for this path/stage —")
-        ]);
-      })
-    ]),
-
-    // E5. Timeline (dynamic, grouped by day)
+    // Timeline (only narrative surface we show)
     h("div", { class: "card diary-card" }, [
       h("h3", null, "Timeline"),
       (Object.keys(grouped).length === 0)
@@ -239,11 +193,9 @@ export default function DiaryView({
   ]);
 }
 
-// ============================================================================
-// SECTION F — RERENDER HELPER (forces UI refresh by toggling hash)
-// ============================================================================
+// Force a quick refresh of the view
 function rerender() {
   const h0 = location.hash;
   location.hash = "#_";
   setTimeout(() => { location.hash = h0; }, 0);
-                                     }
+}
