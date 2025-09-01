@@ -225,19 +225,44 @@ function App() {
   }, []);
 
 // -------- LOAD/RESOLVE PAIR DIARY (whenever pair changes) --------
-  useEffect(() => {
-    (async () => {
-      const key = pairKey(pair.characterId, pair.targetId);
-      if (diaryByPair[key]) return; // cached
+const [pairLoadState, setPairLoadState] = useState({ status: "idle", key: "", path: "" });
 
-      const path = getDiaryPath(pair.characterId, pair.targetId);
-      if (!path) return; // no registered diary for this pair yet
+useEffect(() => {
+  (async () => {
+    const key = pairKey(pair.characterId, pair.targetId);
+    const path = getDiaryPath(pair.characterId, pair.targetId);
 
+    setPairLoadState({ status: "loading", key, path });
+
+    if (!path) {
+      console.warn("[DiaryLoader] No path registered for pair:", key);
+      setPairLoadState({ status: "no-path", key, path: "(none)" });
+      return;
+    }
+    if (diaryByPair[key]) {
+      setPairLoadState({ status: "cached", key, path });
+      return; // already loaded
+    }
+
+    try {
       const diary = await loadDiary(path);
-      if (diary) setDiaryByPair(prev => ({ ...prev, [key]: diary }));
-    })();
-  }, [pair, diaryByPair]);
-
+      if (diary && typeof diary === "object") {
+        setDiaryByPair(prev => ({ ...prev, [key]: diary }));
+        setPairLoadState({ status: "ok", key, path });
+      } else {
+        console.error("[DiaryLoader] loadDiary returned null/invalid for:", path);
+        // Fallback shape so DiaryView can render and we can keep testing
+        const fallback = { id: key, entries: [], meta: { note: "fallback (invalid schema?)" } };
+        setDiaryByPair(prev => ({ ...prev, [key]: fallback }));
+        setPairLoadState({ status: "invalid", key, path });
+      }
+    } catch (err) {
+      console.error("[DiaryLoader] exception while loading:", path, err);
+      setPairLoadState({ status: "error", key, path });
+    }
+  })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [pair.characterId, pair.targetId]);
   // =================================================================
   // SECTION: GAME EVENT DISPATCH (DEV & future systems)
   // - emits text into the current pair’s diary timeline
@@ -417,8 +442,19 @@ function App() {
     ])
   ]);
 
-  // -------- CURRENT DIARY (derived) --------
-  const currentDiary = diaryByPair[pairKey(pair.characterId, pair.targetId)] || null;
+// -------- CURRENT DIARY (derived) --------
+const currentKey   = pairKey(pair.characterId, pair.targetId);
+const currentDiary = diaryByPair[currentKey] || null;
+
+// in the Diary route, before <DiaryView .../>
+h("div",{class:"card", style:"margin-bottom:8px"}, [
+  h("h3", null, "Diary Loader"),
+  h("div", { class: "kv small" }, [
+    h(Badge, null, `pair: ${currentKey}`),
+    h(Badge, { ghost:true }, `status: ${pairLoadState.status}`),
+    pairLoadState.path ? h(Badge, { ghost:true }, pairLoadState.path) : null
+  ])
+]),
 
   // -------- PAIR PICKER (simple dev UI shown only on Diary route) --------
   const PairPicker = () => h("div", { class:"kv", style:"gap:6px; flex-wrap:wrap" }, [
