@@ -1,7 +1,3 @@
-// ===============================
-// main.js  (pair-aware diaries)
-// ===============================
-
 import { h, render } from "https://esm.sh/preact@10.22.0";
 import { useEffect, useMemo, useState } from "https://esm.sh/preact@10.22.0/hooks";
 
@@ -228,7 +224,7 @@ function App() {
     })();
   }, []);
 
-  // -------- LOAD/RESOLVE PAIR DIARY (whenever pair changes) --------
+// -------- LOAD/RESOLVE PAIR DIARY (whenever pair changes) --------
   useEffect(() => {
     (async () => {
       const key = pairKey(pair.characterId, pair.targetId);
