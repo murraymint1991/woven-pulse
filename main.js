@@ -1,3 +1,7 @@
+// ===============================
+// main.js  (pair-aware diaries)
+// ===============================
+
 import { h, render } from "https://esm.sh/preact@10.22.0";
 import { useEffect, useMemo, useState } from "https://esm.sh/preact@10.22.0/hooks";
 
@@ -30,7 +34,6 @@ import {
 
 /* ==============================================================
    SECTION: CONFIG (DATA PATHS)
-   - Add new diary pairs in DATA.diaries
    ============================================================== */
 const DATA = {
   traitsMoods: "data/traits_moods/traits_moods_v1.json",
@@ -61,13 +64,9 @@ const DATA = {
   statusPlayerFemale: "data/status/player_female_v1.json",
   statusFertility: "data/status/fertility_v1.json",
 
-  // ---------- Pair-specific diaries go here ----------
-  // key format: "<characterId>:<targetId>"
+  // ---------- Pair-specific diaries ----------
   diaries: {
     "aerith:vagrant": "data/diaries/aerith_vagrant_v1.json",
-    // Add more later:
-    // "aerith:cloud":   "data/diaries/aerith_cloud_v1.json",
-    // "aerith:barret":  "data/diaries/aerith_barret_v1.json",
   }
 };
 
@@ -157,9 +156,7 @@ function App() {
       if (tm.ok) {
         setTraitsFound(Boolean(tm.data?.traits && Object.keys(tm.data.traits).length));
         d.push({ label: "traits_moods/traits_moods_v1.json", status: "ok" });
-      } else {
-        d.push({ label: "traits_moods/traits_moods_v1.json", status: "err" });
-      }
+      } else d.push({ label: "traits_moods/traits_moods_v1.json", status: "err" });
 
       // Characters
       const loaded = [];
@@ -176,9 +173,7 @@ function App() {
             baseStats: c.baseStats || {}
           });
           d.push({ label: `characters/${file}`, status: "ok" });
-        } else {
-          d.push({ label: `characters/${file}`, status: "err" });
-        }
+        } else d.push({ label: `characters/${file}`, status: "err" });
       }
       setChars(loaded);
 
@@ -224,48 +219,20 @@ function App() {
     })();
   }, []);
 
-// -------- LOAD/RESOLVE PAIR DIARY (whenever pair changes) --------
-const [pairLoadState, setPairLoadState] = useState({ status: "idle", key: "", path: "" });
-
-useEffect(() => {
-  (async () => {
-    const key = pairKey(pair.characterId, pair.targetId);
-    const path = getDiaryPath(pair.characterId, pair.targetId);
-
-    setPairLoadState({ status: "loading", key, path });
-
-    if (!path) {
-      console.warn("[DiaryLoader] No path registered for pair:", key);
-      setPairLoadState({ status: "no-path", key, path: "(none)" });
-      return;
-    }
-    if (diaryByPair[key]) {
-      setPairLoadState({ status: "cached", key, path });
-      return; // already loaded
-    }
-
-    try {
+  // -------- LOAD/RESOLVE PAIR DIARY --------
+  useEffect(() => {
+    (async () => {
+      const key = pairKey(pair.characterId, pair.targetId);
+      if (diaryByPair[key]) return; // cached
+      const path = getDiaryPath(pair.characterId, pair.targetId);
+      if (!path) return;
       const diary = await loadDiary(path);
-      if (diary && typeof diary === "object") {
-        setDiaryByPair(prev => ({ ...prev, [key]: diary }));
-        setPairLoadState({ status: "ok", key, path });
-      } else {
-        console.error("[DiaryLoader] loadDiary returned null/invalid for:", path);
-        // Fallback shape so DiaryView can render and we can keep testing
-        const fallback = { id: key, entries: [], meta: { note: "fallback (invalid schema?)" } };
-        setDiaryByPair(prev => ({ ...prev, [key]: fallback }));
-        setPairLoadState({ status: "invalid", key, path });
-      }
-    } catch (err) {
-      console.error("[DiaryLoader] exception while loading:", path, err);
-      setPairLoadState({ status: "error", key, path });
-    }
-  })();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [pair.characterId, pair.targetId]);
+      if (diary) setDiaryByPair(prev => ({ ...prev, [key]: diary }));
+    })();
+  }, [pair, diaryByPair]);
+
   // =================================================================
-  // SECTION: GAME EVENT DISPATCH (DEV & future systems)
-  // - emits text into the current pair’s diary timeline
+  // SECTION: GAME EVENT DISPATCH
   // =================================================================
   function emitGameEvent(type, payload = {}) {
     const key = pairKey(pair.characterId, pair.targetId);
@@ -273,7 +240,6 @@ useEffect(() => {
     if (!diary) return;
 
     const ps = getPairState(pair.characterId, pair.targetId); // { path, stage }
-
     const push = (text, extra = {}) => {
       appendDiaryEntry(diary, {
         text,
@@ -285,38 +251,31 @@ useEffect(() => {
     };
 
     switch (type) {
-      case "meet":
-        push("[event:interaction.meet]", { tags:["#event"] });
+      case "interaction.meet":
+        push("[We crossed paths in the slums; I told myself to keep walking… and still I looked back.]", { tags:["#interaction"] });
         break;
-      case "first_kiss":
-        push("[event:interaction.kiss]", { tags:["#event"] });
+      case "interaction.firstKiss":
+        push("[His mouth tasted of smoke and rain. I should’ve pulled away. I leaned in instead.]", { tags:["#interaction","#kiss"] });
         break;
-      case "enter.tent":
-        push("[event:location.enter]", { tags:["#event","#location:tent"] });
-        break;
-      case "enter.inn":
-        push("[event:location.enter]", { tags:["#event","#location:inn"] });
+      case "location.enter":
+        push(`[entered ${payload.place || "somewhere"}]`, { tags:["#location"] });
         break;
       case "item.bloomstone.sapphire":
-        push("[event:item.use] bloomstone:sapphire", { tags:["#event","#item"] });
+        push("[used item]", { tags:["#item","#bloomstone:sapphire"] });
         break;
-      case "risky.alley_stealth":
-        push("[event:risky.alleyStealth]", { tags:["#event","#risky"] });
+      case "risky.alleyStealth":
+        push("[We moved like thieves in the alley—quiet, breath shared, pulse too loud.]", { tags:["#risky"] });
         break;
-      case "time.morning_tick":
-        push("[event:time.morningTick]", { tags:["#event"] });
+      case "time.morningTick":
+        push("[morning passes…]", { tags:["#time"] });
         break;
-      case "witness.tifa":
-      case "witness.renna":
-      case "witness.yuffie": {
-        const id = type.split(".")[1];
-        logWitnessed(diary, id, {
-          text: `[event:witness.seen]`,
+      case "witness.seen":
+        logWitnessed(diary, payload.witness || "tifa", {
+          text: "I caught someone watching us. Heat ran through me—and I didn’t look away.",
           path: ps.path,
           stage: ps.stage
         });
         break;
-      }
       default:
         push(`[event:${type}]`, { tags:["#event"] });
         break;
@@ -442,27 +401,14 @@ useEffect(() => {
     ])
   ]);
 
-// -------- CURRENT DIARY (derived) --------
-const currentKey   = pairKey(pair.characterId, pair.targetId);
-const currentDiary = diaryByPair[currentKey] || null;
+  // -------- CURRENT DIARY (derived) --------
+  const currentDiary = diaryByPair[pairKey(pair.characterId, pair.targetId)] || null;
 
-// in the Diary route, before <DiaryView .../>
-h("div",{class:"card", style:"margin-bottom:8px"}, [
-  h("h3", null, "Diary Loader"),
-  h("div", { class: "kv small" }, [
-    h(Badge, null, `pair: ${currentKey}`),
-    h(Badge, { ghost:true }, `status: ${pairLoadState.status}`),
-    pairLoadState.path ? h(Badge, { ghost:true }, pairLoadState.path) : null
-  ])
-]),
-
-  // -------- PAIR PICKER (simple dev UI shown only on Diary route) --------
+  // -------- PAIR PICKER (dev UI) --------
   const PairPicker = () => h("div", { class:"kv", style:"gap:6px; flex-wrap:wrap" }, [
     h(Badge,null,`Actor: ${pair.characterId}`),
     h(Badge,null,`Target: ${pair.targetId}`),
-    // Example quick toggles: add more as you register files in DATA.diaries
-    h(Button,{ghost:true,onClick:()=>setPair({characterId:"aerith",targetId:"vagrant"})},"AERITH↔VAGRANT"),
-    // h(Button,{ghost:true,onClick:()=>setPair({characterId:"aerith",targetId:"cloud"})},"AERITH↔CLOUD"),
+    h(Button,{ghost:true,onClick:()=>setPair({characterId:"aerith",targetId:"vagrant"})},"AERITH ↔ VAGRANT"),
   ]);
 
   // -------- FINAL RETURN (routes) --------
