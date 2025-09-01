@@ -55,9 +55,9 @@ export default function DiaryView({
   // ---------- C3. Clock ----------
   const c = getClock();
 
-  // ---------- C4. DEV mode gate ----------
+  // ---------- C4. DEV mode (default ON unless ?dev=0) ----------
   const params = new URLSearchParams(location.search);
-  const DEV = params.get("dev") === "1";
+  const DEV = params.get("dev") !== "0";
 
   // ---------- C5. DEV exposure (handy console hooks) ----------
   if (DEV && typeof window !== "undefined") {
@@ -102,7 +102,7 @@ export default function DiaryView({
       ])
     ])),
 
-    // E2. DEV PANEL (only with ?dev=1)
+    // E2. DEV PANEL (now ON by default; hide with ?dev=0)
     DEV ? h("div", { class: "card", style: "border:dashed 1px #888; background:#0d0f15" }, [
       h("h3", null, "DEV · Diary"),
       h("div", { class: "kv" }, [
@@ -117,21 +117,26 @@ export default function DiaryView({
         h(Button, { onClick: () => setStage(+1), ghost: true }, "Stage +")
       ]),
 
-// E2a. Trigger test buttons — emit AND refresh
-h("div", { class: "kv small" }, "Fire game events:"),
-h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
-  h(Button, { ghost:true, onClick: () => emitAndRefresh("meet") }, "Meet"),
-  h(Button, { ghost:true, onClick: () => emitAndRefresh("first_kiss") }, "First Kiss"),
-  h(Button, { ghost:true, onClick: () => emitAndRefresh("enter.tent") }, "Enter Tent"),
-  h(Button, { ghost:true, onClick: () => emitAndRefresh("enter.inn") }, "Enter Inn"),
-  h(Button, { ghost:true, onClick: () => emitAndRefresh("item.bloomstone.sapphire") }, "Use Bloomstone (Sapphire)"),
-  h(Button, { ghost:true, onClick: () => emitAndRefresh("risky.alley_stealth") }, "Risky · Alley Stealth"),
-  h(Button, { ghost:true, onClick: () => emitAndRefresh("time.morning_tick") }, "Time · Morning Tick"),
-  ...witnesses.map(w => h(Button, {
-    ghost:true,
-    onClick: () => emitAndRefresh(`witness.${w}`)
-  }, `Witness: ${w}`))
-]),
+      // E2a. Trigger test buttons — emit AND refresh
+      h("div", { class: "kv small" }, "Fire game events:"),
+      h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
+        // Map to main.js switch names:
+        h(Button, { ghost:true, onClick: () => emitAndRefresh("interaction.meet") }, "Meet"),
+        h(Button, { ghost:true, onClick: () => emitAndRefresh("interaction.firstKiss") }, "First Kiss"),
+        h(Button, { ghost:true, onClick: () => emitAndRefresh("location.enter", { place: "Tent" }) }, "Enter Tent"),
+        h(Button, { ghost:true, onClick: () => emitAndRefresh("location.enter", { place: "Inn" }) }, "Enter Inn"),
+        h(Button, { ghost:true, onClick: () => emitAndRefresh("item.bloomstone.sapphire") }, "Use Bloomstone (Sapphire)"),
+        h(Button, { ghost:true, onClick: () => emitAndRefresh("risky.alleyStealth") }, "Risky · Alley Stealth"),
+        h(Button, { ghost:true, onClick: () => emitAndRefresh("time.morningTick") }, "Time · Morning Tick"),
+        // Witnessed: log exact line into timeline based on path/stage
+        ...witnesses.map(w => h(Button, {
+          ghost:true,
+          onClick: () => {
+            const line = selectWitnessedLine(diary, targetId, w, pair.path, pair.stage);
+            if (line) { logWitnessed(diary, w, { text: line, path: pair.path, stage: pair.stage }); rerender(); }
+          }
+        }, `Witness: ${w}`))
+      ]),
 
       // E2b. Existing quick loggers
       h("div", { class: "kv", style:"margin-top:8px" }, [
@@ -151,7 +156,7 @@ h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
           }
         }, "Log current desire line")
       ]),
-      h("div", { class: "kv small" }, "Log witnessed lines:"),
+      h("div", { class: "kv small" }, "Log witnessed lines (again):"),
       h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
         ...witnesses.map(w => h(Button, {
           ghost: true,
@@ -190,7 +195,7 @@ h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
         h(Badge, null, `Path: ${pair.path}`),
         h(Badge, null, `Stage: ${pair.stage}`)
       ]),
-      desire.length
+      (desire && desire.length)
         ? h("div", { class: "diary-hand" }, desire.map((t, i) => h("p", { key: i }, t)))
         : h("div", { class: "small" }, "— no entries yet —")
     ]),
@@ -212,6 +217,9 @@ h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
     // E5. Timeline (dynamic, grouped by day)
     h("div", { class: "card diary-card" }, [
       h("h3", null, "Timeline"),
+      (Object.keys(grouped).length === 0)
+        ? h("div", { class: "small" }, "— no timeline entries yet —")
+        : null,
       ...Object.entries(grouped).map(([day, entries]) =>
         h("div", { class: "diary-day" }, [
           h("div", { class: "diary-meta" }, [
@@ -238,4 +246,4 @@ function rerender() {
   const h0 = location.hash;
   location.hash = "#_";
   setTimeout(() => { location.hash = h0; }, 0);
-}
+                                     }
