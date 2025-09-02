@@ -259,7 +259,31 @@ function App() {
       const relPath = getDiaryPath(pair.characterId, pair.targetId);
       if (!relPath) { console.warn("[Diary path missing]", { pair }); return; }
 
-      const diaryUrl = assetUrl(relPath);
+      // Build absolute URL + hard-bust cache
+      const diaryUrl = assetUrl(relPath) + `?v=${Date.now()}`;
+      
+      // --- PROBE: fetch raw to surface the real reason if it fails ---
+      try {
+        const probe = await fetch(diaryUrl, { cache: "no-store" });
+        const text = await probe.text();
+        if (!probe.ok) {
+          showDevBanner(`Diary HTTP ${probe.status}: ${diaryUrl}`);
+          return;
+        }
+        try {
+          JSON.parse(text);
+        } catch (e) {
+          showDevBanner(`Diary JSON error: ${String(e).slice(0,120)} …`);
+          // Helpful in dev: preview first chars in the console
+          console.log("[Diary probe preview]", text.slice(0, 500));
+          return;
+        }
+      } catch (e) {
+        showDevBanner(`Diary fetch threw: ${String(e)}`);
+        return;
+      }
+      
+      // If probe looks good, use the normal loader (it will normalize etc.)
       const diary = await loadDiary(diaryUrl);
 
       if (diary) {
