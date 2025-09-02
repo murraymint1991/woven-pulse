@@ -651,8 +651,8 @@
 ],
 "slum_caregiver": [
   { "key": "first_meeting", "stageMin": 0, "path": "any", "text": "I was tending to a coughing child in the alleys when he appeared—leaning in the shadows, eyes mocking, stinking of smoke and sweat. That was the first time I met him." },
-  { "key": "offered_help", "stageMin": 1, "path": "any", "text": "He sneered at my bandages, called me foolish for wasting kindness. Still… he didn’t walk away." },
-  { "key": "bloodied_hand", "stageMin": 2, "path": "any", "text": "I wrapped his hand when he got into a fight. He didn’t thank me, but he didn’t pull away either." },
+  { "key": "offered_help", "stageMin": 1, "path": "any", "text": "He sneered at my bandages, called me foolish for wasting kindness. Still… he didn't walk away." },
+  { "key": "bloodied_hand", "stageMin": 2, "path": "any", "text": "I wrapped his hand when he got into a fight. He didn't thank me, but he didn't pull away either." },
   { "key": "lingering_touch", "stageMin": 3, "path": "love", "text": "I cleaned dirt from his face, fingers brushing over his cheek longer than they should. His grin softened, just for me." },
   { "key": "dark_teasing", "stageMin": 3, "path": "corruption", "text": "He leaned close while I treated his wounds, whispering filth about how my soft hands could do more than heal." },
   { "key": "slum_watchers", "stageMin": 4, "path": "any", "text": "People stared as I walked the alleys with him trailing after me. Their eyes burned with judgment. My heart burned with something else." },
