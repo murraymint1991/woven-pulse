@@ -1,5 +1,5 @@
 // ===============================
-// main.js  (pair-aware diaries) — revised
+// main.js  (pair-aware diaries) — hardened
 // ===============================
 
 import { h, render } from "https://esm.sh/preact@10.22.0";
@@ -33,6 +33,33 @@ import {
 } from "./js/systems/diary.js";
 
 /* ==============================================================
+   SECTION: BASE + URL HELPERS
+   ============================================================== */
+// Always produce an absolute URL under the current site root (eg. /woven-pulse/)
+function assetUrl(relPath) {
+  const rel = String(relPath || "");
+  // If already absolute (http...), just return it
+  if (/^https?:\/\//i.test(rel)) return rel;
+
+  // Compute directory of current page
+  //  - /woven-pulse/               → baseDir=/woven-pulse/
+  //  - /woven-pulse/index.html     → baseDir=/woven-pulse/
+  const { origin, pathname } = location;
+  const baseDir = pathname.endsWith("/")
+    ? pathname
+    : pathname.replace(/[^/]+$/, "");
+  const clean = rel.replace(/^\//, "");
+  return origin + baseDir + clean;
+}
+
+function showDevBanner(msg) {
+  const b = document.createElement("div");
+  b.style.cssText = "position:fixed;left:8px;bottom:8px;max-width:92vw;padding:8px 10px;background:#220c;border:1px solid #f66;color:#fff;font:12px ui-monospace,monospace;z-index:9999;border-radius:8px";
+  b.textContent = msg;
+  document.body.appendChild(b);
+}
+
+/* ==============================================================
    SECTION: CONFIG (DATA PATHS)
    ============================================================== */
 const DATA = {
@@ -62,7 +89,12 @@ const DATA = {
   // ---------- Pair-specific diaries ----------
   diaries: {
     "aerith:vagrant": "data/diaries/aerith_vagrant_v1.json",
-  }
+  },
+
+  // (Optional) Status pillar files — comment these back in once you add the JSONs
+  // statusActors:        "data/status/actors_v1.json",
+  // statusPlayerFemale:  "data/status/player_female_v1.json",
+  // statusFertility:     "data/status/fertility_v1.json",
 };
 
 const LS_KEYS = { AUTOSAVE: "sim_autosave_v1", SLOT: (n) => `sim_slot_${n}_v1` };
@@ -147,7 +179,7 @@ function App() {
       const d = [];
 
       // Traits/moods
-      const tm = await fetchJson(DATA.traitsMoods);
+      const tm = await fetchJson(assetUrl(DATA.traitsMoods));
       if (tm.ok) {
         setTraitsFound(Boolean(tm.data?.traits && Object.keys(tm.data.traits).length));
         d.push({ label: "traits_moods/traits_moods_v1.json", status: "ok" });
@@ -156,7 +188,7 @@ function App() {
       // Characters
       const loaded = [];
       for (const path of DATA.characters) {
-        const r = await fetchJson(path);
+        const r = await fetchJson(assetUrl(path));
         const file = path.split("/").pop();
         if (r.ok) {
           const c = r.data.character || {};
@@ -173,40 +205,44 @@ function App() {
       setChars(loaded);
 
       // Demo module
-      const dm = await fetchJson(DATA.demoModule);
+      const dm = await fetchJson(assetUrl(DATA.demoModule));
       if (dm.ok) { setScenesCount(countScenesAnywhere(dm.data)); d.push({ label: "demo/demo_module_v0_5.json", status: "ok" }); }
       else d.push({ label: "demo/demo_module_v0_5.json", status: "err" });
 
       // Relationships
-      const rel = await fetchJson(DATA.relationships);
+      const rel = await fetchJson(assetUrl(DATA.relationships));
       if (rel.ok) { setEdgesRaw(Array.isArray(rel.data?.edges) ? rel.data.edges : []); d.push({ label: "relationships/relationships_v1.json", status: "ok" }); }
       else { setEdgesRaw([]); d.push({ label: "relationships/relationships_v1.json", status: "err" }); }
 
       // Traits assignments
-      const ta = await loadTraitAssignments(DATA.traitAssignments);
+      const ta = await loadTraitAssignments(assetUrl(DATA.traitAssignments));
       if (ta.ok) { setTraitMap(ta.map); d.push({ label: "traits/assignments_v1.json", status: "ok" }); }
       else { setTraitMap({}); d.push({ label: "traits/assignments_v1.json", status: "err" }); }
 
       // Sensitivities
-      const sc = await fetchJson(DATA.sensCatalog); setSensCatalog(sc.ok ? (sc.data?.stimuli || {}) : {});
+      const sc = await fetchJson(assetUrl(DATA.sensCatalog)); setSensCatalog(sc.ok ? (sc.data?.stimuli || {}) : {});
       d.push({ label: "sensitivities/catalog_v1.json", status: sc.ok ? "ok" : "err" });
-      const sa = await fetchJson(DATA.sensAssignments); setSensMap(sa.ok ? (sa.data?.characters || {}) : {});
+      const sa = await fetchJson(assetUrl(DATA.sensAssignments)); setSensMap(sa.ok ? (sa.data?.characters || {}) : {});
       d.push({ label: "sensitivities/assignments_v1.json", status: sa.ok ? "ok" : "err" });
-      const sr = await fetchJson(DATA.sensEvolution); setSensRules(sr.ok ? (sr.data?.rules || []) : []);
+      const sr = await fetchJson(assetUrl(DATA.sensEvolution)); setSensRules(sr.ok ? (sr.data?.rules || []) : []);
       d.push({ label: "sensitivities/evolution_v1.json", status: sr.ok ? "ok" : "err" });
 
-      // Status pillar
-      const st = await fetchJson(DATA.statusActors);
-      setStatusMap(st.ok ? (st.data?.status || {}) : {});
-      d.push({ label: "status/actors_v1.json", status: st.ok ? "ok" : "err" });
-
-      const pf = await fetchJson(DATA.statusPlayerFemale);
-      setPlayerFemale(pf.ok ? pf.data : null);
-      d.push({ label: "status/player_female_v1.json", status: pf.ok ? "ok" : "err" });
-
-      const fert = await loadFertility(DATA.statusFertility);
-      setFertilityMap(fert);
-      d.push({ label: "status/fertility_v1.json", status: Object.keys(fert).length ? "ok" : "err" });
+      // Status pillar (optional: only fetch if configured)
+      if (DATA.statusActors) {
+        const st = await fetchJson(assetUrl(DATA.statusActors));
+        setStatusMap(st.ok ? (st.data?.status || {}) : {});
+        d.push({ label: "status/actors_v1.json", status: st.ok ? "ok" : "err" });
+      }
+      if (DATA.statusPlayerFemale) {
+        const pf = await fetchJson(assetUrl(DATA.statusPlayerFemale));
+        setPlayerFemale(pf.ok ? pf.data : null);
+        d.push({ label: "status/player_female_v1.json", status: pf.ok ? "ok" : "err" });
+      }
+      if (DATA.statusFertility) {
+        const fert = await loadFertility(assetUrl(DATA.statusFertility));
+        setFertilityMap(fert);
+        d.push({ label: "status/fertility_v1.json", status: Object.keys(fert).length ? "ok" : "err" });
+      }
 
       setDetails(d);
       await sleep(100);
@@ -219,15 +255,15 @@ function App() {
     (async () => {
       const key = pairKey(pair.characterId, pair.targetId);
       if (diaryByPair[key]) return; // cached
-      const path = getDiaryPath(pair.characterId, pair.targetId);
-      if (!path) {
-        console.warn("[Diary path missing]", { pair });
-        return;
-      }
-      const diary = await loadDiary(path);
+
+      const relPath = getDiaryPath(pair.characterId, pair.targetId);
+      if (!relPath) { console.warn("[Diary path missing]", { pair }); return; }
+
+      const diaryUrl = assetUrl(relPath);
+      const diary = await loadDiary(diaryUrl);
+
       if (diary) {
         setDiaryByPair(prev => ({ ...prev, [key]: diary }));
-        // --- NEW: diagnostics so we see what's coming in
         try {
           console.log("[Diary loaded]", {
             key,
@@ -238,7 +274,8 @@ function App() {
           });
         } catch {}
       } else {
-        console.warn("[Diary missing]", { key, path });
+        console.warn("[Diary missing]", { key, path: diaryUrl });
+        showDevBanner(`Diary failed to load: ${diaryUrl}`);
       }
     })();
   }, [pair, diaryByPair]);
@@ -294,7 +331,7 @@ function App() {
     }
   }
 
-  // Expose for the DEV panel inside DiaryView (?dev=1)
+  // Expose for the DEV panel inside DiaryView
   if (typeof window !== "undefined") {
     window.emitGameEvent = (type, payload) => emitGameEvent(type, payload);
   }
@@ -369,7 +406,8 @@ function App() {
         h("div",{class:"small",style:"margin-top:8px"},"Files under /data/... — tap any to open raw JSON."),
         h("div",{class:"small",style:"margin-top:8px"},
           details.map((d)=> {
-            const url = `${location.origin}${location.pathname.replace(/index\.html$/,'')}data/${d.label}`;
+            // d.label is like "characters/tifa.json"
+            const url = assetUrl(`data/${d.label}`);
             return h("div",{class:"kv"}, [ h(Dot,{ok:d.status==="ok"}), h("a",{href:url,target:"_blank",style:"margin-left:4px"}, d.label) ]);
           })
         ),
@@ -423,6 +461,7 @@ function App() {
     h(Button,{ghost:true,onClick:()=>setPair({characterId:"aerith",targetId:"vagrant"})},"AERITH ↔ VAGRANT"),
   ]);
 
+
   // -------- DEV STRIP (Diary local seeding) --------
   const DiaryDevStrip = () => {
     return h("div", { class:"kv", style:"gap:6px; flex-wrap:wrap; margin: 8px 0" }, [
@@ -438,8 +477,7 @@ function App() {
             stage: ps.stage,
             tags:["#dev"]
           });
-          // Force re-render by updating state with same object reference map
-          setDiaryByPair(prev => ({ ...prev }));
+          setDiaryByPair(prev => ({ ...prev })); // force re-render
         }
       }, "Seed Test Entry"),
       h(Button, {
@@ -465,7 +503,7 @@ function App() {
           h(Nav, null),
           h(PairPicker, null)
         ])),
-        h(DiaryDevStrip, null),  // <-- NEW: quick dev buttons
+        h(DiaryDevStrip, null),
         h(DiaryView, {
           diary: currentDiary,
           characterId: pair.characterId,
