@@ -2863,7 +2863,7 @@
     },
     {
       "require": { "stageMin": 10, "flagsAll": ["ending.corruption"], "pregnant": true },
-      "text": "His claim isn’t just on my skin anymore; it’s written into tomorrow. I accept it, and I hunger for the certainty it brings."
+      "text": "His claim isn't just on my skin anymore; it's etched into my womb. I accept it, and I hunger for the certainty it brings."
     },
     {
       "require": { "stageMin": 10, "flagsAll": ["ending.corruption"], "usedStonesAny": ["obsidian","onyx"] },
