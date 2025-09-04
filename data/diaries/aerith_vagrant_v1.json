@@ -1396,8 +1396,7 @@
   { "stage": 10, "path": "love",       "text": "We became one, his cock filling me as I screamed his name. My heart swore it would never want another." },
   { "stage": 10, "path": "corruption", "text": "My breeding hole was his to own—he fucked me until my womb overflowed with his seed. I squealed, drooled, begged for more." },
   { "stage": 10, "path": "hybrid",     "text": "I begged him to ruin me, to fill me with love and filth both. My pussy gushed as I screamed for his cock, for his seed, for everything he is." }
-]
-},
+],
 "pregnancy_discovery": [
   { "key": "missed_cycle", "stageMin": 0, "path": "any", "text": "I was late this month. I told myself it was nothing, but the thought kept me awake all night." },
   { "key": "first_twinge", "stageMin": 1, "path": "love", "text": "I felt a strange flutter in my belly today. Could it be? My heart leapt and trembled all at once." },
