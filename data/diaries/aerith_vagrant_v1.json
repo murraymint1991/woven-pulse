@@ -2890,4 +2890,5 @@
       "require": { "stageMin": 10, "flagsAll": ["ending.hybrid"], "usedStonesAny": ["emerald","sapphire"] },
       "text": "Balance isn't stillness; it's motion we choose together. We tip toward heat, then back to hush, and call the rhythm home."
     }
-  ],
+  ]
+  },
