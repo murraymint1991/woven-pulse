@@ -72,16 +72,27 @@ export async function loadDiary(url) {
     entries: Array.isArray(raw.entries) ? raw.entries.slice() : []
   };
 
-  // Support dev data that uses "caught_others" instead of "witnessed".
-  // We convert it into witnessed[targetId][witnessId][path] = string[] (stage-indexed).
-  if ((!raw.witnessed || !Object.keys(raw.witnessed).length) && raw.caught_others) {
-    const targetIdGuess =
-      diary.targetId && diary.targetId !== "unknown"
-        ? diary.targetId
-        : Object.keys(raw.desires || {})[0] || "vagrant";
-    diary.witnessed = {
-      [targetIdGuess]: normalizeCaughtOthers(raw.caught_others, DIARY_STAGE_MAX)
-    };
+  // Accept caught_others in either place:
+  //   - top level: raw.caught_others
+  //   - nested under desires: raw.desires.caught_others
+  // Convert it into witnessed[targetId][witnessId][path] = string[] (stage-indexed).
+  {
+    const caughtBlock =
+      raw.caught_others ||
+      (raw.desires && typeof raw.desires === "object" ? raw.desires.caught_others : null);
+
+    const needWitnessed = !raw.witnessed || !Object.keys(raw.witnessed).length;
+
+    if (needWitnessed && caughtBlock) {
+      const targetIdGuess =
+        diary.targetId && diary.targetId !== "unknown"
+          ? diary.targetId
+          : Object.keys(raw.desires || {})[0] || "vagrant";
+
+      diary.witnessed = {
+        [targetIdGuess]: normalizeCaughtOthers(caughtBlock, DIARY_STAGE_MAX)
+      };
+    }
   }
 
   // Make sure every timeline entry is minimally shaped
