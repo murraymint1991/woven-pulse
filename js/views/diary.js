@@ -71,7 +71,7 @@ export default function DiaryView({
     }
   };
   // Caught buttons: pick the correct line and append it to timeline
-  const logCaught = (who, path) => {
+  const onCaught = (who, path) => {
     const line = selectWitnessedLine(diary, targetId, who, path, pair.stage);
     if (!line) return;
     logWitnessed(diary, who, { text: line, path, stage: pair.stage });
@@ -115,12 +115,12 @@ export default function DiaryView({
         h(Button, { ghost:true, onClick: () => fireEvent("risky.alleyStealth") }, "Risky · Alley Stealth"),
         h(Button, { ghost:true, onClick: () => fireEvent("time.morningTick") }, "Time · Morning Tick")
       ]),
-      // Caught buttons (what you asked for) — writes directly to Timeline
+      // Caught buttons — writes directly to Timeline
       h("div", { class: "kv small", style: "margin-top:8px" }, "Caught by (writes to timeline):"),
       ...witnesses.map(w =>
         h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
           h(Badge, null, w),
-          ...PATHS.map(p => h(Button, { ghost:true, onClick: () => logCaught(w, p) }, `${p[0].toUpperCase()+p.slice(1)}`))
+          ...PATHS.map(p => h(Button, { ghost:true, onClick: () => onCaught(w, p) }, `${p[0].toUpperCase()+p.slice(1)}`))
         ])
       ),
       // Desire helper: log the latest visible desire line
