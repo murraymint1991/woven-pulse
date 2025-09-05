@@ -154,6 +154,9 @@ function App() {
   // ----- Diary cache: { "<char>:<target>": diaryObject }
   const [diaryByPair, setDiaryByPair] = useState({});
 
+  // also expose the cache for quick console checks
+if (typeof window !== "undefined") window.__diaryByPair = (window.__diaryByPair || {}), window.__diaryByPair[key] = diary;
+  
   // SAVES + selection
   const [relationship, setRelationship] = useState(Number(localStorage.getItem("sim_rel_value")) || 0);
   const [slots, setSlots] = useState(Array.from({ length: 20 }, () => null));
