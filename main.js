@@ -1,5 +1,5 @@
 // ===============================
-// main.js  (pair-aware diaries) — hardened
+// main.js  (pair-aware diaries) — fixed & hardened
 // ===============================
 
 import { h, render } from "https://esm.sh/preact@10.22.0";
@@ -33,23 +33,15 @@ import {
 } from "./js/systems/diary.js";
 
 /* ==============================================================
-   SECTION: BASE + URL HELPERS
+   BASE + URL HELPERS
    ============================================================== */
-// Always produce an absolute URL under the current site root (eg. /woven-pulse/)
+// Build absolute URLs under the current site root (works on GH Pages subpaths)
 function assetUrl(relPath) {
   const rel = String(relPath || "");
-  // If already absolute (http...), just return it
-  if (/^https?:\/\//i.test(rel)) return rel;
-
-  // Compute directory of current page
-  //  - /woven-pulse/               → baseDir=/woven-pulse/
-  //  - /woven-pulse/index.html     → baseDir=/woven-pulse/
+  if (/^https?:\/\//i.test(rel)) return rel; // already absolute
   const { origin, pathname } = location;
-  const baseDir = pathname.endsWith("/")
-    ? pathname
-    : pathname.replace(/[^/]+$/, "");
-  const clean = rel.replace(/^\//, "");
-  return origin + baseDir + clean;
+  const baseDir = pathname.endsWith("/") ? pathname : pathname.replace(/[^/]+$/, "");
+  return origin + baseDir + rel.replace(/^\//, "");
 }
 
 function showDevBanner(msg) {
@@ -60,7 +52,7 @@ function showDevBanner(msg) {
 }
 
 /* ==============================================================
-   SECTION: CONFIG (DATA PATHS)
+   CONFIG (DATA PATHS)
    ============================================================== */
 const DATA = {
   traitsMoods: "data/traits_moods/traits_moods_v1.json",
@@ -86,29 +78,27 @@ const DATA = {
   sensAssignments: "data/sensitivities/assignments_v1.json",
   sensEvolution: "data/sensitivities/evolution_v1.json",
 
-  // ---------- Pair-specific diaries ----------
+  // Pair-specific diary
   diaries: {
     "aerith:vagrant": "data/diaries/aerith_vagrant_v1.json",
   },
 
-  // (Optional) Status pillar files — comment these back in once you add the JSONs
-  // statusActors:        "data/status/actors_v1.json",
-  // statusPlayerFemale:  "data/status/player_female_v1.json",
-  // statusFertility:     "data/status/fertility_v1.json",
+  // Uncomment these once you’ve got the files in /data/status/...
+  // statusActors:       "data/status/actors_v1.json",
+  // statusPlayerFemale: "data/status/player_female_v1.json",
+  // statusFertility:    "data/status/fertility_v1.json",
 };
 
 const LS_KEYS = { AUTOSAVE: "sim_autosave_v1", SLOT: (n) => `sim_slot_${n}_v1` };
 
 /* ==============================================================
-   SECTION: HELPERS (PAIR → PATH)
+   HELPERS (PAIR → PATH)
    ============================================================== */
-function pairKey(characterId, targetId){ return `${characterId}:${targetId}`; }
-function getDiaryPath(characterId, targetId){
-  return DATA.diaries[pairKey(characterId, targetId)] || null;
-}
+const pairKey = (characterId, targetId) => `${characterId}:${targetId}`;
+const getDiaryPath = (characterId, targetId) => DATA.diaries[pairKey(characterId, targetId)] || null;
 
 /* ==============================================================
-   SECTION: APP
+   APP
    ============================================================== */
 function App() {
   const [loading, setLoading] = useState(true);
@@ -116,20 +106,18 @@ function App() {
 
   // -------- ROUTING --------
   const [view, setView] = useState(() =>
-    (location.hash === "#relationships") ? "relationships" :
-    (location.hash === "#status")         ? "status" :
-    (location.hash === "#diary")          ? "diary" :
-                                            "home"
+    location.hash === "#relationships" ? "relationships" :
+    location.hash === "#status"         ? "status" :
+    location.hash === "#diary"          ? "diary"  : "home"
   );
   useEffect(() => {
     const onHash = () => setView(
-      (location.hash === "#relationships") ? "relationships" :
-      (location.hash === "#status")         ? "status" :
-      (location.hash === "#diary")          ? "diary" :
-                                              "home"
+      location.hash === "#relationships" ? "relationships" :
+      location.hash === "#status"         ? "status" :
+      location.hash === "#diary"          ? "diary"  : "home"
     );
-    window.addEventListener("hashchange", onHash);
-    return () => window.removeEventListener("hashchange", onHash);
+    addEventListener("hashchange", onHash);
+    return () => removeEventListener("hashchange", onHash);
   }, []);
 
   // -------- DATA STATE --------
@@ -143,21 +131,16 @@ function App() {
   const [sensMap, setSensMap] = useState({});
   const [sensRules, setSensRules] = useState([]);
 
-  // ----- Status pillar
+  // Status pillar (optional)
   const [statusMap, setStatusMap] = useState({});
   const [playerFemale, setPlayerFemale] = useState(null);
   const [fertilityMap, setFertilityMap] = useState({});
 
-  // ----- Pair selection (which diary to show)
+  // Pair selection + diary cache
   const [pair, setPair] = useState({ characterId: "aerith", targetId: "vagrant" });
-
-  // ----- Diary cache: { "<char>:<target>": diaryObject }
   const [diaryByPair, setDiaryByPair] = useState({});
 
-  // also expose the cache for quick console checks
-if (typeof window !== "undefined") window.__diaryByPair = (window.__diaryByPair || {}), window.__diaryByPair[key] = diary;
-  
-  // SAVES + selection
+  // Saves
   const [relationship, setRelationship] = useState(Number(localStorage.getItem("sim_rel_value")) || 0);
   const [slots, setSlots] = useState(Array.from({ length: 20 }, () => null));
   const [autosaveMeta, setAutosaveMeta] = useState(null);
@@ -176,7 +159,7 @@ if (typeof window !== "undefined") window.__diaryByPair = (window.__diaryByPair 
   }, []);
   useEffect(() => localStorage.setItem("sim_rel_value", String(relationship)), [relationship]);
 
-  // -------- LOAD STATIC DATA (one time) --------
+  // -------- LOAD STATIC DATA --------
   useEffect(() => {
     (async () => {
       const d = [];
@@ -230,7 +213,7 @@ if (typeof window !== "undefined") window.__diaryByPair = (window.__diaryByPair 
       const sr = await fetchJson(assetUrl(DATA.sensEvolution)); setSensRules(sr.ok ? (sr.data?.rules || []) : []);
       d.push({ label: "sensitivities/evolution_v1.json", status: sr.ok ? "ok" : "err" });
 
-      // Status pillar (optional: only fetch if configured)
+      // Status pillar (only if configured)
       if (DATA.statusActors) {
         const st = await fetchJson(assetUrl(DATA.statusActors));
         setStatusMap(st.ok ? (st.data?.status || {}) : {});
@@ -262,22 +245,15 @@ if (typeof window !== "undefined") window.__diaryByPair = (window.__diaryByPair 
       const relPath = getDiaryPath(pair.characterId, pair.targetId);
       if (!relPath) { console.warn("[Diary path missing]", { pair }); return; }
 
-      // Build absolute URL + hard-bust cache
       const diaryUrl = assetUrl(relPath) + `?v=${Date.now()}`;
-      
-      // --- PROBE: fetch raw to surface the real reason if it fails ---
+
+      // Probe for clear error messages in dev
       try {
         const probe = await fetch(diaryUrl, { cache: "no-store" });
         const text = await probe.text();
-        if (!probe.ok) {
-          showDevBanner(`Diary HTTP ${probe.status}: ${diaryUrl}`);
-          return;
-        }
-        try {
-          JSON.parse(text);
-        } catch (e) {
+        if (!probe.ok) { showDevBanner(`Diary HTTP ${probe.status}: ${diaryUrl}`); return; }
+        try { JSON.parse(text); } catch (e) {
           showDevBanner(`Diary JSON error: ${String(e).slice(0,120)} …`);
-          // Helpful in dev: preview first chars in the console
           console.log("[Diary probe preview]", text.slice(0, 500));
           return;
         }
@@ -285,21 +261,22 @@ if (typeof window !== "undefined") window.__diaryByPair = (window.__diaryByPair 
         showDevBanner(`Diary fetch threw: ${String(e)}`);
         return;
       }
-      
-      // If probe looks good, use the normal loader (it will normalize etc.)
-      const diary = await loadDiary(diaryUrl);
 
+      const diary = await loadDiary(diaryUrl);
       if (diary) {
         setDiaryByPair(prev => ({ ...prev, [key]: diary }));
-        try {
-          console.log("[Diary loaded]", {
-            key,
-            characterId: diary.characterId,
-            targetId: diary.targetId,
-            keys: Object.keys(diary || {}),
-            entriesCount: Array.isArray(diary.entries) ? diary.entries.length : 0
-          });
-        } catch {}
+        // expose cache for console checks (SAFE place to reference key/diary)
+        if (typeof window !== "undefined") {
+          window.__diaryByPair = window.__diaryByPair || {};
+          window.__diaryByPair[key] = diary;
+        }
+        console.log("[Diary loaded]", {
+          key,
+          characterId: diary.characterId,
+          targetId: diary.targetId,
+          keys: Object.keys(diary || {}),
+          entriesCount: Array.isArray(diary.entries) ? diary.entries.length : 0
+        });
       } else {
         console.warn("[Diary missing]", { key, path: diaryUrl });
         showDevBanner(`Diary failed to load: ${diaryUrl}`);
@@ -308,14 +285,14 @@ if (typeof window !== "undefined") window.__diaryByPair = (window.__diaryByPair 
   }, [pair, diaryByPair]);
 
   // =================================================================
-  // SECTION: GAME EVENT DISPATCH
+  // GAME EVENT DISPATCH (used by DiaryView dev buttons)
   // =================================================================
   function emitGameEvent(type, payload = {}) {
     const key = pairKey(pair.characterId, pair.targetId);
     const diary = diaryByPair[key];
     if (!diary) return;
+    const ps = getPairState(pair.characterId, pair.targetId);
 
-    const ps = getPairState(pair.characterId, pair.targetId); // { path, stage }
     const push = (text, extra = {}) => {
       appendDiaryEntry(diary, {
         text,
@@ -357,15 +334,11 @@ if (typeof window !== "undefined") window.__diaryByPair = (window.__diaryByPair 
         break;
     }
   }
-
-  // Expose for the DEV panel inside DiaryView
-  if (typeof window !== "undefined") {
-    window.emitGameEvent = (type, payload) => emitGameEvent(type, payload);
-  }
+  if (typeof window !== "undefined") window.emitGameEvent = (t,p)=>emitGameEvent(t,p);
 
   // -------- UI HELPERS --------
-  function flash(msg){ setToast(msg); setTimeout(()=>setToast(""), 1200); }
-  function doAutosave(){
+  const flash = (msg)=>{ setToast(msg); setTimeout(()=>setToast(""), 1200); };
+  const doAutosave = () => {
     const snapshot = {
       at: nowStamp(),
       rel: relationship,
@@ -374,22 +347,22 @@ if (typeof window !== "undefined") window.__diaryByPair = (window.__diaryByPair 
     };
     localStorage.setItem(LS_KEYS.AUTOSAVE, JSON.stringify(snapshot));
     setAutosaveMeta(snapshot); flash("Autosaved.");
-  }
-  function doManualSave(){
+  };
+  const doManualSave = () => {
     const payload = { at: nowStamp(), rel: relationship, note: "Manual" };
     const idx = (slots.findIndex(s=>s===null) + 20) % 20;
     const next = slots.slice(); next[idx] = payload;
     localStorage.setItem(LS_KEYS.SLOT(idx+1), JSON.stringify(payload));
     setSlots(next); flash(`Saved to Slot ${idx+1}.`);
-  }
-  function clearAllSaves(){
+  };
+  const clearAllSaves = () => {
     localStorage.removeItem(LS_KEYS.AUTOSAVE);
     for (let i=1;i<=20;i++) localStorage.removeItem(LS_KEYS.SLOT(i));
     setAutosaveMeta(null);
     setSlots(Array.from({length:20},()=>null));
     flash("All save slots cleared.");
-  }
-  function clearCacheAndReload(){ clearAllSaves(); location.reload(); }
+  };
+  const clearCacheAndReload = () => { clearAllSaves(); location.reload(); };
 
   // -------- MEMOS --------
   const summaryText = useMemo(
@@ -432,11 +405,10 @@ if (typeof window !== "undefined") window.__diaryByPair = (window.__diaryByPair 
         : h("div",{class:"kv"}, h(Badge,null, [h(Dot,{ok:chars.length>0}), " ", summaryText])),
         h("div",{class:"small",style:"margin-top:8px"},"Files under /data/... — tap any to open raw JSON."),
         h("div",{class:"small",style:"margin-top:8px"},
-          details.map((d)=> {
-            // d.label is like "characters/tifa.json"
-            const url = assetUrl(`data/${d.label}`);
-            return h("div",{class:"kv"}, [ h(Dot,{ok:d.status==="ok"}), h("a",{href:url,target:"_blank",style:"margin-left:4px"}, d.label) ]);
-          })
+          details.map((d)=> h("div",{class:"kv"},[
+            h(Dot,{ok:d.status==="ok"}),
+            h("a",{href:assetUrl(`data/${d.label}`),target:"_blank",style:"margin-left:4px"}, d.label)
+          ]))
         ),
       ]),
       h("div",{class:"card"},[
@@ -481,30 +453,24 @@ if (typeof window !== "undefined") window.__diaryByPair = (window.__diaryByPair 
   // -------- CURRENT DIARY (derived) --------
   const currentDiary = diaryByPair[pairKey(pair.characterId, pair.targetId)] || null;
 
-  // -------- PAIR PICKER (dev UI) --------
+  // -------- PAIR PICKER --------
   const PairPicker = () => h("div", { class:"kv", style:"gap:6px; flex-wrap:wrap" }, [
     h(Badge,null,`Actor: ${pair.characterId}`),
     h(Badge,null,`Target: ${pair.targetId}`),
     h(Button,{ghost:true,onClick:()=>setPair({characterId:"aerith",targetId:"vagrant"})},"AERITH ↔ VAGRANT"),
   ]);
 
-
-  // -------- DEV STRIP (Diary local seeding) --------
-  const DiaryDevStrip = () => {
-    return h("div", { class:"kv", style:"gap:6px; flex-wrap:wrap; margin: 8px 0" }, [
+  // -------- DEV STRIP --------
+  const DiaryDevStrip = () =>
+    h("div", { class:"kv", style:"gap:6px; flex-wrap:wrap; margin: 8px 0" }, [
       h(Button, {
         onClick: () => {
           const key = pairKey(pair.characterId, pair.targetId);
           const d = diaryByPair[key];
           if (!d) return;
           const ps = getPairState(pair.characterId, pair.targetId);
-          appendDiaryEntry(d, {
-            text: "[test] dev seeded entry",
-            path: ps.path,
-            stage: ps.stage,
-            tags:["#dev"]
-          });
-          setDiaryByPair(prev => ({ ...prev })); // force re-render
+          appendDiaryEntry(d, { text: "[test] dev seeded entry", path: ps.path, stage: ps.stage, tags:["#dev"] });
+          setDiaryByPair(prev => ({ ...prev }));
         }
       }, "Seed Test Entry"),
       h(Button, {
@@ -518,9 +484,8 @@ if (typeof window !== "undefined") window.__diaryByPair = (window.__diaryByPair 
         }
       }, "Clear Entries")
     ]);
-  };
 
-  // -------- FINAL RETURN (routes) --------
+  // -------- RETURN (routes) --------
   return h("div",{class:"app"},
     view==="status" ? h(StatusView, { chars, statusMap, playerFemale, fertilityMap, Nav })
     : view==="relationships" ? h(RelationshipsView, { chars, edges, selected: selected || null, setSelected: setSelectedId, selectedAffinity, traitMap, sensCatalog, sensMap, sensRules, Nav })
@@ -544,6 +509,6 @@ if (typeof window !== "undefined") window.__diaryByPair = (window.__diaryByPair 
 }
 
 /* ==============================================================
-   SECTION: MOUNT
+   MOUNT
    ============================================================== */
 render(h(App), document.getElementById("app"));
