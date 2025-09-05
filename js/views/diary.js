@@ -71,10 +71,13 @@ export default function DiaryView({
     }
   };
 
-  // Caught buttons: pick the correct line and append it to timeline
+  // Caught buttons: pick the correct line (nested or flat) and append it
   const logCaught = (who, path) => {
     const line = selectWitnessedLine(diary, targetId, who, path, pair.stage);
-    if (!line) return; // console already warns from selector
+    if (!line) {
+      console.warn("[caught] no lane/line for", { who, path, stage: pair.stage });
+      return;
+    }
     logWitnessed(diary, who, { text: line, path, stage: pair.stage });
     rerender();
   };
@@ -157,7 +160,7 @@ export default function DiaryView({
       ])
     ]) : null,
 
-    // Desires (read-only peek)
+    // Desires (peek)
     h("div", { class: "card diary-card" }, [
       h("h3", null, `Desires · target: ${targetId}`),
       h("div", { class: "kv" }, [
