@@ -1,5 +1,5 @@
 // js/views/diary.js
-// Diary view — timeline-first. "Caught" lines are appended straight into entries[].
+// Diary view — timeline-first (dev). "Caught" appends straight into entries[].
 
 import { h } from "https://esm.sh/preact@10.22.0";
 import {
@@ -14,10 +14,9 @@ import { fmtClock, getClock, advanceMinutes, advanceHours, advanceDays } from ".
 import { Button, Badge } from "../ui.js";
 
 const MAX_STAGE = 10;
-const WITNESSES = ["tifa", "renna", "yuffie"];
+const DEFAULT_WITNESSES = ["tifa", "renna", "yuffie"];
 const PATHS = ["love", "corruption", "hybrid"];
 
-// Group entries by day (YYYY-MM-DD)
 function groupByDay(entries) {
   const out = {};
   (entries || []).forEach(e => {
@@ -27,11 +26,18 @@ function groupByDay(entries) {
   return out;
 }
 
+// Tiny helper to force a refresh without remounting the whole app
+function rerender() {
+  const h0 = location.hash;
+  location.hash = "#_";
+  setTimeout(() => { location.hash = h0; }, 0);
+}
+
 export default function DiaryView({
   diary,
   characterId = "aerith",
   targetId = "vagrant",
-  witnesses = WITNESSES,
+  witnesses = DEFAULT_WITNESSES,
   Nav
 }) {
   if (!diary) return h("div", { class: "card" }, "No diary data loaded.");
@@ -44,16 +50,14 @@ export default function DiaryView({
     setPairState(characterId, targetId, { stage: n }); rerender();
   };
 
-  // Derived view data
+  // Derived view
   const desireLane = selectDesireEntries(diary, targetId, pair.path, pair.stage);
   const grouped = groupByDay(diary.entries);
   const clockNow = getClock();
 
-  // Dev mode (default ON; use ?dev=0 to hide)
   const params = new URLSearchParams(location.search);
   const DEV = params.get("dev") !== "0";
 
-  // Helpers for dev actions
   const appendFree = (text, extra = {}) => {
     appendDiaryEntry(diary, {
       text,
@@ -64,16 +68,21 @@ export default function DiaryView({
     });
     rerender();
   };
+
   const fireEvent = (type, payload = {}) => {
     if (typeof window !== "undefined" && typeof window.emitGameEvent === "function") {
       window.emitGameEvent(type, payload);
       rerender();
     }
   };
-  // Caught buttons: pick the correct line and append it to timeline
-  const onCaught = (who, path) => {
+
+  // Caught buttons -> select line -> append to timeline
+  const logCaught = (who, path) => {
     const line = selectWitnessedLine(diary, targetId, who, path, pair.stage);
-    if (!line) return;
+    if (!line) {
+      console.warn("[caught] no lane/line for", { who, path, stage: pair.stage });
+      return;
+    }
     logWitnessed(diary, who, { text: line, path, stage: pair.stage });
     rerender();
   };
@@ -91,7 +100,7 @@ export default function DiaryView({
       ])
     ])),
 
-    // DEV PANEL (timeline-first; emits entries directly)
+    // DEV PANEL (timeline-first)
     DEV ? h("div", { class: "card", style: "border:dashed 1px #647; background:#0d0f15" }, [
       h("h3", null, "DEV · Diary (timeline only)"),
       h("div", { class: "kv" }, [
@@ -104,7 +113,7 @@ export default function DiaryView({
         h(Button, { ghost: true, onClick: () => setStage(-1) }, "Stage −"),
         h(Button, { ghost: true, onClick: () => setStage(+1) }, "Stage +")
       ]),
-      // Core event seeds (map to main.js switch)
+      // Story beats (hooked to main.js emitGameEvent)
       h("div", { class: "kv small", style: "margin-top:8px" }, "Story beats:"),
       h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
         h(Button, { ghost:true, onClick: () => fireEvent("interaction.meet") }, "Meet"),
@@ -115,15 +124,15 @@ export default function DiaryView({
         h(Button, { ghost:true, onClick: () => fireEvent("risky.alleyStealth") }, "Risky · Alley Stealth"),
         h(Button, { ghost:true, onClick: () => fireEvent("time.morningTick") }, "Time · Morning Tick")
       ]),
-      // Caught buttons — writes directly to Timeline
+      // Caught (writes to timeline)
       h("div", { class: "kv small", style: "margin-top:8px" }, "Caught by (writes to timeline):"),
       ...witnesses.map(w =>
         h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
           h(Badge, null, w),
-          ...PATHS.map(p => h(Button, { ghost:true, onClick: () => onCaught(w, p) }, `${p[0].toUpperCase()+p.slice(1)}`))
+          ...PATHS.map(p => h(Button, { ghost:true, onClick: () => logCaught(w, p) }, p[0].toUpperCase()+p.slice(1)))
         ])
       ),
-      // Desire helper: log the latest visible desire line
+      // Desire helper
       h("div", { class: "kv", style: "margin-top:8px" }, [
         h(Button, {
           ghost: true,
@@ -156,7 +165,7 @@ export default function DiaryView({
       ])
     ]) : null,
 
-    // Desires (read-only peek; optional but useful for testing)
+    // Desires (peek)
     h("div", { class: "card diary-card" }, [
       h("h3", null, `Desires · target: ${targetId}`),
       h("div", { class: "kv" }, [
@@ -168,7 +177,7 @@ export default function DiaryView({
         : h("div", { class: "small" }, "— no entries yet —")
     ]),
 
-    // Timeline (only narrative surface we show)
+    // Timeline
     h("div", { class: "card diary-card" }, [
       h("h3", null, "Timeline"),
       (Object.keys(grouped).length === 0)
@@ -191,11 +200,4 @@ export default function DiaryView({
       )
     ])
   ]);
-}
-
-// Force a quick refresh of the view
-function rerender() {
-  const h0 = location.hash;
-  location.hash = "#_";
-  setTimeout(() => { location.hash = h0; }, 0);
 }
