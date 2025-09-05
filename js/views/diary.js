@@ -71,7 +71,7 @@ export default function DiaryView({
     }
   };
 
-  // Caught buttons: pick the correct line (nested or flat) and append it
+  // Caught buttons: pick the correct line and append it to timeline
   const logCaught = (who, path) => {
     const line = selectWitnessedLine(diary, targetId, who, path, pair.stage);
     if (!line) {
@@ -160,7 +160,7 @@ export default function DiaryView({
       ])
     ]) : null,
 
-    // Desires (peek)
+    // Desires (read-only peek)
     h("div", { class: "card diary-card" }, [
       h("h3", null, `Desires · target: ${targetId}`),
       h("div", { class: "kv" }, [
