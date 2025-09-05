@@ -1,26 +1,38 @@
 // js/systems/diary.js
-// Diary data model + helpers
-
+// ===============================
+// SECTION A — Imports & constants
+// ===============================
 import { fetchJson } from "../utils.js";
 import { currentISO, isoFor } from "./clock.js";
 
 // If you ever change the cap, do it once here:
-export const DIARY_STAGE_MAX = 10; // 0..10 inclusive (11 slots)
+export const DIARY_STAGE_MAX = 10; // Aerith uses 0..10
 
-/* =========================================================================
-   A. Normalize "caught_others" (dev authoring) -> witnessed[target][witness][path]=string[]
-   ------------------------------------------------------------------------- */
-const PATHS = ["love", "corruption", "hybrid"];
-
+// ===========================================
+// Helper: normalize "caught_others" (Dev data)
+// ===========================================
+// Input shape (example):
+// {
+//   "tifa": [ { stageMin:0, path:"any", text:"..." }, ... ],
+//   "renna": [ ... ]
+// }
+// Output:
+// witnessed[targetId][witnessId][path] = [ lineForStage0, ... lineForStage10 ]
+// And we also mirror to witnessed_flat[witnessId][path] for easy fallback.
 function normalizeCaughtOthers(caught, stageMax = DIARY_STAGE_MAX) {
+  const PATHS = ["love", "corruption", "hybrid"];
   const outByWitness = {};
+
   for (const [witnessId, items] of Object.entries(caught || {})) {
     const sorted = (items || []).slice().sort((a, b) => (a.stageMin ?? 0) - (b.stageMin ?? 0));
     const perPath = { love: [], corruption: [], hybrid: [] };
 
     for (let s = 0; s <= stageMax; s++) {
+      // last item whose stageMin <= s
       const pick = sorted.filter(it => (it.stageMin ?? 0) <= s).pop() || null;
+
       for (const p of PATHS) {
+        // carry-forward previous stage text unless a new one applies
         const prev = perPath[p][s - 1] || null;
         const applies = !pick || !pick.path || pick.path === "any" || pick.path === p;
         perPath[p][s] = applies && pick ? (pick.text || prev || null) : (prev || null);
@@ -31,16 +43,19 @@ function normalizeCaughtOthers(caught, stageMax = DIARY_STAGE_MAX) {
   return outByWitness;
 }
 
-/* =========================================================================
-   B. Loader + normalizer
-   ------------------------------------------------------------------------- */
+// ===============================
+// SECTION B — Loader + Normalizer
+// ===============================
 /**
- * Shape the app relies on:
+ * Load and normalize a diary file so the rest of the app can rely on:
  * {
- *   id, characterId, targetId,
- *   desires: { [target]: { love:[], corruption:[], hybrid:[] } } | {},
- *   witnessed: { [target]: { [witness]: { love:[], corruption:[], hybrid:[] } } } | {},
- *   events: { [eventKey]: { [path]: string[] } } | {},   // optional
+ *   id: string,
+ *   characterId: string,
+ *   targetId: string,
+ *   desires: { [targetId]: { love:[], corruption:[], hybrid:[] } } | {},
+ *   witnessed: { [targetId]: { [witnessId]: { love:[], corruption:[], hybrid:[] } } } | {},
+ *   witnessed_flat: { [witnessId]: { love:[], corruption:[], hybrid:[] } } | {}, // convenience mirror
+ *   events: { [eventKey]: { [path]: string[] } } | {},
  *   entries: Array<DiaryEntry>
  * }
  */
@@ -55,20 +70,32 @@ export async function loadDiary(url) {
     targetId: String(raw.targetId || "unknown"),
     desires: raw.desires && typeof raw.desires === "object" ? raw.desires : {},
     witnessed: raw.witnessed && typeof raw.witnessed === "object" ? raw.witnessed : {},
+    witnessed_flat: {}, // we’ll fill this below if we see caught_others
     events: raw.events && typeof raw.events === "object" ? raw.events : {},
     entries: Array.isArray(raw.entries) ? raw.entries.slice() : []
   };
 
-  // Support dev files that used `caught_others` at the root:
-  // Convert into witnessed[targetGuess][witness][path]=stage-indexed lines.
-  if ((!diary.witnessed || !Object.keys(diary.witnessed).length) && raw.caught_others) {
-    const targetGuess =
+  // Support dev data that uses "caught_others" instead of "witnessed".
+  // We convert it to witnessed[targetId][witnessId][path] and also to witnessed_flat.
+  if ((!raw.witnessed || !Object.keys(raw.witnessed).length) && raw.caught_others) {
+    const targetIdGuess =
       diary.targetId && diary.targetId !== "unknown"
         ? diary.targetId
         : Object.keys(raw.desires || {})[0] || "vagrant";
-    diary.witnessed = {
-      [targetGuess]: normalizeCaughtOthers(raw.caught_others, DIARY_STAGE_MAX)
-    };
+
+    const normalized = normalizeCaughtOthers(raw.caught_others, DIARY_STAGE_MAX);
+
+    // Preferred nested structure
+    diary.witnessed = { [targetIdGuess]: normalized };
+
+    // Convenience mirror (flat)
+    diary.witnessed_flat = normalized;
+  } else if (raw.witnessed && typeof raw.witnessed === "object") {
+    // If the file already provides witnessed, we still build a flat mirror if we can
+    const tKeys = Object.keys(raw.witnessed || {});
+    if (tKeys.length === 1) {
+      diary.witnessed_flat = raw.witnessed[tKeys[0]] || {};
+    }
   }
 
   // Make sure every timeline entry is minimally shaped
@@ -86,9 +113,10 @@ export async function loadDiary(url) {
   return diary;
 }
 
-/* =========================================================================
-   C. Selectors
-   ------------------------------------------------------------------------- */
+// ===============================
+// SECTION C — Selectors
+// ===============================
+/** Desires: by target -> path -> up to current stage */
 export function selectDesireEntries(diary, targetId, path, stage) {
   const lane = diary?.desires?.[targetId]?.[path];
   if (!Array.isArray(lane)) return [];
@@ -96,13 +124,24 @@ export function selectDesireEntries(diary, targetId, path, stage) {
   return lane.slice(0, s + 1);
 }
 
+/** Witnessed: pick exactly one line for (target, witness, path, stage), with flat fallback */
 export function selectWitnessedLine(diary, targetId, witnessId, path, stage) {
-  const lane = diary?.witnessed?.[targetId]?.[witnessId]?.[path];
-  if (!Array.isArray(lane) || !lane.length) return null;
+  let lane = diary?.witnessed?.[targetId]?.[witnessId]?.[path];
+  // Fallback to the flat mirror if the nested shape isn’t found
+  if (!Array.isArray(lane)) lane = diary?.witnessed_flat?.[witnessId]?.[path];
+
+  if (!Array.isArray(lane) || !lane.length) {
+    console.warn("[caught] no lane/line for", { who: witnessId, path, stage });
+    return null;
+  }
   const s = Math.max(0, Math.min(Number(stage ?? 0), lane.length - 1));
-  return lane[s];
+  return lane[s] || null;
 }
 
+/**
+ * Optional (nice to have): pick an event line
+ * Path-aware, stage-capped, from diary.events[eventKey][path] = string[]
+ */
 export function selectEventLine(diary, eventKey, path, stage) {
   const lane = diary?.events?.[eventKey]?.[path];
   if (!Array.isArray(lane) || !lane.length) return null;
@@ -110,16 +149,17 @@ export function selectEventLine(diary, eventKey, path, stage) {
   return lane[s];
 }
 
-/* =========================================================================
-   D. Timeline mutations
-   ------------------------------------------------------------------------- */
+// ===============================
+// SECTION D — Timeline mutations
+// ===============================
+/** Append a new diary entry (stamped with current in-game time) */
 export function appendDiaryEntry(diaryObj, {
   text,
-  path = null,
-  stage = null,
-  mood = [],
-  tags = [],
-  asides = []
+  path = null,      // "love" | "corruption" | "hybrid" | null
+  stage = null,     // 0..DIARY_STAGE_MAX or null
+  mood = [],        // ["anxious","curious"] etc
+  tags = [],        // ["#witnessed","#with:tifa"] etc
+  asides = []       // extra italic lines in UI
 }) {
   if (!diaryObj) return null;
   if (!Array.isArray(diaryObj.entries)) diaryObj.entries = [];
@@ -139,6 +179,7 @@ export function appendDiaryEntry(diaryObj, {
   return entry;
 }
 
+/** Backfill entry for a specific in-game day/hour */
 export function appendDiaryEntryAt(diaryObj, day, hour, payload = {}) {
   if (!diaryObj) return null;
   if (!Array.isArray(diaryObj.entries)) diaryObj.entries = [];
@@ -158,6 +199,7 @@ export function appendDiaryEntryAt(diaryObj, day, hour, payload = {}) {
   return entry;
 }
 
+/** Convenience: log the currently selected witnessed line into the timeline */
 export function logWitnessed(diaryObj, witnessId, { text, path, stage }) {
   return appendDiaryEntry(diaryObj, {
     text,
@@ -168,9 +210,11 @@ export function logWitnessed(diaryObj, witnessId, { text, path, stage }) {
   });
 }
 
-/* =========================================================================
-   E. Pair path/stage state (localStorage)
-   ------------------------------------------------------------------------- */
+// ===============================
+// SECTION E — Path/Stage state (per pair)
+// localStorage shape:
+// { "<char>": { "<target>": { path: "...", stage: 0..DIARY_STAGE_MAX } } }
+// ===============================
 const PS_KEY = "sim_path_state_v1";
 
 export function getPathState() {
@@ -190,6 +234,8 @@ export function setPairState(charId, targetId, patch) {
   if (!all[charId]) all[charId] = {};
   const curr = all[charId][targetId] || { path: "love", stage: 0 };
   const next = { ...curr, ...(patch || {}) };
+
+  // Clamp stage to the configured max
   if (typeof next.stage === "number") {
     next.stage = Math.max(0, Math.min(DIARY_STAGE_MAX, next.stage));
   }
