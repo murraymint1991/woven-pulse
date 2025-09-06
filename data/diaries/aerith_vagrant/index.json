@@ -5,9 +5,10 @@
   "sources": {
     "desires": "data/diaries/aerith_vagrant/desires.json",
     "witnessed": "data/diaries/aerith_vagrant/caught_others.json",
-    "events": {
-      "locations/cave": "data/diaries/aerith_vagrant/locations/cave.json"
-    }
+"events": {
+  "locations/cave": "data/diaries/aerith_vagrant/locations/cave.json",
+  "interaction/firstKiss": "data/diaries/aerith_vagrant/first_kiss.json"
+}
   },
   "entries": []
 }
