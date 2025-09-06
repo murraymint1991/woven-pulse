@@ -80,8 +80,8 @@ const DATA = {
 
   // Pair-specific diary
   diaries: {
-    "aerith:vagrant": "data/diaries/aerith_vagrant_v1.json",
-  },
+  "aerith:vagrant": "data/diaries/aerith_vagrant/index.json"
+}
 
   // Uncomment these once you’ve got the files in /data/status/...
   // statusActors:       "data/status/actors_v1.json",
