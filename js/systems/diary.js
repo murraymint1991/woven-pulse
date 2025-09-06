@@ -280,4 +280,4 @@ export function setPairState(charId, targetId, patch) {
   all[charId][targetId] = next;
   setPathState(all);
   return next;
-    }
+}
