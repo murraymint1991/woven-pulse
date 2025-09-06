@@ -2,7 +2,6 @@
   "version": "1.0",
   "characterId": "aerith",
   "targetId": "vagrant",
-
   "sources": {
     "desires": "data/diaries/aerith_vagrant/desires.json",
     "witnessed": "data/diaries/aerith_vagrant/caught_others.json",
@@ -10,6 +9,5 @@
       "locations/cave": "data/diaries/aerith_vagrant/locations/cave.json"
     }
   },
-
-  "entries": []  // optional seed timeline; your dev buttons will still append here
+  "entries": []
 }
