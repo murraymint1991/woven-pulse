@@ -17,16 +17,13 @@ function normalizeCaughtOthers(caught, stageMax = DIARY_STAGE_MAX) {
   const outByWitness = {};
 
   for (const [witnessId, itemsRaw] of Object.entries(caught || {})) {
-    const items = (itemsRaw || [])
-      .slice()
-      .sort((a, b) => (a.stageMin ?? 0) - (b.stageMin ?? 0));
+    // ✅ Only treat arrays as arrays; otherwise fall back to empty
+    const items = Array.isArray(itemsRaw) ? itemsRaw.slice() : [];
+    items.sort((a, b) => (a.stageMin ?? 0) - (b.stageMin ?? 0));
 
     const lanes = { love: [], corruption: [], hybrid: [] };
-
     for (let s = 0; s <= stageMax; s++) {
-      // last item whose stageMin <= s
       const pick = items.filter(it => (it.stageMin ?? 0) <= s).pop() || null;
-
       for (const p of PATHS) {
         const prev = lanes[p][s - 1] || null;
         const applies = !pick || !pick.path || pick.path === "any" || pick.path === p;
