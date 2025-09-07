@@ -1,0 +1,6 @@
+{
+  "version": "1.0",
+  "cycle": { "day": 12, "length": 28, "ovulationStart": 12, "ovulationEnd": 16 },
+  "pregnancy": { "isPregnant": false, "weeks": 0, "fatherId": null, "dueDay": null },
+  "effects": ["well-rested"]
+}
