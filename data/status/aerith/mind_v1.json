@@ -1,0 +1,5 @@
+{
+  "version": "1.0",
+  "moods": { "calm": 0.6, "bold": 0.5, "affection": 0.7, "shame": 0.2 },
+  "traits": { "purity": 0.45, "corruption": 0.25, "empathy": 0.8, "dominance": 0.3 }
+}
