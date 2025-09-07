@@ -307,9 +307,18 @@ function App() {
       case "interaction.meet":
         push("[We crossed paths in the slums; I told myself to keep walking… and still I looked back.]", { tags:["#interaction"] });
         break;
-      case "interaction.firstKiss":
-        push("[His mouth tasted of smoke and rain. I should’ve pulled away. I leaned in instead.]", { tags:["#interaction","#kiss"] });
+      case "interaction.firstKiss": {
+        const line = diary.events?.["first_kiss"]
+          ? (diary.events["first_kiss"][ps.path] || [])[ps.stage] ||
+            (diary.events["first_kiss"][ps.path] || []).slice(-1)[0]
+          : null;
+      
+        push(line || "[dev] no first-kiss line found", {
+          tags:["#event:first_kiss", "#with:vagrant"],
+          mood:["fluttered"]
+        });
         break;
+      }
       case "location.enter":
         push(`[entered ${payload.place || "somewhere"}]`, { tags:["#location"] });
         break;
