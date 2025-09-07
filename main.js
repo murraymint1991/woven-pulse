@@ -29,7 +29,8 @@ import {
   loadDiary,
   appendDiaryEntry,
   logWitnessed,
-  getPairState
+  getPairState,
+  selectEventLine 
 } from "./js/systems/diary.js";
 
 /* ==============================================================
@@ -307,18 +308,26 @@ function App() {
       case "interaction.meet":
         push("[We crossed paths in the slums; I told myself to keep walking… and still I looked back.]", { tags:["#interaction"] });
         break;
-      case "interaction.firstKiss": {
-        const line = diary.events?.["first_kiss"]
-          ? (diary.events["first_kiss"][ps.path] || [])[ps.stage] ||
-            (diary.events["first_kiss"][ps.path] || []).slice(-1)[0]
-          : null;
-      
-        push(line || "[dev] no first-kiss line found", {
-          tags:["#event:first_kiss", "#with:vagrant"],
-          mood:["fluttered"]
-        });
-        break;
-      }
+case "interaction.firstKiss": {
+  // current path/stage for this pair
+  const ps = getPairState(actorId, targetId); // or however you get it in your file
+
+  // pull from events via helper
+  const line =
+    selectEventLine(diary, "first_kiss", ps.path, ps.stage) ||
+    // graceful fallback if the exact stage is missing
+    (diary?.events?.first_kiss?.[ps.path] || []).slice(-1)[0] ||
+    null;
+
+  appendDiaryEntry(diary, {
+    text: line || "[dev] no first-kiss line found",
+    path: ps.path,
+    stage: ps.stage,
+    mood: ["fluttered"],
+    tags: ["#event:first_kiss", "#with:vagrant"]
+  });
+  break;
+}
       case "location.enter":
         push(`[entered ${payload.place || "somewhere"}]`, { tags:["#location"] });
         break;
