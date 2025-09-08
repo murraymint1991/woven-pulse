@@ -36,10 +36,9 @@ import {
 /* ==============================================================
    BASE + URL HELPERS
    ============================================================== */
-// Build absolute URLs under the current site root (works on GH Pages subpaths)
 function assetUrl(relPath) {
   const rel = String(relPath || "");
-  if (/^https?:\/\//i.test(rel)) return rel; // already absolute
+  if (/^https?:\/\//i.test(rel)) return rel;
   const { origin, pathname } = location;
   const baseDir = pathname.endsWith("/") ? pathname : pathname.replace(/[^/]+$/, "");
   return origin + baseDir + rel.replace(/^\//, "");
@@ -53,7 +52,7 @@ function showDevBanner(msg) {
 }
 
 /* ==============================================================
-   CONFIG (DATA PATHS)  ←— “DATA MAP” LIVES HERE
+   CONFIG (DATA PATHS)
    ============================================================== */
 const DATA = {
   traitsMoods: "data/traits_moods/traits_moods_v1.json",
@@ -79,24 +78,15 @@ const DATA = {
   sensAssignments: "data/sensitivities/assignments_v1.json",
   sensEvolution: "data/sensitivities/evolution_v1.json",
 
-  // Pair-specific diary
   diaries: {
     "aerith:vagrant": "data/diaries/aerith_vagrant/index.json"
   }
 
-  // If/when you add status JSONs, add them here (examples):
-  // statusMind: "data/status/mind_v1.json",
-  // statusBody: "data/status/body_v1.json",
-  // statusActors: "data/status/actors_v1.json",
-  // statusPlayerFemale: "data/status/player_female_v1.json",
-  // statusFertility: "data/status/fertility_v1.json",
+  // Later: add status JSONs here
 };
 
 const LS_KEYS = { AUTOSAVE: "sim_autosave_v1", SLOT: (n) => `sim_slot_${n}_v1` };
 
-/* ==============================================================
-   HELPERS (PAIR → PATH)
-   ============================================================== */
 const pairKey = (characterId, targetId) => `${characterId}:${targetId}`;
 const getDiaryPath = (characterId, targetId) => DATA.diaries[pairKey(characterId, targetId)] || null;
 
@@ -134,16 +124,13 @@ function App() {
   const [sensMap, setSensMap] = useState({});
   const [sensRules, setSensRules] = useState([]);
 
-  // Status pillar (optional)
   const [statusMap, setStatusMap] = useState({});
   const [playerFemale, setPlayerFemale] = useState(null);
   const [fertilityMap, setFertilityMap] = useState({});
 
-  // Pair selection + diary cache
   const [pair, setPair] = useState({ characterId: "aerith", targetId: "vagrant" });
   const [diaryByPair, setDiaryByPair] = useState({});
 
-  // Saves
   const [relationship, setRelationship] = useState(Number(localStorage.getItem("sim_rel_value")) || 0);
   const [slots, setSlots] = useState(Array.from({ length: 20 }, () => null));
   const [autosaveMeta, setAutosaveMeta] = useState(null);
@@ -162,9 +149,7 @@ function App() {
   }, []);
   useEffect(() => localStorage.setItem("sim_rel_value", String(relationship)), [relationship]);
 
-  /* ==============================================================
-     LOAD STATIC DATA  ←— this is where tiny status loaders are called
-     ============================================================== */
+  // -------- LOAD STATIC DATA --------
   useEffect(() => {
     (async () => {
       const d = [];
@@ -240,7 +225,6 @@ function App() {
       setLoading(false);
     })();
   }, []);
-
   /* ==============================================================
      LOAD / RESOLVE PAIR DIARY
      ============================================================== */
@@ -272,7 +256,7 @@ function App() {
       const diary = await loadDiary(diaryUrl);
       if (diary) {
         setDiaryByPair(prev => ({ ...prev, [key]: diary }));
-        // expose cache for console checks (SAFE place to reference key/diary)
+        // expose cache for console checks
         if (typeof window !== "undefined") {
           window.__diaryByPair = window.__diaryByPair || {};
           window.__diaryByPair[key] = diary;
@@ -314,6 +298,7 @@ function App() {
       case "interaction.meet":
         push("[We crossed paths in the slums; I told myself to keep walking… and still I looked back.]", { tags:["#interaction"] });
         break;
+
       case "interaction.firstKiss": {
         // use the currently selected pair
         const ps = getPairState(pair.characterId, pair.targetId);
@@ -330,18 +315,23 @@ function App() {
         });
         break;
       }
+
       case "location.enter":
         push(`[entered ${payload.place || "somewhere"}]`, { tags:["#location"] });
         break;
+
       case "item.bloomstone.sapphire":
         push("[used item]", { tags:["#item","#bloomstone:sapphire"] });
         break;
+
       case "risky.alleyStealth":
         push("[We moved like thieves in the alley—quiet, breath shared, pulse too loud.]", { tags:["#risky"] });
         break;
+
       case "time.morningTick":
         push("[morning passes…]", { tags:["#time"] });
         break;
+
       case "witness.seen":
         logWitnessed(diary, payload.witness || "tifa", {
           text: "I caught someone watching us. Heat ran through me—and I didn’t look away.",
@@ -349,6 +339,7 @@ function App() {
           stage: ps.stage
         });
         break;
+
       default:
         push(`[event:${type}]`, { tags:["#event"] });
         break;
@@ -470,8 +461,65 @@ function App() {
     ])
   ]);
 
-  // -------- CURRENT DIARY (derived) --------
+  // -------- CURRENT DIARY --------
   const currentDiary = diaryByPair[pairKey(pair.characterId, pair.targetId)] || null;
 
   // -------- PAIR PICKER --------
-  const PairPicker = () => h("div", { class:"kv", s
+  const PairPicker = () => h("div", { class:"kv", style:"gap:6px; flex-wrap:wrap" }, [
+    h(Badge,null,`Actor: ${pair.characterId}`),
+    h(Badge,null,`Target: ${pair.targetId}`),
+    h(Button,{ghost:true,onClick:()=>setPair({characterId:"aerith",targetId:"vagrant"})},"AERITH ↔ VAGRANT"),
+  ]);
+
+  // -------- DEV STRIP --------
+  const DiaryDevStrip = () =>
+    h("div", { class:"kv", style:"gap:6px; flex-wrap:wrap; margin: 8px 0" }, [
+      h(Button, {
+        onClick: () => {
+          const key = pairKey(pair.characterId, pair.targetId);
+          const d = diaryByPair[key];
+          if (!d) return;
+          const ps = getPairState(pair.characterId, pair.targetId);
+          appendDiaryEntry(d, { text: "[test] dev seeded entry", path: ps.path, stage: ps.stage, tags:["#dev"] });
+          setDiaryByPair(prev => ({ ...prev }));
+        }
+      }, "Seed Test Entry"),
+      h(Button, {
+        ghost:true,
+        onClick: () => {
+          const key = pairKey(pair.characterId, pair.targetId);
+          const d = diaryByPair[key];
+          if (!d) return;
+          d.entries = [];
+          setDiaryByPair(prev => ({ ...prev }));
+        }
+      }, "Clear Entries")
+    ]);
+
+  // -------- RETURN (routes) --------
+  return h("div",{class:"app"},
+    view==="status" ? h(StatusView, { chars, statusMap, playerFemale, fertilityMap, Nav })
+    : view==="relationships" ? h(RelationshipsView, { chars, edges, selected: selected || null, setSelected: setSelectedId, selectedAffinity, traitMap, sensCatalog, sensMap, sensRules, Nav })
+    : view==="diary" ? h("div", null, [
+        h("div",{class:"hero"}, h("div",{class:"hero-inner"},[
+          h("div",{class:"stage-title"},"Diary · Pair"),
+          h(Nav, null),
+          h(PairPicker, null)
+        ])),
+        h(DiaryDevStrip, null),
+        h(DiaryView, {
+          diary: currentDiary,
+          characterId: pair.characterId,
+          targetId: pair.targetId,
+          witnesses:["tifa","renna","yuffie"],
+          Nav
+        })
+      ])
+    : h(Home)
+  );
+}
+
+/* ==============================================================
+   MOUNT
+   ============================================================== */
+render(h(App), document.getElementById("app"));
