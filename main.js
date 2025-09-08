@@ -53,7 +53,7 @@ function showDevBanner(msg) {
 }
 
 /* ==============================================================
-   CONFIG (DATA PATHS)
+   CONFIG (DATA PATHS)  ←— “DATA MAP” LIVES HERE
    ============================================================== */
 const DATA = {
   traitsMoods: "data/traits_moods/traits_moods_v1.json",
@@ -81,13 +81,15 @@ const DATA = {
 
   // Pair-specific diary
   diaries: {
-  "aerith:vagrant": "data/diaries/aerith_vagrant/index.json"
-}
+    "aerith:vagrant": "data/diaries/aerith_vagrant/index.json"
+  }
 
-  // Uncomment these once you’ve got the files in /data/status/...
-  // statusActors:       "data/status/actors_v1.json",
+  // If/when you add status JSONs, add them here (examples):
+  // statusMind: "data/status/mind_v1.json",
+  // statusBody: "data/status/body_v1.json",
+  // statusActors: "data/status/actors_v1.json",
   // statusPlayerFemale: "data/status/player_female_v1.json",
-  // statusFertility:    "data/status/fertility_v1.json",
+  // statusFertility: "data/status/fertility_v1.json",
 };
 
 const LS_KEYS = { AUTOSAVE: "sim_autosave_v1", SLOT: (n) => `sim_slot_${n}_v1` };
@@ -160,7 +162,9 @@ function App() {
   }, []);
   useEffect(() => localStorage.setItem("sim_rel_value", String(relationship)), [relationship]);
 
-  // -------- LOAD STATIC DATA --------
+  /* ==============================================================
+     LOAD STATIC DATA  ←— this is where tiny status loaders are called
+     ============================================================== */
   useEffect(() => {
     (async () => {
       const d = [];
@@ -237,7 +241,9 @@ function App() {
     })();
   }, []);
 
-  // -------- LOAD/RESOLVE PAIR DIARY --------
+  /* ==============================================================
+     LOAD / RESOLVE PAIR DIARY
+     ============================================================== */
   useEffect(() => {
     (async () => {
       const key = pairKey(pair.characterId, pair.targetId);
@@ -311,14 +317,10 @@ function App() {
       case "interaction.firstKiss": {
         // use the currently selected pair
         const ps = getPairState(pair.characterId, pair.targetId);
-      
-        // pull a path/stage-aware line from diary.events.first_kiss
         const line =
           selectEventLine(diary, "first_kiss", ps.path, ps.stage) ||
-          // fallback: last line for this path if the exact stage is missing
           (diary?.events?.first_kiss?.[ps.path] || []).slice(-1)[0] ||
           null;
-      
         appendDiaryEntry(diary, {
           text: line || "[dev] no first-kiss line found",
           path: ps.path,
@@ -472,61 +474,4 @@ function App() {
   const currentDiary = diaryByPair[pairKey(pair.characterId, pair.targetId)] || null;
 
   // -------- PAIR PICKER --------
-  const PairPicker = () => h("div", { class:"kv", style:"gap:6px; flex-wrap:wrap" }, [
-    h(Badge,null,`Actor: ${pair.characterId}`),
-    h(Badge,null,`Target: ${pair.targetId}`),
-    h(Button,{ghost:true,onClick:()=>setPair({characterId:"aerith",targetId:"vagrant"})},"AERITH ↔ VAGRANT"),
-  ]);
-
-  // -------- DEV STRIP --------
-  const DiaryDevStrip = () =>
-    h("div", { class:"kv", style:"gap:6px; flex-wrap:wrap; margin: 8px 0" }, [
-      h(Button, {
-        onClick: () => {
-          const key = pairKey(pair.characterId, pair.targetId);
-          const d = diaryByPair[key];
-          if (!d) return;
-          const ps = getPairState(pair.characterId, pair.targetId);
-          appendDiaryEntry(d, { text: "[test] dev seeded entry", path: ps.path, stage: ps.stage, tags:["#dev"] });
-          setDiaryByPair(prev => ({ ...prev }));
-        }
-      }, "Seed Test Entry"),
-      h(Button, {
-        ghost:true,
-        onClick: () => {
-          const key = pairKey(pair.characterId, pair.targetId);
-          const d = diaryByPair[key];
-          if (!d) return;
-          d.entries = [];
-          setDiaryByPair(prev => ({ ...prev }));
-        }
-      }, "Clear Entries")
-    ]);
-
-  // -------- RETURN (routes) --------
-  return h("div",{class:"app"},
-    view==="status" ? h(StatusView, { chars, statusMap, playerFemale, fertilityMap, Nav })
-    : view==="relationships" ? h(RelationshipsView, { chars, edges, selected: selected || null, setSelected: setSelectedId, selectedAffinity, traitMap, sensCatalog, sensMap, sensRules, Nav })
-    : view==="diary" ? h("div", null, [
-        h("div",{class:"hero"}, h("div",{class:"hero-inner"},[
-          h("div",{class:"stage-title"},"Diary · Pair"),
-          h(Nav, null),
-          h(PairPicker, null)
-        ])),
-        h(DiaryDevStrip, null),
-        h(DiaryView, {
-          diary: currentDiary,
-          characterId: pair.characterId,
-          targetId: pair.targetId,
-          witnesses:["tifa","renna","yuffie"],
-          Nav
-        })
-      ])
-    : h(Home)
-  );
-}
-
-/* ==============================================================
-   MOUNT
-   ============================================================== */
-render(h(App), document.getElementById("app"));
+  const PairPicker = () => h("div", { class:"kv", s
