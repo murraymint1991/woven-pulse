@@ -1,6 +1,16 @@
 // js/systems/status.js
 import { fetchJson } from "../utils.js";
 
+export async function loadMind(url) {
+  const r = await fetchJson(url);
+  return r.ok ? (r.data?.mind || {}) : {};
+}
+
+export async function loadBody(url) {
+  const r = await fetchJson(url);
+  return r.ok ? (r.data?.body || {}) : {};
+}
+
 /* ---------------------------
    Data loading
 ---------------------------- */
