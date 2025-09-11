@@ -1,0 +1,14 @@
+{
+  "moods": {
+    "calm":       { "default": 0.5, "min": 0, "max": 1, "decayPerDay": 0.02 },
+    "bold":       { "default": 0.5, "min": 0, "max": 1, "decayPerDay": 0.01 },
+    "affection":  { "default": 0.5, "min": 0, "max": 1, "decayPerDay": 0.01 },
+    "shame":      { "default": 0.2, "min": 0, "max": 1, "decayPerDay": 0.02 }
+  },
+  "traits": {
+    "purity":     { "default": 0.5, "min": 0, "max": 1, "decayPerDay": 0.005 },
+    "corruption": { "default": 0.25,"min": 0, "max": 1, "decayPerDay": 0.0025 },
+    "empathy":    { "default": 0.8, "min": 0, "max": 1, "decayPerDay": 0.003 },
+    "dominance":  { "default": 0.3, "min": 0, "max": 1, "decayPerDay": 0.003 }
+  }
+}
