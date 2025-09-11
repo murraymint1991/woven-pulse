@@ -1,656 +1,348 @@
-// ===============================
-// main.js  (pair-aware diaries) — fixed & hardened + Status (Mind/Body) load
-// ===============================
+// main.js
+// ======================================================================
+//  Root loader + simple router for: Home · Status · Relationships · Diary
+//  Includes: diary cache (by pair), dev event hooks, status data glue.
+//  Big banners mark the sections you'll likely tweak in the future.
+// ======================================================================
 
 import { h, render } from "https://esm.sh/preact@10.22.0";
 import { useEffect, useMemo, useState } from "https://esm.sh/preact@10.22.0/hooks";
 
-import { sleep, nowStamp, fetchJson, countScenesAnywhere } from "./js/utils.js";
-import { Button, Badge, Dot } from "./js/ui.js";
-import RelationshipsView from "./js/views/relationships.js";
+// ---- UI bits ----------------------------------------------------------
+import DiaryView from "./js/views/diary.js";
 import StatusView from "./js/views/status.js";
 
-// ----- Traits
-import { loadAssignments as loadTraitAssignments } from "./js/systems/traits.js";
-
-// ----- Sensitivities
+// ---- Systems (status) -------------------------------------------------
 import {
-  loadCatalog as loadSensCatalog,
-  loadAssignments as loadSensAssignments,
-  loadEvolution as loadSensEvolution
-} from "./js/systems/sensitivities.js";
+  loadMind, loadBody, loadFertility,
+  getClock, advanceDays
+} from "./js/systems/status.js";
 
-// ----- Diary
-import DiaryView from "./js/views/diary.js";
-import {
-  loadDiary,
-  appendDiaryEntry,
-  logWitnessed,
-  getPairState,
-  selectEventLine
-} from "./js/systems/diary.js";
+// ---- Utils ------------------------------------------------------------
+import { fetchJson } from "./js/utils.js";
 
-/* ==============================================================
-   BASE + URL HELPERS
-   ============================================================== */
-function assetUrl(relPath) {
-  const rel = String(relPath || "");
-  if (/^https?:\/\//i.test(rel)) return rel; // already absolute
-  const { origin, pathname } = location;
-  const baseDir = pathname.endsWith("/") ? pathname : pathname.replace(/[^/]+$/, "");
-  return origin + baseDir + rel.replace(/^\//, "");
-}
-
-function showDevBanner(msg) {
-  const b = document.createElement("div");
-  b.style.cssText =
-    "position:fixed;left:8px;bottom:8px;max-width:92vw;padding:8px 10px;background:#220c;border:1px solid #f66;color:#fff;font:12px ui-monospace,monospace;z-index:9999;border-radius:8px";
-  b.textContent = msg;
-  document.body.appendChild(b);
-}
-
-/* ==============================================================
-   CONFIG (DATA PATHS)  ←— DATA MAP
-   ============================================================== */
-const DATA = {
-  traitsMoods: "data/traits_moods/traits_moods_v1.json",
+// ======================================================================
+// [ SECTION 1 ]  DATA MAP — all top-level JSON entry points live here.
+//                 (Adjust paths freely; views depend only on this map.)
+// ======================================================================
+const DATA_MAP = {
+  // Characters shown in Status (portrait, stats, etc.)
   characters: [
-    "data/characters/tifa.json",
-    "data/characters/yuffie.json",
-    "data/characters/renna.json",
     "data/characters/aerith.json",
-    "data/characters/nanaki.json",
-    "data/characters/kaien.json",
-    "data/characters/barret.json",
-    "data/characters/cloud.json",
-    "data/characters/marek_voss.json",
-    "data/characters/the_fractured.json",
-    "data/characters/don_corneo.json",
-    "data/characters/beggar.json",
     "data/characters/vagrant.json"
   ],
-  demoModule: "data/demo/demo_module_v0_5.json",
-  relationships: "data/relationships/relationships_v1.json",
-  traitAssignments: "data/traits/assignments_v1.json",
-  sensCatalog: "data/sensitivities/catalog_v1.json",
-  sensAssignments: "data/sensitivities/assignments_v1.json",
-  sensEvolution: "data/sensitivities/evolution_v1.json",
 
-  // Pair-specific diary
+  // Pair-specific diary (Aerith ↔ Vagrant)
   diaries: {
     "aerith:vagrant": "data/diaries/aerith_vagrant/index.json"
   },
 
-  // NEW — status files by character (mind/body)
-  statusByChar: {
-    aerith: {
-      mind: "data/status/aerith/mind_v1.json",
-      body: "data/status/aerith/body_v1.json"
-    }
-  }
+  // Status/Mind/Body/Fertility (used by Status screen)
+  statusMind:      "data/status/mind_v1.json",
+  statusBody:      "data/status/body_v1.json",
+  statusFertility: "data/status/fertility_v1.json"
 };
 
-const LS_KEYS = { AUTOSAVE: "sim_autosave_v1", SLOT: (n) => `sim_slot_${n}_v1` };
-
-/* ==============================================================
-   HELPERS (PAIR → PATH)
-   ============================================================== */
-const pairKey = (characterId, targetId) => `${characterId}:${targetId}`;
-const getDiaryPath = (characterId, targetId) =>
-  DATA.diaries[pairKey(characterId, targetId)] || null;
-
-/* ==============================================================
-   APP
-   ============================================================== */
-function App() {
-  const [loading, setLoading] = useState(true);
-  const [toast, setToast] = useState("");
-
-  // -------- ROUTING --------
-  const [view, setView] = useState(() =>
-    location.hash === "#relationships"
-      ? "relationships"
-      : location.hash === "#status"
-      ? "status"
-      : location.hash === "#diary"
-      ? "diary"
-      : "home"
-  );
-  useEffect(() => {
-    const onHash = () =>
-      setView(
-        location.hash === "#relationships"
-          ? "relationships"
-          : location.hash === "#status"
-          ? "status"
-          : location.hash === "#diary"
-          ? "diary"
-          : "home"
-      );
-    addEventListener("hashchange", onHash);
-    return () => removeEventListener("hashchange", onHash);
-  }, []);
-
-  // -------- DATA STATE --------
-  const [traitsFound, setTraitsFound] = useState(false);
-  const [chars, setChars] = useState([]);
-  const [scenesCount, setScenesCount] = useState(0);
-  const [details, setDetails] = useState([]);
-  const [edgesRaw, setEdgesRaw] = useState([]);
-  const [traitMap, setTraitMap] = useState({});
-  const [sensCatalog, setSensCatalog] = useState({});
-  const [sensMap, setSensMap] = useState({});
-  const [sensRules, setSensRules] = useState([]);
-
-  // NEW: stash loaded status per character → { aerith: { mind, body } }
-  const [statusMap, setStatusMap] = useState({});
-
-  // Pair/diary cache
-  const [pair, setPair] = useState({ characterId: "aerith", targetId: "vagrant" });
-  const [diaryByPair, setDiaryByPair] = useState({});
-
-  // Saves
-  const [relationship, setRelationship] = useState(
-    Number(localStorage.getItem("sim_rel_value")) || 0
-  );
-  const [slots, setSlots] = useState(Array.from({ length: 20 }, () => null));
-  const [autosaveMeta, setAutosaveMeta] = useState(null);
-  const [selectedId, setSelectedId] = useState(null);
-
-  // -------- LOAD SAVES --------
-  useEffect(() => {
-    const next = [];
-    for (let i = 1; i <= 20; i++) {
-      const raw = localStorage.getItem(LS_KEYS.SLOT(i));
-      next.push(raw ? JSON.parse(raw) : null);
-    }
-    const autoRaw = localStorage.getItem(LS_KEYS.AUTOSAVE);
-    setAutosaveMeta(autoRaw ? JSON.parse(autoRaw) : null);
-    setSlots(next);
-  }, []);
-  useEffect(() => localStorage.setItem("sim_rel_value", String(relationship)), [relationship]);
-
-  /* ==============================================================
-     LOAD STATIC DATA  ←— status (mind/body) load happens here
-     ============================================================== */
-  useEffect(() => {
-    (async () => {
-      const d = [];
-
-      // Traits/moods
-      const tm = await fetchJson(assetUrl(DATA.traitsMoods));
-      if (tm.ok) {
-        setTraitsFound(Boolean(tm.data?.traits && Object.keys(tm.data.traits).length));
-        d.push({ label: "traits_moods/traits_moods_v1.json", status: "ok" });
-      } else d.push({ label: "traits_moods/traits_moods_v1.json", status: "err" });
-
-      // Characters
-      const loaded = [];
-      for (const path of DATA.characters) {
-        const r = await fetchJson(assetUrl(path));
-        const file = path.split("/").pop();
-        if (r.ok) {
-          const c = r.data.character || {};
-          loaded.push({
-            id: c.id || file.replace(".json", ""),
-            displayName: c.displayName || c.id || "Unknown",
-            type: c.type || "Humanoid",
-            portrait: c.portrait || "",
-            baseStats: c.baseStats || {}
-          });
-          d.push({ label: `characters/${file}`, status: "ok" });
-        } else d.push({ label: `characters/${file}`, status: "err" });
-      }
-      setChars(loaded);
-
-      // Demo module
-      const dm = await fetchJson(assetUrl(DATA.demoModule));
-      if (dm.ok) {
-        setScenesCount(countScenesAnywhere(dm.data));
-        d.push({ label: "demo/demo_module_v0_5.json", status: "ok" });
-      } else d.push({ label: "demo/demo_module_v0_5.json", status: "err" });
-
-      // Relationships
-      const rel = await fetchJson(assetUrl(DATA.relationships));
-      if (rel.ok) {
-        setEdgesRaw(Array.isArray(rel.data?.edges) ? rel.data.edges : []);
-        d.push({ label: "relationships/relationships_v1.json", status: "ok" });
-      } else {
-        setEdgesRaw([]);
-        d.push({ label: "relationships/relationships_v1.json", status: "err" });
-      }
-
-      // Traits assignments
-      const ta = await loadTraitAssignments(assetUrl(DATA.traitAssignments));
-      if (ta.ok) {
-        setTraitMap(ta.map);
-        d.push({ label: "traits/assignments_v1.json", status: "ok" });
-      } else {
-        setTraitMap({});
-        d.push({ label: "traits/assignments_v1.json", status: "err" });
-      }
-
-      // Sensitivities
-      const sc = await fetchJson(assetUrl(DATA.sensCatalog));
-      setSensCatalog(sc.ok ? sc.data?.stimuli || {} : {});
-      d.push({ label: "sensitivities/catalog_v1.json", status: sc.ok ? "ok" : "err" });
-
-      const sa = await fetchJson(assetUrl(DATA.sensAssignments));
-      setSensMap(sa.ok ? sa.data?.characters || {} : {});
-      d.push({
-        label: "sensitivities/assignments_v1.json",
-        status: sa.ok ? "ok" : "err"
-      });
-
-      const sr = await fetchJson(assetUrl(DATA.sensEvolution));
-      setSensRules(sr.ok ? sr.data?.rules || [] : []);
-      d.push({ label: "sensitivities/evolution_v1.json", status: sr.ok ? "ok" : "err" });
-
-      // ===== NEW: load Aerith status (mind/body) =====
-      if (DATA.statusByChar?.aerith) {
-        const [mindRes, bodyRes] = await Promise.all([
-          fetchJson(assetUrl(DATA.statusByChar.aerith.mind)),
-          fetchJson(assetUrl(DATA.statusByChar.aerith.body))
-        ]);
-        const mind = mindRes.ok ? (mindRes.data?.mind || mindRes.data || {}) : {};
-        const body = bodyRes.ok ? (bodyRes.data?.body || bodyRes.data || {}) : {};
-        setStatusMap((prev) => ({ ...prev, aerith: { mind, body } }));
-        d.push({
-          label: "status/aerith/mind_v1.json",
-          status: Object.keys(mind).length ? "ok" : "err"
-        });
-        d.push({
-          label: "status/aerith/body_v1.json",
-          status: Object.keys(body).length ? "ok" : "err"
-        });
-      }
-      // ===============================================
-
-      setDetails(d);
-      await sleep(100);
-      setLoading(false);
-    })();
-  }, []);
-
-  /* ==============================================================
-     LOAD / RESOLVE PAIR DIARY
-     ============================================================== */
-  useEffect(() => {
-    (async () => {
-      const key = pairKey(pair.characterId, pair.targetId);
-      if (diaryByPair[key]) return; // cached
-
-      const relPath = getDiaryPath(pair.characterId, pair.targetId);
-      if (!relPath) {
-        console.warn("[Diary path missing]", { pair });
-        return;
-      }
-
-      const diaryUrl = assetUrl(relPath) + `?v=${Date.now()}`;
-
-      // Probe for clear errors
-      try {
-        const probe = await fetch(diaryUrl, { cache: "no-store" });
-        const text = await probe.text();
-        if (!probe.ok) {
-          showDevBanner(`Diary HTTP ${probe.status}: ${diaryUrl}`);
-          return;
-        }
-        try {
-          JSON.parse(text);
-        } catch (e) {
-          showDevBanner(`Diary JSON error: ${String(e).slice(0, 120)} …`);
-          console.log("[Diary probe preview]", text.slice(0, 500));
-          return;
-        }
-      } catch (e) {
-        showDevBanner(`Diary fetch threw: ${String(e)}`);
-        return;
-      }
-
-      const diary = await loadDiary(diaryUrl);
-      if (diary) {
-        setDiaryByPair((prev) => ({ ...prev, [key]: diary }));
-        if (typeof window !== "undefined") {
-          window.__diaryByPair = window.__diaryByPair || {};
-          window.__diaryByPair[key] = diary;
-        }
-        console.log("[Diary loaded]", {
-          key,
-          characterId: diary.characterId,
-          targetId: diary.targetId,
-          keys: Object.keys(diary || {}),
-          entriesCount: Array.isArray(diary.entries) ? diary.entries.length : 0
-        });
-      } else {
-        console.warn("[Diary missing]", { key, path: diaryUrl });
-        showDevBanner(`Diary failed to load: ${diaryUrl}`);
-      }
-    })();
-  }, [pair, diaryByPair]);
-
-  // =================================================================
-  // GAME EVENT DISPATCH (used by DiaryView dev buttons)
-  // =================================================================
-  function emitGameEvent(type, payload = {}) {
-    const key = pairKey(pair.characterId, pair.targetId);
-    const diary = diaryByPair[key];
-    if (!diary) return;
-    const ps = getPairState(pair.characterId, pair.targetId);
-
-    const push = (text, extra = {}) => {
-      appendDiaryEntry(diary, {
-        text,
-        path: ps.path,
-        stage: ps.stage,
-        tags: extra.tags || [],
-        mood: extra.mood || []
-      });
-    };
-
-    switch (type) {
-      case "interaction.meet":
-        push(
-          "[We crossed paths in the slums; I told myself to keep walking… and still I looked back.]",
-          { tags: ["#interaction"] }
-        );
-        break;
-
-      case "interaction.firstKiss": {
-        const ps = getPairState(pair.characterId, pair.targetId);
-        const line =
-          selectEventLine(diary, "first_kiss", ps.path, ps.stage) ||
-          (diary?.events?.first_kiss?.[ps.path] || []).slice(-1)[0] ||
-          null;
-        appendDiaryEntry(diary, {
-          text: line || "[dev] no first-kiss line found",
-          path: ps.path,
-          stage: ps.stage,
-          mood: ["fluttered"],
-          tags: ["#event:first_kiss", `#with:${pair.targetId}`]
-        });
-        break;
-      }
-
-      case "location.enter":
-        push(`[entered ${payload.place || "somewhere"}]`, { tags: ["#location"] });
-        break;
-
-      case "item.bloomstone.sapphire":
-        push("[used item]", { tags: ["#item", "#bloomstone:sapphire"] });
-        break;
-
-      case "risky.alleyStealth":
-        push(
-          "[We moved like thieves in the alley—quiet, breath shared, pulse too loud.]",
-          { tags: ["#risky"] }
-        );
-        break;
-
-      case "time.morningTick":
-        push("[morning passes…]", { tags: ["#time"] });
-        break;
-
-      case "witness.seen":
-        logWitnessed(diary, payload.witness || "tifa", {
-          text:
-            "I caught someone watching us. Heat ran through me—and I didn’t look away.",
-          path: ps.path,
-          stage: ps.stage
-        });
-        break;
-
-      default:
-        push(`[event:${type}]`, { tags: ["#event"] });
-        break;
-    }
+// ======================================================================
+// [ SECTION 2 ]  TINY LOADER — wraps fetchJson and logs nice errors.
+// ======================================================================
+async function loadJson(url, label = url) {
+  const r = await fetchJson(url);
+  if (!r.ok) {
+    console.error(`[data] failed to load ${label}`, r.status, r.error || "");
+    throw new Error(`Failed to load ${label}`);
   }
-  if (typeof window !== "undefined") window.emitGameEvent = (t, p) => emitGameEvent(t, p);
-
-  // -------- UI HELPERS --------
-  const flash = (msg) => {
-    setToast(msg);
-    setTimeout(() => setToast(""), 1200);
-  };
-  const doAutosave = () => {
-    const snapshot = {
-      at: nowStamp(),
-      rel: relationship,
-      roster: chars.map((c) => c.id),
-      info: { chars: chars.length, scenes: scenesCount, traits: traitsFound ? "yes" : "no" }
-    };
-    localStorage.setItem(LS_KEYS.AUTOSAVE, JSON.stringify(snapshot));
-    setAutosaveMeta(snapshot);
-    flash("Autosaved.");
-  };
-  const doManualSave = () => {
-    const payload = { at: nowStamp(), rel: relationship, note: "Manual" };
-    const idx = (slots.findIndex((s) => s === null) + 20) % 20;
-    const next = slots.slice();
-    next[idx] = payload;
-    localStorage.setItem(LS_KEYS.SLOT(idx + 1), JSON.stringify(payload));
-    setSlots(next);
-    flash(`Saved to Slot ${idx + 1}.`);
-  };
-  const clearAllSaves = () => {
-    localStorage.removeItem(LS_KEYS.AUTOSAVE);
-    for (let i = 1; i <= 20; i++) localStorage.removeItem(LS_KEYS.SLOT(i));
-    setAutosaveMeta(null);
-    setSlots(Array.from({ length: 20 }, () => null));
-    flash("All save slots cleared.");
-  };
-  const clearCacheAndReload = () => {
-    clearAllSaves();
-    location.reload();
-  };
-
-  // -------- MEMOS --------
-  const summaryText = useMemo(
-    () => `${chars.length} char · ${scenesCount} scenes · traits: ${traitsFound ? "yes" : "no"}`,
-    [chars.length, scenesCount, traitsFound]
-  );
-  const edges = useMemo(() => {
-    const idset = new Set(chars.map((c) => c.id));
-    return edgesRaw.filter((e) => idset.has(e.from) && idset.has(e.to));
-  }, [edgesRaw, chars]);
-  const selected = useMemo(
-    () => chars.find((c) => c.id === selectedId) || null,
-    [selectedId, chars]
-  );
-  const selectedAffinity = useMemo(() => {
-    if (!selectedId) return 0;
-    const rels = edges.filter((e) => e.from === selectedId || e.to === selectedId);
-    if (!rels.length) return 0;
-    const avg = rels.reduce((s, e) => s + (Number(e.strength) || 0), 0) / rels.length;
-    return Math.round(avg);
-  }, [edges, selectedId]);
-
-  // -------- NAV --------
-  const Nav = () =>
-    h(
-      "div",
-      { class: "menu", style: "margin-bottom:8px; display:flex; gap:8px; flex-wrap:wrap" },
-      [
-        h(
-          Button,
-          { onClick: () => { location.hash = ""; setView("home"); }, ghost: view !== "home" },
-          "Home"
-        ),
-        h(
-          Button,
-          { onClick: () => { location.hash = "#status"; setView("status"); }, ghost: view !== "status" },
-          "Status"
-        ),
-        h(
-          Button,
-          { onClick: () => { location.hash = "#relationships"; setView("relationships"); }, ghost: view !== "relationships" },
-          "Relationships"
-        ),
-        h(
-          Button,
-          { onClick: () => { location.hash = "#diary"; setView("diary"); }, ghost: view !== "diary" },
-          "Diary"
-        )
-      ]
-    );
-
-  // -------- HOME --------
-  const Home = () =>
-    h("div", null, [
-      h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
-        h("div", { class: "stage-title" }, "SIM Prototype — Start"),
-        h("div", { class: "subtitle" }, "No-build demo (GitHub Pages · Preact ESM)"),
-        h(Nav, null)
-      ])),
-      h("div", { class: "grid" }, [
-        h("div", { class: "card" }, [
-          h("h3", null, "Data Import"),
-          loading
-            ? h("div", { class: "kv" }, "Loading data…")
-            : h("div", { class: "kv" }, h(Badge, null, [h(Dot, { ok: chars.length > 0 }), " ", summaryText])),
-          h("div", { class: "small", style: "margin-top:8px" }, "Files under /data/... — tap any to open raw JSON."),
-          h("div", { class: "small", style: "margin-top:8px" },
-            details.map((d) =>
-              h("div", { class: "kv" }, [
-                h(Dot, { ok: d.status === "ok" }),
-                h("a", { href: assetUrl(`data/${d.label}`), target: "_blank", style: "margin-left:4px" }, d.label)
-              ])
-            )
-          )
-        ]),
-        h("div", { class: "card" }, [
-          h("h3", null, "Saves"),
-          h("div", { class: "kv" }, [
-            h(Button, { onClick: doAutosave }, "Autosave"),
-            h(Button, { onClick: doManualSave }, "Manual Save"),
-            h(Button, { ghost: true, onClick: clearAllSaves }, "Clear All")
-          ]),
-          autosaveMeta
-            ? h("div", { class: "kv" }, h(Badge, null, `Autosave · ${autosaveMeta.at} · rel ${autosaveMeta.rel}`))
-            : h("div", { class: "kv small" }, "No autosave yet."),
-          h("div", { class: "small" }, "Slot clicks are stubs for now (load logic not wired yet).")
-        ]),
-        h("div", { class: "card" }, [
-          h("h3", null, "Choice (example)"),
-          h("div", { class: "kv" }, `Relationship: ${relationship}`),
-          h("div", { class: "kv" }, [
-            h(Button, { onClick: () => { setRelationship((v) => v + 1); setToast("+1 (kind)"); setTimeout(() => setToast(""), 1200); } }, "Be Kind (+1)"),
-            h(Button, { ghost: true, onClick: () => { setRelationship((v) => v - 1); setToast("-1 (tease)"); setTimeout(() => setToast(""), 1200); } }, "Tease (-1)")
-          ]),
-          h("div", { class: "small" }, "This is just a mock stat; autosave/slots capture its value.")
-        ])
-      ]),
-      h("div", { class: "card", style: "margin-top:12px" }, [
-        h("h3", null, "Manual Slots (20)"),
-        h("div", { class: "grid" },
-          slots.map((s, i) =>
-            h("div", { class: "slot", onClick: () => setToast(`Load Slot ${i + 1} (stub)`) }, [
-              h("div", null, `Slot ${i + 1}`),
-              h("div", { class: "meta" }, s ? `${s.note} · ${s.at}` : "empty")
-            ])
-          )
-        )
-      ]),
-      h("div", { class: "savebar" }, [
-        h(Button, { onClick: doAutosave }, "Autosave"),
-        h(Button, { onClick: doManualSave }, "Manual Save"),
-        h(Button, { ghost: true, onClick: () => { clearCacheAndReload(); } }, "Clear Cache & Reload"),
-        toast ? h(Badge, null, toast) : null
-      ])
-    ]);
-
-  // -------- CURRENT DIARY (derived) --------
-  const currentDiary = diaryByPair[pairKey(pair.characterId, pair.targetId)] || null;
-
-  // -------- PAIR PICKER (dev) --------
-  const PairPicker = () =>
-    h("div", { class: "kv", style: "gap:6px; flex-wrap:wrap" }, [
-      h(Badge, null, `Actor: ${pair.characterId}`),
-      h(Badge, null, `Target: ${pair.targetId}`),
-      h(Button, { ghost: true, onClick: () => setPair({ characterId: "aerith", targetId: "vagrant" }) }, "AERITH ↔ VAGRANT")
-    ]);
-
-  // -------- DEV STRIP (diary quick actions) --------
-  const DiaryDevStrip = () =>
-    h("div", { class: "kv", style: "gap:6px; flex-wrap:wrap; margin: 8px 0" }, [
-      h(
-        Button,
-        {
-          onClick: () => {
-            const key = pairKey(pair.characterId, pair.targetId);
-            const d = diaryByPair[key];
-            if (!d) return;
-            const ps = getPairState(pair.characterId, pair.targetId);
-            appendDiaryEntry(d, {
-              text: "[test] dev seeded entry",
-              path: ps.path,
-              stage: ps.stage,
-              tags: ["#dev"]
-            });
-            // force re-render
-            // eslint-disable-next-line no-undef
-            setDiaryByPair((prev) => ({ ...prev }));
-          }
-        },
-        "Seed Test Entry"
-      ),
-      h(
-        Button,
-        {
-          ghost: true,
-          onClick: () => {
-            const key = pairKey(pair.characterId, pair.targetId);
-            const d = diaryByPair[key];
-            if (!d) return;
-            d.entries = [];
-            // eslint-disable-next-line no-undef
-            setDiaryByPair((prev) => ({ ...prev }));
-          }
-        },
-        "Clear Entries"
-      )
-    ]);
-
-  // -------- RETURN (routes) --------
-  return h(
-    "div",
-    { class: "app" },
-    view === "status"
-      ? h(StatusView, { chars, statusMap, Nav })
-      : view === "relationships"
-      ? h(RelationshipsView, {
-          chars,
-          edges,
-          selected: selected || null,
-          setSelected: setSelectedId,
-          selectedAffinity,
-          traitMap,
-          sensCatalog,
-          sensMap,
-          sensRules,
-          Nav
-        })
-      : view === "diary"
-      ? h("div", null, [
-          h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
-            h("div", { class: "stage-title" }, "Diary · Pair"),
-            h(Nav, null),
-            h(PairPicker, null)
-          ])),
-          h(DiaryDevStrip, null),
-          h(DiaryView, {
-            diary: currentDiary,
-            characterId: pair.characterId,
-            targetId: pair.targetId,
-            witnesses: ["tifa", "renna", "yuffie"],
-            Nav
-          })
-        ])
-      : h(Home)
-  );
+  return r.data;
 }
 
-/* ==============================================================
-   MOUNT
-   ============================================================== */
-render(h(App), document.getElementById("app"));
+// ======================================================================
+// [ SECTION 3 ]  DIARY LOADER / CACHE (by pair)
+//  - Loads index.json, follows "sources" to fetch/flatten lanes
+//  - Normalizes "caught_others" (witnessed) via the dev-friendly shape
+//  - Exposes a global window.__diaryByPair for quick console inspection
+// ======================================================================
+
+/** normalize "caught_others" -> witnessed[target][who][path] = string[] by stage */
+function normalizeCaught(caughtObj, stageMax = 10) {
+  const PATHS = ["love", "corruption", "hybrid"];
+  const out = {};
+  for (const [who, itemsRaw] of Object.entries(caughtObj || {})) {
+    const items = Array.isArray(itemsRaw) ? itemsRaw.slice().sort((a,b)=>(a.stageMin??0)-(b.stageMin??0)) : [];
+    const perPath = { love: [], corruption: [], hybrid: [] };
+    for (let s = 0; s <= stageMax; s++) {
+      const pick = items.filter(it => (it.stageMin ?? 0) <= s).pop() || null;
+      for (const p of PATHS) {
+        const prev = perPath[p][s - 1] || null;
+        const applies = !pick || !pick.path || pick.path === "any" || pick.path === p;
+        perPath[p][s] = applies && pick ? (pick.text || prev || null) : (prev || null);
+      }
+    }
+    out[who] = perPath;
+  }
+  return out;
+}
+
+async function loadDiaryIndex(indexUrl) {
+  // index.json
+  const idx = await loadJson(indexUrl, "diary/index");
+  const targetId  = String(idx.targetId || "vagrant");
+  const actorId   = String(idx.characterId || "aerith");
+  const sources   = idx.sources || {};
+
+  // desires
+  let desires = {};
+  if (sources.desires) {
+    const d = await loadJson(sources.desires, "diary/desires");
+    // expected shape: { "<target>": { love:[], corruption:[], hybrid:[] } }
+    desires = (d && typeof d === "object") ? d : {};
+  }
+
+  // witnessed / caught_others
+  let witnessed = {};
+  if (sources.witnessed) {
+    const w = await loadJson(sources.witnessed, "diary/caught_others");
+    // dev-friendly input: { tifa:[{stageMin, path, text},...], ... }
+    const norm = normalizeCaught(w, 10);
+    witnessed[targetId] = norm;
+  }
+
+  // optional events (e.g. locations/cave)
+  let events = {};
+  if (sources.events && typeof sources.events === "object") {
+    events = {};
+    for (const [key, url] of Object.entries(sources.events)) {
+      const ev = await loadJson(url, `diary/event(${key})`);
+      // expected shape: { love:[], corruption:[], hybrid:[] }
+      if (ev && typeof ev === "object") {
+        events[key] = ev;
+      }
+    }
+  }
+
+  // minimal diary object; entries[] starts empty (timeline writes at runtime)
+  return {
+    id: "diary",
+    characterId: actorId,
+    targetId,
+    desires,
+    witnessed,       // witnessed[targetId][who][path] = string[]
+    events,          // events[key][path] = string[]
+    entries: []
+  };
+}
+
+async function loadAllDiaries() {
+  const out = {};
+  for (const [pairKey, url] of Object.entries(DATA_MAP.diaries || {})) {
+    out[pairKey] = await loadDiaryIndex(url);
+    console.log("[Diary loaded]", {
+      key: pairKey,
+      characterId: out[pairKey].characterId,
+      targetId: out[pairKey].targetId,
+      keys: Object.keys(out[pairKey]),
+      entriesCount: out[pairKey].entries.length
+    });
+  }
+  // expose for console debugging
+  window.__diaryByPair = out;
+  return out;
+}
+
+// ======================================================================
+// [ SECTION 4 ]  RUNTIME DEV EVENTS (emitGameEvent)
+//  - First kiss event (path-aware) that appends to the diary timeline
+// ======================================================================
+
+async function loadFirstKissLines() {
+  try {
+    const r = await fetchJson("data/diaries/aerith_vagrant/first_kiss.json");
+    return r.ok ? r.data || {} : {};
+  } catch { return {}; }
+}
+
+/** simple append util for diary entries */
+function appendDiaryEntry(diary, payload) {
+  if (!diary || !Array.isArray(diary.entries)) diary.entries = [];
+  const id = `${diary.characterId || "char"}-${Math.random().toString(36).slice(2,8)}`;
+  diary.entries.push({
+    id,
+    date: new Date().toISOString(),
+    text: String(payload.text || ""),
+    path: payload.path ?? null,
+    stage: payload.stage ?? null,
+    mood: Array.isArray(payload.mood) ? payload.mood : [],
+    tags: Array.isArray(payload.tags) ? payload.tags : [],
+    asides: Array.isArray(payload.asides) ? payload.asides : []
+  });
+}
+
+/** pick current path & stage for a pair (localStorage) */
+const PS_KEY = "sim_path_state_v1";
+function getPairState(charId, targetId) {
+  try {
+    const all = JSON.parse(localStorage.getItem(PS_KEY) || "{}");
+    return all?.[charId]?.[targetId] || { path: "love", stage: 0 };
+  } catch { return { path: "love", stage: 0 }; }
+}
+
+/** public dev event entrypoint (used by views) */
+async function emitGameEvent(type, payload = {}) {
+  const pairKey = "aerith:vagrant";
+  const diary   = window.__diaryByPair?.[pairKey];
+  if (!diary) return;
+
+  if (type === "interaction.firstKiss") {
+    const lines = await loadFirstKissLines();
+    const pair  = getPairState(diary.characterId, diary.targetId);
+    const lane  = lines?.[pair.path] || [];
+    const text  = lane[0] || "(first kiss)";
+    appendDiaryEntry(diary, {
+      text: `[first kiss·${pair.path}] ${text}`,
+      path: pair.path,
+      stage: pair.stage ?? 0,
+      mood: ["thrilled"],
+      tags: ["#event", "#firstKiss", `#with:${diary.targetId}`]
+    });
+    console.log("[event] firstKiss -> appended");
+  }
+
+  if (type === "time.morningTick") {
+    advanceDays(1);
+    console.log("[time] +1 day");
+  }
+}
+
+// expose for buttons in views
+window.emitGameEvent = emitGameEvent;
+
+// ======================================================================
+// [ SECTION 5 ]  TOP-LEVEL APP (simple hash router)
+// ======================================================================
+
+function Badge(props){ return h("span",{class:"badge"+(props.ghost?" ghost":""),...props}); }
+function Button(props){ return h("button",{class:"btn"+(props.ghost?" ghost":""),...props}); }
+
+function Nav() {
+  const go = (p) => () => location.hash = p;
+  const tab = (href, label) =>
+    h(Button, { ghost: location.hash !== href, onClick: go(href) }, label);
+  return h("div", { class: "kv", style: "gap:8px; flex-wrap:wrap;" }, [
+    tab("#/home", "Home"),
+    tab("#/status", "Status"),
+    tab("#/relationships", "Relationships"),
+    tab("#/diary", "Diary")
+  ]);
+}
+
+function Home() {
+  return h("div", null, [
+    h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
+      h("div", { class: "stage-title" }, "Diary · Pair"),
+      h(Nav, null),
+      h("div", { class: "kv small" }, [
+        h(Badge, null, `Actor: aerith`),
+        h(Badge, null, `Target: vagrant`)
+      ])
+    ])),
+    h("div", { class: "card" }, [
+      h(Button, { onClick: () => alert("Seed coming soon") }, "Seed Test Entry"),
+      h(Button, { ghost:true, onClick: () => {
+        const d = window.__diaryByPair?.["aerith:vagrant"];
+        if (d) d.entries = [];
+        alert("Cleared timeline entries in memory");
+      }}, "Clear Entries")
+    ])
+  ]);
+}
+
+// ---------- Root App component that loads data once --------------------
+function App() {
+  const [ready, setReady]           = useState(false);
+  const [diaries, setDiaries]       = useState({});
+  const [characters, setChars]      = useState([]);
+  const [statusMind, setMind]       = useState({});
+  const [statusBody, setBody]       = useState({});
+  const [fertilityMap, setFertMap]  = useState({});
+  const [hash, setHash]             = useState(location.hash || "#/diary");
+
+  useEffect(() => {
+    const onHash = () => setHash(location.hash || "#/diary");
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        // Characters
+        const charObjs = [];
+        for (const u of DATA_MAP.characters) {
+          const c = await loadJson(u, "character");
+          charObjs.push({ id: c.id, displayName: c.displayName, portrait: c.portrait, baseStats: c.baseStats || {} });
+        }
+        setChars(charObjs);
+
+        // Status mind/body/fertility
+        const [m, b, f] = await Promise.all([
+          loadMind(DATA_MAP.statusMind),
+          loadBody(DATA_MAP.statusBody),
+          loadFertility(DATA_MAP.statusFertility)
+        ]);
+        setMind(m);
+        setBody(b);
+        setFertMap(f);
+
+        // Diaries (build cache)
+        const d = await loadAllDiaries();
+        setDiaries(d);
+
+        setReady(true);
+      } catch (e) {
+        console.error("Boot error:", e);
+        alert("Loading data failed. Check console for details.");
+      }
+    })();
+  }, []);
+
+  if (!ready) {
+    return h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
+      h("div", { class: "stage-title" }, "Loading app…"),
+      h("div", { class: "small" }, `Day ${getClock().day}`)
+    ]));
+  }
+
+  // Current diary (only one pair for now)
+  const diaryAV = diaries["aerith:vagrant"];
+
+  // Simple hash routing
+  const route = (hash || "#/diary").replace(/^#\//, "");
+  const View = (route === "status")
+    ? h(StatusView, {
+        chars: characters,
+        statusMap: statusBody,        // basic status can be kept in body.json if you like
+        playerFemale: statusBody?.playerFemale || null,
+        fertilityMap: fertilityMap,
+        Nav
+      })
+    : (route === "relationships")
+      ? h("div", null, [
+          h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
+            h("div", { class: "stage-title" }, "Relationships"),
+            h(Nav, null)
+          ])),
+          h("div", { class: "card" }, "WIP: relationships UI")
+        ])
+      : (route === "home")
+        ? h(Home, null)
+        : h(DiaryView, {
+            diary: diaryAV,
+            characterId: "aerith",
+            targetId: "vagrant",
+            Nav
+          });
+
+  return h("div", null, View);
+}
+
+// Boot
+render(h(App, null), document.getElementById("app"));
