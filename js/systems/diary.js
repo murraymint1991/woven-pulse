@@ -55,12 +55,8 @@ function normDesires(raw) {
 
 function normWitnessed(raw) {
   // Accepts a 'caught_others' or 'witnessed' catalog:
-  // {
-  //   tifa: [ { stageMin:0, path:"any", text:"..." }, ... ],
-  //   renna: [...],
-  //   yuffie: [...]
-  // }
-  // We regroup as: { who: { pathKey: [ {stageMin, text}, ... ] } }
+  // { tifa:[{stageMin, path, text}, ...], renna:[...], yuffie:[...] }
+  // Re-group as: { who: { pathKey: [ {stageMin, text}, ... ] } }
   const src = raw?.witnessed || raw?.caught_others || raw || {};
   const out = {};
   for (const who of Object.keys(src)) {
@@ -74,7 +70,7 @@ function normWitnessed(raw) {
         text: toStr(r?.text || "")
       });
     }
-    // sort each path’s lines by stageMin ascending for easy selection
+    // sort by stageMin for threshold selection
     for (const p of Object.keys(byPath)) {
       byPath[p].sort((a, b) => a.stageMin - b.stageMin);
     }
@@ -96,10 +92,9 @@ function normEvents(raw) {
       const arr = Array.isArray(paths[p]) ? paths[p] : [];
       // lines can be strings or {stageMin,text}
       const rows = arr.map((x) =>
-        typeof x === "string" ? { stageMin: 0, text: x } : {
-          stageMin: clampNum(x?.stageMin, 0),
-          text: toStr(x?.text || "")
-        }
+        typeof x === "string"
+          ? { stageMin: 0, text: x }
+          : { stageMin: clampNum(x?.stageMin, 0), text: toStr(x?.text || "") }
       );
       rows.sort((a, b) => a.stageMin - b.stageMin);
       evMap[lower(p)] = rows;
@@ -128,7 +123,6 @@ export function selectWitnessedLine(diary, who, path = "love", stage = 0) {
   if (!rows.length) return null;
 
   const s = clampNum(stage, 0);
-  // choose the last row whose stageMin <= s
   let pick = rows[0];
   for (const r of rows) {
     if (r.stageMin <= s) pick = r;
@@ -253,13 +247,19 @@ export async function loadDiary(url) {
     diary.witnessed = normWitnessed(base.witnessed || base.caught_others || {});
   }
 
-  // ---- events (can be a map of event → url, or inline)
+  // ---- events (map of event → url, or inline)
   if (src.events && typeof src.events === "object" && !Array.isArray(src.events)) {
     const evOut = {};
     for (const key of Object.keys(src.events)) {
       const evUrl = src.events[key];
       const r = await fetchJsonNoThrow(evUrl);
-      evOut[key] = r.ok ? normEvents(r.data?.[key] ? r.data : { [key]: r.data }).[key] : {};
+      if (r.ok) {
+        // r.data may be either { key: {...} } or just the payload for that key
+        const normed = normEvents(r.data?.[key] ? r.data : { [key]: r.data });
+        evOut[key] = normed[key] || {};
+      } else {
+        evOut[key] = {};
+      }
     }
     diary.events = evOut;
   } else {
