@@ -199,19 +199,26 @@ function pickWitnessLine(flatMap, who, path, stage) {
   return best?.text || lane[0]?.text || null;
 }
 
+// --- keep everything above this as-is ---
+
 export function logWitnessed(diary, who, info = {}) {
   if (!diary) return;
+
   const ps = getPairState(diary.characterId, diary.targetId);
-  const path = (info.path || ps.path || "love").toLowerCase();
+  const path  = String(info.path || ps.path || "love").toLowerCase();
   const stage = Number(info.stage ?? ps.stage ?? 0);
 
-   // Return the desire lines for a given path (fall back to 'any' if present)
+  // your existing witnessed-line selection+append logic remains here
+  // ...
+} // <-- make sure logWitnessed ends here
+
+// Return the desire lines for a given path (fall back to 'any' if present)
 export function selectDesireEntries(diary, path = "love") {
   const p = String(path || "love").toLowerCase();
   const byPath =
-    diary?.desires?.[p] ||
-    diary?.desires?.any ||
-    [];
+      diary?.desires?.[p] ||
+      diary?.desires?.any ||
+      [];
   return Array.isArray(byPath) ? byPath : [];
 }
 
