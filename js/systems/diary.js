@@ -6,7 +6,7 @@
 //  - witnessed: path to caught_others.json
 //  - events: { key or "nested/keys": path } (e.g., "first_kiss", "locations/cave")
 // Produces a diary object with:
-//  { characterId, targetId, entries, desires, events, witnessed[targetId] ... }
+//  { characterId, targetId, entries, desires, events, witnessed[targetId], ... }
 // -------------------------------------------------------
 
 /* ================================
@@ -52,7 +52,7 @@ async function fetchJson(url) {
    }
    Output (flat):
    {
-     tifa:   { love:[{stageMin,text},...], corruption:[...], hybrid:[...] },
+     tifa:   { love:[{stageMin,text},...], corruption:[...], hybrid:[...], any:[...] },
      renna:  { ... },
      yuffie: { ... }
    }
@@ -63,9 +63,12 @@ function normalizeCaughtOthers(itemsByWho = {}) {
     const lanes = {};
     for (const it of Array.isArray(arr) ? arr : []) {
       const p = (it.path || "any").toLowerCase();
-      const pathKey = p === "any" ? "any" : p; // keep 'any' for fallback
-      if (!lanes[pathKey]) lanes[pathKey] = [];
-      lanes[pathKey].push({ stageMin: Number(it.stageMin ?? 0), text: String(it.text || "").trim() });
+      const laneKey = p === "any" ? "any" : p;
+      if (!lanes[laneKey]) lanes[laneKey] = [];
+      lanes[laneKey].push({
+        stageMin: Number(it.stageMin ?? 0),
+        text: String(it.text || "").trim()
+      });
     }
     // sort each lane ascending by stageMin
     for (const k of Object.keys(lanes)) {
@@ -98,8 +101,8 @@ export async function loadDiary(indexUrl) {
     entries: Array.isArray(idx.entries) ? idx.entries.slice() : [],
     desires: {},
     events: {},
-    witnessed: {},        // witnessed[targetId] = normalized map
-    witnessed_targets: [],// for debugging/inspection
+    witnessed: {},         // witnessed[targetId] = normalized map
+    witnessed_targets: [], // for debugging/inspection
   };
 
   const sources = idx.sources || {};
@@ -125,12 +128,7 @@ export async function loadDiary(indexUrl) {
   if (sources.events && typeof sources.events === "object") {
     for (const [k, p] of Object.entries(sources.events)) {
       const r = await fetchJson(assetUrl(p));
-      if (r.ok) {
-        // event payload can be:
-        //  - { love:[...], corruption:[...], hybrid:[...] } (e.g., first_kiss)
-        //  - any other structure; we drop it into events.<k>
-        deepSet(diary.events, k, r.data || {});
-      }
+      if (r.ok) deepSet(diary.events, k, r.data || {});
     }
   }
 
@@ -170,15 +168,12 @@ export function getPairState(characterId, targetId) {
   }
   return __pairState[k];
 }
-
-// Optional helpers (not currently used by app)
+// Optional setters if you want them later:
 // export function setPairPath(characterId, targetId, path) {
-//   const ps = getPairState(characterId, targetId);
-//   ps.path = String(path || "love").toLowerCase();
+//   getPairState(characterId, targetId).path = String(path || "love").toLowerCase();
 // }
 // export function setPairStage(characterId, targetId, stage) {
-//   const ps = getPairState(characterId, targetId);
-//   ps.stage = Number(stage || 0);
+//   getPairState(characterId, targetId).stage = Number(stage || 0);
 // }
 
 /* ================================
@@ -194,12 +189,10 @@ function pickWitnessLine(flatMap, who, path, stage) {
   let best = null;
   for (const it of lane) {
     if (Number(it.stageMin) <= Number(stage)) best = it;
-    else break; // lanes are sorted, so we can stop
+    else break; // lanes are sorted
   }
   return best?.text || lane[0]?.text || null;
 }
-
-// --- keep everything above this as-is ---
 
 export function logWitnessed(diary, who, info = {}) {
   if (!diary) return;
@@ -207,20 +200,6 @@ export function logWitnessed(diary, who, info = {}) {
   const ps = getPairState(diary.characterId, diary.targetId);
   const path  = String(info.path || ps.path || "love").toLowerCase();
   const stage = Number(info.stage ?? ps.stage ?? 0);
-
-  // your existing witnessed-line selection+append logic remains here
-  // ...
-} // <-- make sure logWitnessed ends here
-
-// Return the desire lines for a given path (fall back to 'any' if present)
-export function selectDesireEntries(diary, path = "love") {
-  const p = String(path || "love").toLowerCase();
-  const byPath =
-      diary?.desires?.[p] ||
-      diary?.desires?.any ||
-      [];
-  return Array.isArray(byPath) ? byPath : [];
-}
 
   // prefer per-target map; fall back to convenience alias
   const targetFlat =
@@ -247,6 +226,18 @@ export function selectDesireEntries(diary, path = "love") {
 }
 
 /* ================================
+   Desire selection (by path)
+================================ */
+export function selectDesireEntries(diary, path = "love") {
+  const p = String(path || "love").toLowerCase();
+  const byPath =
+    diary?.desires?.[p] ||
+    diary?.desires?.any ||
+    [];
+  return Array.isArray(byPath) ? byPath : [];
+}
+
+/* ================================
    Event line selection
    - For things like: first_kiss.json:
      { love:[...], corruption:[...], hybrid:[...] }
@@ -256,8 +247,7 @@ export function selectDesireEntries(diary, path = "love") {
 export function selectEventLine(diary, eventKey, path = "love", stage = 0) {
   const p = String(path || "love").toLowerCase();
 
-  // Support nested keys in events (e.g., "locations/cave" unlikely for first_kiss,
-  // but safe to resolve anyway).
+  // Support nested keys in events (e.g., "locations/cave")
   const parts = String(eventKey).split(/[/.]/).filter(Boolean);
   let cur = diary?.events || {};
   for (const k of parts) {
