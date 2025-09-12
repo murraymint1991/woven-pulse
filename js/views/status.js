@@ -15,6 +15,7 @@ import {
   getClock,
   advanceDays
 } from "../systems/status.js";
+import { getMindState, applyMoodDelta, applyTraitDelta, resetMindOverrides } from "../systems/mind.js";
 
 // ---------- Small UI helpers ----------
 function Bar({ label, value, max = 100 }) {
