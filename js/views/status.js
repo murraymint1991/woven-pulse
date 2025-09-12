@@ -97,7 +97,7 @@ export default function StatusView({
 
   // ===== New: Mind/Body JSON readout for Aerith (statusMap.aerith) =====
   const aerithStatus = statusMap?.aerith || {};
-  const mind = aerithStatus.mind || {};     // { moods, traits }
+  const mind = getMindState("aerith", aerithStatus.mind || {});
   const body = aerithStatus.body || {};     // { cycle, pregnancy, effects }
   const cycle = body.cycle || null;
   const preg  = body.pregnancy || null;
