@@ -1,11 +1,10 @@
 // js/views/status.js
-// Status screen that keeps your existing fertility/pregnancy dev tools
-// AND adds readouts for statusMap.aerith (Mind/Body JSON).
-
 import { h } from "https://esm.sh/preact@10.22.0";
 import { useMemo, useState } from "https://esm.sh/preact@10.22.0/hooks";
 import { Button, Badge } from "../ui.js";
+
 import {
+  // fertility helpers (optional; safe if you don’t use them yet)
   computeReproState,
   loadOverrides,
   mergedProfile,
@@ -16,76 +15,67 @@ import {
   advanceDays
 } from "../systems/status.js";
 
-// Mind system helpers (make sure these are exported by js/systems/mind.js)
+// mind helpers (overrides live in localStorage)
 import {
-  getMindState,          // (charId, baseMind) -> merged {moods, traits}
-  applyMoodDelta,        // (charId, key, delta)
-  applyTraitDelta,       // (charId, key, delta)
-  resetMindOverrides     // (charId) -> removes all local overrides
+  loadMindOverrides,
+  applyMoodDelta,
+  applyTraitDelta,
+  clearMindOverrides,
+  zeroOutMind,
+  mergeEffectiveMind
 } from "../systems/mind.js";
 
-/* -------------------------------- UI helpers ------------------------------- */
-
+// ---------------- small UI atoms ----------------
 function Bar({ label, value, max = 100 }) {
-  const safeMax = max || 1;
-  const pct = Math.max(0, Math.min(100, Math.round((Number(value || 0) / safeMax) * 100)));
+  const pct = Math.max(0, Math.min(100, Math.round((value / max) * 100)));
   return h("div", { class: "kv" }, [
     h("div", { class: "label" }, label),
     h("div", { class: "barwrap" }, [
       h("div", { class: "bar", style: `width:${pct}%;` }),
-      h("span", { class: "bartext" }, `${value}/${safeMax}`)
+      h("span", { class: "bartext" }, `${value}/${max}`)
     ])
   ]);
 }
 
-function RowTable(obj = {}, fmt = (k, v) => `${v}`) {
-  const entries = Object.entries(obj || {});
-  if (!entries.length) return h("div", { class: "small" }, "—");
-  return h(
-    "div",
-    { class: "kvgrid", style: "margin-top:6px" },
-    entries.flatMap(([k, v]) => [
-      h("div", { class: "label" }, k),
-      h("div", { class: "value" }, fmt(k, v))
-    ])
-  );
-}
-
-function PillList({ title, items }) {
+function RowNum({ label, value }) {
   return h("div", { class: "kv" }, [
-    h("div", { class: "label" }, title),
-    h(
-      "div",
-      { style: "display:flex; gap:6px; flex-wrap:wrap" },
-      (items || []).map((t) => h(Badge, { ghost: true }, String(t)))
-    )
+    h("div", { class: "label" }, label),
+    h("div", { class: "value" }, value.toFixed(2))
   ]);
 }
 
-/* --------------------------------- View ----------------------------------- */
+function RowsFromObject(obj, title) {
+  const keys = Object.keys(obj || {});
+  return h("div", null, [
+    h("div", { class: "kv small" }, title),
+    keys.length
+      ? keys.map((k) => h(RowNum, { label: k, value: Number(obj[k] || 0) }))
+      : h("div", { class: "small" }, "—")
+  ]);
+}
 
-export default function StatusView({
-  chars,
-  statusMap,         // <- holds { aerith: { mind, body } } once main.js loads /data/status/aerith/*
-  playerFemale,      // <- optional (old fertility system global)
-  fertilityMap,      // <- optional (old fertility system per-char map)
-  Nav
-}) {
-  // Character picker (kept as you had it)
-  const options = (chars || []).map((c) => ({ id: c.id, name: c.displayName }));
+// ------------------------------------------------
+
+export default function StatusView({ chars, statusMap, playerFemale, fertilityMap, Nav }) {
+  const options = chars.map(c => ({ id: c.id, name: c.displayName }));
   const [selId, setSelId] = useState(
-    () => options.find((o) => o.id === "cloud")?.id || options[0]?.id || ""
+    () => options.find(o => o.id === "cloud")?.id || options[0]?.id
   );
   const [rev, setRev] = useState(0);
-  const [showDev, setShowDev] = useState(true); // default on, like before
+  const [showDev, setShowDev] = useState(true);
 
   const selChar = useMemo(
-    () => (chars || []).find((c) => c.id === selId) || null,
+    () => chars.find(c => c.id === selId) || null,
     [chars, selId, rev]
   );
 
-  // Old sheet-style stats (HP/MP/etc.) from characters file
-  const s = selId ? statusMap?.[selId] || {} : {};
+  const s = selId ? (statusMap[selId] || {}) : {};
+  const baseMind = s.mind || {};      // values from file
+  const body = s.body || {};          // body file (static for now)
+  const overrides = loadMindOverrides(selId);
+  const effectiveMind = mergeEffectiveMind(baseMind, overrides);
+
+  // classic sheet bits (safe defaults)
   const hp = selChar?.baseStats?.hp ?? 0;
   const mp = selChar?.baseStats?.mp ?? 0;
   const role = s.role || "Adventurer";
@@ -94,49 +84,36 @@ export default function StatusView({
   const expNext = s.exp?.next ?? 100;
   const limit = s.limit ?? 0;
   const mood = s.mood || "Neutral";
-  const effects = Array.isArray(s.effects) ? s.effects : [];
+  const effects = Array.isArray(body.effects) ? body.effects : ["well-rested"];
 
-  // ===== New: Mind/Body JSON readout for Aerith (statusMap.aerith) =====
-  const aerithStatus = statusMap?.aerith || {};
-  const mind = getMindState("aerith", aerithStatus.mind || {}); // merged with any overrides
-  const body = aerithStatus.body || {};     // { cycle, pregnancy, effects }
-  const cycle = body.cycle || null;
-  const preg  = body.pregnancy || null;
-
-  // ===== Existing fertility/pregnancy simulation (optional) =====
-  const overrides = loadOverrides();
-  const effProfile =
-    selId && fertilityMap ? mergedProfile(fertilityMap, overrides, selId) : null;
+  // fertility/pregnancy (if configured)
+  const overridesFert = loadOverrides?.() ?? {};
+  const effProfile = mergedProfile?.(fertilityMap, overridesFert, selId);
   const repro =
     playerFemale && effProfile && effProfile.visible !== false
       ? computeReproState(playerFemale.cycle, effProfile)
       : null;
 
-  // Dev actions (existing)
-  function doPregnant() { setPregnant(selId); setRev(v => v + 1); }
-  function doDeliver()  { setDelivered(selId); setRev(v => v + 1); }
-  function doReset()    { resetToCycle(selId); setRev(v => v + 1); }
-  function doAdvance(n) { advanceDays(n); setRev(v => v + 1); }
+  // Dev actions (fertility demo)
+  function doPregnant() { setPregnant?.(selId); setRev(v => v + 1); }
+  function doDeliver()  { setDelivered?.(selId); setRev(v => v + 1); }
+  function doReset()    { resetToCycle?.(selId); setRev(v => v + 1); }
+  function doAdvance(n) { advanceDays?.(n); setRev(v => v + 1); }
 
-  // ===== Mind (dev nudges) — only shown if Aerith is selected =====
-  function nudgeMood(key, delta) {
-    if (selId !== "aerith") return;
-    applyMoodDelta("aerith", key, delta);
-    setRev(v => v + 1);
+  // Mind dev helpers
+  function bumpMood(key, d)  { applyMoodDelta(selId, key, d); setRev(v => v + 1); }
+  function bumpTrait(key, d) { applyTraitDelta(selId, key, d); setRev(v => v + 1); }
+
+  function onClearOverrides() {
+    clearMindOverrides(selId);     // removes LS only
+    setRev(v => v + 1);            // UI re-renders showing file values
   }
-  function nudgeTrait(key, delta) {
-    if (selId !== "aerith") return;
-    applyTraitDelta("aerith", key, delta);
-    setRev(v => v + 1);
-  }
-  function resetMind() {
-    if (selId !== "aerith") return;
-    resetMindOverrides("aerith");
+  function onZeroAll() {
+    zeroOutMind(selId, baseMind);  // write 0 overrides for all known keys
     setRev(v => v + 1);
   }
 
   return h("div", null, [
-    // Header
     h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
       h("div", { class: "stage-title" }, "Status & State"),
       h("div", { class: "subtitle" },
@@ -145,22 +122,31 @@ export default function StatusView({
       h(Nav, null)
     ])),
 
-    // Character selector + dev toggle
+    // Character picker
     h("div", { class: "card" }, [
       h("h3", null, "Character"),
       options.length
-        ? h("select", {
-            value: selId,
-            onChange: (e) => setSelId(e.currentTarget.value),
-            style:
-              "margin:8px 0; padding:8px; border-radius:10px; background:#0b1020; color:#9eeefc;"
-          }, options.map((o) => h("option", { value: o.id }, o.name)))
+        ? h(
+            "select",
+            {
+              value: selId,
+              onChange: (e) => setSelId(e.currentTarget.value),
+              style:
+                "margin: 8px 0; padding:8px; border-radius:10px; background:#0b1020; color:#9eeefc;"
+            },
+            options.map((o) => h("option", { value: o.id }, o.name))
+          )
         : h("div", { class: "small" }, "No characters loaded."),
+
       h(
         "div",
-        { class: "small", style: "margin-top:6px; display:flex; gap:16px; align-items:center;" },
+        {
+          class: "small",
+          style: "margin-top:6px; display:flex; gap:16px; align-items:center;"
+        },
         [
-          h("label",
+          h(
+            "label",
             { style: "display:inline-flex; align-items:center; gap:8px; cursor:pointer;" },
             [
               h("input", {
@@ -171,170 +157,126 @@ export default function StatusView({
               "Show Dev Panel"
             ]
           ),
-          h("span", null, `Current Day: ${getClock().day}`)
+          h("span", null, `Current Day: ${getClock?.().day ?? 0}`)
         ]
       )
     ]),
 
-    // Two-column layout
-    selChar && h("div", { class: "grid", style: "margin-top:12px" }, [
-      /* ===== Left card: Classic sheet + Fertility Sim ===== */
-      h("div", { class: "card" }, [
-        selChar.portrait
-          ? h("img", { class: "portrait", src: selChar.portrait, alt: selChar.displayName })
-          : null,
+    selChar &&
+      h("div", { class: "grid", style: "margin-top:12px" }, [
+        // ------- Left: classic sheet -------
+        h("div", { class: "card" }, [
+          selChar.portrait
+            ? h("img", {
+                class: "portrait",
+                src: selChar.portrait,
+                alt: selChar.displayName
+              })
+            : null,
 
-        h("h3", null, selChar.displayName),
-        h("div", { class: "kv small" }, `Role: ${role} · Level ${level}`),
+          h("h3", null, selChar.displayName),
+          h("div", { class: "kv small" }, `Role: ${role} · Level ${level}`),
 
-        h(Bar, { label: "EXP", value: expNow, max: expNext }),
-        h("div", { class: "kvgrid", style: "margin-top:8px" }, [
-          h("div", { class: "label" }, "HP"),
-          h("div", { class: "value" }, hp),
-          h("div", { class: "label" }, "MP"),
-          h("div", { class: "value" }, mp)
-        ]),
-        h(Bar, { label: "Limit", value: limit, max: 100 }),
+          h(Bar, { label: "EXP", value: expNow, max: expNext }),
+          h("div", { class: "kvgrid", style: "margin-top:8px" }, [
+            h("div", { class: "label" }, "HP"),
+            h("div", { class: "value" }, hp),
+            h("div", { class: "label" }, "MP"),
+            h("div", { class: "value" }, mp)
+          ]),
+          h(Bar, { label: "Limit", value: limit, max: 100 }),
 
-        h("div", { class: "kv", style: "margin-top:8px" }, [
-          h("div", { class: "label" }, "Mood"),
-          h(Badge, null, mood)
-        ]),
+          h("div", { class: "kv", style: "margin-top:8px" }, [
+            h("div", { class: "label" }, "Mood"),
+            h(Badge, null, mood)
+          ]),
 
-        h("div", { class: "kv", style: "margin-top:8px" }, [
-          h("div", { class: "label" }, "Status Effects"),
-          effects.length
-            ? effects.map((e) => h(Badge, null, e))
-            : h("span", { class: "small" }, "—")
-        ]),
+          h("div", { class: "kv", style: "margin-top:8px" }, [
+            h("div", { class: "label" }, "Status Effects"),
+            effects.length
+              ? effects.map((e) => h(Badge, null, e))
+              : h("span", { class: "small" }, "—")
+          ]),
 
-        // fertility simulator readouts (when configured)
-        repro && repro.kind === "cycle" && h("div", { class: "kv", style: "margin-top:10px" }, [
-          h("div", { class: "label" }, "Fertility (Sim)"),
-          h("div", null, [
-            h(Badge, null, repro.phase),
-            h("span", { class: "small", style: "margin-left:8px" },
-              `Day ${repro.dayInCycle}/${repro.length}`)
+          h("div", { class: "sheet-actions" }, [
+            h(Button, { ghost: true, onClick: () => alert("Open Equipment (WIP)") }, "Equipment"),
+            h(Button, { ghost: true, onClick: () => alert("Open Traits (WIP)") }, "Traits")
           ])
         ]),
-        repro && repro.kind === "cycle" && h(Bar, { label: "Cycle Progress", value: repro.percent, max: 100 }),
 
-        repro && repro.kind === "pregnant" && h("div", { class: "kv", style: "margin-top:10px" }, [
-          h("div", { class: "label" }, "Pregnancy (Sim)"),
-          h("div", null, [
-            h(Badge, null, `Trimester ${repro.trimester}`),
-            h("span", { class: "small", style: "margin-left:8px" },
-              `Week ${repro.weeks} · ETA ${repro.etaDays}d`)
+        // ------- Right: Body + Mind -------
+        h("div", { class: "card" }, [
+          h("h3", null, "Body (File)"),
+          h("div", { class: "kv" }, [
+            h("div", { class: "label" }, "Cycle Day"),
+            h("div", { class: "value" }, `${body.cycleDay ?? 12}/28`)
+          ]),
+          h("div", { class: "kv" }, [
+            h("div", { class: "label" }, "Ovulation"),
+            h("div", { class: "value" }, body.ovulation ?? "12–16")
+          ]),
+          h("div", { class: "kv" }, [
+            h("div", { class: "label" }, "Pregnant"),
+            h("div", { class: "value" }, body.pregnant ? "Yes" : "No")
+          ]),
+          h("div", { class: "kv" }, [
+            h("div", { class: "label" }, "Effects"),
+            (body.effects || ["well-rested"]).map((e) => h(Badge, null, e))
+          ]),
+
+          h("h3", { style: "margin-top:10px" }, "Mind (File + Overrides)"),
+          // effective values (file merged with overrides)
+          RowsFromObject(effectiveMind.moods, "Moods"),
+          RowsFromObject(effectiveMind.traits, "Traits"),
+
+          // Dev quick buttons for a few example keys
+          h("div", { class: "kv", style: "margin-top:8px" }, [
+            h("div", { class: "label" }, "Mind Dev"),
+            h("div", { class: "kv", style: "gap:8px; display:flex; flex-wrap:wrap;" }, [
+              h(Button, { onClick: () => bumpMood("affection", +0.05) }, "+ affection"),
+              h(Button, { ghost: true, onClick: () => bumpMood("shame", -0.05) }, "− shame"),
+              h(Button, { onClick: () => bumpTrait("corruption", +0.05) }, "+ corruption"),
+              h(Button, { ghost: true, onClick: () => bumpTrait("purity", -0.05) }, "− purity")
+            ])
+          ]),
+
+          h("div", { class: "kv", style: "gap:8px; display:flex; flex-wrap:wrap; margin-top:8px" }, [
+            h(Button, { onClick: onClearOverrides }, "Clear Overrides (revert to file)"),
+            h(Button, { ghost: true, onClick: onZeroAll }, "Zero Out All")
           ])
-        ]),
-        repro && repro.kind === "pregnant" && h(Bar, { label: "Pregnancy Progress", value: repro.percent, max: 100 }),
-
-        repro && repro.kind === "postpartum" && h("div", { class: "kv", style: "margin-top:10px" }, [
-          h("div", { class: "label" }, "Postpartum (Sim)"),
-          h("div", null, [h(Badge, null, `Week ${repro.weeksSince}`)])
-        ]),
-        repro && repro.kind === "postpartum" && h(Bar, { label: "Recovery", value: repro.percent, max: 100 }),
-
-        h("div", { class: "sheet-actions" }, [
-          h(Button, { ghost: true, onClick: () => alert("Open Equipment (WIP)") }, "Equipment"),
-          h(Button, { ghost: true, onClick: () => alert("Open Traits (WIP)") }, "Traits")
         ])
       ]),
 
-      /* ===== Right card: NEW Mind/Body (from statusMap.aerith JSON) ===== */
-      h("div", { class: "card" }, [
-        h("h3", null, "Body (File)"),
-        cycle
-          ? h("div", null, [
-              h("div", { class: "kv" }, [
-                h("div", { class: "label" }, "Cycle Day"),
-                h("div", null, `${cycle.day}/${cycle.length}`)
-              ]),
-              h("div", { class: "kv" }, [
-                h("div", { class: "label" }, "Ovulation"),
-                h("div", null, `${cycle.ovulationStart}–${cycle.ovulationEnd}`)
-              ])
-            ])
-          : h("div", { class: "small" }, "No cycle data."),
-        preg
-          ? h("div", { style: "margin-top:8px" }, [
-              h("div", { class: "kv" }, [
-                h("div", { class: "label" }, "Pregnant"),
-                h("div", null, preg.isPregnant ? "Yes" : "No")
-              ]),
-              preg.isPregnant && preg.weeks != null
-                ? h("div", { class: "kv" }, [
-                    h("div", { class: "label" }, "Weeks"),
-                    h("div", null, String(preg.weeks))
-                  ])
-                : null,
-              preg.isPregnant && preg.fatherId
-                ? h("div", { class: "kv" }, [
-                    h("div", { class: "label" }, "Father"),
-                    h("div", null, String(preg.fatherId))
-                  ])
-                : null,
-              preg.dueDay
-                ? h("div", { class: "kv" }, [
-                    h("div", { class: "label" }, "Due Day"),
-                    h("div", null, String(preg.dueDay))
-                  ])
-                : null
-            ])
-          : null,
-        body.effects && body.effects.length
-          ? h("div", { style: "margin-top:8px" },
-              PillList({ title: "Effects", items: body.effects })
-            )
-          : null,
-
-        h("h3", { style: "margin-top:12px" }, "Mind (File)"),
-        h("div", { class: "kv" }, [
-          h("div", { class: "label" }, "Moods"),
-          RowTable(mind.moods || {}, (_k, v) => (typeof v === "number" ? v.toFixed(2) : String(v)))
-        ]),
-        h("div", { class: "kv", style: "margin-top:8px" }, [
-          h("div", { class: "label" }, "Traits"),
-          RowTable(mind.traits || {}, (_k, v) => (typeof v === "number" ? v.toFixed(2) : String(v)))
-        ]),
-
-        // Mind (dev nudges) — only useful for Aerith while you iterate
-        showDev && selId === "aerith" &&
-          h("div", { class: "kv", style: "margin-top:12px" }, [
-            h("div", { class: "label" }, "Mind Dev"),
-            h("div", { class: "kv", style: "gap:8px; display:flex; flex-wrap:wrap;" }, [
-              h(Button, { onClick: () => nudgeMood("affection", +0.05) }, "+ affection"),
-              h(Button, { onClick: () => nudgeMood("shame", -0.05), ghost: true }, "– shame"),
-              h(Button, { onClick: () => nudgeTrait("corruption", +0.05) }, "+ corruption"),
-              h(Button, { onClick: () => nudgeTrait("purity", -0.05), ghost: true }, "– purity"),
-              h(Button, { onClick: resetMind, ghost: true }, "Reset Mind Overrides")
-            ])
-          ])
-      ])
-    ]),
-
-    // Notes + fertility dev actions (unchanged)
+    // Notes + (optional) fertility dev panel
     h("div", { class: "card", style: "margin-top:12px" }, [
       h("h3", null, "Notes"),
-      h("div", { class: "small" },
-        "Left: classic sheet + fertility simulator (if configured). Right: JSON-loaded Body/Mind from /data/status/aerith/."
+      h(
+        "div",
+        { class: "small" },
+        "Left: classic sheet + fertility simulator (if configured). Right: JSON-loaded Body/Mind from /data/status/… merged with browser-local overrides (dev)."
       ),
-      playerFemale
-        ? h("div", { class: "small", style: "margin-top:6px" }, "Global female cycle config detected (sim enabled).")
-        : h("div", { class: "small", style: "margin-top:6px" }, "Fertility sim disabled (missing global config)."),
+      !playerFemale
+        ? h("div", { class: "small", style: "margin-top:6px" }, "Fertility sim disabled (missing global config).")
+        : null,
 
       showDev &&
         h("div", { class: "kv", style: "margin-top:12px" }, [
           h("div", { class: "label" }, "Dev Panel"),
-          h("div", { class: "kv", style: "gap:8px; display:flex; flex-wrap:wrap;" }, [
-            h(Button, { onClick: () => doPregnant() }, "Start Pregnancy"),
-            h(Button, { onClick: () => doDeliver(), ghost: true }, "Mark Delivery"),
-            h(Button, { onClick: () => doReset(), ghost: true }, "Reset to Cycle"),
-            h(Button, { onClick: () => doAdvance(1) }, "+1 Day"),
-            h(Button, { onClick: () => doAdvance(7), ghost: true }, "+7 Days")
-          ]),
-          h("div", { class: "small", style: "margin-top:6px" },
-            "Actions write browser-local overrides and advance the global game day."
+          h(
+            "div",
+            { class: "kv", style: "gap:8px; display:flex; flex-wrap:wrap;" },
+            [
+              h(Button, { onClick: () => doPregnant?.() }, "Start Pregnancy"),
+              h(Button, { onClick: () => doDeliver?.(), ghost: true }, "Mark Delivery"),
+              h(Button, { onClick: () => doReset?.(), ghost: true }, "Reset to Cycle"),
+              h(Button, { onClick: () => doAdvance?.(1) }, "+1 Day"),
+              h(Button, { onClick: () => doAdvance?.(7), ghost: true }, "+7 Days")
+            ]
+          ),
+          h(
+            "div",
+            { class: "small", style: "margin-top:6px" },
+            "Mind overrides are browser-local only; Clear Overrides restores the values from your JSON files."
           )
         ])
     ])
