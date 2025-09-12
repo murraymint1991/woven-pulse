@@ -93,14 +93,24 @@ export function applyTraitDelta(charId, key, delta) {
 
 /** clears overrides for the character and restores baseline into window.__statusMap */
 export function resetMindOverrides(charId) {
-  // clear LS
+  // clear LS overrides
   const all = loadOverrides();
   if (all[charId]) {
     delete all[charId];
     saveOverrides(all);
   }
-  // restore baseline snapshot if we have it
-  if (typeof window !== "undefined" && window.__statusMap?.[charId] && baseline[charId]) {
-    window.__statusMap[charId].mind = deepClone(baseline[charId]);
+
+  // restore baseline snapshot into the live map
+  const base = baseline[charId] ? deepClone(baseline[charId]) : { moods: {}, traits: {} };
+
+  if (typeof window !== "undefined") {
+    window.__statusMap = window.__statusMap || {};
+    window.__statusMap[charId] = window.__statusMap[charId] || {};
+    // important: always give UI a fresh object (no stale reference)
+    window.__statusMap[charId].mind = base;
+    // optional: a small version bump to help any watchers
+    window.__statusMap[charId].__mindVersion = (window.__statusMap[charId].__mindVersion || 0) + 1;
   }
+
+  return true;
 }
