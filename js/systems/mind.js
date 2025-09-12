@@ -1,78 +1,106 @@
 // js/systems/mind.js
-const LS_KEY = "sim_mind_overrides_v1";
+// Simple dev-side "Mind" overrides with localStorage + live mirror of window.__statusMap
 
-/* ---------- storage ---------- */
-function readStore() {
+const LS_KEY = "mind_overrides_v1";
+
+// read/write helpers
+function loadOverrides() {
   try {
     return JSON.parse(localStorage.getItem(LS_KEY) || "{}");
   } catch {
     return {};
   }
 }
-function writeStore(obj) {
+function saveOverrides(obj) {
   localStorage.setItem(LS_KEY, JSON.stringify(obj || {}));
 }
+function deepClone(x) {
+  return x ? JSON.parse(JSON.stringify(x)) : x;
+}
+function clamp01(n) {
+  n = Number(n) || 0;
+  return n < 0 ? 0 : n > 1 ? 1 : n;
+}
 
-/* Merge base mind with overrides (deltas). */
-export function mergeMind(baseMind = {}, charId) {
-  const store = readStore();
-  const deltas = (charId && store[charId]) ? store[charId] : {};
+// keep an in-memory snapshot of baseline (what the JSON file had on first access)
+const baseline = (typeof window !== "undefined" && (window.__mindBaseline = window.__mindBaseline || {})) || {};
 
-  const out = JSON.parse(JSON.stringify(baseMind)); // deep-ish copy
+/**
+ * Returns the effective mind state for a character:
+ * base (from window.__statusMap[charId].mind or provided fallback) + local overrides
+ */
+export function getMindState(charId, fallbackBase = {}) {
+  const base =
+    (typeof window !== "undefined" &&
+      window.__statusMap &&
+      window.__statusMap[charId] &&
+      window.__statusMap[charId].mind) ||
+    fallbackBase ||
+    {};
 
-  for (const bucket of ["moods", "traits"]) {
-    const b = out[bucket] || {};
-    const d = deltas[bucket] || {};
-    for (const k of Object.keys(d)) {
-      const base = Number(b[k] ?? 0);
-      const delta = Number(d[k] ?? 0);
-      b[k] = clamp01(base + delta);
-    }
-    out[bucket] = b;
+  // store baseline once so we can reset later
+  if (!baseline[charId]) baseline[charId] = deepClone(base);
+
+  const ovr = loadOverrides()[charId] || {};
+  const out = deepClone(base);
+
+  if (ovr.moods) {
+    out.moods = out.moods || {};
+    for (const [k, v] of Object.entries(ovr.moods)) out.moods[k] = clamp01(v);
+  }
+  if (ovr.traits) {
+    out.traits = out.traits || {};
+    for (const [k, v] of Object.entries(ovr.traits)) out.traits[k] = clamp01(v);
   }
   return out;
 }
 
-/* Bump a specific mood/trait delta (positive or negative). */
-export function bumpMind(charId, bucket, key, delta) {
-  if (!charId || !bucket || !key || !Number.isFinite(delta)) return;
-  const store = readStore();
-  const byChar = store[charId] || (store[charId] = {});
-  const byBucket = byChar[bucket] || (byChar[bucket] = {});
-  const cur = Number(byBucket[key] || 0);
-  // we store deltas (additive), but clamp the effective value when displayed
-  const next = clampToRange(cur + delta, -1, +1); // keep deltas sane
-  if (next === 0) delete byBucket[key];
-  else byBucket[key] = next;
+/** apply a delta to a mood and reflect it in overrides + window.__statusMap (live) */
+export function applyMoodDelta(charId, key, delta) {
+  const cur = getMindState(charId);
+  const next = clamp01((cur.moods?.[key] ?? 0) + (Number(delta) || 0));
 
-  // clean empty buckets/char
-  if (byBucket && !Object.keys(byBucket).length) delete byChar[bucket];
-  if (byChar && !Object.keys(byChar).length) delete store[charId];
+  // write overrides
+  const all = loadOverrides();
+  all[charId] = all[charId] || {};
+  all[charId].moods = all[charId].moods || {};
+  all[charId].moods[key] = next;
+  saveOverrides(all);
 
-  writeStore(store);
-}
-
-/* Reset all overrides for one character (or everyone if charId omitted). */
-export function resetMindOverrides(charId) {
-  if (!charId) {
-    writeStore({});
-    return;
+  // live mirror so UI can read updated values
+  if (typeof window !== "undefined" && window.__statusMap?.[charId]?.mind) {
+    window.__statusMap[charId].mind.moods = window.__statusMap[charId].mind.moods || {};
+    window.__statusMap[charId].mind.moods[key] = next;
   }
-  const store = readStore();
-  delete store[charId];
-  writeStore(store);
 }
 
-/* Optional: expose for debugging in console */
-if (typeof window !== "undefined") {
-  window.__mindStore = {
-    read: readStore,
-    write: writeStore,
-    reset: resetMindOverrides,
-    bump: bumpMind,
-  };
+/** apply a delta to a trait and reflect it in overrides + window.__statusMap (live) */
+export function applyTraitDelta(charId, key, delta) {
+  const cur = getMindState(charId);
+  const next = clamp01((cur.traits?.[key] ?? 0) + (Number(delta) || 0));
+
+  const all = loadOverrides();
+  all[charId] = all[charId] || {};
+  all[charId].traits = all[charId].traits || {};
+  all[charId].traits[key] = next;
+  saveOverrides(all);
+
+  if (typeof window !== "undefined" && window.__statusMap?.[charId]?.mind) {
+    window.__statusMap[charId].mind.traits = window.__statusMap[charId].mind.traits || {};
+    window.__statusMap[charId].mind.traits[key] = next;
+  }
 }
 
-/* ---------- utils ---------- */
-function clamp01(v) { return Math.max(0, Math.min(1, Number(v) || 0)); }
-function clampToRange(v, lo, hi) { return Math.max(lo, Math.min(hi, Number(v) || 0)); }
+/** clears overrides for the character and restores baseline into window.__statusMap */
+export function resetMindOverrides(charId) {
+  // clear LS
+  const all = loadOverrides();
+  if (all[charId]) {
+    delete all[charId];
+    saveOverrides(all);
+  }
+  // restore baseline snapshot if we have it
+  if (typeof window !== "undefined" && window.__statusMap?.[charId] && baseline[charId]) {
+    window.__statusMap[charId].mind = deepClone(baseline[charId]);
+  }
+}
