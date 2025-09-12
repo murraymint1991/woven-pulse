@@ -1,5 +1,5 @@
 // ===============================
-// main.js  (pair-aware diaries) — fixed & hardened + Status (Mind/Body) load
+// main.js  (pair-aware diaries) — Status (Mind/Body) + fertility placeholders
 // ===============================
 
 import { h, render } from "https://esm.sh/preact@10.22.0";
@@ -15,7 +15,7 @@ import { loadAssignments as loadTraitAssignments } from "./js/systems/traits.js"
 
 // ----- Sensitivities
 import {
-  loadCatalog as loadSensCatalog,
+  loadCatalog as loadSensCatalog,     // (kept for parity if you later use)
   loadAssignments as loadSensAssignments,
   loadEvolution as loadSensEvolution
 } from "./js/systems/sensitivities.js";
@@ -30,9 +30,9 @@ import {
   selectEventLine
 } from "./js/systems/diary.js";
 
-/* ==============================================================
-   BASE + URL HELPERS
-   ============================================================== */
+/* ============================================================== */
+/* BASE + URL HELPERS                                             */
+/* ============================================================== */
 function assetUrl(relPath) {
   const rel = String(relPath || "");
   if (/^https?:\/\//i.test(rel)) return rel; // already absolute
@@ -49,9 +49,9 @@ function showDevBanner(msg) {
   document.body.appendChild(b);
 }
 
-/* ==============================================================
-   CONFIG (DATA PATHS)  ←— DATA MAP
-   ============================================================== */
+/* ============================================================== */
+/* CONFIG (DATA PATHS)  ←— DATA MAP                               */
+/* ============================================================== */
 const DATA = {
   traitsMoods: "data/traits_moods/traits_moods_v1.json",
   characters: [
@@ -76,12 +76,12 @@ const DATA = {
   sensAssignments: "data/sensitivities/assignments_v1.json",
   sensEvolution: "data/sensitivities/evolution_v1.json",
 
-  // Pair-specific diary
+  // Pair-specific diary files
   diaries: {
     "aerith:vagrant": "data/diaries/aerith_vagrant/index.json"
   },
 
-  // NEW — status files by character (mind/body)
+  // Status files by character (mind/body)
   statusByChar: {
     aerith: {
       mind: "data/status/aerith/mind_v1.json",
@@ -92,16 +92,16 @@ const DATA = {
 
 const LS_KEYS = { AUTOSAVE: "sim_autosave_v1", SLOT: (n) => `sim_slot_${n}_v1` };
 
-/* ==============================================================
-   HELPERS (PAIR → PATH)
-   ============================================================== */
+/* ============================================================== */
+/* HELPERS (PAIR → PATH)                                          */
+/* ============================================================== */
 const pairKey = (characterId, targetId) => `${characterId}:${targetId}`;
 const getDiaryPath = (characterId, targetId) =>
   DATA.diaries[pairKey(characterId, targetId)] || null;
 
-/* ==============================================================
-   APP
-   ============================================================== */
+/* ============================================================== */
+/* APP                                                            */
+/* ============================================================== */
 function App() {
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState("");
@@ -142,8 +142,12 @@ function App() {
   const [sensMap, setSensMap] = useState({});
   const [sensRules, setSensRules] = useState([]);
 
-  // NEW: stash loaded status per character → { aerith: { mind, body } }
+  // status (mind/body) by character → { aerith: { mind, body } }
   const [statusMap, setStatusMap] = useState({});
+
+  // NEW — fertility globals (placeholders; wire real files later)
+  const [playerFemale, setPlayerFemale] = useState(null);
+  const [fertilityMap, setFertilityMap] = useState(null);
 
   // Pair/diary cache
   const [pair, setPair] = useState({ characterId: "aerith", targetId: "vagrant" });
@@ -170,9 +174,9 @@ function App() {
   }, []);
   useEffect(() => localStorage.setItem("sim_rel_value", String(relationship)), [relationship]);
 
-  /* ==============================================================
-     LOAD STATIC DATA  ←— status (mind/body) load happens here
-     ============================================================== */
+  /* ============================================================== */
+  /* LOAD STATIC DATA  ←— status (mind/body) load happens here      */
+  /* ============================================================== */
   useEffect(() => {
     (async () => {
       const d = [];
@@ -226,8 +230,7 @@ function App() {
         setTraitMap(ta.map);
         d.push({ label: "traits/assignments_v1.json", status: "ok" });
       } else {
-        setTraitMap({});
-        d.push({ label: "traits/assignments_v1.json", status: "err" });
+        setTraitMap({}); d.push({ label: "traits/assignments_v1.json", status: "err" });
       }
 
       // Sensitivities
@@ -237,10 +240,7 @@ function App() {
 
       const sa = await fetchJson(assetUrl(DATA.sensAssignments));
       setSensMap(sa.ok ? sa.data?.characters || {} : {});
-      d.push({
-        label: "sensitivities/assignments_v1.json",
-        status: sa.ok ? "ok" : "err"
-      });
+      d.push({ label: "sensitivities/assignments_v1.json", status: sa.ok ? "ok" : "err" });
 
       const sr = await fetchJson(assetUrl(DATA.sensEvolution));
       setSensRules(sr.ok ? sr.data?.rules || [] : []);
@@ -255,6 +255,13 @@ function App() {
         const mind = mindRes.ok ? (mindRes.data?.mind || mindRes.data || {}) : {};
         const body = bodyRes.ok ? (bodyRes.data?.body || bodyRes.data || {}) : {};
         setStatusMap((prev) => ({ ...prev, aerith: { mind, body } }));
+
+        // export to window for quick console inspection
+        if (typeof window !== "undefined") {
+          window.__statusMap = window.__statusMap || {};
+          window.__statusMap.aerith = { mind, body };
+        }
+
         d.push({
           label: "status/aerith/mind_v1.json",
           status: Object.keys(mind).length ? "ok" : "err"
@@ -263,6 +270,10 @@ function App() {
           label: "status/aerith/body_v1.json",
           status: Object.keys(body).length ? "ok" : "err"
         });
+
+        // (Optional) demo-enable fertility widgets; remove when real files are used
+        // setPlayerFemale({ cycleLength: 28, luteal: 12 });
+        // setFertilityMap({ aerith: { visible: true, cycleStartDay: 12 } });
       }
       // ===============================================
 
@@ -272,9 +283,9 @@ function App() {
     })();
   }, []);
 
-  /* ==============================================================
-     LOAD / RESOLVE PAIR DIARY
-     ============================================================== */
+  /* ============================================================== */
+  /* LOAD / RESOLVE PAIR DIARY                                      */
+  /* ============================================================== */
   useEffect(() => {
     (async () => {
       const key = pairKey(pair.characterId, pair.targetId);
@@ -288,7 +299,7 @@ function App() {
 
       const diaryUrl = assetUrl(relPath) + `?v=${Date.now()}`;
 
-      // Probe for clear errors
+      // Probe for clear errors (helps on mobile)
       try {
         const probe = await fetch(diaryUrl, { cache: "no-store" });
         const text = await probe.text();
@@ -357,15 +368,15 @@ function App() {
         break;
 
       case "interaction.firstKiss": {
-        const ps = getPairState(pair.characterId, pair.targetId);
+        const ps2 = getPairState(pair.characterId, pair.targetId);
         const line =
-          selectEventLine(diary, "first_kiss", ps.path, ps.stage) ||
-          (diary?.events?.first_kiss?.[ps.path] || []).slice(-1)[0] ||
+          selectEventLine(diary, "first_kiss", ps2.path, ps2.stage) ||
+          (diary?.events?.first_kiss?.[ps2.path] || []).slice(-1)[0] ||
           null;
         appendDiaryEntry(diary, {
           text: line || "[dev] no first-kiss line found",
-          path: ps.path,
-          stage: ps.stage,
+          path: ps2.path,
+          stage: ps2.stage,
           mood: ["fluttered"],
           tags: ["#event:first_kiss", `#with:${pair.targetId}`]
         });
@@ -381,10 +392,9 @@ function App() {
         break;
 
       case "risky.alleyStealth":
-        push(
-          "[We moved like thieves in the alley—quiet, breath shared, pulse too loud.]",
-          { tags: ["#risky"] }
-        );
+        push("[We moved like thieves in the alley—quiet, breath shared, pulse too loud.]", {
+          tags: ["#risky"]
+        });
         break;
 
       case "time.morningTick":
@@ -529,15 +539,6 @@ function App() {
             ? h("div", { class: "kv" }, h(Badge, null, `Autosave · ${autosaveMeta.at} · rel ${autosaveMeta.rel}`))
             : h("div", { class: "kv small" }, "No autosave yet."),
           h("div", { class: "small" }, "Slot clicks are stubs for now (load logic not wired yet).")
-        ]),
-        h("div", { class: "card" }, [
-          h("h3", null, "Choice (example)"),
-          h("div", { class: "kv" }, `Relationship: ${relationship}`),
-          h("div", { class: "kv" }, [
-            h(Button, { onClick: () => { setRelationship((v) => v + 1); setToast("+1 (kind)"); setTimeout(() => setToast(""), 1200); } }, "Be Kind (+1)"),
-            h(Button, { ghost: true, onClick: () => { setRelationship((v) => v - 1); setToast("-1 (tease)"); setTimeout(() => setToast(""), 1200); } }, "Tease (-1)")
-          ]),
-          h("div", { class: "small" }, "This is just a mock stat; autosave/slots capture its value.")
         ])
       ]),
       h("div", { class: "card", style: "margin-top:12px" }, [
@@ -587,9 +588,7 @@ function App() {
               stage: ps.stage,
               tags: ["#dev"]
             });
-            // force re-render
-            // eslint-disable-next-line no-undef
-            setDiaryByPair((prev) => ({ ...prev }));
+            setDiaryByPair((prev) => ({ ...prev })); // force re-render
           }
         },
         "Seed Test Entry"
@@ -603,8 +602,7 @@ function App() {
             const d = diaryByPair[key];
             if (!d) return;
             d.entries = [];
-            // eslint-disable-next-line no-undef
-            setDiaryByPair((prev) => ({ ...prev }));
+            setDiaryByPair((prev) => ({ ...prev })); // force re-render
           }
         },
         "Clear Entries"
@@ -616,7 +614,7 @@ function App() {
     "div",
     { class: "app" },
     view === "status"
-      ? h(StatusView, { chars, statusMap, Nav })
+      ? h(StatusView, { chars, statusMap, playerFemale, fertilityMap, Nav })
       : view === "relationships"
       ? h(RelationshipsView, {
           chars,
@@ -650,7 +648,7 @@ function App() {
   );
 }
 
-/* ==============================================================
-   MOUNT
-   ============================================================== */
+/* ============================================================== */
+/* MOUNT                                                          */
+/* ============================================================== */
 render(h(App), document.getElementById("app"));
