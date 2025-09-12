@@ -217,6 +217,20 @@ export function logWitnessed(diary, who, info = {}) {
     return;
   }
 
+   // Convenience export kept for backward-compat with older DiaryView code.
+export function selectWitnessedLine(diary, who, path = "love", stage = 0) {
+  const flat =
+    diary?.witnessed?.[diary?.targetId] ||
+    diary?.__witness_flat ||
+    {};
+  return pickWitnessLine(
+    flat,
+    String(who || "").toLowerCase(),
+    String(path || "love").toLowerCase(),
+    Number(stage || 0)
+  );
+}
+
   appendDiaryEntry(diary, {
     text: line,
     path,
