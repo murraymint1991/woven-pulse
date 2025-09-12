@@ -1,116 +1,80 @@
 // js/systems/mind.js
-// Simple dev-side "Mind" overrides with localStorage + live mirror of window.__statusMap
+// Local, browser-only overrides for Mind (moods & traits).
+// We *only* store the overrides here. The view should merge base(file)+overrides.
 
-const LS_KEY = "mind_overrides_v1";
+const LS_KEY = (charId) => `mind_overrides_${charId}_v1`;
 
-// read/write helpers
-function loadOverrides() {
+function clamp01(n) {
+  n = Number(n);
+  if (Number.isNaN(n)) n = 0;
+  return Math.min(1, Math.max(0, n));
+}
+
+// ---------- load / save ----------
+export function loadMindOverrides(charId) {
   try {
-    return JSON.parse(localStorage.getItem(LS_KEY) || "{}");
+    const raw = localStorage.getItem(LS_KEY(charId));
+    return raw ? JSON.parse(raw) : {};
   } catch {
     return {};
   }
 }
-function saveOverrides(obj) {
-  localStorage.setItem(LS_KEY, JSON.stringify(obj || {}));
-}
-function deepClone(x) {
-  return x ? JSON.parse(JSON.stringify(x)) : x;
-}
-function clamp01(n) {
-  n = Number(n) || 0;
-  return n < 0 ? 0 : n > 1 ? 1 : n;
+
+export function saveMindOverrides(charId, data) {
+  try {
+    localStorage.setItem(LS_KEY(charId), JSON.stringify(data || {}));
+  } catch {
+    // ignore
+  }
 }
 
-// keep an in-memory snapshot of baseline (what the JSON file had on first access)
-const baseline = (typeof window !== "undefined" && (window.__mindBaseline = window.__mindBaseline || {})) || {};
+export function clearMindOverrides(charId) {
+  try {
+    localStorage.removeItem(LS_KEY(charId));
+  } catch {
+    // ignore
+  }
+}
+
+// ---------- deltas ----------
+export function applyMoodDelta(charId, key, delta) {
+  const o = loadMindOverrides(charId);
+  const moods = { ...(o.moods || {}) };
+  const next = clamp01((moods[key] ?? 0) + delta);
+  moods[key] = next;
+  saveMindOverrides(charId, { ...o, moods });
+  return next;
+}
+
+export function applyTraitDelta(charId, key, delta) {
+  const o = loadMindOverrides(charId);
+  const traits = { ...(o.traits || {}) };
+  const next = clamp01((traits[key] ?? 0) + delta);
+  traits[key] = next;
+  saveMindOverrides(charId, { ...o, traits });
+  return next;
+}
+
+// ---------- presets ----------
+/**
+ * Zero-out every mood/trait key that exists in the *base* (file) mind.
+ * (We write explicit 0.0 overrides for each key.)
+ */
+export function zeroOutMind(charId, baseMind = {}) {
+  const moods = Object.fromEntries(
+    Object.keys(baseMind.moods || {}).map((k) => [k, 0])
+  );
+  const traits = Object.fromEntries(
+    Object.keys(baseMind.traits || {}).map((k) => [k, 0])
+  );
+  saveMindOverrides(charId, { moods, traits });
+}
 
 /**
- * Returns the effective mind state for a character:
- * base (from window.__statusMap[charId].mind or provided fallback) + local overrides
+ * Utility to merge base(file) + overrides into a single object the view can render.
  */
-export function getMindState(charId, fallbackBase = {}) {
-  const base =
-    (typeof window !== "undefined" &&
-      window.__statusMap &&
-      window.__statusMap[charId] &&
-      window.__statusMap[charId].mind) ||
-    fallbackBase ||
-    {};
-
-  // store baseline once so we can reset later
-  if (!baseline[charId]) baseline[charId] = deepClone(base);
-
-  const ovr = loadOverrides()[charId] || {};
-  const out = deepClone(base);
-
-  if (ovr.moods) {
-    out.moods = out.moods || {};
-    for (const [k, v] of Object.entries(ovr.moods)) out.moods[k] = clamp01(v);
-  }
-  if (ovr.traits) {
-    out.traits = out.traits || {};
-    for (const [k, v] of Object.entries(ovr.traits)) out.traits[k] = clamp01(v);
-  }
-  return out;
-}
-
-/** apply a delta to a mood and reflect it in overrides + window.__statusMap (live) */
-export function applyMoodDelta(charId, key, delta) {
-  const cur = getMindState(charId);
-  const next = clamp01((cur.moods?.[key] ?? 0) + (Number(delta) || 0));
-
-  // write overrides
-  const all = loadOverrides();
-  all[charId] = all[charId] || {};
-  all[charId].moods = all[charId].moods || {};
-  all[charId].moods[key] = next;
-  saveOverrides(all);
-
-  // live mirror so UI can read updated values
-  if (typeof window !== "undefined" && window.__statusMap?.[charId]?.mind) {
-    window.__statusMap[charId].mind.moods = window.__statusMap[charId].mind.moods || {};
-    window.__statusMap[charId].mind.moods[key] = next;
-  }
-}
-
-/** apply a delta to a trait and reflect it in overrides + window.__statusMap (live) */
-export function applyTraitDelta(charId, key, delta) {
-  const cur = getMindState(charId);
-  const next = clamp01((cur.traits?.[key] ?? 0) + (Number(delta) || 0));
-
-  const all = loadOverrides();
-  all[charId] = all[charId] || {};
-  all[charId].traits = all[charId].traits || {};
-  all[charId].traits[key] = next;
-  saveOverrides(all);
-
-  if (typeof window !== "undefined" && window.__statusMap?.[charId]?.mind) {
-    window.__statusMap[charId].mind.traits = window.__statusMap[charId].mind.traits || {};
-    window.__statusMap[charId].mind.traits[key] = next;
-  }
-}
-
-/** clears overrides for the character and restores baseline into window.__statusMap */
-export function resetMindOverrides(charId) {
-  // clear LS overrides
-  const all = loadOverrides();
-  if (all[charId]) {
-    delete all[charId];
-    saveOverrides(all);
-  }
-
-  // restore baseline snapshot into the live map
-  const base = baseline[charId] ? deepClone(baseline[charId]) : { moods: {}, traits: {} };
-
-  if (typeof window !== "undefined") {
-    window.__statusMap = window.__statusMap || {};
-    window.__statusMap[charId] = window.__statusMap[charId] || {};
-    // important: always give UI a fresh object (no stale reference)
-    window.__statusMap[charId].mind = base;
-    // optional: a small version bump to help any watchers
-    window.__statusMap[charId].__mindVersion = (window.__statusMap[charId].__mindVersion || 0) + 1;
-  }
-
-  return true;
+export function mergeEffectiveMind(baseMind = {}, overrides = {}) {
+  const moods = { ...(baseMind.moods || {}) , ...(overrides.moods || {}) };
+  const traits = { ...(baseMind.traits || {}) , ...(overrides.traits || {}) };
+  return { moods, traits };
 }
