@@ -44,18 +44,6 @@ async function fetchJson(url) {
 
 /* ================================
    Witness normalization
-   Input (caught_others.json) shape:
-   {
-     "tifa":   [{stageMin, path, text}, ...],
-     "renna":  [...],
-     "yuffie": [...]
-   }
-   Output (flat):
-   {
-     tifa:   { love:[{stageMin,text},...], corruption:[...], hybrid:[...], any:[...] },
-     renna:  { ... },
-     yuffie: { ... }
-   }
 ================================ */
 function normalizeCaughtOthers(itemsByWho = {}) {
   const out = {};
@@ -70,7 +58,6 @@ function normalizeCaughtOthers(itemsByWho = {}) {
         text: String(it.text || "").trim()
       });
     }
-    // sort each lane ascending by stageMin
     for (const k of Object.keys(lanes)) {
       lanes[k].sort((a, b) => a.stageMin - b.stageMin);
     }
@@ -107,24 +94,19 @@ export async function loadDiary(indexUrl) {
 
   const sources = idx.sources || {};
 
-  // desires
   if (sources.desires) {
     const r = await fetchJson(assetUrl(sources.desires));
     diary.desires = r.ok ? (r.data?.desires || r.data || {}) : {};
   }
 
-  // witnessed (caught_others)
   if (sources.witnessed) {
     const r = await fetchJson(assetUrl(sources.witnessed));
     const flat = r.ok ? normalizeCaughtOthers(r.data?.caught_others || r.data || {}) : {};
-    // attach under the *current* targetId to keep structure future-proof
     diary.witnessed[targetId] = flat;
     diary.witnessed_targets = [targetId];
-    // convenience alias for quick access (still scoped per target via helper)
     diary.__witness_flat = flat;
   }
 
-  // events (can be flat keys or nested like "locations/cave")
   if (sources.events && typeof sources.events === "object") {
     for (const [k, p] of Object.entries(sources.events)) {
       const r = await fetchJson(assetUrl(p));
@@ -132,7 +114,6 @@ export async function loadDiary(indexUrl) {
     }
   }
 
-  // dev: expose for quick console inspection
   if (typeof window !== "undefined") {
     window.__diaryByPair = window.__diaryByPair || {};
     window.__diaryByPair[diary.key] = diary;
@@ -156,9 +137,9 @@ export function appendDiaryEntry(diary, entry) {
 }
 
 /* ================================
-   Pair state (very simple holder)
+   Pair state
 ================================ */
-const __pairState = {}; // key -> { path, stage }
+const __pairState = {};
 const pairKey = (a, b) => `${a}:${b}`;
 
 export function getPairState(characterId, targetId) {
@@ -168,68 +149,36 @@ export function getPairState(characterId, targetId) {
   }
   return __pairState[k];
 }
-// Optional setters if you want them later:
-// export function setPairPath(characterId, targetId, path) {
-//   getPairState(characterId, targetId).path = String(path || "love").toLowerCase();
-// }
-// export function setPairStage(characterId, targetId, stage) {
-//   getPairState(characterId, targetId).stage = Number(stage || 0);
-// }
 
 /* ================================
-   Witnessed logging
+   Witnessed logging + selection
 ================================ */
 function pickWitnessLine(flatMap, who, path, stage) {
   const lanes = flatMap?.[who] || {};
-  // prefer exact path lane, otherwise 'any'
   const lane = lanes[path] || lanes.any || [];
   if (!lane.length) return null;
 
-  // find the last entry whose stageMin <= stage
   let best = null;
   for (const it of lane) {
     if (Number(it.stageMin) <= Number(stage)) best = it;
-    else break; // lanes are sorted
+    else break;
   }
   return best?.text || lane[0]?.text || null;
 }
 
 export function logWitnessed(diary, who, info = {}) {
   if (!diary) return;
-
   const ps = getPairState(diary.characterId, diary.targetId);
   const path  = String(info.path || ps.path || "love").toLowerCase();
   const stage = Number(info.stage ?? ps.stage ?? 0);
 
-  // prefer per-target map; fall back to convenience alias
-  const targetFlat =
-    diary.witnessed?.[diary.targetId] ||
-    diary.__witness_flat ||
-    {};
-
-  const line =
-    info.text ||
-    pickWitnessLine(targetFlat, who, path, stage) ||
-    null;
+  const targetFlat = diary.witnessed?.[diary.targetId] || diary.__witness_flat || {};
+  const line = info.text || pickWitnessLine(targetFlat, who, path, stage) || null;
 
   if (!line) {
     console.warn("[diary] [caught] no lane/line for", { who, path, stage });
     return;
   }
-
-   // Convenience export kept for backward-compat with older DiaryView code.
-export function selectWitnessedLine(diary, who, path = "love", stage = 0) {
-  const flat =
-    diary?.witnessed?.[diary?.targetId] ||
-    diary?.__witness_flat ||
-    {};
-  return pickWitnessLine(
-    flat,
-    String(who || "").toLowerCase(),
-    String(path || "love").toLowerCase(),
-    Number(stage || 0)
-  );
-}
 
   appendDiaryEntry(diary, {
     text: line,
@@ -239,29 +188,26 @@ export function selectWitnessedLine(diary, who, path = "love", stage = 0) {
   });
 }
 
+export function selectWitnessedLine(diary, who, path = "love", stage = 0) {
+  const flat = diary?.witnessed?.[diary?.targetId] || diary?.__witness_flat || {};
+  return pickWitnessLine(flat, who, path, stage);
+}
+
 /* ================================
-   Desire selection (by path)
+   Desire selection
 ================================ */
 export function selectDesireEntries(diary, path = "love") {
   const p = String(path || "love").toLowerCase();
-  const byPath =
-    diary?.desires?.[p] ||
-    diary?.desires?.any ||
-    [];
+  const byPath = diary?.desires?.[p] || diary?.desires?.any || [];
   return Array.isArray(byPath) ? byPath : [];
 }
 
 /* ================================
    Event line selection
-   - For things like: first_kiss.json:
-     { love:[...], corruption:[...], hybrid:[...] }
-   - Strategy: pick the last line for the given path;
-     later we could add stage-aware selection if needed.
 ================================ */
 export function selectEventLine(diary, eventKey, path = "love", stage = 0) {
   const p = String(path || "love").toLowerCase();
 
-  // Support nested keys in events (e.g., "locations/cave")
   const parts = String(eventKey).split(/[/.]/).filter(Boolean);
   let cur = diary?.events || {};
   for (const k of parts) {
@@ -269,10 +215,8 @@ export function selectEventLine(diary, eventKey, path = "love", stage = 0) {
     if (!cur) break;
   }
 
-  // cur is now the event payload (if present)
   const lane = Array.isArray(cur?.[p]) ? cur[p] : (Array.isArray(cur) ? cur : []);
   if (!lane || !lane.length) return null;
 
-  // simple policy: last line; feel free to randomize later
   return lane[lane.length - 1] || null;
 }
