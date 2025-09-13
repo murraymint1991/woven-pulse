@@ -9,6 +9,13 @@ import { sleep, nowStamp, fetchJson, countScenesAnywhere } from "./js/utils.js";
 import { Button, Badge, Dot } from "./js/ui.js";
 import RelationshipsView from "./js/views/relationships.js";
 import StatusView from "./js/views/status.js";
+import {
+  DiaryIndexSchema,
+  DesiresSchema,
+  WitnessedSchema,
+  EventFileSchema,
+  validateUrl
+} from "./js/validation.js";
 
 // ----- Traits
 import { loadAssignments as loadTraitAssignments } from "./js/systems/traits.js";
@@ -160,6 +167,11 @@ function App() {
   const [slots, setSlots] = useState(Array.from({ length: 20 }, () => null));
   const [autosaveMeta, setAutosaveMeta] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
+
+  // Health Checker
+  const [health, setHealth] = useState([]);
+  const [healthRunning, setHealthRunning] = useState(false);
+
 
   // -------- LOAD SAVES --------
   useEffect(() => {
@@ -505,60 +517,117 @@ function App() {
     );
 
   // -------- HOME --------
-  const Home = () =>
-    h("div", null, [
-      h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
-        h("div", { class: "stage-title" }, "SIM Prototype — Start"),
-        h("div", { class: "subtitle" }, "No-build demo (GitHub Pages · Preact ESM)"),
-        h(Nav, null)
-      ])),
-      h("div", { class: "grid" }, [
-        h("div", { class: "card" }, [
-          h("h3", null, "Data Import"),
-          loading
-            ? h("div", { class: "kv" }, "Loading data…")
-            : h("div", { class: "kv" }, h(Badge, null, [h(Dot, { ok: chars.length > 0 }), " ", summaryText])),
-          h("div", { class: "small", style: "margin-top:8px" }, "Files under /data/... — tap any to open raw JSON."),
-          h("div", { class: "small", style: "margin-top:8px" },
-            details.map((d) =>
-              h("div", { class: "kv" }, [
-                h(Dot, { ok: d.status === "ok" }),
-                h("a", { href: assetUrl(`data/${d.label}`), target: "_blank", style: "margin-left:4px" }, d.label)
-              ])
-            )
-          )
-        ]),
-        h("div", { class: "card" }, [
-          h("h3", null, "Saves"),
-          h("div", { class: "kv" }, [
-            h(Button, { onClick: doAutosave }, "Autosave"),
-            h(Button, { onClick: doManualSave }, "Manual Save"),
-            h(Button, { ghost: true, onClick: clearAllSaves }, "Clear All")
-          ]),
-          autosaveMeta
-            ? h("div", { class: "kv" }, h(Badge, null, `Autosave · ${autosaveMeta.at} · rel ${autosaveMeta.rel}`))
-            : h("div", { class: "kv small" }, "No autosave yet."),
-          h("div", { class: "small" }, "Slot clicks are stubs for now (load logic not wired yet).")
-        ])
-      ]),
-      h("div", { class: "card", style: "margin-top:12px" }, [
-        h("h3", null, "Manual Slots (20)"),
-        h("div", { class: "grid" },
-          slots.map((s, i) =>
-            h("div", { class: "slot", onClick: () => setToast(`Load Slot ${i + 1} (stub)`) }, [
-              h("div", null, `Slot ${i + 1}`),
-              h("div", { class: "meta" }, s ? `${s.note} · ${s.at}` : "empty")
+const Home = () =>
+  h("div", null, [
+    // hero
+    h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
+      h("div", { class: "stage-title" }, "SIM Prototype — Start"),
+      h("div", { class: "subtitle" }, "No-build demo (GitHub Pages · Preact ESM)"),
+      h(Nav, null)
+    ])),
+
+    // top grid: Data / Saves / Health
+    h("div", { class: "grid" }, [
+      // Data Import
+      h("div", { class: "card" }, [
+        h("h3", null, "Data Import"),
+        loading
+          ? h("div", { class: "kv" }, "Loading data…")
+          : h("div", { class: "kv" }, h(Badge, null, [h(Dot, { ok: chars.length > 0 }), " ", summaryText])),
+        h("div", { class: "small", style: "margin-top:8px" },
+          "Files under /data/... — tap any to open raw JSON."
+        ),
+        h("div", { class: "small", style: "margin-top:8px" },
+          details.map((d) =>
+            h("div", { class: "kv" }, [
+              h(Dot, { ok: d.status === "ok" }),
+              h(
+                "a",
+                { href: assetUrl(`data/${d.label}`), target: "_blank", style: "margin-left:4px" },
+                d.label
+              )
             ])
           )
         )
       ]),
-      h("div", { class: "savebar" }, [
-        h(Button, { onClick: doAutosave }, "Autosave"),
-        h(Button, { onClick: doManualSave }, "Manual Save"),
-        h(Button, { ghost: true, onClick: () => { clearCacheAndReload(); } }, "Clear Cache & Reload"),
-        toast ? h(Badge, null, toast) : null
+
+      // Saves
+      h("div", { class: "card" }, [
+        h("h3", null, "Saves"),
+        h("div", { class: "kv" }, [
+          h(Button, { onClick: doAutosave }, "Autosave"),
+          h(Button, { onClick: doManualSave }, "Manual Save"),
+          h(Button, { ghost: true, onClick: clearAllSaves }, "Clear All")
+        ]),
+        autosaveMeta
+          ? h("div", { class: "kv" },
+              h(Badge, null, `Autosave · ${autosaveMeta.at} · rel ${autosaveMeta.rel}`)
+            )
+          : h("div", { class: "kv small" }, "No autosave yet."),
+        h("div", { class: "small" }, "Slot clicks are stubs for now (load logic not wired yet).")
+      ]),
+
+      // Health Checker (NEW)
+      h("div", { class: "card" }, [
+        h("h3", null, "Health Check"),
+        h("div", { class: "kv" }, [
+          h(
+            Button,
+            { onClick: () => !healthRunning && runHealthCheck(), disabled: healthRunning },
+            healthRunning ? "Running…" : "Run Health Check"
+          ),
+          healthRunning ? h(Badge, null, "Working…") : null
+        ]),
+
+        // Results list
+        h(
+          "div",
+          { class: "small", style: "margin-top:8px" },
+          health && health.length
+            ? health.map((r) =>
+                h("div", { class: "kv" }, [
+                  h(Dot, { ok: !!r.ok }),
+                  h("span", { style: "margin-left:6px" }, r.label),
+                  r.error
+                    ? h(Badge, { ghost: true, style: "margin-left:6px" }, "error")
+                    : null,
+                  (typeof r.issues === "number" && r.issues > 0)
+                    ? h(Badge, { ghost: true, style: "margin-left:6px" },
+                        `${r.issues} issue${r.issues === 1 ? "" : "s"}`
+                      )
+                    : null
+                ])
+              )
+            : h("div", null, "No results yet.")
+        )
       ])
-    ]);
+    ]),
+
+    // Manual Slots section
+    h("div", { class: "card", style: "margin-top:12px" }, [
+      h("h3", null, "Manual Slots (20)"),
+      h("div", { class: "grid" },
+        slots.map((s, i) =>
+          h(
+            "div",
+            { class: "slot", onClick: () => setToast(`Load Slot ${i + 1} (stub)`) },
+            [
+              h("div", null, `Slot ${i + 1}`),
+              h("div", { class: "meta" }, s ? `${s.note} · ${s.at}` : "empty")
+            ]
+          )
+        )
+      )
+    ]),
+
+    // Savebar
+    h("div", { class: "savebar" }, [
+      h(Button, { onClick: doAutosave }, "Autosave"),
+      h(Button, { onClick: doManualSave }, "Manual Save"),
+      h(Button, { ghost: true, onClick: () => { clearCacheAndReload(); } }, "Clear Cache & Reload"),
+      toast ? h(Badge, null, toast) : null
+    ])
+  ]);
 
   // -------- CURRENT DIARY (derived) --------
   const currentDiary = diaryByPair[pairKey(pair.characterId, pair.targetId)] || null;
@@ -608,6 +677,49 @@ function App() {
         "Clear Entries"
       )
     ]);
+
+  // -------- Run Health Check -------
+  async function runHealthCheck() {
+  setHealthRunning(true);
+  const rows = [];
+  const add = (ok, label, extra = {}) => rows.push({ ok, label, ...extra });
+
+  // validate all pair diaries declared in DATA.diaries
+  const diaryPairs = Object.entries(DATA.diaries || {});
+  for (const [pairKeyStr, relPath] of diaryPairs) {
+    const indexUrl = assetUrl(relPath) + `?v=${Date.now()}`;
+
+    // index.json
+    const idx = await validateUrl(indexUrl, DiaryIndexSchema, `${pairKeyStr} · index.json`);
+    add(idx.ok, idx.label, idx.ok ? {} : { error: idx.error || idx.issues });
+    if (!idx.ok) continue;
+
+    const sources = idx.data.sources || {};
+
+    // desires
+    if (sources.desires) {
+      const r = await validateUrl(assetUrl(sources.desires), DesiresSchema, `${pairKeyStr} · desires.json`);
+      add(r.ok, r.label, r.ok ? {} : { error: r.error || r.issues });
+    }
+
+    // witnessed
+    if (sources.witnessed) {
+      const r = await validateUrl(assetUrl(sources.witnessed), WitnessedSchema, `${pairKeyStr} · caught_others.json`);
+      add(r.ok, r.label, r.ok ? {} : { error: r.error || r.issues });
+    }
+
+    // events (e.g., first_kiss.json)
+    if (sources.events) {
+      for (const [evKey, evPath] of Object.entries(sources.events)) {
+        const r = await validateUrl(assetUrl(evPath), EventFileSchema, `${pairKeyStr} · ${evKey}.json`);
+        add(r.ok, r.label, r.ok ? {} : { error: r.error || r.issues });
+      }
+    }
+  }
+
+  setHealth(rows);
+  setHealthRunning(false);
+}
 
   // -------- RETURN (routes) --------
   return h(
