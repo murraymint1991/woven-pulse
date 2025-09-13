@@ -50,6 +50,7 @@ function normalizeWitnessed(raw) {
 
   for (const who of Object.keys(raw)) {
     const source = raw[who];
+
     // Already shaped per-path arrays?
     if (source && typeof source === "object" && !Array.isArray(source)) {
       const obj = {
@@ -58,6 +59,13 @@ function normalizeWitnessed(raw) {
         hybrid: Array.isArray(source.hybrid) ? source.hybrid.slice() : [],
         any: Array.isArray(source.any) ? source.any.slice() : []
       };
+      // sort each bucket if it has objects with stageMin
+      for (const k of Object.keys(obj)) {
+        const b = obj[k];
+        if (b.length && typeof b[0] === "object" && b[0]) {
+          b.sort((a, b) => (a.stageMin || 0) - (b.stageMin || 0));
+        }
+      }
       byWho[who] = obj;
       continue;
     }
@@ -68,13 +76,13 @@ function normalizeWitnessed(raw) {
     for (const it of arr) {
       if (!it) continue;
       const p = String(it.path || "any").toLowerCase();
-      const bucket = obj[p] || obj.any; // if unknown path, put into "any"
+      const bucket = obj[p] || obj.any; // unknown path -> "any"
       bucket.push({
         stageMin: Number(it.stageMin ?? 0),
         text: String(it.text ?? "")
       });
     }
-    // Sort each bucket by stageMin ASC so we can pick "latest <= stage"
+    // Sort each bucket by stageMin ASC
     for (const k of Object.keys(obj)) {
       obj[k].sort((a, b) => (a.stageMin || 0) - (b.stageMin || 0));
     }
@@ -85,7 +93,6 @@ function normalizeWitnessed(raw) {
   const flat = {};
   for (const who of Object.keys(byWho)) {
     const m = byWho[who];
-    // For convenience allow flat[who] and flat[`${who}_${path}`]
     flat[who] = m;
     for (const p of ["love", "corruption", "hybrid", "any"]) {
       flat[`${who}_${p}`] = (m[p] || []).slice();
@@ -177,7 +184,7 @@ export async function loadDiary(indexUrl) {
     }
   }
 
-  // Provide a light derived helper (byPath) if someone wants to log it
+  // Convenience: current-target desires by path
   diary.desires_byPath = (diary.desires[diary.targetId?.toLowerCase() || ""] || {});
 
   return diary;
@@ -238,7 +245,6 @@ export function selectWitnessedLine(diary, who, path, stage) {
       else break; // because we sorted ASC
     }
     if (!pick) {
-      // try any
       const anyB = Array.isArray(w.any) ? w.any : [];
       for (const it of anyB) {
         const smin = Number(it.stageMin || 0);
@@ -248,7 +254,6 @@ export function selectWitnessedLine(diary, who, path, stage) {
     }
     return pick || null;
   } else {
-    // Plain strings -> clamp by stage
     const arr = bucket.length ? bucket : (Array.isArray(w.any) ? w.any : []);
     if (!arr.length) return null;
     const idx = Math.max(0, Math.min(arr.length - 1, stageNum));
