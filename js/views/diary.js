@@ -2,14 +2,7 @@
 // Diary view — timeline-first. "Caught" lines are appended straight into entries[].
 
 import { h } from "https://esm.sh/preact@10.22.0";
-import {
-  selectDesireEntries,
-  selectWitnessedLine,
-  appendDiaryEntry,
-  logWitnessed,
-  getPairState,
-  setPairState
-} from "../systems/diary.js";
+import { appendDiaryEntry, logWitnessed, getPairState, setPairState, selectDesireEntries, selectEventLine } from "../systems/diary.js";
 import { fmtClock, getClock, advanceMinutes, advanceHours, advanceDays } from "../systems/clock.js";
 import { Button, Badge } from "../ui.js";
 
