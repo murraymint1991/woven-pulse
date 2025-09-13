@@ -1,195 +1,273 @@
-// js/views/diary.js
-// Diary view — timeline-first. "Caught" lines are appended straight into entries[].
+// js/views/diary.js  — full replacement
 
 import { h } from "https://esm.sh/preact@10.22.0";
-import { appendDiaryEntry, logWitnessed, getPairState, setPairState, selectDesireEntries, selectEventLine } from "../systems/diary.js";
-import { fmtClock, getClock, advanceMinutes, advanceHours, advanceDays } from "../systems/clock.js";
+import { useMemo, useState } from "https://esm.sh/preact@10.22.0/hooks";
 import { Button, Badge } from "../ui.js";
 
-const MAX_STAGE = 10;
-const WITNESSES = ["tifa", "renna", "yuffie"];
-const PATHS = ["love", "corruption", "hybrid"];
+import {
+  appendDiaryEntry,
+  logWitnessed,
+  getPairState,
+  setPairState,
+  selectDesireEntries,
+  selectEventLine
+} from "../systems/diary.js";
 
-// Group entries by day (YYYY-MM-DD)
-function groupByDay(entries) {
-  const out = {};
-  (entries || []).forEach(e => {
-    const d = (e.date || "").slice(0, 10) || "unknown";
-    (out[d] ||= []).push(e);
-  });
-  return out;
-}
+// ───────────────────────────────────────────────────────────────────────────────
+// Small helpers
+const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
+const pretty = (v) => (v == null ? "—" : String(v));
 
 export default function DiaryView({
   diary,
-  characterId = "aerith",
-  targetId = "vagrant",
-  witnesses = WITNESSES,
+  characterId,
+  targetId,
+  witnesses = ["tifa", "renna", "yuffie"],
   Nav
 }) {
-  if (!diary) return h("div", { class: "card" }, "No diary data loaded.");
+  // bump this to force re-render after we mutate the diary object
+  const [rev, setRev] = useState(0);
 
-  // Pair state (path/stage)
-  const pair = getPairState(characterId, targetId);
-  const setPath = (p) => { setPairState(characterId, targetId, { path: p }); rerender(); };
-  const setStage = (delta) => {
-    const n = Math.max(0, Math.min(MAX_STAGE, Number(pair.stage || 0) + delta));
-    setPairState(characterId, targetId, { stage: n }); rerender();
-  };
+  // derive current pair/path/stage from systems state
+  const ps = useMemo(
+    () => (diary ? getPairState(diary.characterId, diary.targetId) : { path: "love", stage: 0 }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [diary, rev]
+  );
 
-  // Derived view data
-  const desireLane = selectDesireEntries(diary, targetId, pair.path, pair.stage);
-  const grouped = groupByDay(diary.entries);
-  const clockNow = getClock();
+  const curPath = String(ps?.path || "love").toLowerCase();
+  const curStage = Number(ps?.stage || 0);
 
-  // Dev mode (default ON; use ?dev=0 to hide)
-  const params = new URLSearchParams(location.search);
-  const DEV = params.get("dev") !== "0";
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Actions
 
-  // Helpers for dev actions
-  const appendFree = (text, extra = {}) => {
+  function setPath(p) {
+    if (!diary) return;
+    setPairState(diary.characterId, diary.targetId, { path: String(p).toLowerCase(), stage: 0 });
+    setRev((v) => v + 1);
+  }
+
+  function incStage(delta = 1) {
+    if (!diary) return;
+    const n = clamp(Number(curStage) + Number(delta), 0, 99);
+    setPairState(diary.characterId, diary.targetId, { stage: n });
+    setRev((v) => v + 1);
+  }
+
+  function seedTest() {
+    if (!diary) return;
     appendDiaryEntry(diary, {
-      text,
-      path: extra.path ?? pair.path,
-      stage: extra.stage ?? pair.stage,
-      mood: extra.mood || [],
-      tags: extra.tags || []
+      text: "[test] dev seeded entry",
+      path: curPath,
+      stage: curStage,
+      tags: ["#dev"]
     });
-    rerender();
-  };
-  const fireEvent = (type, payload = {}) => {
-    if (typeof window !== "undefined" && typeof window.emitGameEvent === "function") {
-      window.emitGameEvent(type, payload);
-      rerender();
+    setRev((v) => v + 1);
+  }
+
+  function clearEntries() {
+    if (!diary) return;
+    diary.entries = [];
+    setRev((v) => v + 1);
+  }
+
+  function logFreeform(text) {
+    if (!diary || !text?.trim()) return;
+    appendDiaryEntry(diary, { text: text.trim(), path: curPath, stage: curStage });
+    setRev((v) => v + 1);
+  }
+
+  function logFirstKiss() {
+    if (!diary) return;
+    const line =
+      selectEventLine(diary, "first_kiss", curPath, curStage) ||
+      (diary?.events?.first_kiss?.[curPath] || []).slice(-1)[0] ||
+      null;
+
+    appendDiaryEntry(diary, {
+      text: line || "[dev] no first-kiss line found",
+      path: curPath,
+      stage: curStage,
+      mood: ["fluttered"],
+      tags: ["#event:first_kiss", `#with:${targetId}`]
+    });
+    setRev((v) => v + 1);
+  }
+
+  function logCurrentDesire() {
+    if (!diary) return;
+    const pool = selectDesireEntries(diary, curPath); // returns array for path or 'any'
+    // Prefer the last line whose stageMin <= current stage. Fallback to last.
+    let chosen = null;
+    if (Array.isArray(pool) && pool.length) {
+      // findLast poly
+      chosen =
+        [...pool].reverse().find((x) => (x.stageMin ?? 0) <= curStage) || pool[pool.length - 1];
     }
+
+    appendDiaryEntry(diary, {
+      text: chosen?.text || "[dev] no desire line for this stage/path",
+      path: curPath,
+      stage: curStage,
+      tags: ["#desire"]
+    });
+    setRev((v) => v + 1);
+  }
+
+  function logCaught(who, pathOverride) {
+    if (!diary) return;
+    const p = String(pathOverride || curPath || "love").toLowerCase();
+    logWitnessed(diary, who, { path: p, stage: curStage });
+    setRev((v) => v + 1);
+  }
+
+  function logEnter(place) {
+    if (!diary) return;
+    appendDiaryEntry(diary, {
+      text: `[entered ${place}]`,
+      path: curPath,
+      stage: curStage,
+      tags: ["#location"]
+    });
+    setRev((v) => v + 1);
+  }
+
+  function logItem(tag) {
+    if (!diary) return;
+    appendDiaryEntry(diary, {
+      text: "[used item]",
+      path: curPath,
+      stage: curStage,
+      tags: ["#item", tag]
+    });
+    setRev((v) => v + 1);
+  }
+
+  function logRisky() {
+    if (!diary) return;
+    appendDiaryEntry(diary, {
+      text: "[We moved like thieves in the alley—quiet, breath shared, pulse too loud.]",
+      path: curPath,
+      stage: curStage,
+      tags: ["#risky"]
+    });
+    setRev((v) => v + 1);
+  }
+
+  function logMorning() {
+    if (!diary) return;
+    appendDiaryEntry(diary, { text: "[morning passes…]", path: curPath, stage: curStage, tags: ["#time"] });
+    setRev((v) => v + 1);
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // UI bits
+
+  const PathPills = () =>
+    h("div", { class: "kv", style: "gap:8px; flex-wrap:wrap" }, [
+      h(Badge, null, `Path: ${curPath}`),
+      h(Badge, null, `Stage: ${curStage}`),
+      h(Button, { onClick: () => setPath("love"), ghost: curPath !== "love" }, "Love"),
+      h(Button, { onClick: () => setPath("corruption"), ghost: curPath !== "corruption" }, "Corruption"),
+      h(Button, { onClick: () => setPath("hybrid"), ghost: curPath !== "hybrid" }, "Hybrid"),
+      h(Button, { onClick: () => incStage(+1) }, "Stage +"),
+      h(Button, { onClick: () => incStage(-1), ghost: true }, "Stage –")
+    ]);
+
+  const StoryBeats = () =>
+    h("div", { class: "kv", style: "gap:8px; flex-wrap:wrap" }, [
+      h(Button, { onClick: seedTest }, "Seed Test Entry"),
+      h(Button, { ghost: true, onClick: clearEntries }, "Clear Entries"),
+
+      h(Button, { onClick: () => appendDiaryEntry(diary, { text: "[we met]", path: curPath, stage: curStage, tags: ["#interaction"] }) || setRev(v => v + 1) }, "Meet"),
+      h(Button, { onClick: logFirstKiss }, "First Kiss"),
+      h(Button, { onClick: () => logEnter("Tent") }, "Enter Tent"),
+      h(Button, { onClick: () => logEnter("Inn") }, "Enter Inn"),
+      h(Button, { onClick: () => logItem("#bloomstone:sapphire") }, "Use Bloomstone (Sapphire)"),
+      h(Button, { onClick: logRisky }, "Risky · Alley Stealth")
+    ]);
+
+  const TimeBeat = () =>
+    h("div", { class: "kv", style: "gap:8px; flex-wrap:wrap" }, [
+      h(Button, { ghost: true, onClick: logMorning }, "Time · Morning Tick")
+    ]);
+
+  const CaughtRow = ({ who }) =>
+    h("div", { class: "kv", style: "gap:8px; flex-wrap:wrap" }, [
+      h(Badge, null, who),
+      h(Button, { onClick: () => logCaught(who, "love") }, "Love"),
+      h(Button, { onClick: () => logCaught(who, "corruption") }, "Corruption"),
+      h(Button, { onClick: () => logCaught(who, "hybrid") }, "Hybrid")
+    ]);
+
+  const Freeform = () => {
+    let inputRef = null;
+    return h("div", { class: "kv", style: "gap:8px; flex-wrap:wrap; margin-top:8px" }, [
+      h("input", {
+        type: "text",
+        placeholder: "Freeform line…",
+        style:
+          "min-width:320px; padding:10px 12px; border-radius:10px; background:#0b1020; color:#9eeefc; border:1px solid #1b2a44;",
+        ref: (r) => (inputRef = r)
+      }),
+      h(Button, {
+        onClick: () => {
+          logFreeform(inputRef?.value || "");
+          if (inputRef) inputRef.value = "";
+        }
+      }, "Add"),
+      h(Button, { ghost: true, onClick: logCurrentDesire }, "Log current Desire line")
+    ]);
   };
 
-  // Caught buttons: pick the correct line and append it to timeline
-  const logCaught = (who, path) => {
-    const line = selectWitnessedLine(diary, targetId, who, path, pair.stage);
-    if (!line) return; // warning already printed by selector
-    logWitnessed(diary, who, { text: line, path, stage: pair.stage });
-    rerender();
-  };
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Render
+
+  if (!diary) {
+    return h("div", { class: "card" }, [
+      h("h3", null, "Diary"),
+      h("div", { class: "small" }, "No diary data loaded.")
+    ]);
+  }
 
   return h("div", null, [
-    // Header
     h("div", { class: "hero" }, h("div", { class: "hero-inner" }, [
-      h("div", { class: "stage-title" }, `Diary — ${characterId.charAt(0).toUpperCase() + characterId.slice(1)}`),
-      h(Nav, null),
-      h("div", { class: "kv small" }, [
-        h(Badge, null, fmtClock(clockNow)),
-        h(Button, { ghost: true, onClick: () => { advanceMinutes(15); location.reload(); } }, "+15m"),
-        h(Button, { ghost: true, onClick: () => { advanceHours(1);  location.reload(); } }, "+1h"),
-        h(Button, { ghost: true, onClick: () => { advanceDays(1);   location.reload(); } }, "+1d")
-      ])
+      h("div", { class: "stage-title" }, "DEV · Diary (timeline only)"),
+      h("div", { class: "subtitle" }, `Path: ${curPath} · Stage: ${curStage}`),
+      Nav ? h(Nav, null) : null
     ])),
 
-    // DEV PANEL (timeline-first; emits entries directly)
-    DEV ? h("div", { class: "card", style: "border:dashed 1px #647; background:#0d0f15" }, [
-      h("h3", null, "DEV · Diary (timeline only)"),
-      h("div", { class: "kv" }, [
-        h(Badge, null, `Path: ${pair.path}`),
-        h(Badge, null, `Stage: ${pair.stage}`)
-      ]),
-      // Path/Stage controls
-      h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
-        ...PATHS.map(p => h(Button, { onClick: () => setPath(p), ghost: pair.path !== p }, p[0].toUpperCase()+p.slice(1))),
-        h(Button, { ghost: true, onClick: () => setStage(-1) }, "Stage −"),
-        h(Button, { ghost: true, onClick: () => setStage(+1) }, "Stage +")
-      ]),
-      // Core event seeds (map to main.js switch)
-      h("div", { class: "kv small", style: "margin-top:8px" }, "Story beats:"),
-      h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
-        h(Button, { ghost:true, onClick: () => fireEvent("interaction.meet") }, "Meet"),
-        h(Button, { ghost:true, onClick: () => fireEvent("interaction.firstKiss") }, "First Kiss"),
-        h(Button, { ghost:true, onClick: () => fireEvent("location.enter", { place: "Tent" }) }, "Enter Tent"),
-        h(Button, { ghost:true, onClick: () => fireEvent("location.enter", { place: "Inn" }) }, "Enter Inn"),
-        h(Button, { ghost:true, onClick: () => fireEvent("item.bloomstone.sapphire") }, "Use Bloomstone (Sapphire)"),
-        h(Button, { ghost:true, onClick: () => fireEvent("risky.alleyStealth") }, "Risky · Alley Stealth"),
-        h(Button, { ghost:true, onClick: () => fireEvent("time.morningTick") }, "Time · Morning Tick")
-      ]),
-      // Caught buttons — writes directly to Timeline
-      h("div", { class: "kv small", style: "margin-top:8px" }, "Caught by (writes to timeline):"),
-      ...witnesses.map(w =>
-        h("div", { class: "kv", style: "flex-wrap:wrap; gap:6px" }, [
-          h(Badge, null, w),
-          ...PATHS.map(p => h(Button, { ghost:true, onClick: () => logCaught(w, p) }, `${p[0].toUpperCase()+p.slice(1)}`))
-        ])
-      ),
-      // Desire helper: log the latest visible desire line
-      h("div", { class: "kv", style: "margin-top:8px" }, [
-        h(Button, {
-          ghost: true,
-          onClick: () => {
-            if (!desireLane.length) return;
-            appendDiaryEntry(diary, {
-              text: `[desire:${pair.path} s${pair.stage}] ${desireLane[desireLane.length - 1]}`,
-              path: pair.path,
-              stage: pair.stage,
-              tags: ["#desire", `#with:${targetId}`],
-              mood: ["pensive"]
-            });
-            rerender();
-          }
-        }, "Log current Desire line")
-      ]),
-      // Freeform line
-      h("div", { class: "kv", style:"align-items:flex-start; gap:8px" }, [
-        h("textarea", { id:"freeLine", placeholder: "Freeform line…", style: "min-height:60px; width:100%;" }),
-        h(Button, {
-          ghost: true,
-          onClick: () => {
-            const el = document.getElementById("freeLine");
-            const txt = (el?.value || "").trim();
-            if (!txt) return;
-            appendFree(txt, { tags:["#free"] });
-            if (el) el.value = "";
-          }
-        }, "Add")
-      ])
-    ]) : null,
+    // Path + Stage controls
+    h("div", { class: "card" }, [h(PathPills)]),
 
-    // Desires (read-only peek)
-    h("div", { class: "card diary-card" }, [
-      h("h3", null, `Desires · target: ${targetId}`),
-      h("div", { class: "kv" }, [
-        h(Badge, null, `Path: ${pair.path}`),
-        h(Badge, null, `Stage: ${pair.stage}`)
-      ]),
-      (desireLane && desireLane.length)
-        ? h("div", { class: "diary-hand" }, desireLane.map((t, i) => h("p", { key: i }, t)))
-        : h("div", { class: "small" }, "— no entries yet —")
+    // Story beats
+    h("div", { class: "card" }, [
+      h("h3", null, "Story beats:"),
+      h(StoryBeats),
+      h(TimeBeat)
     ]),
 
-    // Timeline
-    h("div", { class: "card diary-card" }, [
-      h("h3", null, "Timeline"),
-      (Object.keys(grouped).length === 0)
-        ? h("div", { class: "small" }, "— no timeline entries yet —")
-        : null,
-      ...Object.entries(grouped).map(([day, entries]) =>
-        h("div", { class: "diary-day" }, [
-          h("div", { class: "diary-meta" }, [
-            h(Badge, null, day),
-            ...((entries[0].mood || []).map((m, i) => h(Badge, { ghost: true, key: `m${i}` }, m))),
-            ...((entries[0].tags || []).map((t, i) => h(Badge, { ghost: true, key: `t${i}` }, t)))
-          ]),
-          ...entries.map((e, i) =>
-            h("div", { class: "diary-hand", key: day + i }, [
-              h("p", null, e.text),
-              ...((e.asides || []).map((a, j) => h("p", { class: "diary-thought", key: j }, a)))
-            ])
-          )
+    // Witnessed quick buttons
+    h("div", { class: "card" }, [
+      h("h3", null, "Caught by (writes to timeline):"),
+      witnesses.map((w) => h(CaughtRow, { who: w }))
+    ]),
+
+    // Freeform + Desire
+    h("div", { class: "card" }, [h("h3", null, "Log current Desire line"), h(Freeform)]),
+
+    // Timeline preview (very light)
+    h("div", { class: "card" }, [
+      h("h3", null, `Timeline`),
+      (Array.isArray(diary.entries) && diary.entries.length
+        ? diary.entries
+        : []
+      ).slice(-30).map((e) =>
+        h("div", { class: "kv" }, [
+          h(Badge, null, `${e.path}/${pretty(e.stage)}`),
+          h("span", null, e.text || "—")
         ])
       )
     ])
   ]);
-}
-
-// Force a quick refresh of the view
-function rerender() {
-  const h0 = location.hash;
-  location.hash = "#_";
-  setTimeout(() => { location.hash = h0; }, 0);
 }
