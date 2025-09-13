@@ -89,7 +89,7 @@ function normalizeWitnessed(raw) {
     byWho[who] = obj;
   }
 
-  // Build a simple flat shape to make quick console checks easy
+  // Flat view for easy console checks
   const flat = {};
   for (const who of Object.keys(byWho)) {
     const m = byWho[who];
@@ -102,21 +102,19 @@ function normalizeWitnessed(raw) {
   return { byWho, flat };
 }
 
-// Events (first_kiss, etc). We keep it as provided:
-//   diary.events[first_kiss][path] = [...lines...]  (or "any")
-function normalizeEvents(raw) {
-  const events = {};
-  if (!raw || typeof raw !== "object") return events;
-
-  for (const key of Object.keys(raw)) {
-    const src = raw[key] || {};
-    const obj = {};
-    for (const p of Object.keys(src)) {
-      obj[p.toLowerCase()] = Array.isArray(src[p]) ? src[p].slice() : [];
-    }
-    events[key] = obj;
+// Events (first_kiss, etc)
+//
+// Your event file for first_kiss looks like:
+//   { "love":[...], "corruption":[...], "hybrid":[...] }
+//
+// So we normalize it straight into that *one* object.
+function normalizeEventMapForSingleKey(raw) {
+  const out = {};
+  if (!raw || typeof raw !== "object") return out;
+  for (const p of Object.keys(raw)) {
+    out[p.toLowerCase()] = Array.isArray(raw[p]) ? raw[p].slice() : [];
   }
-  return events;
+  return out;
 }
 
 // Desires — keep exactly as authored (nested by target)
@@ -180,7 +178,7 @@ export async function loadDiary(indexUrl) {
     for (const evKey of Object.keys(srcs.events)) {
       const url = srcs.events[evKey];
       const er = await fetchJson(url);
-      diary.events[evKey] = er.ok ? normalizeEvents(er.data) : {};
+      diary.events[evKey] = er.ok ? normalizeEventMapForSingleKey(er.data) : {};
     }
   }
 
