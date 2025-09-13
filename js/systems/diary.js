@@ -1,247 +1,231 @@
-// js/systems/diary.js
-// Pair-aware diary utilities + loader (index.json or monolithic file)
+// js/systems/diary.js — FULL REPLACEMENT
+// Robust loader + normalizers + selection helpers for split diary sources.
 
-import { fetchJson } from "../utils.js";
+//// utils ////
+const isObj = (v) => v && typeof v === "object" && !Array.isArray(v);
+const asArray = (v) => (Array.isArray(v) ? v : v ? [v] : []);
+const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 
-/* ============================================================
-   Pair state (path + stage) — stored in localStorage
-   ============================================================ */
-const LSK = (cid, tid) => `pair_${cid}:${tid}_v1`;
-
-export function getPairState(characterId, targetId) {
-  try {
-    const raw = localStorage.getItem(LSK(characterId, targetId));
-    if (raw) {
-      const v = JSON.parse(raw);
-      return {
-        path: typeof v.path === "string" ? v.path : "love",
-        stage: Number.isFinite(v.stage) ? v.stage : 0,
-      };
-    }
-  } catch (_) {}
-  return { path: "love", stage: 0 };
+function assetUrl(relPath) {
+  const rel = String(relPath || "");
+  if (/^https?:\/\//i.test(rel)) return rel;
+  const { origin, pathname } = location;
+  const baseDir = pathname.endsWith("/") ? pathname : pathname.replace(/[^/]+$/, "");
+  return origin + baseDir + rel.replace(/^\//, "");
 }
 
-export function setPairState(characterId, targetId, patch = {}) {
-  const cur = getPairState(characterId, targetId);
+async function fetchJson(url) {
+  try {
+    const r = await fetch(url, { cache: "no-store" });
+    if (!r.ok) return { ok: false, status: r.status, url };
+    return { ok: true, data: await r.json(), url };
+  } catch (e) {
+    return { ok: false, error: String(e), url };
+  }
+}
+
+//// pair state (in-memory; could be persisted later) ////
+const __PAIR_STATE = new Map(); // key -> { path, stage }
+const pairKey = (actor, target) => `${actor}:${target}`;
+
+export function getPairState(actor, target) {
+  const k = pairKey(actor, target);
+  return __PAIR_STATE.get(k) || { path: "love", stage: 0 };
+}
+
+export function setPairState(actor, target, patch) {
+  const k = pairKey(actor, target);
+  const cur = getPairState(actor, target);
   const next = {
     path: (patch.path ?? cur.path ?? "love").toLowerCase(),
-    stage: Math.max(0, Number(patch.stage ?? cur.stage ?? 0)),
+    stage: clamp(Number(patch.stage ?? cur.stage ?? 0), 0, 999),
   };
-  try {
-    localStorage.setItem(LSK(characterId, targetId), JSON.stringify(next));
-  } catch (_) {}
+  __PAIR_STATE.set(k, next);
   return next;
 }
 
-/* ============================================================
-   Diary entry helpers
-   ============================================================ */
-export function appendDiaryEntry(diary, entry) {
-  if (!diary) return;
-  diary.entries = Array.isArray(diary.entries) ? diary.entries : [];
-  diary.entries.push({
-    at: Date.now(),
-    text: String(entry.text || ""),
-    path: (entry.path || "love").toLowerCase(),
-    stage: Number(entry.stage ?? 0),
-    tags: Array.isArray(entry.tags) ? entry.tags.slice(0, 6) : [],
-    mood: Array.isArray(entry.mood) ? entry.mood.slice(0, 6) : [],
+//// normalization ////
+function normalizeWitnessed(d) {
+  // Expect source shape (split file):
+  // d.witnessed = { tifa: [ {stageMin, path, text}, ... ], renna: [...], yuffie: [...] }
+  const out = {};
+  const src = d.witnessed || d.caught_others || {};
+  Object.keys(src || {}).forEach((who) => {
+    const lanes = {};
+    asArray(src[who]).forEach((it) => {
+      const path = String(it.path || "any").toLowerCase();
+      (lanes[path] = lanes[path] || []).push({
+        stageMin: Number(it.stageMin ?? 0),
+        text: String(it.text || "").trim(),
+      });
+    });
+    // sort each lane by stageMin asc for consistent picking
+    Object.keys(lanes).forEach((p) => lanes[p].sort((a, b) => (a.stageMin || 0) - (b.stageMin || 0)));
+    out[who] = lanes;
   });
+  d.witnessed_flat = out;
 }
 
-/* ============================================================
-   Loader — supports index.json with sources OR monolithic JSON
-   ============================================================ */
-export async function loadDiary(urlOrObj) {
-  // Already an object?
-  if (urlOrObj && typeof urlOrObj === "object" && !Array.isArray(urlOrObj)) {
-    return normalizeDiary(urlOrObj);
-  }
-
-  const probe = await fetchJson(urlOrObj, { noCache: true });
-  if (!probe.ok) return null;
-
-  const base = probe.data || {};
-  // If no sources, treat as monolithic diary file
-  if (!base.sources) return normalizeDiary(base);
-
-  // Split sources (index.json style)
-  const out = {
-    version: base.version || "1.0",
-    characterId: base.characterId || "aerith",
-    targetId: base.targetId || "vagrant",
-    entries: Array.isArray(base.entries) ? base.entries : [],
-  };
-
-  // desires
-  if (base.sources.desires) {
-    const r = await fetchJson(base.sources.desires);
-    out.desires = (r.ok ? (r.data?.desires || r.data) : {}) || {};
-  }
-
-  // witnessed (caught_others)
-  if (base.sources.witnessed) {
-    const r = await fetchJson(base.sources.witnessed);
-    const raw = r.ok ? (r.data?.caught_others || r.data) : {};
-    out.witnessed = normalizeCaughtOthers(raw);
-  }
-
-  // events map (e.g. first_kiss)
-  if (base.sources.events && typeof base.sources.events === "object") {
-    out.events = {};
-    const entries = Object.entries(base.sources.events);
-    for (const [key, relPath] of entries) {
-      const r = await fetchJson(relPath);
-      if (r.ok) out.events[key] = r.data?.[key] || r.data || {};
-    }
-  }
-
-  return normalizeDiary(out);
+function normalizeDesires(d) {
+  // Expect source shape:
+  // d.desires = { love: [ {stageMin, text}, ...], corruption: [...], hybrid: [...], any: [...] }
+  const out = {};
+  const src = d.desires || {};
+  Object.keys(src || {}).forEach((path) => {
+    const p = String(path).toLowerCase();
+    out[p] = asArray(src[path]).map((it) => ({
+      stageMin: Number(it.stageMin ?? 0),
+      text: String(it.text || "").trim(),
+    }));
+    out[p].sort((a, b) => (a.stageMin || 0) - (b.stageMin || 0));
+  });
+  d.desires_byPath = out;
 }
 
-/* ============================================================
-   Selectors (used by views)
-   ============================================================ */
+function ensureEvents(d) {
+  // Expected event container:
+  // d.events = { first_kiss: { love: [...], corruption: [...], hybrid: [...], any: [...] } }
+  d.events = d.events || {};
+}
+
+//// selection helpers ////
+function pickByStageMin(list, stage) {
+  if (!Array.isArray(list) || !list.length) return null;
+  const st = Number(stage || 0);
+  // highest stageMin <= stage; otherwise last
+  let best = null;
+  for (let i = 0; i < list.length; i++) {
+    const it = list[i];
+    if ((it.stageMin ?? 0) <= st) best = it;
+  }
+  return best || list[list.length - 1];
+}
+
+//// public selectors ////
 export function selectDesireEntries(diary, path = "love") {
   const p = String(path || "love").toLowerCase();
-  const byPath =
-    diary?.desires?.[p] ||
-    diary?.desires?.any ||
-    [];
+  const byPath = diary?.desires_byPath?.[p] || diary?.desires_byPath?.any || diary?.desires?.[p] || diary?.desires?.any;
   return Array.isArray(byPath) ? byPath : [];
 }
 
-/**
- * selectEventLine(diary, "first_kiss", path, stage)
- * Looks in diary.events[first_kiss][path] first, then .any (strings
- * or objects with optional stageMin). Picks the best line whose
- * stageMin <= stage; otherwise falls back to last item.
- */
 export function selectEventLine(diary, eventKey, path = "love", stage = 0) {
-  const store = diary?.events?.[eventKey] || {};
-  const rows =
-    store?.[String(path).toLowerCase()] ||
-    store?.any ||
-    [];
-  if (!Array.isArray(rows) || rows.length === 0) return null;
-
-  // allow rows to be strings or { text, stageMin }
-  let best = null;
-  let bestStage = -1;
-  for (const item of rows) {
-    const t =
-      typeof item === "string" ? item
-        : (item && typeof item.text === "string") ? item.text
-        : null;
-    if (!t) continue;
-    const sMin = Number(
-      typeof item === "object" && item ? (item.stageMin ?? 0) : 0
-    );
-    if (stage >= sMin && sMin >= bestStage) {
-      best = t;
-      bestStage = sMin;
-    }
-  }
-  return best || (typeof rows[rows.length - 1] === "string"
-    ? rows[rows.length - 1]
-    : rows[rows.length - 1]?.text || null);
+  const p = String(path || "love").toLowerCase();
+  const ev = diary?.events?.[eventKey] || {};
+  const lane = ev[p] || ev.any || [];
+  const pick = pickByStageMin(lane, stage);
+  return pick?.text || null;
 }
 
-/**
- * logWitnessed(diary, who, { path, stage, text? })
- * Adds a witnessed line to entries, selecting text from the witnessed
- * catalog if none is provided.
- */
-export function logWitnessed(diary, who, info = {}) {
-  if (!diary) return;
-  const ps = {
-    path: String(info.path || "love").toLowerCase(),
-    stage: Number(info.stage ?? 0),
-  };
-  const t = info.text || selectWitnessedLine(diary, who, ps.path, ps.stage);
-  appendDiaryEntry(diary, {
-    text: t || `[dev] no lane/line for (${who}, path: '${ps.path}', stage: ${ps.stage})`,
-    path: ps.path,
-    stage: ps.stage,
-    tags: ["#witnessed", `#${who}`],
+//// logging ////
+export function appendDiaryEntry(diary, entry) {
+  diary.entries = Array.isArray(diary.entries) ? diary.entries : [];
+  diary.entries.push({
+    at: Date.now(),
+    path: String(entry.path || "love").toLowerCase(),
+    stage: Number(entry.stage ?? 0),
+    text: String(entry.text || "").trim(),
+    tags: asArray(entry.tags),
+    mood: asArray(entry.mood),
   });
 }
 
-/**
- * Select a witnessed line based on who + path (+ "any") with stageMin.
- * Normalized shape (witnessed_flat):
- *   diary.witnessed_flat[who][path] = [ { text, stageMin } ... ]
- *   diary.witnessed_flat[who].any   = [ ... ]
- */
-function selectWitnessedLine(diary, who, path = "love", stage = 0) {
-  const w = diary?.witnessed_flat || {};
-  const byWho = w[String(who).toLowerCase()] || {};
-  const rows =
-    byWho[String(path).toLowerCase()] ||
-    byWho.any ||
-    [];
-  if (!Array.isArray(rows) || rows.length === 0) return null;
+export function logWitnessed(diary, who, info = {}) {
+  const ps = getPairState(diary.characterId, diary.targetId);
+  const path = String(info.path || ps.path || "love").toLowerCase();
+  const stage = Number(info.stage ?? ps.stage ?? 0);
 
-  let best = null;
-  let bestStage = -1;
-  for (const r of rows) {
-    const t = typeof r === "string" ? r : r?.text || null;
-    const sMin = Number((r && r.stageMin) ?? 0);
-    if (!t) continue;
-    if (stage >= sMin && sMin >= bestStage) {
-      best = t;
-      bestStage = sMin;
-    }
-  }
-  return best || (rows[rows.length - 1]?.text || rows[rows.length - 1] || null);
+  const lanes = diary?.witnessed_flat?.[who] || {};
+  const lane = lanes[path] || lanes.any || [];
+  const pick = pickByStageMin(lane, stage);
+
+  appendDiaryEntry(diary, {
+    text:
+      pick?.text ||
+      `[dev] no lane/line for (${who}, path: '${path}', stage: ${stage})`,
+    path,
+    stage,
+    tags: ["#witnessed", `#with:${who}`],
+  });
 }
 
-/* ============================================================
-   Normalizers
-   ============================================================ */
-function normalizeDiary(d) {
-  const diary = { ...d };
+//// loader ////
+async function loadSplitSources(indexUrl, indexJson) {
+  // indexJson.sources may look like:
+  // {
+  //   "desires": "data/diaries/aerith_vagrant/desires.json",
+  //   "witnessed": "data/diaries/aerith_vagrant/caught_others.json",
+  //   "events": { "locations/cave": "data/diaries/aerith_vagrant/locations/cave.json", ... }
+  // }
+  const src = indexJson.sources || {};
+  const out = {};
 
-  // Normalize witnessed into witnessed_flat
-  if (!diary.witnessed_flat) {
-    const src = diary.witnessed || diary.caught_others || {};
-    diary.witnessed_flat = flattenWitnessed(src);
+  if (src.desires) {
+    const r = await fetchJson(assetUrl(src.desires));
+    if (r.ok) out.desires = r.data?.desires || r.data || {};
+  }
+  if (src.witnessed) {
+    const r = await fetchJson(assetUrl(src.witnessed));
+    if (r.ok) out.witnessed = r.data?.caught_others || r.data?.witnessed || r.data || {};
+  }
+  if (isObj(src.events)) {
+    out.events = out.events || {};
+    const entries = Object.entries(src.events);
+    for (const [, url] of entries) {
+      const r = await fetchJson(assetUrl(url));
+      if (r.ok && isObj(r.data)) {
+        // merge by top-level keys (e.g., { first_kiss: { love:[...] } })
+        Object.keys(r.data).forEach((ek) => {
+          out.events[ek] = out.events[ek] || {};
+          const byPath = r.data[ek] || {};
+          Object.keys(byPath).forEach((p) => {
+            out.events[ek][p] = [].concat(out.events[ek][p] || [], asArray(byPath[p]));
+          });
+        });
+      }
+    }
   }
 
-  // Expose for console debugging (optional)
+  return out;
+}
+
+export async function loadDiary(indexUrl) {
+  const r = await fetchJson(indexUrl);
+  if (!r.ok) return null;
+
+  // base object
+  const d = {
+    version: r.data?.version || "1.0",
+    characterId: r.data?.characterId || "unknown",
+    targetId: r.data?.targetId || "unknown",
+    entries: asArray(r.data?.entries),
+  };
+
+  // merge split sources if declared
+  if (isObj(r.data?.sources)) {
+    const merged = await loadSplitSources(indexUrl, r.data);
+    if (merged.desires) d.desires = merged.desires;
+    if (merged.witnessed) d.witnessed = merged.witnessed;
+    if (merged.events) d.events = merged.events;
+  } else {
+    // (legacy) inline
+    if (r.data?.desires) d.desires = r.data.desires;
+    if (r.data?.witnessed) d.witnessed = r.data.witnessed;
+    if (r.data?.events) d.events = r.data.events;
+  }
+
+  // normalize
+  normalizeDesires(d);
+  normalizeWitnessed(d);
+  ensureEvents(d);
+
+  // default pair state if not seen yet
+  setPairState(d.characterId, d.targetId, getPairState(d.characterId, d.targetId));
+
+  // dev surface for quick inspection
   if (typeof window !== "undefined") {
     window.__diaryByPair = window.__diaryByPair || {};
-    const key = `${diary.characterId || "?"}:${diary.targetId || "?"}`;
-    window.__diaryByPair[key] = diary;
+    window.__diaryByPair[pairKey(d.characterId, d.targetId)] = d;
   }
-  return diary;
-}
 
-function normalizeCaughtOthers(caught) {
-  // Input: { tifa: [ {stageMin, path, text}, ... ], renna: [...], yuffie: [...] }
-  return flattenWitnessed(caught);
-}
-
-function flattenWitnessed(raw) {
-  const flat = {};
-  const src = raw || {};
-  for (const [whoKey, arr] of Object.entries(src)) {
-    const who = String(whoKey).toLowerCase();
-    flat[who] = flat[who] || {};
-    const rows = Array.isArray(arr) ? arr : [];
-    for (const item of rows) {
-      const text = typeof item === "string" ? item : (item?.text || "");
-      if (!text) continue;
-      const p = String(item?.path || "any").toLowerCase();
-      const sMin = Number(item?.stageMin ?? 0);
-      flat[who][p] = flat[who][p] || [];
-      flat[who][p].push({ text, stageMin: sMin });
-    }
-    // sort each bucket by stageMin ascending
-    for (const p of Object.keys(flat[who])) {
-      flat[who][p].sort((a, b) => (a.stageMin - b.stageMin));
-    }
-  }
-  return flat;
+  return d;
 }
