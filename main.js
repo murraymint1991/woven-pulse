@@ -386,21 +386,28 @@ function App() {
         );
         break;
 
-      case "interaction.firstKiss": {
-        const ps2 = getPairState(pair.characterId, pair.targetId);
-        const line =
-          selectEventLine(diary, "first_kiss", ps2.path, ps2.stage) ||
-          (diary?.events?.first_kiss?.[ps2.path] || []).slice(-1)[0] ||
-          null;
-        appendDiaryEntry(diary, {
-          text: line || "[dev] no first-kiss line found",
-          path: ps2.path,
-          stage: ps2.stage,
-          mood: ["fluttered"],
-          tags: ["#event:first_kiss", `#with:${pair.targetId}`]
-        });
-        break;
-      }
+case "interaction.firstKiss": {
+  const ps2 = getPairState(pair.characterId, pair.targetId);
+  const line =
+    selectEventLine(diary, "first_kiss", ps2.path, ps2.stage) ||
+    (diary?.events?.first_kiss?.[ps2.path] || []).slice(-1)[0] ||
+    null;
+
+  appendDiaryEntry(diary, {
+    text: line || "[dev] no first-kiss line found",
+    path: ps2.path,
+    stage: ps2.stage,
+    mood: ["fluttered"],
+    tags: ["#event:first_kiss", `#with:${pair.targetId}`]
+  });
+
+  // NEW — bump relationship and clamp to 0..100
+  setRelationship((r) => Math.max(0, Math.min(100, r + 10)));
+  // NEW — force re-render of diary (optional here since you already do it at the end)
+  // setDiaryByPair(prev => ({ ...prev }));
+
+  break;
+}
 
       case "location.enter":
         push(`[entered ${payload.place || "somewhere"}]`, { tags: ["#location"] });
