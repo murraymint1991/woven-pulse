@@ -429,12 +429,15 @@ function App() {
         });
         break;
 
-      default:
-        push(`[event:${type}]`, { tags: ["#event"] });
-        break;
-    }
+    default:
+      push(`[event:${type}]`, { tags: ["#event"] });
+      break;
   }
-  if (typeof window !== "undefined") window.emitGameEvent = (t, p) => emitGameEvent(t, p);
+  
+  // ➜ force re-render so diary entries appear immediately
+  setDiaryByPair(prev => ({ ...prev }));
+}
+if (typeof window !== "undefined") window.emitGameEvent = (t, p) => emitGameEvent(t, p);
 
   // -------- UI HELPERS --------
   const flash = (msg) => {
@@ -567,9 +570,13 @@ function App() {
       </div>
 
       <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
-        <button id="hud-run" style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">Run Health</button>
-        <button id="hud-copy" style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">Copy Report</button>
-        <button id="hud-day" style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">+ Day</button>
+        <button id="hud-run"  ...>Run Health</button>
+        <button id="hud-copy" ...>Copy Report</button>
+        <button id="hud-day"  ...>+ Day</button>
+        <!-- NEW -->
+        <button id="hud-kiss" style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">
+          Test: First Kiss
+        </button>
       </div>
     `;
 
@@ -580,6 +587,9 @@ function App() {
     if (btnRun) btnRun.onclick = () => !healthRunning && runHealthCheck();
     if (btnCopy) btnCopy.onclick = () => copyHealthMarkdown();
     if (btnDay)  btnDay.onclick  = () => setDay((d) => d + 1);
+    const btnKiss = el.querySelector("#hud-kiss");
+    if (btnKiss) btnKiss.onclick = () => emitGameEvent("interaction.firstKiss");
+
   }
 
   // re-render HUD whenever these change
