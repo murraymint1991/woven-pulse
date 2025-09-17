@@ -722,6 +722,43 @@ const Home = () =>
       }
     }
   }
+  // ---- NEW: Characters / Relationships / Status checks ----
+
+  // Characters (iterate your DATA.characters list)
+  for (const path of DATA.characters) {
+    const url = assetUrl(path) + `?v=${Date.now()}`;
+    const file = path.split("/").pop();
+    const r = await validateUrlPlus(url, CharacterFileSchema, `characters/${file}`);
+    // r.issues will show as a badge if > 0
+    add(r.ok, r.label, r.ok ? { issues: r.issues } : { error: r.error });
+  }
+
+  // Relationships (single file in DATA.relationships)
+  if (DATA.relationships) {
+    const relUrl = assetUrl(DATA.relationships) + `?v=${Date.now()}`;
+    const rel = await validateUrl(relUrl, RelationshipsFileSchema, "relationships_v1.json");
+    add(rel.ok, rel.label, rel.ok ? {} : { error: rel.error || rel.issues });
+  }
+
+  // Status (mind/body) — loop each character in DATA.statusByChar
+  const sbc = DATA.statusByChar || {};
+  for (const [charId, paths] of Object.entries(sbc)) {
+    for (const key of ["mind", "body"]) {
+      const p = paths[key];
+      if (!p) continue;
+      const url = assetUrl(p) + `?v=${Date.now()}`;
+      const label = `${charId} · ${key}`;
+      const r = await validateUrlPlus(
+        url,
+        StatusLooseSchema,
+        label,
+        // count simple out-of-range numbers as "issues" (0..100)
+        (data) => countNumericOutOfRange(data, 0, 100)
+      );
+      // show issues badge if any; otherwise error badge if invalid
+      add(r.ok, label, r.ok ? (r.issues ? { issues: r.issues } : {}) : { error: r.error });
+    }
+  }
 
   setHealth(rows);
   setHealthRunning(false);
