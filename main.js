@@ -173,6 +173,20 @@ function App() {
   const [slots, setSlots] = useState(Array.from({ length: 20 }, () => null));
   const [autosaveMeta, setAutosaveMeta] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
+  
+  // One-off flags per pair, e.g. { "aerith:vagrant": { firstKiss: true } }
+  const [pairFlags, setPairFlags] = useState({});
+  
+  function getFlag(pairId, key) {
+    return Boolean(pairFlags?.[pairId]?.[key]);
+  }
+  
+  function setFlag(pairId, key, val = true) {
+    setPairFlags(prev => ({
+      ...prev,
+      [pairId]: { ...(prev[pairId] || {}), [key]: !!val }
+    }));
+  }
 
   // Health Checker
   const [health, setHealth] = useState([]);
@@ -387,6 +401,19 @@ function App() {
         break;
 
 case "interaction.firstKiss": {
+  const pairId = pairKey(pair.characterId, pair.targetId);
+  if (getFlag(pairId, "firstKiss")) {
+    // Already happened—log a softer echo instead (no relationship gain)
+    appendDiaryEntry(diary, {
+      text: "[We stole another quick kiss—sweet, familiar, and somehow braver than before.]",
+      path: ps2.path,
+      stage: ps2.stage,
+      mood: ["warm"],
+      tags: ["#event:first_kiss:repeat", `#with:${pair.targetId}`]
+    });
+    break;
+  }
+
   const ps2 = getPairState(pair.characterId, pair.targetId);
   const line =
     selectEventLine(diary, "first_kiss", ps2.path, ps2.stage) ||
@@ -400,6 +427,11 @@ case "interaction.firstKiss": {
     mood: ["fluttered"],
     tags: ["#event:first_kiss", `#with:${pair.targetId}`]
   });
+
+  setFlag(pairId, "firstKiss", true); // <-- mark as done
+  addRelationship(18);                // <-- use new slow-burn math (see below)
+  break;
+}
 
   // NEW — bump relationship and clamp to 0..100
   setRelationship((r) => Math.max(0, Math.min(100, r + 10)));
