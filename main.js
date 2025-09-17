@@ -14,7 +14,13 @@ import {
   DesiresSchema,
   WitnessedSchema,
   EventFileSchema,
-  validateUrl
+  validateUrl,
+  // NEW:
+  CharacterFileSchema,
+  RelationshipsFileSchema,
+  StatusLooseSchema,
+  countNumericOutOfRange,
+  validateUrlPlus
 } from "./js/validation.js";
 
 // ----- Traits
