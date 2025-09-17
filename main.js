@@ -400,46 +400,42 @@ function App() {
         );
         break;
 
-case "interaction.firstKiss": {
-  const pairId = pairKey(pair.characterId, pair.targetId);
-  if (getFlag(pairId, "firstKiss")) {
-    // Already happened—log a softer echo instead (no relationship gain)
-    appendDiaryEntry(diary, {
-      text: "[We stole another quick kiss—sweet, familiar, and somehow braver than before.]",
-      path: ps2.path,
-      stage: ps2.stage,
-      mood: ["warm"],
-      tags: ["#event:first_kiss:repeat", `#with:${pair.targetId}`]
-    });
-    break;
-  }
-
-  const ps2 = getPairState(pair.characterId, pair.targetId);
-  const line =
-    selectEventLine(diary, "first_kiss", ps2.path, ps2.stage) ||
-    (diary?.events?.first_kiss?.[ps2.path] || []).slice(-1)[0] ||
-    null;
-
-  appendDiaryEntry(diary, {
-    text: line || "[dev] no first-kiss line found",
-    path: ps2.path,
-    stage: ps2.stage,
-    mood: ["fluttered"],
-    tags: ["#event:first_kiss", `#with:${pair.targetId}`]
-  });
-
-  setFlag(pairId, "firstKiss", true); // <-- mark as done
-  addRelationship(18);                // <-- use new slow-burn math (see below)
-  break;
-}
-
-  // NEW — bump relationship and clamp to 0..100
-  setRelationship((r) => Math.max(0, Math.min(100, r + 10)));
-  // NEW — force re-render of diary (optional here since you already do it at the end)
-  // setDiaryByPair(prev => ({ ...prev }));
-
-  break;
-}
+      case "interaction.firstKiss": {
+        const pairId = pairKey(pair.characterId, pair.targetId);
+      
+        // already happened? -> soft echo only, no score
+        if (getFlag(pairId, "firstKiss")) {
+          appendDiaryEntry(diary, {
+            text: "[We stole another quick kiss—sweet, familiar, and somehow braver than before.]",
+            path: ps.path,     // use ps here (defined at top of emitGameEvent)
+            stage: ps.stage,
+            mood: ["warm"],
+            tags: ["#event:first_kiss:repeat", `#with:${pair.targetId}`]
+          });
+          break;
+        }
+      
+        // first time
+        const ps2 = getPairState(pair.characterId, pair.targetId);
+        const line =
+          selectEventLine(diary, "first_kiss", ps2.path, ps2.stage) ||
+          (diary?.events?.first_kiss?.[ps2.path] || []).slice(-1)[0] ||
+          null;
+      
+        appendDiaryEntry(diary, {
+          text: line || "[dev] no first-kiss line found",
+          path: ps2.path,
+          stage: ps2.stage,
+          mood: ["fluttered"],
+          tags: ["#event:first_kiss", `#with:${pair.targetId}`]
+        });
+      
+        setFlag(pairId, "firstKiss", true); // mark once-only
+      
+        // TEMP until we add slow-burn helper:
+        setRelationship((r) => Math.max(0, Math.min(100, r + 10)));
+        break;
+      }
 
       case "location.enter":
         push(`[entered ${payload.place || "somewhere"}]`, { tags: ["#location"] });
