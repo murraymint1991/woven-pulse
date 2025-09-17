@@ -188,6 +188,136 @@ function App() {
     }));
   }
 
+// ---- Relationship Tiers (ordered worst -> best) ----
+const TIERS = [
+  { id: "enemies",       name: "Enemies",       decayPerDay: 1,  dropFloor: 10 },
+  { id: "repulsive",     name: "Repulsive",     decayPerDay: 1,  dropFloor: 15 },
+  { id: "dislike",       name: "Dislike",       decayPerDay: 1,  dropFloor: 20 },
+  { id: "neutral",       name: "Neutral",       decayPerDay: 0,  dropFloor: 0  },
+  { id: "acquaintance",  name: "Acquaintances", decayPerDay: 1,  dropFloor: 30 },
+  { id: "friends",       name: "Friends",       decayPerDay: 1,  dropFloor: 40 },
+  { id: "close_friends", name: "Close Friends", decayPerDay: 1,  dropFloor: 50 },
+  { id: "more_than",     name: "More Than Friends", decayPerDay: 1, gate: { flag: "firstKiss" }, dropFloor: 60 },
+  { id: "romantic",      name: "Romantic",      decayPerDay: 2,  dropFloor: 65 },
+  { id: "lovers",        name: "Lovers",        decayPerDay: 2,  dropFloor: 70 },
+  { id: "bonded",        name: "Bonded",        decayPerDay: 2,  dropFloor: 75 },
+  { id: "married",       name: "Married",       decayPerDay: 0.5, dropFloor: 80 }
+];
+const NEUTRAL_IDX = TIERS.findIndex(t => t.id === "neutral");
+
+// per-pair: { "aerith:vagrant": { tier: idx, score: 0..100, lastDay, lastGainDay, gainedToday } }
+const [pairRel, setPairRel] = useState({});
+function getPairRel(pid) { return pairRel[pid] || { tier: NEUTRAL_IDX, score: 0, lastDay: day }; }
+function setPairRelState(pid, next) {
+  setPairRel(prev => ({ ...prev, [pid]: (typeof next === "function" ? next(getPairRel(pid)) : next) }));
+}
+
+  // Diminishing returns: percentage of remaining distance with curvature
+function effectiveGain(remain, basePercent, stiffness = 1.3) {
+  if (remain <= 0) return 0;
+  const g = Math.ceil(remain * Math.pow(Math.abs(basePercent) / 100, stiffness));
+  return Math.max(1, Math.min(g, remain));
+}
+
+function canAdvanceTier(pid, tier) {
+  const next = TIERS[tier + 1];
+  if (!next) return false;
+  const gate = next.gate;
+  if (gate?.flag) return !!getFlag(pid, gate.flag);
+  return true;
+}
+
+// Apply a change where basePercent > 0 moves toward better tiers, < 0 toward worse.
+function addRelationshipSlow(pid, basePercent = 10, opts = {}) {
+  const { stiffness = 1.3, dailyCap = 30 } = opts;
+
+  setPairRelState(pid, (cur) => {
+    let { tier, score } = cur;
+    const forward = basePercent >= 0;
+
+    // daily anti-spam cap (applies to absolute movement)
+    const gainedToday = (cur.lastGainDay === day && cur.gainedToday) ? cur.gainedToday : 0;
+    let roomToday = Math.max(0, dailyCap - gainedToday);
+    if (roomToday <= 0) return { ...cur, lastGainDay: day, gainedToday };
+
+    // remaining distance within this tier (forward: up to 100; backward: down to 0)
+    const remain = forward ? Math.min(100 - score, roomToday) : Math.min(score, roomToday);
+    if (remain <= 0) return { ...cur, lastGainDay: day, gainedToday };
+
+    const step = effectiveGain(remain, basePercent, stiffness);
+
+    if (forward) {
+      score += step;
+      // tier up?
+      if (score >= 100) {
+        if (canAdvanceTier(pid, tier)) {
+          tier = Math.min(tier + 1, TIERS.length - 1);
+          score = 0; // start fresh in next tier
+        } else {
+          score = 99; // parked just under cap until gate met
+        }
+      }
+    } else {
+      // backward movement (more negative)
+      score -= step;
+      // tier down?
+      if (score <= 0) {
+        if (tier > 0) {
+          tier = Math.max(0, tier - 1);
+          score = 100; // drop into previous tier at top
+        } else {
+          score = 0; // already at worst
+        }
+      }
+    }
+
+    return {
+      ...cur,
+      tier,
+      score,
+      lastDay: day,
+      lastGainDay: day,
+      gainedToday: gainedToday + step
+    };
+  });
+}
+
+// Daily decay: positives erode (toward neutral), negatives soften (toward neutral)
+function applyDailyDecay(pid, days = 1) {
+  if (days <= 0) return;
+  setPairRelState(pid, (cur) => {
+    let { tier, score } = cur;
+
+    for (let i = 0; i < days; i++) {
+      const decay = TIERS[tier]?.decayPerDay || 0;
+
+      if (tier > NEUTRAL_IDX) {
+        // positive side: decay lowers score
+        score = Math.max(0, score - decay);
+        // if score hits 0, we *consider* dropping, but respect a drop floor “stickiness”
+        if (score === 0 && tier > NEUTRAL_IDX) {
+          const floor = TIERS[tier].dropFloor || 0;
+          // if yesterday's score was already below floor, allow drop
+          if ((cur.lastDay || day) < day && cur.score < floor) {
+            tier = Math.max(NEUTRAL_IDX, tier - 1);
+            score = TIERS[tier].dropFloor ? Math.min(100, TIERS[tier].dropFloor) : 0;
+          }
+        }
+      } else if (tier < NEUTRAL_IDX) {
+        // negative side: decay increases score (softens hostility)
+        score = Math.min(100, score + decay);
+        // if score reaches 100, move one tier toward neutral
+        if (score >= 100) {
+          tier = Math.min(NEUTRAL_IDX, tier + 1);
+          score = 0;
+        }
+      } // neutral tier has no decay by default
+    }
+
+    return { ...cur, tier, score, lastDay: day };
+  });
+}
+
   // Health Checker
   const [health, setHealth] = useState([]);
   const [healthRunning, setHealthRunning] = useState(false);
@@ -430,7 +560,9 @@ function App() {
           tags: ["#event:first_kiss", `#with:${pair.targetId}`]
         });
       
-        setFlag(pairId, "firstKiss", true); // mark once-only
+        setFlag(pairId, "firstKiss", true);
+        addRelationshipSlow(pairId, 18); // forward slow-burn gain (tuned)
+        addRelationshipSlow(pairId, -12); // moves toward worse tiers, slow-burn
       
         // TEMP until we add slow-burn helper:
         setRelationship((r) => Math.max(0, Math.min(100, r + 10)));
@@ -590,6 +722,9 @@ if (typeof window !== "undefined") window.emitGameEvent = (t, p) => emitGameEven
     const status = statusMap?.aerith || {};
     const mindCount = status.mind ? Object.keys(status.mind).length : 0;
     const bodyCount = status.body ? Object.keys(status.body).length : 0;
+    const pairTxt = `${pair.characterId}:${pair.targetId}`;
+    const relObj = getPairRel(pairTxt);
+    const tierName = TIERS[relObj.tier]?.name || "Neutral";
 
     el.innerHTML = `
       <div style="display:flex;align-items:center;gap:8px;">
@@ -600,6 +735,7 @@ if (typeof window !== "undefined") window.emitGameEvent = (t, p) => emitGameEven
         <div>Pair: <strong>${pairTxt}</strong></div>
         <div>Day: <strong>${day}</strong></div>
         <div>Relationship: <strong>${relationship}</strong></div>
+        <div>Tier: <strong>${tierName}</strong> · Score: <strong>${relObj.score}</strong>/100</div>
         <div>Last event: <strong>${lastEvent || "—"}</strong></div>
         <div>Aerith Mind keys: <strong>${mindCount}</strong> · Body keys: <strong>${bodyCount}</strong></div>
       </div>
@@ -618,10 +754,12 @@ if (typeof window !== "undefined") window.emitGameEvent = (t, p) => emitGameEven
     // wire buttons
     const btnRun = el.querySelector("#hud-run");
     const btnCopy = el.querySelector("#hud-copy");
-    const btnDay  = el.querySelector("#hud-day");
-    if (btnRun) btnRun.onclick = () => !healthRunning && runHealthCheck();
-    if (btnCopy) btnCopy.onclick = () => copyHealthMarkdown();
-    if (btnDay)  btnDay.onclick  = () => setDay((d) => d + 1);
+    const btnDay = el.querySelector("#hud-day");
+    if (btnDay) btnDay.onclick = () => {
+      setDay((d) => d + 1);
+      const pid = `${pair.characterId}:${pair.targetId}`;
+      applyDailyDecay(pid, 1);
+    };
     const btnKiss = el.querySelector("#hud-kiss");
     if (btnKiss) btnKiss.onclick = () => emitGameEvent("interaction.firstKiss");
 
