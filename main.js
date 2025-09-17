@@ -562,10 +562,6 @@ function applyDailyDecay(pid, days = 1) {
       
         setFlag(pairId, "firstKiss", true);
         addRelationshipSlow(pairId, 18); // forward slow-burn gain (tuned)
-        addRelationshipSlow(pairId, -12); // moves toward worse tiers, slow-burn
-      
-        // TEMP until we add slow-burn helper:
-        setRelationship((r) => Math.max(0, Math.min(100, r + 10)));
         break;
       }
 
@@ -722,7 +718,6 @@ if (typeof window !== "undefined") window.emitGameEvent = (t, p) => emitGameEven
     const status = statusMap?.aerith || {};
     const mindCount = status.mind ? Object.keys(status.mind).length : 0;
     const bodyCount = status.body ? Object.keys(status.body).length : 0;
-    const pairTxt = `${pair.characterId}:${pair.targetId}`;
     const relObj = getPairRel(pairTxt);
     const tierName = TIERS[relObj.tier]?.name || "Neutral";
 
@@ -741,9 +736,9 @@ if (typeof window !== "undefined") window.emitGameEvent = (t, p) => emitGameEven
       </div>
 
       <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
-        <button id="hud-run"  ...>Run Health</button>
-        <button id="hud-copy" ...>Copy Report</button>
-        <button id="hud-day"  ...>+ Day</button>
+      <button id="hud-run"  style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">Run Health</button>
+      <button id="hud-copy" style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">Copy Report</button>
+      <button id="hud-day"  style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">+ Day</button>
         <!-- NEW -->
         <button id="hud-kiss" style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">
           Test: First Kiss
@@ -752,17 +747,18 @@ if (typeof window !== "undefined") window.emitGameEvent = (t, p) => emitGameEven
     `;
 
     // wire buttons
-    const btnRun = el.querySelector("#hud-run");
+    const btnRun  = el.querySelector("#hud-run");
     const btnCopy = el.querySelector("#hud-copy");
-    const btnDay = el.querySelector("#hud-day");
-    if (btnDay) btnDay.onclick = () => {
+    const btnDay  = el.querySelector("#hud-day");
+    if (btnRun)  btnRun.onclick  = () => !healthRunning && runHealthCheck();
+    if (btnCopy) btnCopy.onclick = () => copyHealthMarkdown();
+    if (btnDay)  btnDay.onclick  = () => {
       setDay((d) => d + 1);
       const pid = `${pair.characterId}:${pair.targetId}`;
       applyDailyDecay(pid, 1);
     };
     const btnKiss = el.querySelector("#hud-kiss");
     if (btnKiss) btnKiss.onclick = () => emitGameEvent("interaction.firstKiss");
-
   }
 
   // re-render HUD whenever these change
