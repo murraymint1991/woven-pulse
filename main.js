@@ -362,6 +362,7 @@ function App() {
   // GAME EVENT DISPATCH (used by DiaryView dev buttons)
   // =================================================================
   function emitGameEvent(type, payload = {}) {
+    setLastEvent(type);
     const key = pairKey(pair.characterId, pair.targetId);
     const diary = diaryByPair[key];
     if (!diary) return;
@@ -505,6 +506,87 @@ function App() {
     flash("Copied Health report.");
   };
 
+    // ---- Dev HUD (overlay) ----
+  const [hudVisible, setHudVisible] = useState(false);
+  const [lastEvent, setLastEvent] = useState(null);
+  const [day, setDay] = useState(1);
+
+  // global toggle via F10
+  useEffect(() => {
+    const onKey = (e) => {
+      // F10 (some keyboards report 'F10', code 'F10')
+      if (e.key === "F10") {
+        e.preventDefault();
+        setHudVisible((v) => !v);
+      }
+    };
+    addEventListener("keydown", onKey);
+    return () => removeEventListener("keydown", onKey);
+  }, []);
+
+  function ensureHudRoot() {
+    let el = document.getElementById("dev-hud");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "dev-hud";
+      el.style.cssText = [
+        "position:fixed;top:12px;right:12px;z-index:9999",
+        "min-width:240px;max-width:320px",
+        "padding:10px;border-radius:10px",
+        "background:rgba(17,24,39,0.92);color:#fff",
+        "font:12px ui-monospace, SFMono-Regular, Menlo, monospace",
+        "box-shadow:0 6px 20px rgba(0,0,0,.35)",
+        "backdrop-filter: blur(4px)"
+      ].join(";");
+      document.body.appendChild(el);
+    }
+    return el;
+  }
+
+  function renderHud() {
+    const el = ensureHudRoot();
+    if (!hudVisible) { el.style.display = "none"; return; }
+    el.style.display = "block";
+
+    const pairTxt = `${pair.characterId}:${pair.targetId}`;
+    const status = statusMap?.aerith || {};
+    const mindCount = status.mind ? Object.keys(status.mind).length : 0;
+    const bodyCount = status.body ? Object.keys(status.body).length : 0;
+
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="font-weight:700;">DEV HUD</div>
+        <div style="margin-left:auto;opacity:.75">F10 to toggle</div>
+      </div>
+      <div style="margin-top:8px;display:grid;gap:6px;">
+        <div>Pair: <strong>${pairTxt}</strong></div>
+        <div>Day: <strong>${day}</strong></div>
+        <div>Relationship: <strong>${relationship}</strong></div>
+        <div>Last event: <strong>${lastEvent || "—"}</strong></div>
+        <div>Aerith Mind keys: <strong>${mindCount}</strong> · Body keys: <strong>${bodyCount}</strong></div>
+      </div>
+
+      <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
+        <button id="hud-run" style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">Run Health</button>
+        <button id="hud-copy" style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">Copy Report</button>
+        <button id="hud-day" style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">+ Day</button>
+      </div>
+    `;
+
+    // wire buttons
+    const btnRun = el.querySelector("#hud-run");
+    const btnCopy = el.querySelector("#hud-copy");
+    const btnDay  = el.querySelector("#hud-day");
+    if (btnRun) btnRun.onclick = () => !healthRunning && runHealthCheck();
+    if (btnCopy) btnCopy.onclick = () => copyHealthMarkdown();
+    if (btnDay)  btnDay.onclick  = () => setDay((d) => d + 1);
+  }
+
+  // re-render HUD whenever these change
+  useEffect(() => { renderHud(); }, [
+    hudVisible, pair.characterId, pair.targetId, relationship, lastEvent, statusMap, day, healthRunning
+  ]);
+
   // -------- MEMOS --------
   const summaryText = useMemo(
     () => `${chars.length} char · ${scenesCount} scenes · traits: ${traitsFound ? "yes" : "no"}`,
@@ -627,6 +709,12 @@ h("div", { class: "grid" }, [
       healthRunning ? h(Badge, null, "Working…") : null
     ]),
 
+    // Toggle Button
+    h(
+  Button,
+  { ghost: true, onClick: () => setHudVisible(v => !v) },
+  hudVisible ? "Hide HUD" : "Show HUD"
+),
     // Results list
     h(
       "div",
