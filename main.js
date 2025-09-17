@@ -565,91 +565,92 @@ const Home = () =>
       h(Nav, null)
     ])),
 
-    // top grid: Data / Saves / Health
-    h("div", { class: "grid" }, [
-      // Data Import
-      h("div", { class: "card" }, [
-        h("h3", null, "Data Import"),
-        loading
-          ? h("div", { class: "kv" }, "Loading data…")
-          : h("div", { class: "kv" }, h(Badge, null, [h(Dot, { ok: chars.length > 0 }), " ", summaryText])),
-        h("div", { class: "small", style: "margin-top:8px" },
-          "Files under /data/... — tap any to open raw JSON."
-        ),
-        h("div", { class: "small", style: "margin-top:8px" },
-          details.map((d) =>
-            h("div", { class: "kv" }, [
-              h(Dot, { ok: d.status === "ok" }),
-              h(
-                "a",
-                { href: assetUrl(`data/${d.label}`), target: "_blank", style: "margin-left:4px" },
-                d.label
-              )
-            ])
+// top grid: Data / Saves / Health
+h("div", { class: "grid" }, [
+  // Data Import
+  h("div", { class: "card" }, [
+    h("h3", null, "Data Import"),
+    loading
+      ? h("div", { class: "kv" }, "Loading data…")
+      : h("div", { class: "kv" }, h(Badge, null, [h(Dot, { ok: chars.length > 0 }), " ", summaryText])),
+    h("div", { class: "small", style: "margin-top:8px" },
+      "Files under /data/... — tap any to open raw JSON."
+    ),
+    h("div", { class: "small", style: "margin-top:8px" },
+      details.map((d, i) =>
+        h("div", { class: "kv", key: i }, [
+          h(Dot, { ok: d.status === "ok" }),
+          h(
+            "a",
+            { href: assetUrl(`data/${d.label}`), target: "_blank", style: "margin-left:4px" },
+            d.label
           )
-        )
-      ]),
-
-      // Saves
-      h("div", { class: "card" }, [
-        h("h3", null, "Saves"),
-        h("div", { class: "kv" }, [
-          h(Button, { onClick: doAutosave }, "Autosave"),
-          h(Button, { onClick: doManualSave }, "Manual Save"),
-          h(Button, { ghost: true, onClick: clearAllSaves }, "Clear All")
-        ]),
-        autosaveMeta
-          ? h("div", { class: "kv" },
-              h(Badge, null, `Autosave · ${autosaveMeta.at} · rel ${autosaveMeta.rel}`)
-            )
-          : h("div", { class: "kv small" }, "No autosave yet."),
-        h("div", { class: "small" }, "Slot clicks are stubs for now (load logic not wired yet).")
-      ]),
-
-// Health Checker (NEW)
-h("div", { class: "card" }, [
-  h("h3", null, "Health Check"),
-  h("div", { class: "kv" }, [
-    h(
-      Button,
-      { onClick: () => !healthRunning && runHealthCheck(), disabled: healthRunning },
-      healthRunning ? "Running…" : "Run Health Check"
-    ),
-    h(
-      Button,
-      {
-        ghost: true,
-        onClick: () => copyHealthMarkdown(),
-        disabled: !health || !health.length
-      },
-      "Copy Report (MD)"
-    ),
-    healthRunning ? h(Badge, null, "Working…") : null
+        ])
+      )
+    )
   ]),
 
-  // Results list
-  h(
-    "div",
-    { class: "small", style: "margin-top:8px" },
-    health && health.length
-      ? health.map((r, i) =>
-          h("div", { class: "kv", key: i }, [
-            h(Dot, { ok: !!r.ok }),
-            h("span", { style: "margin-left:6px" }, r.label),
-            r.error
-              ? h(Badge, { ghost: true, style: "margin-left:6px" }, "error")
-              : null,
-            typeof r.issues === "number" && r.issues > 0
-              ? h(
-                  Badge,
-                  { ghost: true, style: "margin-left:6px" },
-                  `${r.issues} issue${r.issues === 1 ? "" : "s"}`
-                )
-              : null
-          ])
+  // Saves
+  h("div", { class: "card" }, [
+    h("h3", null, "Saves"),
+    h("div", { class: "kv" }, [
+      h(Button, { onClick: doAutosave }, "Autosave"),
+      h(Button, { onClick: doManualSave }, "Manual Save"),
+      h(Button, { ghost: true, onClick: clearAllSaves }, "Clear All")
+    ]),
+    autosaveMeta
+      ? h("div", { class: "kv" },
+          h(Badge, null, `Autosave · ${autosaveMeta.at} · rel ${autosaveMeta.rel}`)
         )
-      : h("div", null, "No results yet.")
-  )
+      : h("div", { class: "kv small" }, "No autosave yet."),
+    h("div", { class: "small" }, "Slot clicks are stubs for now (load logic not wired yet).")
+  ]),
+
+  // Health Checker
+  h("div", { class: "card" }, [
+    h("h3", null, "Health Check"),
+    h("div", { class: "kv" }, [
+      h(
+        Button,
+        { onClick: () => !healthRunning && runHealthCheck(), disabled: healthRunning },
+        healthRunning ? "Running…" : "Run Health Check"
+      ),
+      h(
+        Button,
+        {
+          ghost: true,
+          onClick: () => copyHealthMarkdown(),
+          disabled: !health || !health.length
+        },
+        "Copy Report (MD)"
+      ),
+      healthRunning ? h(Badge, null, "Working…") : null
+    ]),
+
+    // Results list
+    h(
+      "div",
+      { class: "small", style: "margin-top:8px" },
+      health && health.length
+        ? health.map((r, i) =>
+            h("div", { class: "kv", key: i }, [
+              h(Dot, { ok: !!r.ok }),
+              h("span", { style: "margin-left:6px" }, r.label),
+              r.error
+                ? h(Badge, { ghost: true, style: "margin-left:6px" }, "error")
+                : null,
+              (typeof r.issues === "number" && r.issues > 0)
+                ? h(
+                    Badge,
+                    { ghost: true, style: "margin-left:6px" },
+                    `${r.issues} issue${r.issues === 1 ? "" : "s"}`
+                  )
+                : null
+            ])
+          )
+        : h("div", null, "No results yet.")
+    )
+  ])
 ]),
 
     // Manual Slots section
