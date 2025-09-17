@@ -471,6 +471,39 @@ function App() {
     clearAllSaves();
     location.reload();
   };
+  // ---- Health report → Markdown + Copy ----
+  const healthToMarkdown = (rows) => {
+    if (!rows || !rows.length) return "# Health Check Report\n\n- (no results)\n";
+    const total = rows.length;
+    const errors = rows.filter(r => r.error).length;
+    const warns  = rows.filter(r => !r.error && typeof r.issues === "number" && r.issues > 0).length;
+
+    const lines = [];
+    lines.push("# Health Check Report");
+    lines.push("");
+    lines.push(`- Total checks: **${total}**`);
+    lines.push(`- Errors: **${errors}**`);
+    lines.push(`- Warnings: **${warns}**`);
+    lines.push("");
+
+    for (const r of rows) {
+      const status = r.error ? "⛔ error" : (r.issues ? `⚠️ ${r.issues} issue${r.issues === 1 ? "" : "s"}` : "✅ ok");
+      lines.push(`- ${status} — ${r.label}`);
+      if (r.error) {
+        const err = Array.isArray(r.error) ? r.error.map(e => e.message || JSON.stringify(e)).join("; ") : String(r.error);
+        lines.push(`  - detail: ${err}`);
+      }
+    }
+    lines.push("");
+    lines.push(`_Generated: ${new Date().toLocaleString()}_`);
+    return lines.join("\n");
+  };
+
+  const copyHealthMarkdown = () => {
+    const md = healthToMarkdown(health);
+    navigator.clipboard.writeText(md);
+    flash("Copied Health report.");
+  };
 
   // -------- MEMOS --------
   const summaryText = useMemo(
@@ -573,17 +606,29 @@ const Home = () =>
         h("div", { class: "small" }, "Slot clicks are stubs for now (load logic not wired yet).")
       ]),
 
-      // Health Checker (NEW)
-      h("div", { class: "card" }, [
-        h("h3", null, "Health Check"),
-        h("div", { class: "kv" }, [
-          h(
-            Button,
-            { onClick: () => !healthRunning && runHealthCheck(), disabled: healthRunning },
-            healthRunning ? "Running…" : "Run Health Check"
-          ),
-          healthRunning ? h(Badge, null, "Working…") : null
-        ]),
+// Health Checker (NEW)
+h("div", { class: "card" }, [
+  h("h3", null, "Health Check"),
+  h("div", { class: "kv" }, [
+    h(
+      Button,
+      { onClick: () => !healthRunning && runHealthCheck(), disabled: healthRunning },
+      healthRunning ? "Running…" : "Run Health Check"
+    ),
+    h(
+      Button,
+      {
+        ghost: true,
+        onClick: () => copyHealthMarkdown(),
+        disabled: !health || !health.length
+      },
+      "Copy Report (MD)"
+    ),
+    healthRunning ? h(Badge, null, "Working…") : null
+  ]),
+  ...
+])
+,
 
         // Results list
         h(
