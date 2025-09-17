@@ -626,33 +626,31 @@ h("div", { class: "card" }, [
     ),
     healthRunning ? h(Badge, null, "Working…") : null
   ]),
-  ...
-])
-,
 
-        // Results list
-        h(
-          "div",
-          { class: "small", style: "margin-top:8px" },
-          health && health.length
-            ? health.map((r) =>
-                h("div", { class: "kv" }, [
-                  h(Dot, { ok: !!r.ok }),
-                  h("span", { style: "margin-left:6px" }, r.label),
-                  r.error
-                    ? h(Badge, { ghost: true, style: "margin-left:6px" }, "error")
-                    : null,
-                  (typeof r.issues === "number" && r.issues > 0)
-                    ? h(Badge, { ghost: true, style: "margin-left:6px" },
-                        `${r.issues} issue${r.issues === 1 ? "" : "s"}`
-                      )
-                    : null
-                ])
-              )
-            : h("div", null, "No results yet.")
+  // Results list
+  h(
+    "div",
+    { class: "small", style: "margin-top:8px" },
+    health && health.length
+      ? health.map((r, i) =>
+          h("div", { class: "kv", key: i }, [
+            h(Dot, { ok: !!r.ok }),
+            h("span", { style: "margin-left:6px" }, r.label),
+            r.error
+              ? h(Badge, { ghost: true, style: "margin-left:6px" }, "error")
+              : null,
+            typeof r.issues === "number" && r.issues > 0
+              ? h(
+                  Badge,
+                  { ghost: true, style: "margin-left:6px" },
+                  `${r.issues} issue${r.issues === 1 ? "" : "s"}`
+                )
+              : null
+          ])
         )
-      ])
-    ]),
+      : h("div", null, "No results yet.")
+  )
+]),
 
     // Manual Slots section
     h("div", { class: "card", style: "margin-top:12px" }, [
