@@ -747,7 +747,7 @@ if (btnSnipe) btnSnipe.onclick = () => {
 
   // re-render HUD whenever these change
 useEffect(() => { renderHud(); }, [
-  hudVisible, pair.characterId, pair.targetId, lastEvent, statusMap, day, healthRunning
+  hudVisible, pair.characterId, pair.targetId, lastEvent, statusMap, day, healthRunning, pairRel
 ]);
 
   // -------- MEMOS --------
