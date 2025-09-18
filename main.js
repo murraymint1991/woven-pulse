@@ -3,7 +3,7 @@
 // ===============================
 
 import { h, render } from "https://esm.sh/preact@10.22.0";
-import { useEffect, useMemo, useState } from "https://esm.sh/preact@10.22.0/hooks";
+import { useEffect, useMemo, useState, useRef } from "https://esm.sh/preact@10.22.0/hooks";
 
 import { sleep, nowStamp, fetchJson, countScenesAnywhere } from "./js/utils.js";
 import { Button, Badge, Dot } from "./js/ui.js";
@@ -697,67 +697,6 @@ const doManualSave = () => {
   const [hudVisible, setHudVisible] = useState(false);
   const [lastEvent, setLastEvent] = useState(null);
   const [day, setDay] = useState(1);
-
-  // global toggle via F10
-  useEffect(() => {
-    const onKey = (e) => {
-      // F10 (some keyboards report 'F10', code 'F10')
-      if (e.key === "F10") {
-        e.preventDefault();
-        setHudVisible((v) => !v);
-      }
-    };
-    addEventListener("keydown", onKey);
-    return () => removeEventListener("keydown", onKey);
-  }, []);
-
-    // wire buttons
-    const btnRun  = el.querySelector("#hud-run");
-    const btnCopy = el.querySelector("#hud-copy");
-    const btnDay  = el.querySelector("#hud-day");
-    if (btnRun)  btnRun.onclick  = () => !healthRunning && runHealthCheck();
-    if (btnCopy) btnCopy.onclick = () => copyHealthMarkdown();
-    if (btnDay)  btnDay.onclick  = () => {
-      setDay((d) => d + 1);
-      const pid = `${pair.characterId}:${pair.targetId}`;
-      applyDailyDecay(pid, 1);
-    };
-    const btnKiss = el.querySelector("#hud-kiss");
-    if (btnKiss) btnKiss.onclick = () => emitGameEvent("interaction.firstKiss");
-
-    const btnHold  = el.querySelector("#hud-hold");
-const btnSnipe = el.querySelector("#hud-snipe");
-
-if (btnHold) btnHold.onclick = () => {
-  const pid = `${pair.characterId}:${pair.targetId}`;
-  if (!canScore(pid, "holdDaily", 1)) { flash("Already held hands today."); return; }
-  addRelationshipSlow(pid, 6);
-  stampScore(pid, "holdDaily");
-
-  const ps = getPairState(pair.characterId, pair.targetId);
-  const d  = diaryByPair[pid];
-  if (d) appendDiaryEntry(d, {
-    text: "[Our fingers laced—simple, warm, grounding.]",
-    path: ps.path, stage: ps.stage, mood: ["warm"], tags: ["#hud:hand_hold"]
-  });
-  setDiaryByPair(prev => ({ ...prev }));
-};
-
-if (btnSnipe) btnSnipe.onclick = () => {
-  const pid = `${pair.characterId}:${pair.targetId}`;
-  if (!canScore(pid, "snipeDaily", 1)) { flash("Already had a rough moment today."); return; }
-  addRelationshipSlow(pid, -6);
-  stampScore(pid, "snipeDaily");
-
-  const ps = getPairState(pair.characterId, pair.targetId);
-  const d  = diaryByPair[pid];
-  if (d) appendDiaryEntry(d, {
-    text: "[A sharp remark slipped out. The air went colder for a beat.]",
-    path: ps.path, stage: ps.stage, mood: ["irritated"], tags: ["#hud:snide_remark"]
-  });
-  setDiaryByPair(prev => ({ ...prev }));
-};
-  }
 
   // re-render HUD whenever these change
 useEffect(() => {
