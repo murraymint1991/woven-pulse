@@ -698,7 +698,76 @@ const doManualSave = () => {
   const [lastEvent, setLastEvent] = useState(null);
   const [day, setDay] = useState(1);
 
-  // re-render HUD whenever these change
+// Mount HUD once (after HUD state exists)
+const hudRef = useRef(null);
+
+useEffect(() => {
+  const hud = createDevHud({
+    getState: () => {
+      const pid = `${pair.characterId}:${pair.targetId}`;
+      const relObj = getPairRel(pid);
+      const tierName = TIERS[relObj.tier]?.name || "Neutral";
+      const status = statusMap?.aerith || {};
+      const mindCount = status.mind ? Object.keys(status.mind).length : 0;
+      const bodyCount = status.body ? Object.keys(status.body).length : 0;
+
+      return {
+        hudVisible,
+        pairTxt: pid,
+        day,
+        lastEvent,
+        tierName,
+        score: relObj.score,
+        mindCount,
+        bodyCount,
+        healthRunning
+      };
+    },
+    actions: {
+      toggle: () => setHudVisible(v => !v),
+      runHealthCheck: () => !healthRunning && runHealthCheck(),
+      copyHealthMarkdown: () => copyHealthMarkdown(),
+      addDay: () => {
+        setDay(d => d + 1);
+        const pid = `${pair.characterId}:${pair.targetId}`;
+        applyDailyDecay(pid, 1);
+      },
+      firstKiss: () => emitGameEvent("interaction.firstKiss"),
+      handHold: () => {
+        const pid = `${pair.characterId}:${pair.targetId}`;
+        if (!canScore(pid, "holdDaily", 1)) { flash("Already held hands today."); return; }
+        addRelationshipSlow(pid, 6);
+        stampScore(pid, "holdDaily");
+        const ps = getPairState(pair.characterId, pair.targetId);
+        const d  = diaryByPair[pid];
+        if (d) appendDiaryEntry(d, {
+          text: "[Our fingers laced—simple, warm, grounding.]",
+          path: ps.path, stage: ps.stage, mood: ["warm"], tags: ["#hud:hand_hold"]
+        });
+        setDiaryByPair(prev => ({ ...prev }));
+      },
+      snideRemark: () => {
+        const pid = `${pair.characterId}:${pair.targetId}`;
+        if (!canScore(pid, "snipeDaily", 1)) { flash("Already had a rough moment today."); return; }
+        addRelationshipSlow(pid, -6);
+        stampScore(pid, "snipeDaily");
+        const ps = getPairState(pair.characterId, pair.targetId);
+        const d  = diaryByPair[pid];
+        if (d) appendDiaryEntry(d, {
+          text: "[A sharp remark slipped out. The air went colder for a beat.]",
+          path: ps.path, stage: ps.stage, mood: ["irritated"], tags: ["#hud:snide_remark"]
+        });
+        setDiaryByPair(prev => ({ ...prev }));
+      }
+    }
+  });
+
+  hudRef.current = hud;
+  hud.update();
+  return () => { hud.destroy(); hudRef.current = null; };
+}, []);
+
+// Re-render HUD when these change
 useEffect(() => {
   if (hudRef.current) hudRef.current.update();
 }, [
