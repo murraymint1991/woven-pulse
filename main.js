@@ -659,7 +659,6 @@ if (typeof window !== "undefined") window.emitGameEvent = (t, p) => emitGameEven
       <div style="margin-top:8px;display:grid;gap:6px;">
         <div>Pair: <strong>${pairTxt}</strong></div>
         <div>Day: <strong>${day}</strong></div>
-        <div>Relationship: <strong>${relationship}</strong></div>
         <div>Tier: <strong>${tierName}</strong> · Score: <strong>${relObj.score}</strong>/100</div>
         <div>Last event: <strong>${lastEvent || "—"}</strong></div>
         <div>Aerith Mind keys: <strong>${mindCount}</strong> · Body keys: <strong>${bodyCount}</strong></div>
