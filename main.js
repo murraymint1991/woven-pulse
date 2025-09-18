@@ -148,8 +148,6 @@ function App() {
     return () => removeEventListener("hashchange", onHash);
   }, []);
 
-  const hudRef = useRef(null);
-
 // Mount once
 useEffect(() => {
   const hud = createDevHud({
