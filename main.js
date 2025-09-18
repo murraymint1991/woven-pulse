@@ -169,9 +169,6 @@ function App() {
   const [pair, setPair] = useState({ characterId: "aerith", targetId: "vagrant" });
   const [diaryByPair, setDiaryByPair] = useState({});
 
-  // Saves
-  const [relationship, setRelationship] = useState(
-    Number(localStorage.getItem("sim_rel_value")) || 0
   );
   const [slots, setSlots] = useState(Array.from({ length: 20 }, () => null));
   const [autosaveMeta, setAutosaveMeta] = useState(null);
@@ -245,7 +242,6 @@ function applyDailyDecay(pid, days = 1) {
       setSlots(next);
 
   }, []);
-  useEffect(() => localStorage.setItem("sim_rel_value", String(relationship)), [relationship]);
 
   /* ============================================================== */
   /* LOAD STATIC DATA  ←— status (mind/body) load happens here      */
@@ -518,29 +514,43 @@ if (typeof window !== "undefined") window.emitGameEvent = (t, p) => emitGameEven
     setToast(msg);
     setTimeout(() => setToast(""), 1200);
   };
-  const doAutosave = () => {
-    const snapshot = {
-      at: nowStamp(),
-      rel: relationship,              // legacy; keep for now
-      pairRel,                        // NEW: tier/score map
-      pairFlags,                      // NEW: once-only / per-day gates
-      pair,                           // NEW: current pair
-      day,                            // NEW: current sim day
-      roster: chars.map((c) => c.id),
-      info: { chars: chars.length, scenes: scenesCount, traits: traitsFound ? "yes" : "no" }
-    };
-    localStorage.setItem(LS_KEYS.AUTOSAVE, JSON.stringify(snapshot));
-    setAutosaveMeta(snapshot);
-    flash("Autosaved.");
+// Autosave
+const doAutosave = () => {
+  // compute headline from current pairRel
+  const pid = `${pair.characterId}:${pair.targetId}`;
+  const pr  = getPairRel(pid);
+  const headline = { pairId: pid, tier: TIERS[pr.tier]?.id || "neutral", score: pr.score };
+
+  const snapshot = {
+    at: nowStamp(),
+    rel: headline,          // headline summary (replaces old single number)
+    pairRel,                // tier/score map
+    pairFlags,              // once-only / per-day gates
+    pair,                   // current pair
+    day,                    // current sim day
+    roster: chars.map(c => c.id),
+    info: { chars: chars.length, scenes: scenesCount, traits: traitsFound ? "yes" : "no" }
   };
-  const doManualSave = () => {
-    const payload = { at: nowStamp(), rel: relationship, note: "Manual" };
-    const idx = (slots.findIndex((s) => s === null) + 20) % 20;
-    const next = slots.slice();
-    next[idx] = payload;
-    localStorage.setItem(LS_KEYS.SLOT(idx + 1), JSON.stringify(payload));
-    setSlots(next);
-    flash(`Saved to Slot ${idx + 1}.`);
+
+  localStorage.setItem(LS_KEYS.AUTOSAVE, JSON.stringify(snapshot));
+  setAutosaveMeta(snapshot);
+  flash("Autosaved.");
+};
+// Manual save
+const doManualSave = () => {
+  // compute headline from current pairRel
+  const pid = `${pair.characterId}:${pair.targetId}`;
+  const pr  = getPairRel(pid);
+  const headline = { pairId: pid, tier: TIERS[pr.tier]?.id || "neutral", score: pr.score };
+
+  const payload = { at: nowStamp(), rel: headline, note: "Manual" };
+  const idx = (slots.findIndex(s => s === null) + 20) % 20;
+  const next = slots.slice();
+  next[idx] = payload;
+
+  localStorage.setItem(LS_KEYS.SLOT(idx + 1), JSON.stringify(payload));
+  setSlots(next);
+  flash(`Saved to Slot ${idx + 1}.`);
   };
   const restoreAutosave = () => {
   const raw = localStorage.getItem(LS_KEYS.AUTOSAVE);
