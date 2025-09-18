@@ -698,12 +698,11 @@ useEffect(() => {
   return () => { hud.destroy(); hudRef.current = null; };
 }, []);
 
-  setHudVisible(true); if (hudRef.current) hudRef.current.update();
-
-
 // Re-render HUD when these change
 useEffect(() => {
-  if (hudRef.current) hudRef.current.update();
+  if (!hudRef.current) return;
+  const id = requestAnimationFrame(() => hudRef.current.update());
+  return () => cancelAnimationFrame(id);
 }, [
   hudVisible,
   pair.characterId, pair.targetId,
@@ -847,8 +846,11 @@ h(
   {
     ghost: true,
     onClick: () => {
-      setHudVisible(v => !v);
-      if (hudRef.current) hudRef.current.update(); // force re-render immediately
+      setHudVisible(v => {
+        const next = !v;
+        requestAnimationFrame(() => hudRef.current?.update()); // ← defer update
+        return next;
+      });
     }
   },
   hudVisible ? "Hide HUD" : "Show HUD"
