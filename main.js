@@ -191,23 +191,6 @@ function App() {
     }));
   }
 
-// ---- Relationship Tiers (ordered worst -> best) ----
-const TIERS = [
-  { id: "enemies",       name: "Enemies",       decayPerDay: 1,  dropFloor: 10 },
-  { id: "repulsive",     name: "Repulsive",     decayPerDay: 1,  dropFloor: 15 },
-  { id: "dislike",       name: "Dislike",       decayPerDay: 1,  dropFloor: 20 },
-  { id: "neutral",       name: "Neutral",       decayPerDay: 0,  dropFloor: 0  },
-  { id: "acquaintance",  name: "Acquaintances", decayPerDay: 1,  dropFloor: 30 },
-  { id: "friends",       name: "Friends",       decayPerDay: 1,  dropFloor: 40 },
-  { id: "close_friends", name: "Close Friends", decayPerDay: 1,  dropFloor: 50 },
-  { id: "more_than",     name: "More Than Friends", decayPerDay: 1, gate: { flag: "firstKiss" }, dropFloor: 60 },
-  { id: "romantic",      name: "Romantic",      decayPerDay: 2,  dropFloor: 65 },
-  { id: "lovers",        name: "Lovers",        decayPerDay: 2,  dropFloor: 70 },
-  { id: "bonded",        name: "Bonded",        decayPerDay: 2,  dropFloor: 75 },
-  { id: "married",       name: "Married",       decayPerDay: 0.5, dropFloor: 80 }
-];
-const NEUTRAL_IDX = TIERS.findIndex(t => t.id === "neutral");
-
 // per-pair: { "aerith:vagrant": { tier: idx, score: 0..100, lastDay, lastGainDay, gainedToday } }
 const [pairRel, setPairRel] = useState({});
 function getPairRel(pid) { return pairRel[pid] || { tier: NEUTRAL_IDX, score: 0, lastDay: day }; }
