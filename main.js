@@ -169,7 +169,6 @@ function App() {
   const [pair, setPair] = useState({ characterId: "aerith", targetId: "vagrant" });
   const [diaryByPair, setDiaryByPair] = useState({});
 
-  );
   const [slots, setSlots] = useState(Array.from({ length: 20 }, () => null));
   const [autosaveMeta, setAutosaveMeta] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
@@ -701,9 +700,9 @@ const doManualSave = () => {
   }
 
   // re-render HUD whenever these change
-  useEffect(() => { renderHud(); }, [
-    hudVisible, pair.characterId, pair.targetId, relationship, lastEvent, statusMap, day, healthRunning
-  ]);
+useEffect(() => { renderHud(); }, [
+  hudVisible, pair.characterId, pair.targetId, lastEvent, statusMap, day, healthRunning
+]);
 
   // -------- MEMOS --------
   const summaryText = useMemo(
@@ -801,7 +800,11 @@ h("div", { class: "grid" }, [
     ]),
     autosaveMeta
       ? h("div", { class: "kv" },
-          h(Badge, null, `Autosave · ${autosaveMeta.at} · rel ${autosaveMeta.rel}`)
+      h(
+        Badge,
+        null,
+        `Autosave · ${autosaveMeta.at} · ${autosaveMeta.rel?.pairId || ""} · ${autosaveMeta.rel?.tier || "neutral"} ${autosaveMeta.rel?.score ?? 0}/100`
+      )
         )
       : h("div", { class: "kv small" }, "No autosave yet."),
     h("div", { class: "small" }, "Slot clicks are stubs for now (load logic not wired yet).")
