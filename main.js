@@ -693,6 +693,7 @@ useEffect(() => {
   });
 
   hudRef.current = hud;
+  if (typeof window !== "undefined") window.__hud = hudRef.current;
   hud.update();
   return () => { hud.destroy(); hudRef.current = null; };
 }, []);
