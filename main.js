@@ -698,6 +698,9 @@ useEffect(() => {
   return () => { hud.destroy(); hudRef.current = null; };
 }, []);
 
+  setHudVisible(true); if (hudRef.current) hudRef.current.update();
+
+
 // Re-render HUD when these change
 useEffect(() => {
   if (hudRef.current) hudRef.current.update();
