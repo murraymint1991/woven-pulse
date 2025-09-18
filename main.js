@@ -542,6 +542,21 @@ if (typeof window !== "undefined") window.emitGameEvent = (t, p) => emitGameEven
     setSlots(next);
     flash(`Saved to Slot ${idx + 1}.`);
   };
+  const restoreAutosave = () => {
+  const raw = localStorage.getItem(LS_KEYS.AUTOSAVE);
+  if (!raw) return flash("No autosave found.");
+  try {
+    const auto = JSON.parse(raw);
+    if (auto.pairRel)   setPairRel(auto.pairRel);
+    if (auto.pairFlags) setPairFlags(auto.pairFlags);
+    if (auto.pair)      setPair(auto.pair);
+    if (typeof auto.day === "number") setDay(auto.day);
+    setAutosaveMeta(auto);
+    flash("Autosave restored.");
+  } catch {
+    flash("Autosave was corrupted.");
+  }
+};
   const clearAllSaves = () => {
     localStorage.removeItem(LS_KEYS.AUTOSAVE);
     for (let i = 1; i <= 20; i++) localStorage.removeItem(LS_KEYS.SLOT(i));
@@ -770,7 +785,7 @@ h("div", { class: "grid" }, [
   h("div", { class: "card" }, [
     h("h3", null, "Saves"),
     h("div", { class: "kv" }, [
-      h(Button, { ghost: true, onClick: restoreAutosave }, "Load Autosave")
+      h(Button, { ghost: true, onClick: restoreAutosave }, "Load Autosave"),
       h(Button, { onClick: doAutosave }, "Autosave"),
       h(Button, { onClick: doManualSave }, "Manual Save"),
       h(Button, { ghost: true, onClick: clearAllSaves }, "Clear All")
