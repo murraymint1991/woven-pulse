@@ -22,6 +22,7 @@ import {
   countNumericOutOfRange,
   validateUrlPlus
 } from "./js/validation.js";
+import { createDevHud } from "./js/dev/hud.js";
 
 //----- Relationships
 import { TIERS, NEUTRAL_IDX, addSlow, decay } from "./js/systems/relationships.js";
@@ -146,6 +147,76 @@ function App() {
     addEventListener("hashchange", onHash);
     return () => removeEventListener("hashchange", onHash);
   }, []);
+
+  const hudRef = useRef(null);
+
+// Mount once
+useEffect(() => {
+  const hud = createDevHud({
+    getState: () => {
+      const pid = `${pair.characterId}:${pair.targetId}`;
+      const relObj = getPairRel(pid);
+      const tierName = TIERS[relObj.tier]?.name || "Neutral";
+      const status = statusMap?.aerith || {};
+      const mindCount = status.mind ? Object.keys(status.mind).length : 0;
+      const bodyCount = status.body ? Object.keys(status.body).length : 0;
+
+      return {
+        hudVisible,
+        pairTxt: pid,
+        day,
+        lastEvent,
+        tierName,
+        score: relObj.score,
+        mindCount,
+        bodyCount,
+        healthRunning
+      };
+    },
+    actions: {
+      toggle: () => setHudVisible(v => !v),
+      runHealthCheck: () => !healthRunning && runHealthCheck(),
+      copyHealthMarkdown: () => copyHealthMarkdown(),
+      addDay: () => {
+        setDay(d => d + 1);
+        const pid = `${pair.characterId}:${pair.targetId}`;
+        applyDailyDecay(pid, 1);
+      },
+      firstKiss: () => emitGameEvent("interaction.firstKiss"),
+      handHold: () => {
+        const pid = `${pair.characterId}:${pair.targetId}`;
+        if (!canScore(pid, "holdDaily", 1)) { flash("Already held hands today."); return; }
+        addRelationshipSlow(pid, 6);
+        stampScore(pid, "holdDaily");
+        const ps = getPairState(pair.characterId, pair.targetId);
+        const d  = diaryByPair[pid];
+        if (d) appendDiaryEntry(d, {
+          text: "[Our fingers laced—simple, warm, grounding.]",
+          path: ps.path, stage: ps.stage, mood: ["warm"], tags: ["#hud:hand_hold"]
+        });
+        setDiaryByPair(prev => ({ ...prev }));
+      },
+      snideRemark: () => {
+        const pid = `${pair.characterId}:${pair.targetId}`;
+        if (!canScore(pid, "snipeDaily", 1)) { flash("Already had a rough moment today."); return; }
+        addRelationshipSlow(pid, -6);
+        stampScore(pid, "snipeDaily");
+        const ps = getPairState(pair.characterId, pair.targetId);
+        const d  = diaryByPair[pid];
+        if (d) appendDiaryEntry(d, {
+          text: "[A sharp remark slipped out. The air went colder for a beat.]",
+          path: ps.path, stage: ps.stage, mood: ["irritated"], tags: ["#hud:snide_remark"]
+        });
+        setDiaryByPair(prev => ({ ...prev }));
+      }
+    }
+  });
+
+  hudRef.current = hud;
+  hud.update();
+
+  return () => { hud.destroy(); hudRef.current = null; };
+}, []); // mount once
 
   // -------- DATA STATE --------
   const [traitsFound, setTraitsFound] = useState(false);
@@ -640,63 +711,6 @@ const doManualSave = () => {
     return () => removeEventListener("keydown", onKey);
   }, []);
 
-  function ensureHudRoot() {
-    let el = document.getElementById("dev-hud");
-    if (!el) {
-      el = document.createElement("div");
-      el.id = "dev-hud";
-      el.style.cssText = [
-        "position:fixed;top:12px;right:12px;z-index:9999",
-        "min-width:240px;max-width:320px",
-        "padding:10px;border-radius:10px",
-        "background:rgba(17,24,39,0.92);color:#fff",
-        "font:12px ui-monospace, SFMono-Regular, Menlo, monospace",
-        "box-shadow:0 6px 20px rgba(0,0,0,.35)",
-        "backdrop-filter: blur(4px)"
-      ].join(";");
-      document.body.appendChild(el);
-    }
-    return el;
-  }
-
-  function renderHud() {
-    const el = ensureHudRoot();
-    if (!hudVisible) { el.style.display = "none"; return; }
-    el.style.display = "block";
-
-    const pairTxt = `${pair.characterId}:${pair.targetId}`;
-    const status = statusMap?.aerith || {};
-    const mindCount = status.mind ? Object.keys(status.mind).length : 0;
-    const bodyCount = status.body ? Object.keys(status.body).length : 0;
-    const relObj = getPairRel(pairTxt);
-    const tierName = TIERS[relObj.tier]?.name || "Neutral";
-
-    el.innerHTML = `
-      <div style="display:flex;align-items:center;gap:8px;">
-        <div style="font-weight:700;">DEV HUD</div>
-        <div style="margin-left:auto;opacity:.75">F10 to toggle</div>
-      </div>
-      <div style="margin-top:8px;display:grid;gap:6px;">
-        <div>Pair: <strong>${pairTxt}</strong></div>
-        <div>Day: <strong>${day}</strong></div>
-        <div>Tier: <strong>${tierName}</strong> · Score: <strong>${relObj.score}</strong>/100</div>
-        <div>Last event: <strong>${lastEvent || "—"}</strong></div>
-        <div>Aerith Mind keys: <strong>${mindCount}</strong> · Body keys: <strong>${bodyCount}</strong></div>
-      </div>
-
-      <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
-      <button id="hud-run"  style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">Run Health</button>
-      <button id="hud-copy" style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">Copy Report</button>
-      <button id="hud-day"  style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">+ Day</button>
-      <button id="hud-hold"  style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">Hand Hold (+6)</button>
-      <button id="hud-snipe" style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">Snide Remark (−6)</button>
-        <!-- NEW -->
-        <button id="hud-kiss" style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">
-          Test: First Kiss
-        </button>
-      </div>
-    `;
-
     // wire buttons
     const btnRun  = el.querySelector("#hud-run");
     const btnCopy = el.querySelector("#hud-copy");
@@ -746,8 +760,16 @@ if (btnSnipe) btnSnipe.onclick = () => {
   }
 
   // re-render HUD whenever these change
-useEffect(() => { renderHud(); }, [
-  hudVisible, pair.characterId, pair.targetId, lastEvent, statusMap, day, healthRunning, pairRel
+useEffect(() => {
+  if (hudRef.current) hudRef.current.update();
+}, [
+  hudVisible,
+  pair.characterId, pair.targetId,
+  lastEvent,
+  statusMap,
+  day,
+  healthRunning,
+  pairRel
 ]);
 
   // -------- MEMOS --------
