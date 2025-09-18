@@ -838,12 +838,19 @@ h("div", { class: "grid" }, [
       healthRunning ? h(Badge, null, "Working…") : null
     ]),
 
-    // Toggle Button
-    h(
+// Toggle Button
+h(
   Button,
-  { ghost: true, onClick: () => setHudVisible(v => !v) },
+  {
+    ghost: true,
+    onClick: () => {
+      setHudVisible(v => !v);
+      if (hudRef.current) hudRef.current.update(); // force re-render immediately
+    }
+  },
   hudVisible ? "Hide HUD" : "Show HUD"
 ),
+
     // Results list
     h(
       "div",
