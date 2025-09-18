@@ -198,21 +198,6 @@ function setPairRelState(pid, next) {
   setPairRel(prev => ({ ...prev, [pid]: (typeof next === "function" ? next(getPairRel(pid)) : next) }));
 }
 
-  // Diminishing returns: percentage of remaining distance with curvature
-function effectiveGain(remain, basePercent, stiffness = 1.3) {
-  if (remain <= 0) return 0;
-  const g = Math.ceil(remain * Math.pow(Math.abs(basePercent) / 100, stiffness));
-  return Math.max(1, Math.min(g, remain));
-}
-
-function canAdvanceTier(pid, tier) {
-  const next = TIERS[tier + 1];
-  if (!next) return false;
-  const gate = next.gate;
-  if (gate?.flag) return !!getFlag(pid, gate.flag);
-  return true;
-}
-
 // Apply a change where basePercent > 0 moves toward better tiers, < 0 toward worse.
 function addRelationshipSlow(pid, basePercent = 10, opts = {}) {
   setPairRelState(pid, (cur) =>
@@ -244,9 +229,21 @@ function applyDailyDecay(pid, days = 1) {
       const raw = localStorage.getItem(LS_KEYS.SLOT(i));
       next.push(raw ? JSON.parse(raw) : null);
     }
-    const autoRaw = localStorage.getItem(LS_KEYS.AUTOSAVE);
-    setAutosaveMeta(autoRaw ? JSON.parse(autoRaw) : null);
-    setSlots(next);
+      const autoRaw = localStorage.getItem(LS_KEYS.AUTOSAVE);
+      setAutosaveMeta(autoRaw ? JSON.parse(autoRaw) : null);
+      
+      try {
+        const auto = autoRaw ? JSON.parse(autoRaw) : null;
+        if (auto) {
+          if (auto.pairRel)   setPairRel(auto.pairRel);
+          if (auto.pairFlags) setPairFlags(auto.pairFlags);
+          if (auto.pair)      setPair(auto.pair);
+          if (typeof auto.day === "number") setDay(auto.day);
+        }
+      } catch {}
+      
+      setSlots(next);
+
   }, []);
   useEffect(() => localStorage.setItem("sim_rel_value", String(relationship)), [relationship]);
 
@@ -524,7 +521,11 @@ if (typeof window !== "undefined") window.emitGameEvent = (t, p) => emitGameEven
   const doAutosave = () => {
     const snapshot = {
       at: nowStamp(),
-      rel: relationship,
+      rel: relationship,              // legacy; keep for now
+      pairRel,                        // NEW: tier/score map
+      pairFlags,                      // NEW: once-only / per-day gates
+      pair,                           // NEW: current pair
+      day,                            // NEW: current sim day
       roster: chars.map((c) => c.id),
       info: { chars: chars.length, scenes: scenesCount, traits: traitsFound ? "yes" : "no" }
     };
@@ -769,6 +770,7 @@ h("div", { class: "grid" }, [
   h("div", { class: "card" }, [
     h("h3", null, "Saves"),
     h("div", { class: "kv" }, [
+      h(Button, { ghost: true, onClick: restoreAutosave }, "Load Autosave")
       h(Button, { onClick: doAutosave }, "Autosave"),
       h(Button, { onClick: doManualSave }, "Manual Save"),
       h(Button, { ghost: true, onClick: clearAllSaves }, "Clear All")
