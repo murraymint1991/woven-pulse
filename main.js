@@ -23,6 +23,9 @@ import {
   validateUrlPlus
 } from "./js/validation.js";
 
+//----- Relationships
+import { TIERS, NEUTRAL_IDX, addSlow, decay } from "./js/systems/relationships.js";
+
 // ----- Traits
 import { loadAssignments as loadTraitAssignments } from "./js/systems/traits.js";
 
@@ -229,93 +232,21 @@ function canAdvanceTier(pid, tier) {
 
 // Apply a change where basePercent > 0 moves toward better tiers, < 0 toward worse.
 function addRelationshipSlow(pid, basePercent = 10, opts = {}) {
-  const { stiffness = 1.3, dailyCap = 30 } = opts;
-
-  setPairRelState(pid, (cur) => {
-    let { tier, score } = cur;
-    const forward = basePercent >= 0;
-
-    // daily anti-spam cap (applies to absolute movement)
-    const gainedToday = (cur.lastGainDay === day && cur.gainedToday) ? cur.gainedToday : 0;
-    let roomToday = Math.max(0, dailyCap - gainedToday);
-    if (roomToday <= 0) return { ...cur, lastGainDay: day, gainedToday };
-
-    // remaining distance within this tier (forward: up to 100; backward: down to 0)
-    const remain = forward ? Math.min(100 - score, roomToday) : Math.min(score, roomToday);
-    if (remain <= 0) return { ...cur, lastGainDay: day, gainedToday };
-
-    const step = effectiveGain(remain, basePercent, stiffness);
-
-    if (forward) {
-      score += step;
-      // tier up?
-      if (score >= 100) {
-        if (canAdvanceTier(pid, tier)) {
-          tier = Math.min(tier + 1, TIERS.length - 1);
-          score = 0; // start fresh in next tier
-        } else {
-          score = 99; // parked just under cap until gate met
-        }
-      }
-    } else {
-      // backward movement (more negative)
-      score -= step;
-      // tier down?
-      if (score <= 0) {
-        if (tier > 0) {
-          tier = Math.max(0, tier - 1);
-          score = 100; // drop into previous tier at top
-        } else {
-          score = 0; // already at worst
-        }
-      }
-    }
-
-    return {
-      ...cur,
-      tier,
-      score,
-      lastDay: day,
-      lastGainDay: day,
-      gainedToday: gainedToday + step
-    };
-  });
+  setPairRelState(pid, (cur) =>
+    addSlow(cur, basePercent, {
+      day,
+      stiffness: opts.stiffness ?? 1.3,
+      dailyCap: opts.dailyCap ?? 30,
+      gateCheck: (flag) => getFlag(pid, flag),
+      NEUTRAL: NEUTRAL_IDX
+    })
+  );
 }
 
-// Daily decay: positives erode (toward neutral), negatives soften (toward neutral)
 function applyDailyDecay(pid, days = 1) {
-  if (days <= 0) return;
-  setPairRelState(pid, (cur) => {
-    let { tier, score } = cur;
-
-    for (let i = 0; i < days; i++) {
-      const decay = TIERS[tier]?.decayPerDay || 0;
-
-      if (tier > NEUTRAL_IDX) {
-        // positive side: decay lowers score
-        score = Math.max(0, score - decay);
-        // if score hits 0, we *consider* dropping, but respect a drop floor “stickiness”
-        if (score === 0 && tier > NEUTRAL_IDX) {
-          const floor = TIERS[tier].dropFloor || 0;
-          // if yesterday's score was already below floor, allow drop
-          if ((cur.lastDay || day) < day && cur.score < floor) {
-            tier = Math.max(NEUTRAL_IDX, tier - 1);
-            score = TIERS[tier].dropFloor ? Math.min(100, TIERS[tier].dropFloor) : 0;
-          }
-        }
-      } else if (tier < NEUTRAL_IDX) {
-        // negative side: decay increases score (softens hostility)
-        score = Math.min(100, score + decay);
-        // if score reaches 100, move one tier toward neutral
-        if (score >= 100) {
-          tier = Math.min(NEUTRAL_IDX, tier + 1);
-          score = 0;
-        }
-      } // neutral tier has no decay by default
-    }
-
-    return { ...cur, tier, score, lastDay: day };
-  });
+  setPairRelState(pid, (cur) =>
+    decay(cur, days, { day, NEUTRAL: NEUTRAL_IDX })
+  );
 }
 
   // Health Checker
