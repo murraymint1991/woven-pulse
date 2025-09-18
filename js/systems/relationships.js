@@ -1,4 +1,4 @@
-// js/systems/relationships.js
+// Relationship tiers: worst -> best
 export const TIERS = [
   { id: "enemies",       name: "Enemies",       decayPerDay: 1,  dropFloor: 10 },
   { id: "repulsive",     name: "Repulsive",     decayPerDay: 1,  dropFloor: 15 },
@@ -15,7 +15,7 @@ export const TIERS = [
 ];
 export const NEUTRAL_IDX = TIERS.findIndex(t => t.id === "neutral");
 
-// Diminishing returns: percentage of remaining distance with curvature
+// Diminishing-returns step based on % of remaining distance
 export function effectiveGain(remain, basePercent, stiffness = 1.3) {
   if (remain <= 0) return 0;
   const g = Math.ceil(remain * Math.pow(Math.abs(basePercent) / 100, stiffness));
@@ -30,14 +30,12 @@ export function canAdvanceTier({ tier, gateCheck }) {
   return true;
 }
 
-/**
- * Pure state transforms: they take a {tier, score, ...} and return a new one.
- * You supply environment via opts (day, dailyCap, gateCheck, etc.).
- */
+// Pure transform: apply a forward/backward step
 export function addSlow(cur, basePercent = 10, opts = {}) {
   const { day, stiffness = 1.3, dailyCap = 30, NEUTRAL = NEUTRAL_IDX, gateCheck } = opts;
   let { tier, score, lastGainDay, gainedToday } = cur;
   const forward = basePercent >= 0;
+
   const gotToday = (lastGainDay === day && gainedToday) ? gainedToday : 0;
   let roomToday = Math.max(0, dailyCap - gotToday);
   if (roomToday <= 0) return { ...cur, lastGainDay: day, gainedToday: gotToday };
@@ -54,45 +52,39 @@ export function addSlow(cur, basePercent = 10, opts = {}) {
         tier = Math.min(tier + 1, TIERS.length - 1);
         score = 0;
       } else {
-        score = 99;
+        score = 99; // parked until gate met
       }
     }
   } else {
     score -= step;
     if (score <= 0) {
-      if (tier > 0) {
-        tier = Math.max(0, tier - 1);
-        score = 100;
-      } else {
-        score = 0;
-      }
+      if (tier > 0) { tier = Math.max(0, tier - 1); score = 100; }
+      else score = 0;
     }
   }
+
   return { ...cur, tier, score, lastGainDay: day, gainedToday: gotToday + step };
 }
 
+// Pure transform: daily decay toward neutral (both sides)
 export function decay(cur, days = 1, opts = {}) {
   const { day, NEUTRAL = NEUTRAL_IDX } = opts;
   let { tier, score } = cur;
+
   for (let i = 0; i < days; i++) {
     const d = TIERS[tier]?.decayPerDay || 0;
+
     if (tier > NEUTRAL) {
       score = Math.max(0, score - d);
       if (score === 0 && tier > NEUTRAL) {
         const floor = TIERS[tier].dropFloor || 0;
-        // simple stickiness: bounce to floor and drop one tier
-        if (cur.score < floor) {
-          tier = Math.max(NEUTRAL, tier - 1);
-          score = Math.min(100, TIERS[tier].dropFloor ?? 0);
-        }
+        if (cur.score < floor) { tier = Math.max(NEUTRAL, tier - 1); score = Math.min(100, TIERS[tier].dropFloor ?? 0); }
       }
     } else if (tier < NEUTRAL) {
       score = Math.min(100, score + d);
-      if (score >= 100) {
-        tier = Math.min(NEUTRAL, tier + 1);
-        score = 0;
-      }
+      if (score >= 100) { tier = Math.min(NEUTRAL, tier + 1); score = 0; }
     }
   }
+
   return { ...cur, tier, score, lastDay: day };
 }
