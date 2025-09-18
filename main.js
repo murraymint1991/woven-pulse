@@ -710,14 +710,14 @@ const doManualSave = () => {
     };
     const btnKiss = el.querySelector("#hud-kiss");
     if (btnKiss) btnKiss.onclick = () => emitGameEvent("interaction.firstKiss");
-  }
-  const btnHold  = el.querySelector("#hud-hold");
+
+    const btnHold  = el.querySelector("#hud-hold");
 const btnSnipe = el.querySelector("#hud-snipe");
 
 if (btnHold) btnHold.onclick = () => {
   const pid = `${pair.characterId}:${pair.targetId}`;
   if (!canScore(pid, "holdDaily", 1)) { flash("Already held hands today."); return; }
-  addRelationshipSlow(pid, 6); // forward
+  addRelationshipSlow(pid, 6);
   stampScore(pid, "holdDaily");
 
   const ps = getPairState(pair.characterId, pair.targetId);
@@ -732,7 +732,7 @@ if (btnHold) btnHold.onclick = () => {
 if (btnSnipe) btnSnipe.onclick = () => {
   const pid = `${pair.characterId}:${pair.targetId}`;
   if (!canScore(pid, "snipeDaily", 1)) { flash("Already had a rough moment today."); return; }
-  addRelationshipSlow(pid, -6); // backward
+  addRelationshipSlow(pid, -6);
   stampScore(pid, "snipeDaily");
 
   const ps = getPairState(pair.characterId, pair.targetId);
@@ -743,6 +743,7 @@ if (btnSnipe) btnSnipe.onclick = () => {
   });
   setDiaryByPair(prev => ({ ...prev }));
 };
+  }
 
   // re-render HUD whenever these change
 useEffect(() => { renderHud(); }, [
