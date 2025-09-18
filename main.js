@@ -186,7 +186,18 @@ function App() {
       [pairId]: { ...(prev[pairId] || {}), [key]: !!val }
     }));
   }
-
+function canScore(pid, key, days = 1) {
+  const v = pairFlags?.[pid]?.[key];
+  if (!v) return true;
+  const lastDay = Number(v.lastDay || -999);
+  return (day - lastDay) >= days;
+}
+function stampScore(pid, key) {
+  setPairFlags(prev => ({
+    ...prev,
+    [pid]: { ...(prev[pid] || {}), [key]: { lastDay: day } }
+  }));
+}
 // per-pair: { "aerith:vagrant": { tier: idx, score: 0..100, lastDay, lastGainDay, gainedToday } }
 const [pairRel, setPairRel] = useState({});
 function getPairRel(pid) { return pairRel[pid] || { tier: NEUTRAL_IDX, score: 0, lastDay: day }; }
@@ -677,6 +688,8 @@ const doManualSave = () => {
       <button id="hud-run"  style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">Run Health</button>
       <button id="hud-copy" style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">Copy Report</button>
       <button id="hud-day"  style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">+ Day</button>
+      <button id="hud-hold"  style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">Hand Hold (+6)</button>
+      <button id="hud-snipe" style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">Snide Remark (−6)</button>
         <!-- NEW -->
         <button id="hud-kiss" style="padding:4px 8px;border-radius:6px;border:1px solid #555;background:#1f2937;color:#fff;cursor:pointer">
           Test: First Kiss
@@ -698,6 +711,38 @@ const doManualSave = () => {
     const btnKiss = el.querySelector("#hud-kiss");
     if (btnKiss) btnKiss.onclick = () => emitGameEvent("interaction.firstKiss");
   }
+  const btnHold  = el.querySelector("#hud-hold");
+const btnSnipe = el.querySelector("#hud-snipe");
+
+if (btnHold) btnHold.onclick = () => {
+  const pid = `${pair.characterId}:${pair.targetId}`;
+  if (!canScore(pid, "holdDaily", 1)) { flash("Already held hands today."); return; }
+  addRelationshipSlow(pid, 6); // forward
+  stampScore(pid, "holdDaily");
+
+  const ps = getPairState(pair.characterId, pair.targetId);
+  const d  = diaryByPair[pid];
+  if (d) appendDiaryEntry(d, {
+    text: "[Our fingers laced—simple, warm, grounding.]",
+    path: ps.path, stage: ps.stage, mood: ["warm"], tags: ["#hud:hand_hold"]
+  });
+  setDiaryByPair(prev => ({ ...prev }));
+};
+
+if (btnSnipe) btnSnipe.onclick = () => {
+  const pid = `${pair.characterId}:${pair.targetId}`;
+  if (!canScore(pid, "snipeDaily", 1)) { flash("Already had a rough moment today."); return; }
+  addRelationshipSlow(pid, -6); // backward
+  stampScore(pid, "snipeDaily");
+
+  const ps = getPairState(pair.characterId, pair.targetId);
+  const d  = diaryByPair[pid];
+  if (d) appendDiaryEntry(d, {
+    text: "[A sharp remark slipped out. The air went colder for a beat.]",
+    path: ps.path, stage: ps.stage, mood: ["irritated"], tags: ["#hud:snide_remark"]
+  });
+  setDiaryByPair(prev => ({ ...prev }));
+};
 
   // re-render HUD whenever these change
 useEffect(() => { renderHud(); }, [
