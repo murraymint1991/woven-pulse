@@ -14,27 +14,32 @@ export function createDevHud({ getState, actions }) {
   let root = null;
   let keyHandler = null;
 
-  function ensureRoot() {
-    if (!root) {
-      root = document.createElement("div");
-      root.id = "dev-hud";
-      root.style.cssText = [
-        "position:fixed;top:12px;right:12px;z-index:9999",
-        "min-width:240px;max-width:360px",
-        "padding:10px;border-radius:10px",
-        "background:rgba(17,24,39,0.92);color:#fff",
-        "font:12px ui-monospace, SFMono-Regular, Menlo, monospace",
-        "box-shadow:0 6px 20px rgba(0,0,0,.35)",
-        "backdrop-filter:blur(4px)"
-      ].join(";");
-      document.body.appendChild(root);
-    }
-    return root;
+function ensureRoot() {
+  if (!root) {
+    root = document.createElement("div");
+    root.id = "dev-hud";
+    root.style.cssText = [
+      "position:fixed;top:12px;right:12px;z-index:9999",
+      "min-width:240px;max-width:360px",
+      "padding:10px;border-radius:10px",
+      "background:rgba(17,24,39,0.92);color:#fff",
+      "font:12px ui-monospace, SFMono-Regular, Menlo, monospace",
+      "box-shadow:0 6px 20px rgba(0,0,0,.35)",
+      "backdrop-filter:blur(4px)",
+      "border:1px solid rgba(255,255,255,.15)"       // ⭐ add (debug)
+    ].join(";");
+    document.body.appendChild(root);
   }
+  return root;
+}
 
-  function render() {
-    const s = getState();
-    const el = ensureRoot();
+function render() {
+  const s = getState();
+  const el = ensureRoot();
+
+  // ⭐ debug: log that render ran and what visibility is
+  if (!el.__logged) { console.log("[HUD] render mounted"); el.__logged = true; }
+  // ...
 
     // show/hide
     if (!s.hudVisible) { el.style.display = "none"; return; }
