@@ -693,11 +693,6 @@ const doManualSave = () => {
     flash("Copied Health report.");
   };
 
-    // ---- Dev HUD (overlay) ----
-  const [hudVisible, setHudVisible] = useState(false);
-  const [lastEvent, setLastEvent] = useState(null);
-  const [day, setDay] = useState(1);
-
 // Mount HUD once (after HUD state exists)
 const hudRef = useRef(null);
 
